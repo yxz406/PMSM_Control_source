@@ -1,0 +1,11 @@
+初回
+git init →.gitを生成
+git add "filename" →gitインデックスに追加する
+git commit -m "add ○○" →commitする
+git status →(確認する)
+git remote add origin https://github.com/YutakaNakamura/PMSM_Control_source.git →場所を記録
+git pull origin master →プルする
+git merge --allow-unrelated-histories origin/master →マージする。
+git push origin master →プッシュ！
+
+２回目以降
