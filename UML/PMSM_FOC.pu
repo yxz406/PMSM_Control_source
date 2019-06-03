@@ -1,0 +1,54 @@
+@startuml
+title PMSM_FOC
+
+activate Main.c
+Main.c -> motorcontrol.c:MX_MotorControl_Init
+
+activate motorcontrol.c
+motorcontrol.c -> stm32f3xx_hal.c:HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/SYS_TICK_FREQUENCY);
+motorcontrol.c -> mc_tasks.c:MCboot(pMCI,pMCT);
+
+@enduml
+
+MX_MotorControl_Init -> HAL_SYSTICK_Config: Reconfigure the SysTick interrupt to fire every 500 us
+
+
+MX_MotorControl_Init -> MCboot:new Initialize the Motor Control Subsystem
+activate MCBoot
+
+MCBoot -> R3_1_F30X_Init:
+MCBoot -> startTimers:pwm生成部の核
+MCBoot -> STM_Init:
+MCBoot -> PID_HandleInit:
+MCBoot -> STO_PLL_INit:
+
+deactivate MCBoot
+
+MX_MotorControl_Init -> mc_lock_pins:
+MX_MotorControl_Init -> UI_TaskInit:Initialize the MC User Interface
+
+
+
+
+memo pwm_curr_fdbk.c line92 pFctGetPhaseCurrents の意味がわからない
+stm32のよくわからない内部定義
+
+
+
+PWMを発生させているところは、
+startTimers
+これは、pwm_common.c line.76　で定義されている。
+
+
+
+
+
+
+
+
+
+
+
+
+
+ボブ --> アリス: レスポンス
