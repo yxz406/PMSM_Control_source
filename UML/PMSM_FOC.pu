@@ -3,12 +3,75 @@ title PMSM_FOC
 
 activate Main.c
 Main.c -> motorcontrol.c:MX_MotorControl_Init
+    activate motorcontrol.c
+    motorcontrol.c -> stm32f3xx_hal.c:HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/SYS_TICK_FREQUENCY);
+    motorcontrol.c -> mc_tasks.c:MCboot(pMCI,pMCT);
+        activate mc_tasks.c
+        mc_task.c -> mc_task.c:bMCBootCompleted = 0;
+        mc_task.c -> mc_config.h:(CircleLimitation_Handle_t *)pCLM[M1] = &CircleLimitationM1;
+        mc_task.c -> mc_tuning.h:(PWMC_Handle_t *)pwmcHandle[M1] = &PWM_Handle_M1._Super;
 
-activate motorcontrol.c
-motorcontrol.c -> stm32f3xx_hal.c:HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/SYS_TICK_FREQUENCY);
-motorcontrol.c -> mc_tasks.c:MCboot(pMCI,pMCT);
+        mc_tasks.c -> r3_1_f30x_pwm_curr_fdbk.c:R3_1_F30X_Init(&PWM_Handle_M1);
+        mc_tasks.c -> pwm_common.h:startTimers(); 
+            activate pwm_common.h
+        mc_tasks.c -> state_machine.c:STM_Init(&STM[M1]);
+            activate state_machine.c
+        mc_tasks.c -> pid_regulator.c:PID_HandleInit(&PIDSpeedHandle_M1);
+            activate pid_regulator.c
+        mc_tasks.c -> sto_pll_speed_pos_fdbk.h:STO_PLL_Init (&STO_PLL_M1);
+            activate sto_pll_speed_pos_fdbk.h
+        mc_tasks.c -> speed_torq_ctrl.h:STC_Init(pSTC[M1],pPIDSpeed[M1], &STO_PLL_M1._Super);
+            activate speed_torq_ctrl.h
+        mc_tasks.c -> virtual_speed_sensor.c:VSS_Init (&VirtualSpeedSensorM1);
+            activate virtual_speed_sensor.c
+        mc_tasks.c -> revup_ctrl.h:RUC_Init(&RevUpControlM1,pSTC[M1],&VirtualSpeedSensorM1, &STO_M1, pwmcHandle[M1]);
+            activate revup_ctrl.h
+        mc_tasks.c -> pid_regulator.c:PID_HandleInit(&PIDIqHandle_M1);
+        mc_tasks.c -> pid_regulator.c:PID_HandleInit(&PIDIdHandle_M1);
+        mc_tasks.c -> r_divider_bus_voltage_sensor.c:RVBS_Init(pBusSensorM1);
+            activate r_divider_bus_voltage_sensor.c
+        mc_tasks.c -> ntc_temperature_sensor.c:NTC_Init(&TempSensorParamsM1); 
+            activate ntc_temperature_sensor.c
+        mc_tasks.c -> ramp_ext_mngr.c:REMNG_Init(pREMNG[M1]);
+            activate ramp_ext_mngr.c
+        mc_tasks.c -> mc_tasks.c:FOC_Clear(M1);
+        mc_tasks.c -> mc_interface.c:MCI_Init(oMCInterface[M1], &STM[M1], pSTC[M1], &FOCVars[M1]);
+            activate mc_interface.c
+        mc_tasks.c -> mc_interface.c:MCI_ExecSpeedRamp(oMCInterface[M1],  STC_GetMecSpeedRef01HzDefault(pSTC[M1]),0); /*First command to STC*/
+
 
 @enduml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 MX_MotorControl_Init -> HAL_SYSTICK_Config: Reconfigure the SysTick interrupt to fire every 500 us
 
