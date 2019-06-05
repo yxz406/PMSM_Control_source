@@ -7,37 +7,125 @@ Main.c -> motorcontrol.c:MX_MotorControl_Init
     motorcontrol.c -> stm32f3xx_hal.c:HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/SYS_TICK_FREQUENCY);
     motorcontrol.c -> mc_tasks.c:MCboot(pMCI,pMCT);
         activate mc_tasks.c
-        mc_task.c -> mc_task.c:bMCBootCompleted = 0;
-        mc_task.c -> mc_config.h:(CircleLimitation_Handle_t *)pCLM[M1] = &CircleLimitationM1;
-        mc_task.c -> mc_tuning.h:(PWMC_Handle_t *)pwmcHandle[M1] = &PWM_Handle_M1._Super;
+        mc_tasks.c -> mc_tasks.c:bMCBootCompleted = 0;
+        mc_tasks.c -> mc_config.h:(CircleLimitation_Handle_t *)pCLM[M1] = &CircleLimitationM1;
+        mc_tasks.c -> mc_tuning.h:(PWMC_Handle_t *)pwmcHandle[M1] = &PWM_Handle_M1._Super;
 
         mc_tasks.c -> r3_1_f30x_pwm_curr_fdbk.c:R3_1_F30X_Init(&PWM_Handle_M1);
         mc_tasks.c -> pwm_common.h:startTimers(); 
             activate pwm_common.h
+            pwm_common.h -> pwm_common.h:isTIM2ClockOn = LL_APB1_GRP1_IsEnabledClock ( LL_APB1_GRP1_PERIPH_TIM2 );
+            alt yenisTIM2ClockOn == 0
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_APB1_GRP1_EnableClock ( LL_APB1_GRP1_PERIPH_TIM2 );
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_TIM_GenerateEvent_UPDATE ( TIM2 );
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_APB1_GRP1_DisableClock ( LL_APB1_GRP1_PERIPH_TIM2 );
+            else other
+                pwm_common.h -> pwm_common.h:trigOut = LL_TIM_ReadReg( TIM2, CR2 ) & TIM_CR2_MMS;
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_TIM_SetTriggerOutput( TIM2, LL_TIM_TRGO_UPDATE );
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_TIM_GenerateEvent_UPDATE ( TIM2 );
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_TIM_SetTriggerOutput( TIM2, trigOut );
+            end
         mc_tasks.c -> state_machine.c:STM_Init(&STM[M1]);
             activate state_machine.c
+            state_machine.c --> mc_tasks.c:pHandle(=STM[M1])->bState = IDLE;
+            state_machine.c --> mc_tasks.c::pHandle(=STM[M1])->hFaultNow = MC_NO_FAULTS;
+            state_machine.c --> mc_tasks.c::pHandle(=STM[M1])->hFaultOccurred = MC_NO_FAULTS;
+            deactivate state_machine.c
         mc_tasks.c -> pid_regulator.c:PID_HandleInit(&PIDSpeedHandle_M1);
             activate pid_regulator.c
+            pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->hKpGain =  pHandle->hDefKpGain;
+            pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->hKiGain =  pHandle->hDefKiGain;
+            pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->hKdGain =  pHandle->hDefKdGain;
+            pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->wIntegralTerm = 0x00000000UL;
+            pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->wPrevProcessVarError = 0x00000000UL;
+            'deactivate pid_regulator.c
+        mc_tasks.c -> mc_config.h:(PID_Handle_t *)pPIDSpeed[M1] = &PIDSpeedHandle_M1;
+        mc_tasks.c -> mc_config.h:(SpeednTorqCtrl_Handle_t *)pSTC[M1] = &SpeednTorqCtrlM1;
+
         mc_tasks.c -> sto_pll_speed_pos_fdbk.h:STO_PLL_Init (&STO_PLL_M1);
             activate sto_pll_speed_pos_fdbk.h
-        mc_tasks.c -> speed_torq_ctrl.h:STC_Init(pSTC[M1],pPIDSpeed[M1], &STO_PLL_M1._Super);
-            activate speed_torq_ctrl.h
+            'この中の操作が見えていないんだけどいいのか？
+        mc_tasks.c -> speed_torq_ctrl.c:STC_Init(pSTC[M1],pPIDSpeed[M1], &STO_PLL_M1._Super);
+            activate speed_torq_ctrl.c
+            speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->PISpeed = pPI;
+            speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->SPD = SPD_Handle;
+            speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->Mode = pHandle->ModeDefault;
+            speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->SpeedRef01HzExt = ( int32_t )pHandle(=pSTC[M1])->MecSpeedRef01HzDefault * 65536;
+            speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->TorqueRef = ( int32_t )pHandle(=pSTC[M1])->TorqueRefDefault * 65536;
+            speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->TargetFinal = 0;
+            speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->RampRemainingStep = 0u;
+            speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->IncDecAmount = 0;
         mc_tasks.c -> virtual_speed_sensor.c:VSS_Init (&VirtualSpeedSensorM1);
             activate virtual_speed_sensor.c
+            '#ifdef FASTDIV
+            'FD_Init( &( pHandle->fd ) );
+            '#endif
+            'VSS_Clear( pHandle );
+            'ここどうやって書いたらええんか？自分の関数を参照しているのだが？
+            
         mc_tasks.c -> revup_ctrl.h:RUC_Init(&RevUpControlM1,pSTC[M1],&VirtualSpeedSensorM1, &STO_M1, pwmcHandle[M1]);
             activate revup_ctrl.h
         mc_tasks.c -> pid_regulator.c:PID_HandleInit(&PIDIqHandle_M1);
         mc_tasks.c -> pid_regulator.c:PID_HandleInit(&PIDIdHandle_M1);
+
+        mc_tasks.c -> mc_config.h:(PID_Handle_t *)pPIDIq[M1] = &PIDIqHandle_M1;
+        mc_tasks.c -> mc_config.h:(PID_Handle_t *)pPIDId[M1] = &PIDIdHandle_M1;
+
+        mc_tasks.c -> mc_config.h:(RDivider_Handle_t *)pBusSensorM1 = &RealBusVoltageSensorParamsM1;
+
         mc_tasks.c -> r_divider_bus_voltage_sensor.c:RVBS_Init(pBusSensorM1);
             activate r_divider_bus_voltage_sensor.c
+        
+        mc_tasks.c -> mc_config.h:(PQD_MotorPowMeas_Handle_t *)pMPM[M1] = &PQD_MotorPowMeasM1;
+        mc_tasks.c -> mc_config.h:(PQD_MotorPowMeas_Handle_t *)pMPM[M1]->pVBS = &(pBusSensorM1->_Super);
+        mc_tasks.c -> mc_config.h:(PQD_MotorPowMeas_Handle_t *)pMPM[M1]->pFOCVars = &FOCVars[M1];
+        
         mc_tasks.c -> ntc_temperature_sensor.c:NTC_Init(&TempSensorParamsM1); 
             activate ntc_temperature_sensor.c
+
+        mc_tasks.c -> mc_config.h:(NTC_Handle_t *)pTemperatureSensor[M1] = &TempSensorParamsM1;
+        mc_tasks.c -> mc_config.h:(RampExtMngr_Handle_t *)pREMNG[M1] = &RampExtMngrHFParamsM1;
+
         mc_tasks.c -> ramp_ext_mngr.c:REMNG_Init(pREMNG[M1]);
             activate ramp_ext_mngr.c
         mc_tasks.c -> mc_tasks.c:FOC_Clear(M1);
+
+        mc_tasks.c -> mc_type.h:(FOCVars_t)FOCVars[M1].bDriveInput = EXTERNAL;
+        mc_tasks.c -> mc_type.h:(FOCVars_t)FOCVars[M1].Iqdref = STC_GetDefaultIqdref(pSTC[M1]);
+        mc_tasks.c -> mc_type.h:(FOCVars_t)FOCVars[M1].UserIdref = STC_GetDefaultIqdref(pSTC[M1]).qI_Component2;
+        mc_tasks.c -> mc_interface.h:(MCI_Handle_t *)oMCInterface[M1] = & Mci[M1];
+
+
         mc_tasks.c -> mc_interface.c:MCI_Init(oMCInterface[M1], &STM[M1], pSTC[M1], &FOCVars[M1]);
             activate mc_interface.c
         mc_tasks.c -> mc_interface.c:MCI_ExecSpeedRamp(oMCInterface[M1],  STC_GetMecSpeedRef01HzDefault(pSTC[M1]),0); /*First command to STC*/
+
+        '謎 未解析　pMCIList[M1] = oMCInterface[M1];
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pPIDSpeed = pPIDSpeed[M1];
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pPIDIq = pPIDIq[M1];
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pPIDId = pPIDId[M1];
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pPIDFluxWeakening = MC_NULL; /* if M1 doesn't has FW */
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pPWMnCurrFdbk = pwmcHandle[M1];
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pRevupCtrl = &RevUpControlM1;              /* only if M1 is sensorless*/
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pSpeedSensorMain = (SpeednPosFdbk_Handle_t *) &STO_PLL_M1; 
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pSpeedSensorAux = MC_NULL;
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pSpeedSensorVirtual = &VirtualSpeedSensorM1;  /* only if M1 is sensorless*/
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pSpeednTorqueCtrl = pSTC[M1];
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pStateMachine = &STM[M1];
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pTemperatureSensor = (NTC_Handle_t *) pTemperatureSensor[M1];
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pBusVoltageSensor = &(pBusSensorM1->_Super);
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pBrakeDigitalOutput = MC_NULL;   /* brake is defined, oBrakeM1*/
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pNTCRelay = MC_NULL;             /* relay is defined, oRelayM1*/
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pMPM =  (MotorPowMeas_Handle_t*)pMPM[M1];
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pFW = MC_NULL;
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pFF = MC_NULL;
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pSCC = MC_NULL;
+        mc_tasks.c -> mc_tuning.h:(MCT_Handle_t)MCT[M1].pOTT = MC_NULL;
+        '謎 MCTuning のオブジェクトと書いてあるが... pMCTList[M1] = &MCT[M1];
+
+        mc_tasks.c -> mc_tasks.c:bMCBootCompleted = 1;
+
+
 
 
 @enduml
