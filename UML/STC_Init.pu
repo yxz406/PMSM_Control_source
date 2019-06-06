@@ -1,0 +1,8 @@
+speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->PISpeed = pPI;
+speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->SPD = SPD_Handle;
+speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->Mode = pHandle->ModeDefault;
+speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->SpeedRef01HzExt = ( int32_t )pHandle(=pSTC[M1])->MecSpeedRef01HzDefault * 65536;
+speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->TorqueRef = ( int32_t )pHandle(=pSTC[M1])->TorqueRefDefault * 65536;
+speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->TargetFinal = 0;
+speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->RampRemainingStep = 0u;
+speed_torq_ctrl.c --> mc_tasks.c:pHandle(=pSTC[M1])->IncDecAmount = 0;
