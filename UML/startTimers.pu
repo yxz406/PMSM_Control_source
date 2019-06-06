@@ -1,0 +1,11 @@
+pwm_common.h -> pwm_common.h:isTIM2ClockOn = LL_APB1_GRP1_IsEnabledClock ( LL_APB1_GRP1_PERIPH_TIM2 );
+            alt yenisTIM2ClockOn == 0
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_APB1_GRP1_EnableClock ( LL_APB1_GRP1_PERIPH_TIM2 );
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_TIM_GenerateEvent_UPDATE ( TIM2 );
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_APB1_GRP1_DisableClock ( LL_APB1_GRP1_PERIPH_TIM2 );
+            else other
+                pwm_common.h -> pwm_common.h:trigOut = LL_TIM_ReadReg( TIM2, CR2 ) & TIM_CR2_MMS;
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_TIM_SetTriggerOutput( TIM2, LL_TIM_TRGO_UPDATE );
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_TIM_GenerateEvent_UPDATE ( TIM2 );
+                pwm_common.h -> stm32f3xx_ll_bus.h:LL_TIM_SetTriggerOutput( TIM2, trigOut );
+            end

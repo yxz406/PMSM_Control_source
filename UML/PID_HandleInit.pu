@@ -1,0 +1,5 @@
+pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->hKpGain =  pHandle->hDefKpGain;
+pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->hKiGain =  pHandle->hDefKiGain;
+pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->hKdGain =  pHandle->hDefKdGain;
+pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->wIntegralTerm = 0x00000000UL;
+pid_regulator.c --> mc_tasks.c:pHandle(=PIDSpeedHandle_M1)->wPrevProcessVarError = 0x00000000UL;

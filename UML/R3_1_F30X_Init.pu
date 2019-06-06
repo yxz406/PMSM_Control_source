@@ -1,0 +1,33 @@
+
+'R3_1_F30X_Init(&PWM_Handle_M1);の動作についてのInclude
+
+r3_1_f30x_pwm_curr_fdbk.c -> r3_1_f30x_pwm_curr_fdbk.c:COMP_TypeDef * COMP_OCPAx = pHandle(=PWM_Handle_M1)->pParams_str->wCompOCPASelection;
+r3_1_f30x_pwm_curr_fdbk.c -> r3_1_f30x_pwm_curr_fdbk.c:COMP_TypeDef * COMP_OCPBx = pHandle(=PWM_Handle_M1)->pParams_str->wCompOCPBSelection;
+r3_1_f30x_pwm_curr_fdbk.c -> r3_1_f30x_pwm_curr_fdbk.c:COMP_TypeDef * COMP_OCPCx = pHandle(=PWM_Handle_M1)->pParams_str->wCompOCPCSelection;
+r3_1_f30x_pwm_curr_fdbk.c -> r3_1_f30x_pwm_curr_fdbk.c:COMP_TypeDef * COMP_OVPx = pHandle(=PWM_Handle_M1)->pParams_str->wCompOVPSelection;
+r3_1_f30x_pwm_curr_fdbk.c -> r3_1_f30x_pwm_curr_fdbk.c:TIM_TypeDef * TIMx = pHandle(=PWM_Handle_M1)->pParams_str->TIMx;
+r3_1_f30x_pwm_curr_fdbk.c -> r3_1_f30x_pwm_curr_fdbk.c:ADC_TypeDef * ADCx  = pHandle(=PWM_Handle_M1)->pParams_str->ADCx;
+alt ( uint32_t )pHandle == ( uint32_t )&pHandle->_Super
+    '/* disable ADC injected and break interrupt during PWM component init*/
+    r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_tim.h:LL_TIM_DisableIT_BRK(TIMx);
+    r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_tim.h:LL_ADC_DisableIT_JEOS(ADCx);
+    '    /* disable IT and flags in case of LL driver usage     * workaround for unwanted interrupt enabling done by LL driver */
+    r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_tim.h:LL_ADC_DisableIT_EOC( ADCx );
+    r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_tim.h:LL_ADC_ClearFlag_EOC( ADCx );
+    r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_tim.h:LL_ADC_DisableIT_JEOC( ADCx );
+    r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_tim.h:LL_ADC_ClearFlag_JEOC( ADCx );
+    '/* disable main TIM counter to ensure* a synchronous start by TIM2 trigger */
+    r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_tim.h:LL_TIM_DisableCounter( TIMx );
+else other
+    alt COMP_OCPAx 
+        '/* Over current protection phase A */
+        alt pHandle->pParams_str->bCompOCPAInvInput_MODE != EXT_MODE
+            alt LL_COMP_GetInputMinus( COMP_OCPAx ) == LL_COMP_INPUT_MINUS_DAC1_CH1
+                r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_dac.h:LL_DAC_ConvertData12LeftAligned ( DAC1, LL_DAC_CHANNEL_1, ( uint16_t )( pHandle->pParams_str->hDAC_OCP_Threshold ) );
+                r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_dac.h:LL_DAC_TrigSWConversion ( DAC1, LL_DAC_CHANNEL_1 );
+                r3_1_f30x_pwm_curr_fdbk.c -> stm32f3xx_ll_dac.h:LL_DAC_Enable ( DAC1, LL_DAC_CHANNEL_1 );
+                '0606 書きかけ
+            end
+        end
+    end
+end 

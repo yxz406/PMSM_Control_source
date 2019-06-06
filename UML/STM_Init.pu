@@ -1,0 +1,3 @@
+state_machine.c --> mc_tasks.c:pHandle(=STM[M1])->bState = IDLE;
+state_machine.c --> mc_tasks.c::pHandle(=STM[M1])->hFaultNow = MC_NO_FAULTS;
+state_machine.c --> mc_tasks.c::pHandle(=STM[M1])->hFaultOccurred = MC_NO_FAULTS;
