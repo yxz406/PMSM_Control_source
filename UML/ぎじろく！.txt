@@ -1,0 +1,77 @@
+ADC1_2_IRQHandler();
+の中で、
+LL_ADC_ClearFlag_JEOS();と
+UI_DACUpdate(TSK_HighFrequencyTask());が叩かれているので調べる。
+
+わかったこと。
+・int TSK_HighFrequencyTask()は確実に0を返す。
+
+・LL_ADC_ClearFlag_JEOSについて以下。
+LL_ADC_ClearFlag_JEOS
+Function name __STATIC_INLINE void LL_ADC_ClearFlag_JEOS
+(ADC_TypeDef * ADCx)
+Function description Clear flag ADC group injected end of sequence conversions.
+Parameters ADCx: ADC instance
+Return values None
+Reference Manual to
+LL API cross
+reference:
+ISR JEOS LL_ADC_ClearFlag_JEOS
+
+・struct Observer_Input_t
+        ↑               ↑
+・Volt_Components   Curr_components
+
+
+
+r3_1_f30x_pwm_curr_fdbk.c
+  /* Wait for Injected Conversion sequence completion */
+  while ( LL_ADC_IsActiveFlag_JEOS( ADCx ) == 0 ) {}
+  LL_ADC_ClearFlag_JEOS( ADCx );
+
+
+
+
+・以下でループさせている。
+static void R1F30X_RLSwitchOffPWM( PWMC_Handle_t * pHdl )
+{
+  PWMC_R1_F3_Handle_t * pHandle = ( PWMC_R1_F3_Handle_t * )pHdl;
+  TIM_TypeDef * TIMx = pHandle->pParams_str->TIMx;
+  ADC_TypeDef * ADCx = pHandle->pParams_str->ADCx;
+
+  /* Main PWM Output Disable */
+  if ( pHandle->BrakeActionLock == true )
+  {
+  }
+  else
+  {
+    TIMx->BDTR &= ~( ( uint32_t )( LL_TIM_OSSI_ENABLE ) );
+  }
+  LL_TIM_DisableAllOutputs( TIMx );
+
+  if ( ( pHandle->pParams_str->LowSideOutputs ) == ES_GPIO )
+  {
+    LL_GPIO_ResetOutputPin( pHandle->pParams_str->pwm_en_u_port, pHandle->pParams_str->pwm_en_u_pin );
+    LL_GPIO_ResetOutputPin( pHandle->pParams_str->pwm_en_v_port, pHandle->pParams_str->pwm_en_v_pin );
+    LL_GPIO_ResetOutputPin( pHandle->pParams_str->pwm_en_w_port, pHandle->pParams_str->pwm_en_w_pin );
+  }
+
+  /* TIM output trigger 2 for ADC */
+  LL_TIM_SetTriggerOutput2( TIMx, LL_TIM_TRGO2_RESET );
+
+  LL_ADC_DisableIT_JEOS( ADCx );
+
+  /* Flushing JSQR queue of context by setting JADSTP = 1 (JQM)=1 */
+  LL_ADC_INJ_StopConversion( ADCx );
+
+  /* Re-enable ADC triggering*/
+  ADCx->JSQR = pHandle->wADC_JSQR;
+  /*ADC_StartInjectedConversion(ADCx);*/
+  LL_ADC_INJ_StartConversion( ADCx );
+  /*ADC_ClearFlag(ADCx, ADC_FLAG_JEOS);*/
+  LL_ADC_ClearFlag_JEOS( ADCx );
+
+  LL_ADC_EnableIT_JEOS( ADCx );
+
+  return;
+}
