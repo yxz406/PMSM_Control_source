@@ -1,0 +1,15 @@
+FOCのメモ。
+
+1.  ADCの読み込みが終わる　-> stm32f30x_mc_it.ADC1_2_IRQHandler()
+    stm32f30x_mc_it.ADC1_2_IRQHandler() ->   
+        LL_ADC_ClearFlag_JEOS( ADC1 );
+        ui_task.UI_DACUpdate(TSK_HighFrequencyTask());
+
+    と呼ばれるから、mc_tasks.TSK_HighFrequencyTask();が実行される。
+
+2.  mc_tasks.TSK_HighFrequencyTask() ->
+        FOC_CurrController(M1);
+
+
+(であるから、途中のクラスを抜いてもいいのでは？
+

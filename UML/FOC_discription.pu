@@ -1,0 +1,11 @@
+@startuml
+title PMSM_FOC
+
+activate Main.c
+Main.c -> motorcontrol.c:MX_MotorControl_Init
+    activate motorcontrol.c
+    motorcontrol.c -> stm32f3xx_hal.c:HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/SYS_TICK_FREQUENCY);
+    motorcontrol.c -> mc_tasks.c:MCboot(pMCI,pMCT);
+     activate mc_tasks.c
+     stm32f30x_mc_it.c -> mc_tasks.c:TSK_HighFrequencyTask();
+@enduml

@@ -1,0 +1,60 @@
+mc_tasks.c -> mc_tasks.c:bMCBootCompleted = 0;
+
+mc_tasks.c -> r3_1_f30x_pwm_curr_fdbk.c:R3_1_F30X_Init(&PWM_Handle_M1);
+    activate r3_1_f30x_pwm_curr_fdbk.c
+
+    mc_tasks.c -> pwm_common.h:startTimers(); 
+        activate pwm_common.h
+
+        mc_tasks.c -> state_machine.c:STM_Init(&STM[M1]);
+            activate state_machine.c
+
+            deactivate state_machine.c
+        mc_tasks.c -> pid_regulator.c:PID_HandleInit(&PIDSpeedHandle_M1);
+            activate pid_regulator.c
+
+            'deactivate pid_regulator.c
+
+        mc_tasks.c -> sto_pll_speed_pos_fdbk.h:STO_PLL_Init (&STO_PLL_M1);
+            activate sto_pll_speed_pos_fdbk.h
+            'この中の操作が見えていないんだけどいいのか？
+        mc_tasks.c -> speed_torq_ctrl.c:STC_Init(pSTC[M1],pPIDSpeed[M1], &STO_PLL_M1._Super);
+            activate speed_torq_ctrl.c
+
+        mc_tasks.c -> virtual_speed_sensor.c:VSS_Init (&VirtualSpeedSensorM1);
+            activate virtual_speed_sensor.c
+            '#ifdef FASTDIV
+            'FD_Init( &( pHandle->fd ) );
+            '#endif
+            'VSS_Clear( pHandle );
+            'ここどうやって書いたらええんか？自分の関数を参照しているのだが？
+
+        mc_tasks.c -> revup_ctrl.h:RUC_Init(&RevUpControlM1,pSTC[M1],&VirtualSpeedSensorM1, &STO_M1, pwmcHandle[M1]);
+            activate revup_ctrl.h
+            '/*  Function used to initialize and configure the RevUpCtrl Component */
+            'void RUC_Init( RevUpCtrl_Handle_t * pHandle,
+            '   SpeednTorqCtrl_Handle_t * pSTC,
+            '   VirtualSpeedSensor_Handle_t * pVSS,
+            '   STO_Handle_t * pSNSL,
+            '   PWMC_Handle_t * pPWM );
+        mc_tasks.c -> pid_regulator.c:PID_HandleInit(&PIDIqHandle_M1);
+        mc_tasks.c -> pid_regulator.c:PID_HandleInit(&PIDIdHandle_M1);
+
+        mc_tasks.c -> r_divider_bus_voltage_sensor.c:RVBS_Init(pBusSensorM1);
+            activate r_divider_bus_voltage_sensor.c
+        
+
+        
+        mc_tasks.c -> ntc_temperature_sensor.c:NTC_Init(&TempSensorParamsM1); 
+            activate ntc_temperature_sensor.c
+
+        mc_tasks.c -> ramp_ext_mngr.c:REMNG_Init(pREMNG[M1]);
+            activate ramp_ext_mngr.c
+        mc_tasks.c -> mc_tasks.c:FOC_Clear(M1);
+
+        mc_tasks.c -> mc_interface.c:MCI_Init(oMCInterface[M1], &STM[M1], pSTC[M1], &FOCVars[M1]);
+            activate mc_interface.c
+        mc_tasks.c -> mc_interface.c:MCI_ExecSpeedRamp(oMCInterface[M1],  STC_GetMecSpeedRef01HzDefault(pSTC[M1]),0); /*First command to STC*/
+
+
+        mc_tasks.c -> mc_tasks.c:bMCBootCompleted = 1;
