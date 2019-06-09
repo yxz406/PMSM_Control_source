@@ -28,14 +28,25 @@
 #include "PWM.hpp"
 
 void CPP_Wrapper(void){
-	PWM PWM_Object;
-	PWM_Object.setTIM(TIM1);
-	PWM_Object.Init();
+
+	PWM PWM_Object1;
+	PWM PWM_Object2;
+
+	PWM_Object1.setTIM(TIM1);
+	PWM_Object2.setTIM(TIM1);
+
+	PWM_Object1.setCH(1);
+	PWM_Object2.setCH(2);
+
+	PWM_Object1.Init();
+	PWM_Object2.Init();
+
 
 	while(1){
 		  for(int i=0;i<60000;i=i+100){
 			  HAL_Delay(1);
-			  PWM_Object.Duty(i);
+			  PWM_Object1.Duty(i);
+			  PWM_Object2.Duty(60000-i);
 
 		  }
 	}

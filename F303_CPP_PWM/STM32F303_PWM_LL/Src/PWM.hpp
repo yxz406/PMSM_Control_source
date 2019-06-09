@@ -14,10 +14,11 @@
 class PWM {
 private:
 	TIM_TypeDef *mTIMx;
-	__IO uint32_t mCCR;
+	int mCH=0;
+	__IO uint32_t *mREG;
 public:
 	void setTIM(TIM_TypeDef* pTIMx);
-	void setCH(__IO uint32_t pCCR);
+	void setCH(int pCH);
 	void Init();
 	void Duty(int pDuty);
 };
