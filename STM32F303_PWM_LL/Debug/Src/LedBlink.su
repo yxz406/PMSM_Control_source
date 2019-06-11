@@ -1,0 +1,3 @@
+stm32f3xx_ll_gpio.h:895:22:void LL_GPIO_SetOutputPin(GPIO_TypeDef*, uint32_t)	16	static
+stm32f3xx_ll_gpio.h:924:22:void LL_GPIO_ResetOutputPin(GPIO_TypeDef*, uint32_t)	16	static
+LedBlink.cpp:12:6:void LedBlink::toggle()	16	static
