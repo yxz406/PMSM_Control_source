@@ -35,6 +35,9 @@ void PWM::Init(){
 	if (mCH == 3){
 		mREG=&(mTIMx->CCR3);
 	}
+	if (mCH == 4){
+		mREG=&(mTIMx->CCR3);
+	}
 
 	if(mREG==NULL){//error check
 		while(1){}
@@ -53,6 +56,9 @@ void PWM::Init(){
 	}
 	if (mCH == 3){
 		LL_TIM_CC_EnableChannel(mTIMx, LL_TIM_CHANNEL_CH3);
+	}
+	if (mCH == 4){
+		LL_TIM_CC_EnableChannel(mTIMx, LL_TIM_CHANNEL_CH4);
 	}
 	//PWM Channel Init end
 

@@ -1,7 +1,24 @@
+stm32f3xx_ll_tim.h:1368:22:void LL_TIM_EnableCounter(TIM_TypeDef*)	16	static
+stm32f3xx_ll_tim.h:1707:22:void LL_TIM_SetRepetitionCounter(TIM_TypeDef*, uint32_t)	16	static
+stm32f3xx_ll_tim.h:1873:22:void LL_TIM_CC_EnableChannel(TIM_TypeDef*, uint32_t)	16	static
+stm32f3xx_ll_adc.h:4698:22:void LL_ADC_INJ_ConfigQueueContext(ADC_TypeDef*, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t)	24	static
+stm32f3xx_ll_adc.h:5786:22:void LL_ADC_EnableInternalRegulator(ADC_TypeDef*)	16	static
+stm32f3xx_ll_adc.h:5842:22:void LL_ADC_Enable(ADC_TypeDef*)	16	static
+stm32f3xx_ll_adc.h:5920:22:void LL_ADC_StartCalibration(ADC_TypeDef*, uint32_t)	16	static
+stm32f3xx_ll_adc.h:5936:26:uint32_t LL_ADC_IsCalibrationOnGoing(ADC_TypeDef*)	16	static
+stm32f3xx_ll_adc.h:6150:22:void LL_ADC_INJ_StartConversion(ADC_TypeDef*)	16	static
+stm32f3xx_ll_adc.h:6170:22:void LL_ADC_INJ_StopConversion(ADC_TypeDef*)	16	static
+stm32f3xx_ll_adc.h:6197:26:uint32_t LL_ADC_INJ_IsStopConversionOngoing(ADC_TypeDef*)	16	static
+stm32f3xx_ll_adc.h:6246:26:uint16_t LL_ADC_INJ_ReadConversionData12(ADC_TypeDef*, uint32_t)	24	static,ignoring_inline_asm
+stm32f3xx_ll_adc.h:6353:26:uint32_t LL_ADC_IsActiveFlag_ADRDY(ADC_TypeDef*)	16	static
+stm32f3xx_ll_adc.h:6938:22:void LL_ADC_EnableIT_JEOS(ADC_TypeDef*)	16	static
+stm32f3xx_ll_adc.h:7070:22:void LL_ADC_DisableIT_JQOVF(ADC_TypeDef*)	16	static
 new:168:14:void* operator new(std::size_t, void*)	16	static
 PWM.hpp:14:7:PWM::PWM()	16	static
-Wrapper.cpp:37:6:void CPP_Wrapper()	64	static
-Wrapper.cpp:69:6:void vectorInit(std::vector<int>*)	48	static
+Wrapper.cpp:41:6:void CPP_Wrapper()	72	static
+Wrapper.cpp:84:6:void HighFreqTask()	16	static
+Wrapper.cpp:94:6:void vectorInit(std::vector<int>*)	48	static
+Wrapper.cpp:105:6:void ADCReInit()	24	static
 stl_vector.h:259:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = int; _Alloc = std::allocator<int>]	16	static
 stl_vector.h:795:7:std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::operator[](std::vector<_Tp, _Alloc>::size_type) [with _Tp = int; _Alloc = std::allocator<int>]	16	static
 stl_vector.h:939:7:void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = int; _Alloc = std::allocator<int>]	16	static

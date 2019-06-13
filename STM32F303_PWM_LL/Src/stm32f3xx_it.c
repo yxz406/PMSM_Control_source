@@ -197,6 +197,45 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32f3xx.s).                    */
 /******************************************************************************/
 
+/**
+  * @brief This function handles ADC1 and ADC2 interrupts.
+  */
+void ADC1_2_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC1_2_IRQn 0 */
+	if (LL_ADC_IsActiveFlag_JEOS(ADC2) == 1)
+	{
+		LL_ADC_ClearFlag_JEOS(ADC2);
+		//HighFreqTask();
+	}
+	else
+	{
+		LL_ADC_WriteReg(ADC2,ISR,0);
+	}
+	return;
+	//HighFreqTask();
+//	HAL_Delay(1);
+  /* USER CODE END ADC1_2_IRQn 0 */
+  
+  /* USER CODE BEGIN ADC1_2_IRQn 1 */
+
+  /* USER CODE END ADC1_2_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM1 update and TIM16 interrupts.
+  */
+void TIM1_UP_TIM16_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
+	LL_TIM_ClearFlag_UPDATE(TIM1);
+  /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
+  
+  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 1 */
+
+  /* USER CODE END TIM1_UP_TIM16_IRQn 1 */
+}
+
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
