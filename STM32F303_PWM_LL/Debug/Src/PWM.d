@@ -1,4 +1,4 @@
-Src/PWM.o: ../Src/PWM.cpp ../Src/PWM.hpp \
+Src/PWM.o: ../Src/PWM.cpp ../Inc/PWM.hpp \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h \
  ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f3xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h \
@@ -37,7 +37,7 @@ Src/PWM.o: ../Src/PWM.cpp ../Src/PWM.hpp \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_pwr.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h
 
-../Src/PWM.hpp:
+../Inc/PWM.hpp:
 
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h:
 

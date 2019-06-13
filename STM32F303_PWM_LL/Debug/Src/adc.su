@@ -1,7 +1,15 @@
-stm32f3xx_ll_adc.h:3626:22:LL_ADC_REG_SetSequencerRanks	32	static,ignoring_inline_asm
+core_cm4.h:1615:26:NVIC_GetPriorityGrouping	4	static
+core_cm4.h:1626:22:NVIC_EnableIRQ	16	static
+core_cm4.h:1698:22:NVIC_SetPriority	16	static
+core_cm4.h:1745:26:NVIC_EncodePriority	40	static
+stm32f3xx_ll_adc.h:4102:22:LL_ADC_INJ_SetTriggerEdge	16	static
+stm32f3xx_ll_adc.h:4275:22:LL_ADC_INJ_SetSequencerRanks	24	static
+stm32f3xx_ll_adc.h:4446:22:LL_ADC_INJ_SetQueueMode	16	static
 stm32f3xx_ll_adc.h:4830:22:LL_ADC_SetChannelSamplingTime	48	static,ignoring_inline_asm
 stm32f3xx_ll_adc.h:4980:22:LL_ADC_SetChannelSingleDiff	24	static
 stm32f3xx_ll_adc.h:7004:22:LL_ADC_DisableIT_EOC	16	static
 stm32f3xx_ll_adc.h:7015:22:LL_ADC_DisableIT_EOS	16	static
+stm32f3xx_ll_adc.h:7048:22:LL_ADC_DisableIT_JEOC	16	static
+stm32f3xx_ll_adc.h:7059:22:LL_ADC_DisableIT_JEOS	16	static
 stm32f3xx_ll_bus.h:303:22:LL_AHB1_GRP1_EnableClock	24	static
-adc.c:28:6:MX_ADC1_Init	88	static
+adc.c:28:6:MX_ADC1_Init	104	static
