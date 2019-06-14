@@ -52,8 +52,8 @@ STM32F303_PWM_LL.list \
 all: STM32F303_PWM_LL.elf secondary-outputs
 
 # Tool invocations
-STM32F303_PWM_LL.elf: $(OBJS) $(USER_OBJS) /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F303_PWM_LL/STM32F303K8TX_FLASH.ld
-	arm-none-eabi-g++ -o "STM32F303_PWM_LL.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F303_PWM_LL/STM32F303K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F303_PWM_LL.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+STM32F303_PWM_LL.elf: $(OBJS) $(USER_OBJS) C:\Users\watashi\STM32CubeIDE\workspace_1.0.0\STM32F303_PWM_LL\STM32F303K8TX_FLASH.ld
+	arm-none-eabi-g++ -o "STM32F303_PWM_LL.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\watashi\STM32CubeIDE\workspace_1.0.0\STM32F303_PWM_LL\STM32F303K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F303_PWM_LL.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

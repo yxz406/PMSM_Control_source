@@ -36,7 +36,7 @@ Src/stm32f3xx_it.o: ../Src/stm32f3xx_it.c ../Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_utils.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_pwr.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h \
- ../Inc/stm32f3xx_it.h
+ ../Inc/stm32f3xx_it.h ../Inc/Wrapper.hpp
 
 ../Inc/main.h:
 
@@ -115,3 +115,5 @@ Src/stm32f3xx_it.o: ../Src/stm32f3xx_it.c ../Inc/main.h \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h:
 
 ../Inc/stm32f3xx_it.h:
+
+../Inc/Wrapper.hpp:

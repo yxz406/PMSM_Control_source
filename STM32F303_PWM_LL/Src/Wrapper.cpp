@@ -6,7 +6,7 @@
  */
 
 //system include
-#include "wrapper.hpp"
+#include "Wrapper.hpp"
 
 #include "stm32f3xx.h"
 
@@ -83,9 +83,17 @@ void CPP_Wrapper(void){
 
 void HighFreqTask(void){
 	uint16_t adc_data1 = 0, adc_data2 = 0, adc_data3 = 0, adc_data4 = 0;
-	adc_data1 = LL_ADC_INJ_ReadConversionData12(ADC2, LL_ADC_INJ_RANK_1);
-	adc_data2 = LL_ADC_INJ_ReadConversionData12(ADC2, LL_ADC_INJ_RANK_2);
-	adc_data3 = LL_ADC_INJ_ReadConversionData12(ADC2, LL_ADC_INJ_RANK_3);
+	if (LL_ADC_IsActiveFlag_JEOS(ADC1) == 1)
+		{
+			LL_ADC_ClearFlag_JEOS(ADC1);
+			adc_data1 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
+			adc_data2 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
+			adc_data3 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
+		}
+	else
+		{
+			LL_ADC_WriteReg(ADC1,ISR,0);
+		}
 }
 
 

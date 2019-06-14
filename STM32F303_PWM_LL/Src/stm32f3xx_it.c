@@ -23,6 +23,7 @@
 #include "stm32f3xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "Wrapper.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -200,27 +201,10 @@ void SysTick_Handler(void)
 /**
   * @brief This function handles ADC1 and ADC2 interrupts.
   */
-uint16_t adc_data1 = 0, adc_data2 = 0, adc_data3 = 0, adc_data4 = 0;
 void ADC1_2_IRQHandler(void)
 {
   /* USER CODE BEGIN ADC1_2_IRQn 0 */
-	if (LL_ADC_IsActiveFlag_JEOS(ADC1) == 1)
-	{
-		LL_ADC_ClearFlag_JEOS(ADC1);
-		//HighFreqTask();
-
-		adc_data1 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
-		adc_data2 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
-		adc_data3 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
-	}
-	else
-	{
-		LL_ADC_WriteReg(ADC1,ISR,0);
-	}
-	//bool isActiveJEOC=LL_ADC_IsActiveFlag_JEOC(ADCx)
-	return;
-	//HighFreqTask();
-//	HAL_Delay(1);
+	HighFreqTask();
   /* USER CODE END ADC1_2_IRQn 0 */
   
   /* USER CODE BEGIN ADC1_2_IRQn 1 */
@@ -234,7 +218,7 @@ void ADC1_2_IRQHandler(void)
 void TIM1_UP_TIM16_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
-	LL_TIM_ClearFlag_UPDATE(TIM1);
+
   /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
   
   /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 1 */

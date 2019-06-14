@@ -5,7 +5,7 @@
  *      Author: watashi
  */
 
-#include "PWM.hpp"
+//#include "PWM.hpp"
 
 #ifndef APPLICATION_USER_WRAPPER_HPP_
 #define APPLICATION_USER_WRAPPER_HPP_
@@ -15,6 +15,7 @@
 extern "C" {
 #endif
 void CPP_Wrapper(void);
+void HighFreqTask(void);
 
 #ifdef __cplusplus
 };
