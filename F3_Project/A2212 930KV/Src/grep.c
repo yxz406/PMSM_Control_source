@@ -1,0 +1,1 @@
+LL_TIM_OC_SetCompareCH1( TIMx, pHandle->_Super.hCntPhA );
