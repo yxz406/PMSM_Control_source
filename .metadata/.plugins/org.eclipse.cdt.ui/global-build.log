@@ -1,0 +1,40 @@
+00:01:10 **** Incremental Build of configuration Debug for project STM32F303_PWM_LL ****
+make -j3 all 
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -c -I../ -x assembler-with-cpp --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f303k8tx.o" "../Startup/startup_stm32f303k8tx.s"
+arm-none-eabi-g++ "../Src/LedBlink.cpp" -mcpu=cortex-m4 -std=gnu++14 -g3 -DUSE_HAL_DRIVER -DSTM32F303x8 -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Src/LedBlink.d" -MT"Src/LedBlink.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/LedBlink.o"
+arm-none-eabi-g++ "../Src/PWM.cpp" -mcpu=cortex-m4 -std=gnu++14 -g3 -DUSE_HAL_DRIVER -DSTM32F303x8 -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Src/PWM.d" -MT"Src/PWM.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/PWM.o"
+arm-none-eabi-g++ "../Src/Wrapper.cpp" -mcpu=cortex-m4 -std=gnu++14 -g3 -DUSE_HAL_DRIVER -DSTM32F303x8 -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Src/Wrapper.d" -MT"Src/Wrapper.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/Wrapper.o"
+arm-none-eabi-gcc "../Src/gpio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F303x8 -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/gpio.d" -MT"Src/gpio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/gpio.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F303x8 -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/stm32f3xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F303x8 -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/stm32f3xx_hal_msp.d" -MT"Src/stm32f3xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32f3xx_hal_msp.o"
+../Src/gpio.c: In function 'MX_GPIO_Init':
+../Src/gpio.c:43:3: error: unknown type name 'LL_GPIO_InitTypeDef'; did you mean 'GPIO_InitTypeDef'?
+   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+   ^~~~~~~~~~~~~~~~~~~
+   GPIO_InitTypeDef
+../Src/gpio.c:54:18: error: request for member 'Pin' in something not a structure or union
+   GPIO_InitStruct.Pin = LD3_Pin;
+                  ^
+../Src/gpio.c:55:18: error: request for member 'Mode' in something not a structure or union
+   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+                  ^
+../Src/gpio.c:56:18: error: request for member 'Speed' in something not a structure or union
+   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+                  ^
+../Src/gpio.c:57:18: error: request for member 'OutputType' in something not a structure or union
+   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+                  ^
+../Src/gpio.c:58:18: error: request for member 'Pull' in something not a structure or union
+   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+                  ^
+../Src/gpio.c:59:3: warning: implicit declaration of function 'LL_GPIO_Init'; did you mean 'MX_GPIO_Init'? [-Wimplicit-function-declaration]
+   LL_GPIO_Init(LD3_GPIO_Port, &GPIO_InitStruct);
+   ^~~~~~~~~~~~
+   MX_GPIO_Init
+make: *** [Src/subdir.mk:61: Src/gpio.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Src/main.c: In function 'main':
+../Src/main.c:97:3: warning: implicit declaration of function 'CPP_Wrapper' [-Wimplicit-function-declaration]
+   CPP_Wrapper();//これが本体
+   ^~~~~~~~~~~
+"make -j3 all" terminated with exit code 2. Build might be incomplete.

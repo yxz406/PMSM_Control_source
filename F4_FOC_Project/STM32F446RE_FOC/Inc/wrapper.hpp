@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 void cpploop(void);
+void cppwrapper(void);
+void HighFreqTask(void);
 #ifdef __cplusplus
 };
 #endif
