@@ -1,15 +1,22 @@
+stm32f4xx_ll_adc.h:3831:22:void LL_ADC_Enable(ADC_TypeDef*)	16	static
+stm32f4xx_ll_adc.h:4076:22:void LL_ADC_INJ_StartConversionExtTrig(ADC_TypeDef*, uint32_t)	16	static
+stm32f4xx_ll_adc.h:4143:26:uint16_t LL_ADC_INJ_ReadConversionData12(ADC_TypeDef*, uint32_t)	24	static,ignoring_inline_asm
+stm32f4xx_ll_adc.h:4274:26:uint32_t LL_ADC_IsActiveFlag_JEOS(ADC_TypeDef*)	16	static
+stm32f4xx_ll_adc.h:4304:22:void LL_ADC_ClearFlag_EOCS(ADC_TypeDef*)	16	static
+stm32f4xx_ll_adc.h:4327:22:void LL_ADC_ClearFlag_JEOS(ADC_TypeDef*)	16	static
+stm32f4xx_ll_adc.h:4559:22:void LL_ADC_EnableIT_JEOS(ADC_TypeDef*)	16	static
+stm32f4xx_ll_adc.h:4589:22:void LL_ADC_DisableIT_EOCS(ADC_TypeDef*)	16	static
+stm32f4xx_ll_adc.h:4612:22:void LL_ADC_DisableIT_JEOS(ADC_TypeDef*)	16	static
 new:168:14:void* operator new(std::size_t, void*)	16	static
-wrapper.cpp:31:6:void cpploop()	16	static
+wrapper.cpp:32:6:void cpploop()	16	static
 PWM.hpp:14:7:PWM::PWM()	16	static
-wrapper.cpp:36:6:void cppwrapper()	72	static
-wrapper.cpp:67:6:void HighFreqTask()	4	static
-wrapper.cpp:83:6:void vectorInit(std::vector<int>*)	48	static
+wrapper.cpp:37:6:void cppwrapper()	72	static
+wrapper.cpp:87:6:void HighFreqTask()	16	static
+wrapper.cpp:103:6:void vectorInit(std::vector<int>*)	48	static
 stl_vector.h:259:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = int; _Alloc = std::allocator<int>]	16	static
-stl_vector.h:433:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = int; _Alloc = std::allocator<int>]	24	static
+stl_vector.h:795:7:std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::operator[](std::vector<_Tp, _Alloc>::size_type) [with _Tp = int; _Alloc = std::allocator<int>]	16	static
 stl_vector.h:939:7:void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = int; _Alloc = std::allocator<int>]	16	static
-stl_vector.h:81:14:std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl()	16	static
 stl_vector.h:126:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = int; _Alloc = std::allocator<int>]	16	static
-stl_vector.h:161:7:std::_Vector_base<_Tp, _Alloc>::~_Vector_base() [with _Tp = int; _Alloc = std::allocator<int>]	16	static
 stl_vector.h:115:7:std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() [with _Tp = int; _Alloc = std::allocator<int>]	16	static
 stl_construct.h:203:5:void std::_Destroy(_ForwardIterator, _ForwardIterator, std::allocator<_T2>&) [with _ForwardIterator = int*; _Tp = int]	24	static
 move.h:73:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = const int&]	16	static
@@ -17,7 +24,6 @@ alloc_traits.h:474:2:) [with _Up = int; _Args = {const int&}; _Tp = int]	24	stat
 stl_vector.h:581:7:std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::end() [with _Tp = int; _Alloc = std::allocator<int>]	24	static
 vector.tcc:394:7:) [with _Args = {const int&}; _Tp = int; _Alloc = std::allocator<int>]	56	static
 stl_vector.h:88:2:std::_Vector_base<_Tp, _Alloc>::_Vector_impl::_Vector_impl() [with _Tp = int; _Alloc = std::allocator<int>]	16	static
-allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = int]	16	static
 stl_vector.h:176:7:void std::_Vector_base<_Tp, _Alloc>::_M_deallocate(std::_Vector_base<_Tp, _Alloc>::pointer, std::size_t) [with _Tp = int; _Alloc = std::allocator<int>]	24	static
 stl_construct.h:127:5:void std::_Destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = int*]	16	static
 new_allocator.h:135:2:) [with _Up = int; _Args = {const int&}; _Tp = int]	32	static
@@ -29,7 +35,6 @@ stl_vector.h:169:7:std::_Vector_base<_Tp, _Alloc>::pointer std::_Vector_base<_Tp
 stl_iterator.h:844:7:const _Iterator& __gnu_cxx::__normal_iterator<_Iterator, _Container>::base() const [with _Iterator = int*; _Container = std::vector<int>]	16	static
 stl_uninitialized.h:305:5:_ForwardIterator std::__uninitialized_move_if_noexcept_a(_InputIterator, _InputIterator, _ForwardIterator, _Allocator&) [with _InputIterator = int*; _ForwardIterator = int*; _Allocator = std::allocator<int>]	32	static
 allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = int]	16	static
-new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = int]	16	static
 alloc_traits.h:461:7:static void std::allocator_traits<std::allocator<_Tp1> >::deallocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::pointer, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = int]	24	static
 stl_construct.h:117:9:static void std::_Destroy_aux<true>::__destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = int*]	16	static
 stl_vector.h:675:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::max_size() const [with _Tp = int; _Alloc = std::allocator<int>]	16	static
