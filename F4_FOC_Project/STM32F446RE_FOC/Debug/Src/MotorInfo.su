@@ -1,0 +1,19 @@
+MotorInfo.cpp:10:1:MotorInfo::MotorInfo()	16	static
+MotorInfo.cpp:15:1:MotorInfo::~MotorInfo()	16	static
+MotorInfo.cpp:15:1:virtual MotorInfo::~MotorInfo()	16	static
+MotorInfo.cpp:19:6:void MotorInfo::setVu(float)	16	static
+MotorInfo.cpp:20:6:void MotorInfo::setVv(float)	16	static
+MotorInfo.cpp:21:6:void MotorInfo::setVw(float)	16	static
+MotorInfo.cpp:23:7:float MotorInfo::getVu()	16	static
+MotorInfo.cpp:24:7:float MotorInfo::getVv()	16	static
+MotorInfo.cpp:25:7:float MotorInfo::getVw()	16	static
+MotorInfo.cpp:27:7:float MotorInfo::getValpha()	16	static
+MotorInfo.cpp:28:7:float MotorInfo::getVbeta()	16	static
+MotorInfo.cpp:29:7:float MotorInfo::getVd()	16	static
+MotorInfo.cpp:30:7:float MotorInfo::getVq()	16	static
+MotorInfo.cpp:32:7:float MotorInfo::getId()	16	static
+MotorInfo.cpp:33:7:float MotorInfo::getIq()	16	static
+MotorInfo.cpp:35:6:void MotorInfo::parkTransform()	16	static
+MotorInfo.cpp:36:6:void MotorInfo::clarkTransform()	16	static
+MotorInfo.cpp:38:6:void MotorInfo::invParkTransform()	16	static
+MotorInfo.cpp:39:6:void MotorInfo::invClarkTransform()	16	static

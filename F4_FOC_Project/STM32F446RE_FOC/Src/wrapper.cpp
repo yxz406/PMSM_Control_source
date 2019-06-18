@@ -28,6 +28,7 @@
 
 void vectorInit(std::vector<int> *pVector);//プロトタイプ宣言
 void ADCReInit(void);
+void ADC_Init(void);
 
 void cpploop(void) {
     LedBlink instance;
@@ -46,6 +47,8 @@ void cppwrapper(void){
     LL_ADC_ClearFlag_JEOS(ADC1);
     LL_ADC_Enable(ADC1);
     LL_ADC_INJ_StartConversionExtTrig (ADC1, LL_ADC_INJ_TRIG_EXT_RISING);
+
+    ADC_Init();
 
 	PWM PWM_Object1;
 	PWM PWM_Object2;
@@ -111,6 +114,65 @@ void vectorInit(std::vector<int> *pVector){
 	}
 }
 
+//STMMotorControlWorkBenchから丸パクりで取得した関数。
+//void R3F4XX_Init( PWMC_R3_F4_Handle_t * pHandle )
+void ADC_Init()
+{
+//  if ( ( uint32_t )pHandle == ( uint32_t )&pHandle->_Super )
+//  {
+//
+//    R3F4XX_TIMxInit( pHandle->pParams_str->TIMx, &pHandle->_Super );
+//
+//    if ( pHandle->pParams_str->TIMx == TIM1 )
+//    {
+//      /* TIM1 Counter Clock stopped when the core is halted */
+//      LL_DBGMCU_APB2_GRP1_FreezePeriph( LL_DBGMCU_APB2_GRP1_TIM1_STOP );
+//    }
+//    else
+//    {
+//      /* TIM8 Counter Clock stopped when the core is halted */
+//      LL_DBGMCU_APB2_GRP1_FreezePeriph( LL_DBGMCU_APB2_GRP1_TIM8_STOP );
+//    }
+
+    /* ADC1 and ADC2 registers configuration ---------------------------------*/
+    /* Enable ADC1 and ADC2 */
+    LL_ADC_Enable( ADC1 );
+    LL_ADC_Enable( ADC2 );
+
+    /* ADC1 Injected conversions end interrupt enabling */
+    LL_ADC_ClearFlag_JEOS( ADC1 );
+    LL_ADC_EnableIT_JEOS( ADC1 );
+
+    /* reset regular conversion sequencer length set by cubeMX */
+    LL_ADC_REG_SetSequencerLength( ADC1, LL_ADC_REG_SEQ_SCAN_DISABLE );
+
+//    /* To pre-compute the following variables is used the configuration already
+//     performed on ADC1 and ADC2. This means that ADC configurations run from here
+//     on out will be overwritten during the context switching.*/
+//    if ( pHandle->pParams_str->TIMx == TIM1 )
+//    {
+//      /* The following two variables are pre-computed and used to disable/enable
+//       the ADC injected external trigger during the context switching. */
+//      pHandle->wADCTriggerUnSet = ADC1->CR2 & 0xFFC0FFFFu; /* JEXTEN = 00b (Disable), JEXTSEL = 0000b (TIM1_CC4) */
+//      pHandle->wADCTriggerSet   = pHandle->wADCTriggerUnSet |
+//                                  0x00100000u; /* JEXTEN = 01b (Enable), JEXTSEL = 0000b (TIM1_CC4) */
+//    }
+//    else
+//    {
+//      /* The following two variables are pre-computed and used to disable/enable
+//       the ADC injected external trigger during the context switching. */
+//      pHandle->wADCTriggerUnSet = ADC1->CR2 & 0xFFC0FFFFu; /* JEXTEN = 00b (Disable), JEXTSEL = 0000b (TIM1_CC4 "dummy") */
+//      pHandle->wADCTriggerSet   = pHandle->wADCTriggerUnSet |
+//                                  0x001E0000u; /* JEXTEN = 01b (Enable), JEXTSEL = 1110b (TIM8_CC4) */
+//    }
+//
+//    pHandle->OverCurrentFlag = false;
+//    pHandle->_Super.DTTest = 0u;
+//    pHandle->_Super.DTCompCnt = pHandle->_Super.hDTCompCnt;
+//  }
+}
+
+
 /*void ADCReInit(void){
 	// ADC2 Initialization
 	  WRITE_REG(ADC1->DIFSEL,0U); // LL_ADC_SetChannelSingleDiffが未定義動作を起こすので、レジスタに直接書き込む
@@ -162,3 +224,5 @@ void vectorInit(std::vector<int> *pVector){
 	    // Enable EXTI Interrupt
 	    //LL_EXTI_EnableIT_0_31(LL_EXTI_LINE_3);
 }*/
+
+

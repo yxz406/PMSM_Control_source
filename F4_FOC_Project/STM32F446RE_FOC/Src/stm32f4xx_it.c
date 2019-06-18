@@ -23,7 +23,6 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "wrapper.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -204,26 +203,7 @@ void SysTick_Handler(void)
 void ADC_IRQHandler(void)
 {
   /* USER CODE BEGIN ADC_IRQn 0 */
-	HAL_Delay(1);
-	HighFreqTask();
 
-	//STM
-	  if(LL_ADC_IsActiveFlag_JEOS(ADC1))
-	  {
-	    // Clear Flags
-	    ADC1->SR &= ~(uint32_t)(LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JSTRT);
-	    HighFreqTask();
-	    //TSK_HighFrequencyTask();          /*GUI, this section is present only if DAC is disabled*/
-	  }
-	#ifdef ADC3
-	  else
-	  {
-	    // Clear Flags
-	    //ADC3->SR &= ~(uint32_t)(LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JSTRT);
-	    HighFreqTask();
-	    //TSK_HighFrequencyTask();          /*GUI, this section is present only if DAC is disabled*/
-	  }
-	#endif
   /* USER CODE END ADC_IRQn 0 */
   
   /* USER CODE BEGIN ADC_IRQn 1 */

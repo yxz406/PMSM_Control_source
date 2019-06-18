@@ -1,1 +1,1 @@
-開発用フォルダ
+開発用フォルダ/Users/watashi/git/PMSM/F4_FOC_Project/STM32F446RE_FOC/Src/wrapper.cpp/Users/watashi/git/PMSM/F4_FOC_Project/STM32F446RE_FOC/Src/wrapper.cpp
