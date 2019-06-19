@@ -1,20 +1,15 @@
-stm32f4xx_ll_adc.h:2260:22:void LL_ADC_REG_SetSequencerLength(ADC_TypeDef*, uint32_t)	16	static
 stm32f4xx_ll_adc.h:3831:22:void LL_ADC_Enable(ADC_TypeDef*)	16	static
-stm32f4xx_ll_adc.h:4076:22:void LL_ADC_INJ_StartConversionExtTrig(ADC_TypeDef*, uint32_t)	16	static
 stm32f4xx_ll_adc.h:4143:26:uint16_t LL_ADC_INJ_ReadConversionData12(ADC_TypeDef*, uint32_t)	24	static,ignoring_inline_asm
 stm32f4xx_ll_adc.h:4274:26:uint32_t LL_ADC_IsActiveFlag_JEOS(ADC_TypeDef*)	16	static
-stm32f4xx_ll_adc.h:4304:22:void LL_ADC_ClearFlag_EOCS(ADC_TypeDef*)	16	static
 stm32f4xx_ll_adc.h:4327:22:void LL_ADC_ClearFlag_JEOS(ADC_TypeDef*)	16	static
 stm32f4xx_ll_adc.h:4559:22:void LL_ADC_EnableIT_JEOS(ADC_TypeDef*)	16	static
-stm32f4xx_ll_adc.h:4589:22:void LL_ADC_DisableIT_EOCS(ADC_TypeDef*)	16	static
-stm32f4xx_ll_adc.h:4612:22:void LL_ADC_DisableIT_JEOS(ADC_TypeDef*)	16	static
 new:168:14:void* operator new(std::size_t, void*)	16	static
-wrapper.cpp:33:6:void cpploop()	16	static
+wrapper.cpp:37:6:void cpploop()	16	static
 PWM.hpp:14:7:PWM::PWM()	16	static
-wrapper.cpp:38:6:void cppwrapper()	72	static
-wrapper.cpp:90:6:void HighFreqTask()	16	static
-wrapper.cpp:106:6:void vectorInit(std::vector<int>*)	48	static
-wrapper.cpp:119:6:void ADC_Init()	8	static
+wrapper.cpp:42:6:void cppwrapper()	72	static
+wrapper.cpp:95:6:void HighFreqTask()	8	static
+wrapper.cpp:111:6:void vectorInit(std::vector<int>*)	48	static
+wrapper.cpp:123:6:void ADC_Init()	8	static
 stl_vector.h:259:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = int; _Alloc = std::allocator<int>]	16	static
 stl_vector.h:795:7:std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::operator[](std::vector<_Tp, _Alloc>::size_type) [with _Tp = int; _Alloc = std::allocator<int>]	16	static
 stl_vector.h:939:7:void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = int; _Alloc = std::allocator<int>]	16	static

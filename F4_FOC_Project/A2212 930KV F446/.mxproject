@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/watashi/A2212 930KV F446/Inc
+HeaderPath=C:/Users/watashi/Desktop/Analyze FOC/MotorFOC/F4_FOC_Project/A2212 930KV F446/Inc
 HeaderFiles=motorcontrol.h;drive_parameters.h;mc_tasks.h;mc_api.h;mc_config.h;mc_stm_types.h;regular_conversion_manager.h;parameters_conversion.h;parameters_conversion_f4xx.h;pmsm_motor_parameters.h;power_stage_parameters.h;mc_parameters.h;ui_task.h;user_interface.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;gpio.h;adc.h;tim.h;usart.h;
-SourcePath=C:/Users/watashi/A2212 930KV F446/Src
+SourcePath=C:/Users/watashi/Desktop/Analyze FOC/MotorFOC/F4_FOC_Project/A2212 930KV F446/Src
 SourceFiles=motorcontrol.c;mc_api.c;motor_control_protocol.c;mc_config.c;mc_tasks.c;regular_conversion_manager.c;stm32f4xx_mc_it.c;mc_parameters.c;ui_task.c;user_interface.c;stm32f4xx_it.c;stm32f4xx_hal_msp.c;main.c;gpio.c;adc.c;tim.c;usart.c;
 
 [PreviousLibFiles]

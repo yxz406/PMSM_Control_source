@@ -56,7 +56,7 @@ void MX_ADC1_Init(void)
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* ADC1 interrupt Init */
-  NVIC_SetPriority(ADC_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_SetPriority(ADC_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),2, 0));
   NVIC_EnableIRQ(ADC_IRQn);
 
   /** Common config 
@@ -143,7 +143,7 @@ void MX_ADC2_Init(void)
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* ADC2 interrupt Init */
-  NVIC_SetPriority(ADC_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_SetPriority(ADC_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),2, 0));
   NVIC_EnableIRQ(ADC_IRQn);
 
   /** Common config 

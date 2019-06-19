@@ -48,7 +48,7 @@ void MX_TIM1_Init(void)
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* TIM1 interrupt Init */
-  NVIC_SetPriority(TIM1_BRK_TIM9_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_SetPriority(TIM1_BRK_TIM9_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),4, 1));
   NVIC_EnableIRQ(TIM1_BRK_TIM9_IRQn);
   NVIC_SetPriority(TIM1_UP_TIM10_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
   NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);

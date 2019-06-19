@@ -26,6 +26,10 @@
 #include "LedBlink.hpp"
 #include "PWM.hpp"
 
+
+
+uint16_t adc_data1 = 0, adc_data2 = 0, adc_data3 = 0, adc_data4 = 0;
+
 void vectorInit(std::vector<int> *pVector);//プロトタイプ宣言
 void ADCReInit(void);
 void ADC_Init(void);
@@ -38,15 +42,6 @@ void cpploop(void) {
 void cppwrapper(void){
 	std::vector<int> num;
 	vectorInit(&num);
-
-
-	LL_ADC_EnableIT_JEOS(ADC1);
-    LL_ADC_DisableIT_EOCS(ADC1);
-    LL_ADC_ClearFlag_EOCS(ADC1);
-    LL_ADC_DisableIT_JEOS(ADC1);
-    LL_ADC_ClearFlag_JEOS(ADC1);
-    LL_ADC_Enable(ADC1);
-    LL_ADC_INJ_StartConversionExtTrig (ADC1, LL_ADC_INJ_TRIG_EXT_RISING);
 
     ADC_Init();
 
@@ -82,13 +77,23 @@ void cppwrapper(void){
 			  PWM_Object1.Duty(num[i]);
 			  PWM_Object2.Duty(num[(i+200)%600]);
 			  PWM_Object3.Duty(num[(i+400)%600]);
+
+			  HAL_Delay(1);//ここにブレークポイント打ってADCの値が見える
+/*			  if (LL_ADC_IsEnabled(ADC1) == 1)
+			  {
+			    LL_ADC_REG_StartConversionExtTrig(ADC1, LL_ADC_REG_TRIG_EXT_RISING);
+			  }
+			  else
+			  {
+			     Error: ADC conversion start could not be performed
+				  LL_GPIO_SetOutputPin(GPIOA, GPIO_PIN_5);
+			  }*/
 		  }
 	}
-
 }
 
 void HighFreqTask(void){
-	uint16_t adc_data1 = 0, adc_data2 = 0, adc_data3 = 0, adc_data4 = 0;
+
 	if (LL_ADC_IsActiveFlag_JEOS(ADC1) == 1)
 		{
 			LL_ADC_ClearFlag_JEOS(ADC1);
@@ -114,115 +119,16 @@ void vectorInit(std::vector<int> *pVector){
 	}
 }
 
-//STMMotorControlWorkBenchから丸パクりで取得した関数。
-//void R3F4XX_Init( PWMC_R3_F4_Handle_t * pHandle )
+
 void ADC_Init()
 {
-//  if ( ( uint32_t )pHandle == ( uint32_t )&pHandle->_Super )
-//  {
-//
-//    R3F4XX_TIMxInit( pHandle->pParams_str->TIMx, &pHandle->_Super );
-//
-//    if ( pHandle->pParams_str->TIMx == TIM1 )
-//    {
-//      /* TIM1 Counter Clock stopped when the core is halted */
-//      LL_DBGMCU_APB2_GRP1_FreezePeriph( LL_DBGMCU_APB2_GRP1_TIM1_STOP );
-//    }
-//    else
-//    {
-//      /* TIM8 Counter Clock stopped when the core is halted */
-//      LL_DBGMCU_APB2_GRP1_FreezePeriph( LL_DBGMCU_APB2_GRP1_TIM8_STOP );
-//    }
-
-    /* ADC1 and ADC2 registers configuration ---------------------------------*/
-    /* Enable ADC1 and ADC2 */
     LL_ADC_Enable( ADC1 );
-    LL_ADC_Enable( ADC2 );
+    //LL_ADC_Enable( ADC2 );
 
     /* ADC1 Injected conversions end interrupt enabling */
     LL_ADC_ClearFlag_JEOS( ADC1 );
     LL_ADC_EnableIT_JEOS( ADC1 );
-
-    /* reset regular conversion sequencer length set by cubeMX */
-    LL_ADC_REG_SetSequencerLength( ADC1, LL_ADC_REG_SEQ_SCAN_DISABLE );
-
-//    /* To pre-compute the following variables is used the configuration already
-//     performed on ADC1 and ADC2. This means that ADC configurations run from here
-//     on out will be overwritten during the context switching.*/
-//    if ( pHandle->pParams_str->TIMx == TIM1 )
-//    {
-//      /* The following two variables are pre-computed and used to disable/enable
-//       the ADC injected external trigger during the context switching. */
-//      pHandle->wADCTriggerUnSet = ADC1->CR2 & 0xFFC0FFFFu; /* JEXTEN = 00b (Disable), JEXTSEL = 0000b (TIM1_CC4) */
-//      pHandle->wADCTriggerSet   = pHandle->wADCTriggerUnSet |
-//                                  0x00100000u; /* JEXTEN = 01b (Enable), JEXTSEL = 0000b (TIM1_CC4) */
-//    }
-//    else
-//    {
-//      /* The following two variables are pre-computed and used to disable/enable
-//       the ADC injected external trigger during the context switching. */
-//      pHandle->wADCTriggerUnSet = ADC1->CR2 & 0xFFC0FFFFu; /* JEXTEN = 00b (Disable), JEXTSEL = 0000b (TIM1_CC4 "dummy") */
-//      pHandle->wADCTriggerSet   = pHandle->wADCTriggerUnSet |
-//                                  0x001E0000u; /* JEXTEN = 01b (Enable), JEXTSEL = 1110b (TIM8_CC4) */
-//    }
-//
-//    pHandle->OverCurrentFlag = false;
-//    pHandle->_Super.DTTest = 0u;
-//    pHandle->_Super.DTCompCnt = pHandle->_Super.hDTCompCnt;
-//  }
 }
 
-
-/*void ADCReInit(void){
-	// ADC2 Initialization
-	  WRITE_REG(ADC1->DIFSEL,0U); // LL_ADC_SetChannelSingleDiffが未定義動作を起こすので、レジスタに直接書き込む
-	  LL_ADC_EnableInternalRegulator(ADC1);
-	  HAL_Delay(10);
-	  LL_ADC_StartCalibration(ADC1, LL_ADC_SINGLE_ENDED);
-	  while (LL_ADC_IsCalibrationOnGoing(ADC1));
-	  LL_ADC_Enable(ADC1);
-	  while (!LL_ADC_IsActiveFlag_ADRDY(ADC1));
-	  // JSQRをクリア
-	  LL_ADC_INJ_StopConversion(ADC1);
-	  while (LL_ADC_INJ_IsStopConversionOngoing(ADC1));
-	  // CubeMXが出力するコードが不適切なため、ADC2のJSQRを改めて設定する
-	  LL_ADC_DisableIT_JQOVF(ADC1);
-	  LL_ADC_INJ_ConfigQueueContext(ADC1,
-	                                LL_ADC_INJ_TRIG_EXT_TIM1_TRGO2,
-	                                LL_ADC_INJ_TRIG_EXT_RISING,
-	                                LL_ADC_INJ_SEQ_SCAN_ENABLE_3RANKS,
-	                                LL_ADC_CHANNEL_1,
-	                                LL_ADC_CHANNEL_2,
-	                                LL_ADC_CHANNEL_3,
-	                                LL_ADC_CHANNEL_4);
-	  //(ADCx, TriggerSource, ExternalTriggerEdge, SequencerNbRanks, Rank1_Channel, Rank2_Channel, Rank3_Channel, Rank4_Channel)
-	  // Inject変換の外部トリガを許可
-	  LL_ADC_INJ_StartConversion(ADC1);
-
-	  // Enable ADC Interrupt
-	  LL_ADC_EnableIT_JEOS(ADC1);
-	//  LL_TIM_EnableIT_UPDATE(TIM1);
-
-	   // Set ADC Sampling Timing
-//	   LL_TIM_OC_SetCompareCH4(TIM1, (uint32_t)(65530 - 90));
-
-	    // Enable PWM Career
-	    LL_TIM_EnableCounter(TIM1);
-	    LL_TIM_SetRepetitionCounter(TIM1,1);
-
-	    // Enable PWM Channels
-	    LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH1);
-//	    LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH1N);
-	    LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH2);
-//	    LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH2N);
-	    LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH3);
-//	    LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH3N);
-
-	    // Enable SPI Channel
-	    //LL_SPI_Enable(SPI1);
-
-	    // Enable EXTI Interrupt
-	    //LL_EXTI_EnableIT_0_31(LL_EXTI_LINE_3);
-}*/
 
 
