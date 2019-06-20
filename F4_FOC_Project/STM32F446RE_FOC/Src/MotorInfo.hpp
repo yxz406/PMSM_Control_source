@@ -10,15 +10,15 @@
 
 class MotorInfo {
 private:
-	float Vu;
-	float Vv;
-	float Vw;
-	float Valpha;
-	float Vbeta;
-	float Vd;
-	float Vq;
-	float Id;
-	float Iq;
+	float mVu;
+	float mVv;
+	float mVw;
+	float mValpha;
+	float mVbeta;
+	float mVd;
+	float mVq;
+	float mId;
+	float mIq;
 public:
 	MotorInfo();
 	virtual ~MotorInfo();

@@ -36,7 +36,8 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h ../Inc/adc.h \
- ../Inc/main.h ../Inc/tim.h ../Inc/usart.h ../Inc/gpio.h
+ ../Inc/main.h ../Inc/tim.h ../Inc/usart.h ../Inc/gpio.h \
+ ../Inc/wrapper.hpp
 
 ../Inc/main.h:
 
@@ -123,3 +124,5 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
 ../Inc/usart.h:
 
 ../Inc/gpio.h:
+
+../Inc/wrapper.hpp:

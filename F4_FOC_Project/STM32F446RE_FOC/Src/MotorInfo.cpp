@@ -20,17 +20,18 @@ void MotorInfo::setVu(float pVu){};
 void MotorInfo::setVv(float pVv){};
 void MotorInfo::setVw(float pVw){};
 
-float MotorInfo::getVu(void){};
-float MotorInfo::getVv(void){};
-float MotorInfo::getVw(void){};
+float MotorInfo::getVu(void){return mVu;};
+float MotorInfo::getVv(void){return mVv;};
+float MotorInfo::getVw(void){return mVw;};
 
-float MotorInfo::getValpha(void){};
-float MotorInfo::getVbeta(void){};
-float MotorInfo::getVd(void){};
-float MotorInfo::getVq(void){};
+float MotorInfo::getValpha(void){return mValpha;};
+float MotorInfo::getVbeta(void){return mVbeta;};
 
-float MotorInfo::getId(void){};
-float MotorInfo::getIq(void){};
+float MotorInfo::getVd(void){return mVd;};
+float MotorInfo::getVq(void){return mVq;};
+
+float MotorInfo::getId(void){return mId;};
+float MotorInfo::getIq(void){return mIq;};
 
 void MotorInfo::parkTransform(void){};
 void MotorInfo::clarkTransform(void){};
