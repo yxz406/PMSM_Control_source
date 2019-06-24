@@ -1,5 +1,9 @@
 /* USER CODE BEGIN Header */
 /**
+ * エンコードはUTF-8以外だとバグるから、
+ * Project->Properties->textfile encording -> (other)UTF-8
+ * に切り替えてつかうこと。
+ * 共同開発時のおやくそく、守ってね！
   ******************************************************************************
   * @file           : main.c
   * @brief          : Main program body
@@ -24,10 +28,10 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#include "wrapper.hpp"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "wrapper.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

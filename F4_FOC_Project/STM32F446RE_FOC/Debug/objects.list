@@ -25,6 +25,7 @@
 "Src/MathLib.o"
 "Src/MotorInfo.o"
 "Src/PWM.o"
+"Src/UART.o"
 "Src/adc.o"
 "Src/gpio.o"
 "Src/main.o"

@@ -20,13 +20,16 @@
 #include "stm32f4xx_ll_dma.h"
 
 #include <vector>
+#include <string>
 #include "math.h"
 
 #include "wrapper.hpp"
 #include "LedBlink.hpp"
+
+#include "MathLib.hpp"
 #include "PWM.hpp"
-
-
+#include "UART.hpp"
+#include "MotorInfo.hpp"
 
 uint16_t adc_data1 = 0, adc_data2 = 0, adc_data3 = 0, adc_data4 = 0;
 
@@ -40,10 +43,14 @@ void cpploop(void) {
 }
 
 void cppwrapper(void){
-	std::vector<int> num;
-	vectorInit(&num);
+	MathLib mathlibrary;//三角関数を取得
+	int mathlib_size = 256;//ライブラリのサイズを指定
+	mathlibrary.fInit(mathlib_size);
 
-    ADC_Init();
+	MotorInfo Motor;
+	Motor.setMathLib(mathlibrary);//モータクラスに算術ライブラリを渡す
+
+	ADC_Init();
 
 	PWM PWM_Object1;
 	PWM PWM_Object2;
@@ -60,23 +67,66 @@ void cppwrapper(void){
 	PWM_Object3.setCH(3);
 	PWM_Object4.setCH(4);
 
-	PWM_Object1.Init();
-	PWM_Object2.Init();
-	PWM_Object3.Init();
-	PWM_Object4.Init();
+	PWM_Object1.fInit(65535);
+	PWM_Object2.fInit(65535);
+	PWM_Object3.fInit(65535);
+	PWM_Object4.fInit(65535);
 
+	PWM_Object1.f2Duty(0);//50%duty
+	PWM_Object2.f2Duty(0);
+	PWM_Object3.f2Duty(0);
+	PWM_Object4.f2Duty(0);
 
-	PWM_Object1.Duty(60000);
-	PWM_Object2.Duty(60000);
-	PWM_Object3.Duty(60000);
-	PWM_Object4.Duty(60000);
 
 	while(1){
-		  for(int i=0;i<600;i++){
+
+//		for (const auto& e : mathlibrary.getSinList()) {
+//		  //std::cout << e << std::endl;
+//		}
+		for(int i=0;i<mathlib_size;i++){
+			Motor.setArg(i);
+			Motor.setVd(0);
+			Motor.setVq(0.5);
+			Motor.invClarkTransform();
+			Motor.invParkTransform();
+
+			PWM_Object1.f2Duty(Motor.getVu());
+			PWM_Object2.f2Duty(Motor.getVv());
+			PWM_Object3.f2Duty(Motor.getVw());
+			HAL_Delay(10);
+		}
+	}
+	//以下工事中
+
+	float bnum = mathlibrary.getSinList().at(64);
+	std::string Str;
+	Str += "number:";
+	std::string buf2 = std::to_string(bnum);
+	Str += buf2;
+	Str += "number2:";
+	int ubuf = 25;
+	Str += std::to_string(ubuf);
+	//Str.push_back(buf2);
+	UART uartob;
+	uartob.setString(Str);
+	uartob.Transmit();
+	//HAL_UART_Transmit(huart, pData, Size, Timeout);
+
+
+
+
+
+
+
+
+
+
+	while(1){
+		  for(int i=0;i<mathlib_size;i++){
 			  HAL_Delay(1);
-			  PWM_Object1.Duty(num[i]);
-			  PWM_Object2.Duty(num[(i+200)%600]);
-			  PWM_Object3.Duty(num[(i+400)%600]);
+			  PWM_Object1.Duty(mathlibrary.getSinList().at(i));
+			  PWM_Object2.Duty(mathlibrary.getSinList().at((i+mathlib_size/3)%mathlib_size));
+			  PWM_Object3.Duty(mathlibrary.getSinList().at((i+2*(mathlib_size/3))%mathlib_size));
 
 			  HAL_Delay(1);//ここにブレークポイント打ってADCの値が見える
 /*			  if (LL_ADC_IsEnabled(ADC1) == 1)
@@ -105,18 +155,8 @@ void HighFreqTask(void){
 		{
 			LL_ADC_WriteReg(ADC1,ISR,0);
 		}*/
-}
 
 
-void vectorInit(std::vector<int> *pVector){
-	int lange;
-	lange = 600;
-	int count = 65535;
-	for(int i=0;i<lange;i++){
-		float fsinval = sin(i*2*M_PI/(float)lange);
-		int val = count/2 * fsinval + count/2;
-		pVector->push_back(val);
-	}
 }
 
 
