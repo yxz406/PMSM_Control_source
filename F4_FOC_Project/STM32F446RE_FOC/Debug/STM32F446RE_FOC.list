@@ -7446,45 +7446,44 @@ void MathLib::fInit(int pSize){
 		while(1){}//error check
  8003442:	e7fe      	b.n	8003442 <_ZN7MathLib5fInitEi+0x1a>
 	}
-	mRadvsSize = mSize / 2*M_PI;//サイズと1radianの比
+	mRadvsSize = mSize / (2*M_PI);//サイズと1radianの比
  8003444:	687b      	ldr	r3, [r7, #4]
  8003446:	69db      	ldr	r3, [r3, #28]
- 8003448:	0fda      	lsrs	r2, r3, #31
- 800344a:	4413      	add	r3, r2
- 800344c:	105b      	asrs	r3, r3, #1
- 800344e:	4618      	mov	r0, r3
- 8003450:	f7fd f834 	bl	80004bc <__aeabi_i2d>
- 8003454:	a30e      	add	r3, pc, #56	; (adr r3, 8003490 <_ZN7MathLib5fInitEi+0x68>)
- 8003456:	e9d3 2300 	ldrd	r2, r3, [r3]
- 800345a:	f7fd f899 	bl	8000590 <__aeabi_dmul>
- 800345e:	4603      	mov	r3, r0
- 8003460:	460c      	mov	r4, r1
- 8003462:	4618      	mov	r0, r3
- 8003464:	4621      	mov	r1, r4
- 8003466:	f7fd fb6b 	bl	8000b40 <__aeabi_d2f>
- 800346a:	4602      	mov	r2, r0
- 800346c:	687b      	ldr	r3, [r7, #4]
- 800346e:	621a      	str	r2, [r3, #32]
+ 8003448:	4618      	mov	r0, r3
+ 800344a:	f7fd f837 	bl	80004bc <__aeabi_i2d>
+ 800344e:	a310      	add	r3, pc, #64	; (adr r3, 8003490 <_ZN7MathLib5fInitEi+0x68>)
+ 8003450:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 8003454:	f7fd f9c6 	bl	80007e4 <__aeabi_ddiv>
+ 8003458:	4603      	mov	r3, r0
+ 800345a:	460c      	mov	r4, r1
+ 800345c:	4618      	mov	r0, r3
+ 800345e:	4621      	mov	r1, r4
+ 8003460:	f7fd fb6e 	bl	8000b40 <__aeabi_d2f>
+ 8003464:	4602      	mov	r2, r0
+ 8003466:	687b      	ldr	r3, [r7, #4]
+ 8003468:	621a      	str	r2, [r3, #32]
 
 	fSinVectorInit(&mSinList);
- 8003470:	687b      	ldr	r3, [r7, #4]
- 8003472:	3304      	adds	r3, #4
- 8003474:	4619      	mov	r1, r3
- 8003476:	6878      	ldr	r0, [r7, #4]
- 8003478:	f000 f81a 	bl	80034b0 <_ZN7MathLib14fSinVectorInitEPSt6vectorIfSaIfEE>
+ 800346a:	687b      	ldr	r3, [r7, #4]
+ 800346c:	3304      	adds	r3, #4
+ 800346e:	4619      	mov	r1, r3
+ 8003470:	6878      	ldr	r0, [r7, #4]
+ 8003472:	f000 f81d 	bl	80034b0 <_ZN7MathLib14fSinVectorInitEPSt6vectorIfSaIfEE>
 	fCosVectorInit(&mCosList);
- 800347c:	687b      	ldr	r3, [r7, #4]
- 800347e:	3310      	adds	r3, #16
- 8003480:	4619      	mov	r1, r3
- 8003482:	6878      	ldr	r0, [r7, #4]
- 8003484:	f000 f864 	bl	8003550 <_ZN7MathLib14fCosVectorInitEPSt6vectorIfSaIfEE>
+ 8003476:	687b      	ldr	r3, [r7, #4]
+ 8003478:	3310      	adds	r3, #16
+ 800347a:	4619      	mov	r1, r3
+ 800347c:	6878      	ldr	r0, [r7, #4]
+ 800347e:	f000 f867 	bl	8003550 <_ZN7MathLib14fCosVectorInitEPSt6vectorIfSaIfEE>
 }
- 8003488:	bf00      	nop
- 800348a:	370c      	adds	r7, #12
- 800348c:	46bd      	mov	sp, r7
- 800348e:	bd90      	pop	{r4, r7, pc}
+ 8003482:	bf00      	nop
+ 8003484:	370c      	adds	r7, #12
+ 8003486:	46bd      	mov	sp, r7
+ 8003488:	bd90      	pop	{r4, r7, pc}
+ 800348a:	bf00      	nop
+ 800348c:	f3af 8000 	nop.w
  8003490:	54442d18 	.word	0x54442d18
- 8003494:	400921fb 	.word	0x400921fb
+ 8003494:	401921fb 	.word	0x401921fb
 
 08003498 <_ZN7MathLib10getLibSizeEv>:
 

@@ -40,7 +40,7 @@ void MathLib::fInit(int pSize){
 	if(mSize == 0){
 		while(1){}//error check
 	}
-	mRadvsSize = mSize / 2*M_PI;//サイズと1radianの比
+	mRadvsSize = mSize / (2*M_PI);//サイズと1radianの比
 
 	fSinVectorInit(&mSinList);
 	fCosVectorInit(&mCosList);
