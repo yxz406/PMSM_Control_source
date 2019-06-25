@@ -6,6 +6,7 @@
  */
 
 #include "ArgSensor.hpp"
+#include "math.h"
 
 ArgSensor::ArgSensor() {
 	// TODO Auto-generated constructor stub
@@ -22,10 +23,12 @@ void ArgSensor::Init(void) {
 
 void ArgSensor::increment(float pArg){
 	mArg = mArg + pArg;
+	mArg = fmodl(mArg, (2*M_PI));
 }
 
 void ArgSensor::decrement(float pArg){
 	mArg = mArg - pArg;
+	mArg = fmodl(mArg, (2*M_PI));
 }
 
 float ArgSensor::getArg(void){

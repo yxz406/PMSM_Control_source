@@ -91,18 +91,18 @@ void cppwrapper(void){
 //		for (const auto& e : mathlibrary.getSinList()) {
 //		  //std::cout << e << std::endl;
 //		}
-//		for(int i=0;i<mathlib_size;i++){
-//			Motor.setArg(i);
-//			Motor.setVd(0);
-//			Motor.setVq(0.5);
-//			Motor.invClarkTransform();
-//			Motor.invParkTransform();
-//
-//			PWM_Object1.f2Duty(Motor.getVu());
-//			PWM_Object2.f2Duty(Motor.getVv());
-//			PWM_Object3.f2Duty(Motor.getVw());
-//			HAL_Delay(10);
-//		}
+		for(int i=0;i<mathlib_size;i++){
+			Motor.setArg(i);
+			Motor.setVd(0);
+			Motor.setVq(0.5);
+			Motor.invClarkTransform();
+			Motor.invParkTransform();
+
+			PWM_Object1.f2Duty(Motor.getVu());
+			PWM_Object2.f2Duty(Motor.getVv());
+			PWM_Object3.f2Duty(Motor.getVw());
+			HAL_Delay(10);
+		}
 	}
 }
 
