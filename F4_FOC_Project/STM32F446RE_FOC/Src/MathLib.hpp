@@ -15,6 +15,7 @@ private:
 	std::vector<float> mSinList;
 	std::vector<float> mCosList;
 	int mSize;
+	float mRadvsSize;
 	void fSinVectorInit(std::vector<float> *pVector);
 	void fCosVectorInit(std::vector<float> *pVector);
 	void setLibSize(int pSize);
@@ -23,8 +24,11 @@ public:
 	MathLib();
 	virtual ~MathLib();
 	void fInit(int pSize);
+	int getLibSize(void);
 	std::vector<float> getSinList(void);
 	std::vector<float> getCosList(void);
+
+	int radToSizeCount(float pradian);
 };
 
 

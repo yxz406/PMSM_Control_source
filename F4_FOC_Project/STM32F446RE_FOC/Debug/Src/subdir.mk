@@ -16,6 +16,7 @@ C_SRCS += \
 ../Src/usart.c 
 
 CPP_SRCS += \
+../Src/ArgSensor.cpp \
 ../Src/LedBlink.cpp \
 ../Src/MathLib.cpp \
 ../Src/MotorInfo.cpp \
@@ -24,6 +25,7 @@ CPP_SRCS += \
 ../Src/wrapper.cpp 
 
 OBJS += \
+./Src/ArgSensor.o \
 ./Src/LedBlink.o \
 ./Src/MathLib.o \
 ./Src/MotorInfo.o \
@@ -54,6 +56,7 @@ C_DEPS += \
 ./Src/usart.d 
 
 CPP_DEPS += \
+./Src/ArgSensor.d \
 ./Src/LedBlink.d \
 ./Src/MathLib.d \
 ./Src/MotorInfo.d \
@@ -63,6 +66,8 @@ CPP_DEPS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
+Src/ArgSensor.o: ../Src/ArgSensor.cpp
+	arm-none-eabi-g++ "$<" -mcpu=cortex-m4 -std=gnu++14 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DUSE_FULL_LL_DRIVER -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Src/ArgSensor.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 Src/LedBlink.o: ../Src/LedBlink.cpp
 	arm-none-eabi-g++ "$<" -mcpu=cortex-m4 -std=gnu++14 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DUSE_FULL_LL_DRIVER -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Src/LedBlink.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 Src/MathLib.o: ../Src/MathLib.cpp

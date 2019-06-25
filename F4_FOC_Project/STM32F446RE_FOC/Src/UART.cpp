@@ -5,6 +5,14 @@
  *      Author: watashi
  */
 
+
+/*
+ * UARTを簡単に叩けるClass
+ * 余計な代入が多いからあまり早くはうごかない
+ * (そもそもHALを利用したUARTのため、あまり早くならない)
+ */
+
+
 #include "usart.h"
 #include "UART.hpp"
 

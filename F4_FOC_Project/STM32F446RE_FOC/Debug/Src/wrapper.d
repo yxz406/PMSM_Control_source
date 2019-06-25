@@ -37,7 +37,7 @@ Src/wrapper.o: ../Src/wrapper.cpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
  ../Inc/wrapper.hpp ../Src/LedBlink.hpp ../Src/MathLib.hpp ../Inc/PWM.hpp \
- ../Src/UART.hpp ../Src/MotorInfo.hpp
+ ../Src/UART.hpp ../Src/MotorInfo.hpp ../Src/ArgSensor.hpp
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 
@@ -124,3 +124,5 @@ Src/wrapper.o: ../Src/wrapper.cpp \
 ../Src/UART.hpp:
 
 ../Src/MotorInfo.hpp:
+
+../Src/ArgSensor.hpp:

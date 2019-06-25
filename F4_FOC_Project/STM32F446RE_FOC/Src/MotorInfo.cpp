@@ -5,6 +5,16 @@
  *      Author: watashi
  */
 
+/*
+ * せつめい！
+ * モータの情報を総合的に管理するClass
+ * MathClassは保守性を考慮して別に取り込む形になっているので、
+ * 利用する際には、クラスを取り込むこと。
+ *
+ * 基本的に上から順番に関数を叩いていけばそれらしい回り方する気がする。
+ */
+
+
 #include "MotorInfo.hpp"
 #include "Mathlib.hpp"
 
@@ -20,6 +30,8 @@ MotorInfo::~MotorInfo() {
 void MotorInfo::setMathLib(MathLib pLib){
 	mLib = pLib;
 }
+
+MathLib MotorInfo::getMathLib(void){return mLib;}
 
 //void MotorInfo::setVu(float pVu):mVu(pVu){};
 //void MotorInfo::setVv(float pVv):mVv(pVv){};

@@ -31,18 +31,22 @@ MathLib::~MathLib() {
 	mCosList.clear();
 }
 
+void MathLib::setLibSize(int pSize){
+	mSize = pSize;
+}
+
 void MathLib::fInit(int pSize){
 	setLibSize(pSize);
 	if(mSize == 0){
 		while(1){}//error check
 	}
+	mRadvsSize = mSize / 2*M_PI;//サイズと1radianの比
+
 	fSinVectorInit(&mSinList);
 	fCosVectorInit(&mCosList);
 }
 
-void MathLib::setLibSize(int pSize){
-	mSize = pSize;
-}
+int MathLib::getLibSize(void){return mSize;}
 
 void MathLib::fSinVectorInit(std::vector<float> *pVector){
 	for(int i=0;i<mSize;i++){
@@ -65,3 +69,8 @@ std::vector<float> MathLib::getSinList(void){
 std::vector<float> MathLib::getCosList(void){
 	return mCosList;
 }
+
+int MathLib::radToSizeCount(float pradian){
+	return pradian * mRadvsSize;
+}
+

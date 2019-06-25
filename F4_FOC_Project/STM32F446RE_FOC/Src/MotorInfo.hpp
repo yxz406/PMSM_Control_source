@@ -36,6 +36,7 @@ public:
 	virtual ~MotorInfo();
 
 	void setMathLib(MathLib pLib);
+	MathLib getMathLib(void);
 
 	void setIu(float pIu);
 	void setIv(float pIv);

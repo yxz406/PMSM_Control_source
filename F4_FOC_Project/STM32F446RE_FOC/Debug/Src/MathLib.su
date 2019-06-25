@@ -2,12 +2,14 @@ new:168:14:void* operator new(std::size_t, void*)	16	static
 MathLib.cpp:24:1:MathLib::MathLib()	16	static
 MathLib.cpp:28:1:MathLib::~MathLib()	16	static
 MathLib.cpp:28:1:virtual MathLib::~MathLib()	16	static
-MathLib.cpp:34:6:void MathLib::fInit(int)	16	static
-MathLib.cpp:43:6:void MathLib::setLibSize(int)	16	static
-MathLib.cpp:47:6:void MathLib::fSinVectorInit(std::vector<float>*)	32	static
-MathLib.cpp:54:6:void MathLib::fCosVectorInit(std::vector<float>*)	32	static
-MathLib.cpp:61:20:std::vector<float> MathLib::getSinList()	16	static
-MathLib.cpp:65:20:std::vector<float> MathLib::getCosList()	16	static
+MathLib.cpp:34:6:void MathLib::setLibSize(int)	16	static
+MathLib.cpp:38:6:void MathLib::fInit(int)	24	static
+MathLib.cpp:49:5:int MathLib::getLibSize()	16	static
+MathLib.cpp:51:6:void MathLib::fSinVectorInit(std::vector<float>*)	32	static
+MathLib.cpp:58:6:void MathLib::fCosVectorInit(std::vector<float>*)	32	static
+MathLib.cpp:65:20:std::vector<float> MathLib::getSinList()	16	static
+MathLib.cpp:69:20:std::vector<float> MathLib::getCosList()	16	static
+MathLib.cpp:73:5:int MathLib::radToSizeCount(float)	16	static
 stl_vector.h:259:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = float; _Alloc = std::allocator<float>]	16	static
 stl_vector.h:433:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = float; _Alloc = std::allocator<float>]	24	static
 stl_vector.h:1247:7:void std::vector<_Tp, _Alloc>::clear() [with _Tp = float; _Alloc = std::allocator<float>]	16	static
