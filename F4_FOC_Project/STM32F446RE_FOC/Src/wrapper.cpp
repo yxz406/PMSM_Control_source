@@ -91,18 +91,18 @@ void cppwrapper(void){
 //		for (const auto& e : mathlibrary.getSinList()) {
 //		  //std::cout << e << std::endl;
 //		}
-		for(int i=0;i<mathlib_size;i++){
-			Motor.setArg(i);
-			Motor.setVd(0);
-			Motor.setVq(0.5);
-			Motor.invClarkTransform();
-			Motor.invParkTransform();
-
-			PWM_Object1.f2Duty(Motor.getVu());
-			PWM_Object2.f2Duty(Motor.getVv());
-			PWM_Object3.f2Duty(Motor.getVw());
-			HAL_Delay(10);
-		}
+//		for(int i=0;i<mathlib_size;i++){
+//			Motor.setArg(i);
+//			Motor.setVd(0);
+//			Motor.setVq(0.5);
+//			Motor.invClarkTransform();
+//			Motor.invParkTransform();
+//
+//			PWM_Object1.f2Duty(Motor.getVu());
+//			PWM_Object2.f2Duty(Motor.getVv());
+//			PWM_Object3.f2Duty(Motor.getVw());
+//			HAL_Delay(10);
+//		}
 	}
 }
 
@@ -133,10 +133,14 @@ void HighFreqTask(void){
 
 
 			//位置センサを叩くTask
-			sensor.increment((float)2*M_PI / Motor.getMathLib().getLibSize());
+			float one_step = (float)2*M_PI / Motor.getMathLib().getLibSize();
+			sensor.increment(one_step);
 			//float arg = sensor.getArg();
 
-			MotorPWMTask(Motor.getMathLib().radToSizeCount(sensor.getArg()), 0, 0.5f);//暫定で作った関数
+			float Vd_input = 0;
+			float Vq_input = 0.5f;
+
+			MotorPWMTask(Motor.getMathLib().radToSizeCount(sensor.getArg()), Vd_input, Vq_input);//暫定で作った関数
 			//UARTTask("a");
 		}
 /*	else
