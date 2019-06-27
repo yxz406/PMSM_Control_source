@@ -1,4 +1,6 @@
 stm32f4xx_ll_adc.h:3831:22:void LL_ADC_Enable(ADC_TypeDef*)	16	static
+stm32f4xx_ll_adc.h:3882:22:void LL_ADC_REG_StartConversionSWStart(ADC_TypeDef*)	16	static
+stm32f4xx_ll_adc.h:3950:26:uint16_t LL_ADC_REG_ReadConversionData12(ADC_TypeDef*)	16	static
 stm32f4xx_ll_adc.h:4143:26:uint16_t LL_ADC_INJ_ReadConversionData12(ADC_TypeDef*, uint32_t)	24	static,ignoring_inline_asm
 stm32f4xx_ll_adc.h:4274:26:uint32_t LL_ADC_IsActiveFlag_JEOS(ADC_TypeDef*)	16	static
 stm32f4xx_ll_adc.h:4327:22:void LL_ADC_ClearFlag_JEOS(ADC_TypeDef*)	16	static
@@ -11,8 +13,8 @@ MathLib.hpp:13:7:MathLib::MathLib(const MathLib&)	16	static
 wrapper.cpp:60:6:void cppwrapper()	88	static
 wrapper.cpp:109:6:void MotorPWMTask(int, float, float)	24	static
 wrapper.cpp:125:6:void HighFreqTask()	104	static
-wrapper.cpp:155:6:void ADC_Init()	8	static
-wrapper.cpp:166:6:void UARTTask(std::__cxx11::string)	128	static
+wrapper.cpp:162:6:void ADC_Init()	8	static
+wrapper.cpp:173:6:void UARTTask(std::__cxx11::string)	128	static
 string_conversions.h:99:5:) [with _String = std::__cxx11::basic_string<char>; _CharT = char]	52	dynamic
 stl_vector.h:326:7:std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = float; _Alloc = std::allocator<float>]	40	static
 basic_string.h:604:9:std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(_InputIterator, _InputIterator, const _Alloc&) [with _InputIterator = char*; <template-parameter-2-2> = void; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	32	static
@@ -53,6 +55,6 @@ stl_algobase.h:277:5:_Iterator std::__niter_base(_Iterator) [with _Iterator = fl
 stl_algobase.h:375:5:_OI std::__copy_move_a(_II, _II, _OI) [with bool _IsMove = false; _II = const float*; _OI = float*]	32	static
 stl_iterator.h:844:7:const _Iterator& __gnu_cxx::__normal_iterator<_Iterator, _Container>::base() const [with _Iterator = const float*; _Container = std::vector<float>]	16	static
 stl_algobase.h:357:9:static _Tp* std::__copy_move<_IsMove, true, std::random_access_iterator_tag>::__copy_m(const _Tp*, const _Tp*, _Tp*) [with _Tp = float; bool _IsMove = false]	32	static
-wrapper.cpp:186:1:void __static_initialization_and_destruction_0(int, int)	16	static
-wrapper.cpp:186:1:cpp)	8	static
-wrapper.cpp:186:1:cpp)	8	static
+wrapper.cpp:193:1:void __static_initialization_and_destruction_0(int, int)	16	static
+wrapper.cpp:193:1:cpp)	8	static
+wrapper.cpp:193:1:cpp)	8	static

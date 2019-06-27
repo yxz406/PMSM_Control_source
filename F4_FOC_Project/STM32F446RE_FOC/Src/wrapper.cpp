@@ -137,8 +137,15 @@ void HighFreqTask(void){
 			sensor.increment(one_step);
 			//float arg = sensor.getArg();
 
+			//LL_ADC_REG_StartConversionExtTrig(ADCx, ExternalTriggerEdge);
+			//LL_ADC_REG_IsTriggerSourceSWStart(ADC2);
+			LL_ADC_REG_StartConversionSWStart(ADC2);
+			float adc_data4 = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4096;
+
 			float Vd_input = 0;
 			float Vq_input = 0.5f;
+
+			Vq_input = adc_data4;
 
 			MotorPWMTask(Motor.getMathLib().radToSizeCount(sensor.getArg()), Vd_input, Vq_input);//暫定で作った関数
 			//UARTTask("a");
@@ -155,7 +162,7 @@ void HighFreqTask(void){
 void ADC_Init()
 {
     LL_ADC_Enable( ADC1 );
-    //LL_ADC_Enable( ADC2 );
+    LL_ADC_Enable( ADC2 );
 
     /* ADC1 Injected conversions end interrupt enabling */
     LL_ADC_ClearFlag_JEOS( ADC1 );

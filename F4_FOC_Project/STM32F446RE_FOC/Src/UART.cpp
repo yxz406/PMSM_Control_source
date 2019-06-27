@@ -19,6 +19,7 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_ll_adc.h"
 #include "stm32f4xx_ll_tim.h"
+#include "stm32f4xx_ll_usart.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_ll_system.h"
 #include "stm32f4xx_ll_gpio.h"
@@ -45,12 +46,25 @@ UART::~UART() {
 
 void UART::setString(std::string pStr){
 	mStr = pStr;
-	mstrSize = mStr.length();
+	//mstrSize = mStr.length();
 }
 
 void UART::Transmit(void){
-	const char* buf=mStr.c_str();
-	HAL_UART_Transmit(&huart2, (uint8_t*)buf, mstrSize, mTimeout);
+//	for(auto mozi : mStr){
+//		LL_USART_TransmitData8(USART2, mozi);
+//	}
+//	const char* buf=mStr.c_str();
+//	//const char mozi[100]={"aiueoka"};
+//	//const char mozi = mStr.
+//	//HAL_UART_Transmit(&huart2, (uint8_t*)buf, mstrSize, mTimeout);
+////	int ele = std::begin(buf);
+//	//for(const auto& str : buf){
+//	for(int cnt = 0; buf[cnt] != '\0'; cnt++){
+////		//LL_USART_TransmitData8(USART2, str);
+//	}
+//	LL_USART_TransmitData8(USART2, 0x15);
+//	//LL_USART_TransmitData9(USARTx, Value)
+
 }
 
 //HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout)
