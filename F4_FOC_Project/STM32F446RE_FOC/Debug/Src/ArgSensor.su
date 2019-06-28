@@ -1,7 +1,9 @@
 ArgSensor.cpp:11:1:ArgSensor::ArgSensor()	16	static
-ArgSensor.cpp:16:1:ArgSensor::~ArgSensor()	16	static
-ArgSensor.cpp:16:1:virtual ArgSensor::~ArgSensor()	16	static
-ArgSensor.cpp:20:6:void ArgSensor::Init()	16	static
-ArgSensor.cpp:24:6:void ArgSensor::increment(float)	24	static
-ArgSensor.cpp:29:6:void ArgSensor::decrement(float)	24	static
-ArgSensor.cpp:34:7:float ArgSensor::getArg()	16	static
+ArgSensor.cpp:17:1:ArgSensor::~ArgSensor()	16	static
+ArgSensor.cpp:17:1:virtual ArgSensor::~ArgSensor()	16	static
+ArgSensor.cpp:21:6:void ArgSensor::Init()	16	static
+ArgSensor.cpp:25:6:void ArgSensor::increment(float)	24	static
+ArgSensor.cpp:30:6:void ArgSensor::decrement(float)	24	static
+ArgSensor.cpp:35:7:float ArgSensor::getArg()	16	static
+ArgSensor.cpp:39:6:void ArgSensor::Start_Stop(bool)	16	static
+ArgSensor.cpp:43:6:void ArgSensor::ImArg()	24	static

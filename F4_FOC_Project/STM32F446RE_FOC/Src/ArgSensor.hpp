@@ -11,6 +11,10 @@
 class ArgSensor {
 private:
 	float mArg;
+
+	bool mIsStart;
+	int mImArgcount;
+	float mCalcArg;
 public:
 	ArgSensor();
 	virtual ~ArgSensor();
@@ -19,6 +23,8 @@ public:
 	void increment(float pArg);
 	void decrement(float pArg);
 	float getArg(void);
+	void Start_Stop(bool pIsONState);
+	void ImArg(void);
 };
 
 #endif /* ARGSENSOR_HPP_ */

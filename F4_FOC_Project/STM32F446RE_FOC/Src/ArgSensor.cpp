@@ -11,6 +11,7 @@
 ArgSensor::ArgSensor() {
 	// TODO Auto-generated constructor stub
 	mArg = 0;
+	mImArgcount = 0;
 }
 
 ArgSensor::~ArgSensor() {
@@ -22,15 +23,39 @@ void ArgSensor::Init(void) {
 }
 
 void ArgSensor::increment(float pArg){
-	mArg = mArg + pArg;
+	mArg = mArg + pArg + (2*M_PI);
 	mArg = fmodl(mArg, (2*M_PI));
 }
 
 void ArgSensor::decrement(float pArg){
-	mArg = mArg - pArg;
+	mArg = mArg - pArg + (2*M_PI);
 	mArg = fmodl(mArg, (2*M_PI));
 }
 
 float ArgSensor::getArg(void){
 	return mArg;
+}
+
+void ArgSensor::Start_Stop(bool pIsONState){
+		mIsStart = pIsONState;
+}
+
+void ArgSensor::ImArg(void){
+	if(mIsStart){
+		if(mImArgcount < 10000){
+			mImArgcount++;
+			//mImArgcount = 25;
+		}
+		mCalcArg = mImArgcount*0.0000125f*M_PI;//進む差分角
+		mArg = mArg + mCalcArg + (2*M_PI);
+		mArg = fmodl(mArg, (2*M_PI));
+
+	} else {
+		if(mImArgcount > 0){
+			mImArgcount--;
+		}
+		mCalcArg = mImArgcount*0.0000125f*M_PI;
+		mArg = mArg + mCalcArg + (2*M_PI);
+		mArg = fmodl(mArg, (2*M_PI));
+	}
 }

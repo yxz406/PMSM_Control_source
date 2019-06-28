@@ -105,6 +105,7 @@ MxDb.Version=DB.5.0.20
 NVIC.ADC_IRQn=true\:2\:0\:true\:false\:true\:true\:true
 NVIC.BusFault_IRQn=true\:0\:0\:false\:false\:true\:true\:false
 NVIC.DebugMonitor_IRQn=true\:0\:0\:false\:false\:true\:true\:false
+NVIC.EXTI15_10_IRQn=true\:0\:0\:false\:false\:true\:true\:true
 NVIC.HardFault_IRQn=true\:0\:0\:false\:false\:true\:true\:false
 NVIC.MemoryManagement_IRQn=true\:0\:0\:false\:false\:true\:true\:false
 NVIC.NonMaskableInt_IRQn=true\:0\:0\:false\:false\:true\:true\:false

@@ -1,0 +1,5 @@
+UiCtrl.cpp:10:1:UiCtrl::UiCtrl()	16	static
+UiCtrl.cpp:15:1:UiCtrl::~UiCtrl()	16	static
+UiCtrl.cpp:15:1:virtual UiCtrl::~UiCtrl()	16	static
+UiCtrl.cpp:19:6:void UiCtrl::BtnAct()	16	static
+UiCtrl.cpp:31:6:bool UiCtrl::getState()	16	static

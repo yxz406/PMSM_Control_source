@@ -8,6 +8,7 @@ extern "C" {
 void cpploop(void);
 void cppwrapper(void);
 void HighFreqTask(void);
+void BtnAct(void);
 #ifdef __cplusplus
 };
 #endif

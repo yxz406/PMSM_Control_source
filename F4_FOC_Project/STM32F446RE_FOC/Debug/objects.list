@@ -29,6 +29,7 @@
 "Src/MotorInfo.o"
 "Src/PWM.o"
 "Src/UART.o"
+"Src/UiCtrl.o"
 "Src/adc.o"
 "Src/gpio.o"
 "Src/main.o"
