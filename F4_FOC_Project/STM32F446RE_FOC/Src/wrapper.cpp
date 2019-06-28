@@ -64,6 +64,8 @@ void cppwrapper(void){
 
 	Motor.setMathLib(mathlibrary);//モータクラスに算術ライブラリを渡す
 
+	//LL_TIM_DisableIT_BRK(TIM1);
+
 	PWM_Object1.setTIM(TIM1);
 	PWM_Object2.setTIM(TIM1);
 	PWM_Object3.setTIM(TIM1);
@@ -74,15 +76,25 @@ void cppwrapper(void){
 	PWM_Object3.setCH(3);
 	PWM_Object4.setCH(4);
 
-	PWM_Object1.fInit(65535);
-	PWM_Object2.fInit(65535);
-	PWM_Object3.fInit(65535);
-	PWM_Object4.fInit(65535);
+//	PWM_Object1.fInit(65535);
+//	PWM_Object2.fInit(65535);
+//	PWM_Object3.fInit(65535);
+//	PWM_Object4.fInit(65535);
+
+	PWM_Object1.fInit(1000);
+	PWM_Object2.fInit(1000);
+	PWM_Object3.fInit(1000);
+	PWM_Object4.fInit(1000);
+
 
 	PWM_Object1.f2Duty(0);//50%duty
 	PWM_Object2.f2Duty(0);
 	PWM_Object3.f2Duty(0);
 	PWM_Object4.f2Duty(0);
+
+	LL_GPIO_SetOutputPin(GPIOC, GPIO_PIN_10);
+	LL_GPIO_SetOutputPin(GPIOC, GPIO_PIN_11);
+	LL_GPIO_SetOutputPin(GPIOC, GPIO_PIN_12);
 
 	ADC_Init();
 
@@ -131,24 +143,22 @@ void HighFreqTask(void){
 			adc_data2 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
 			adc_data3 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
 
-
 			//位置センサを叩くTask
 			float one_step = (float)2*M_PI / Motor.getMathLib().getLibSize();
 			sensor.increment(one_step);
 			//float arg = sensor.getArg();
 
-			//LL_ADC_REG_StartConversionExtTrig(ADCx, ExternalTriggerEdge);
-			//LL_ADC_REG_IsTriggerSourceSWStart(ADC2);
-			LL_ADC_REG_StartConversionSWStart(ADC2);
-			float adc_data4 = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4096;
-
 			float Vd_input = 0;
 			float Vq_input = 0.5f;
 
-			Vq_input = adc_data4;
+			LL_ADC_REG_StartConversionSWStart(ADC2);
+			float adc_speed = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4096;
 
+			LL_ADC_REG_StartConversionSWStart(ADC3);
+			float adc_gain = (float)LL_ADC_REG_ReadConversionData12(ADC3)/4096;
+
+			Vq_input = adc_speed;
 			MotorPWMTask(Motor.getMathLib().radToSizeCount(sensor.getArg()), Vd_input, Vq_input);//暫定で作った関数
-			//UARTTask("a");
 		}
 /*	else
 		{

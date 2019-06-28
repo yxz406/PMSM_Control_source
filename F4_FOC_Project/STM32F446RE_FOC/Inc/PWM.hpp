@@ -21,8 +21,8 @@ public:
 	void setTIM(TIM_TypeDef* pTIMx);
 	void setCH(int pCH);
 	void Init();
-	void Duty(int pDuty);
 	void fInit(int pTimReload);
+	void Duty(int pDuty);
 	void fDuty(float pfDuty);//入力は0~1までの浮動小数点数
 	void f2Duty(float pfDuty);//入力は-1~1までの浮動小数点数
 };

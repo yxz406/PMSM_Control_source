@@ -50,21 +50,10 @@ void UART::setString(std::string pStr){
 }
 
 void UART::Transmit(void){
-//	for(auto mozi : mStr){
-//		LL_USART_TransmitData8(USART2, mozi);
-//	}
-//	const char* buf=mStr.c_str();
-//	//const char mozi[100]={"aiueoka"};
-//	//const char mozi = mStr.
-//	//HAL_UART_Transmit(&huart2, (uint8_t*)buf, mstrSize, mTimeout);
-////	int ele = std::begin(buf);
-//	//for(const auto& str : buf){
-//	for(int cnt = 0; buf[cnt] != '\0'; cnt++){
-////		//LL_USART_TransmitData8(USART2, str);
-//	}
-//	LL_USART_TransmitData8(USART2, 0x15);
-//	//LL_USART_TransmitData9(USARTx, Value)
-
+	const char* str = mStr.c_str();
+	for(int i = 0; *(str + i) != '¥0'; i++){
+		LL_USART_TransmitData8(USART2, *(str + i));
+	}
 }
 
 //HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout)

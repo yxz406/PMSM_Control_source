@@ -131,6 +131,10 @@ void PWM::fInit(int pTimReload){
 
 	//PWM TIM Init
 	LL_TIM_EnableCounter(mTIMx);
+
+	//auto reload Init
+	LL_TIM_SetAutoReload(mTIMx, pTimReload);
+
 	//LL_TIM_GenerateEvent_UPDATE(TIM1);//
 	LL_TIM_EnableAllOutputs(mTIMx);// need
 	//PWM TIM Init end
