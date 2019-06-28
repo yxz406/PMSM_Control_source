@@ -76,15 +76,10 @@ void cppwrapper(void){
 	PWM_Object3.setCH(3);
 	PWM_Object4.setCH(4);
 
-//	PWM_Object1.fInit(65535);
-//	PWM_Object2.fInit(65535);
-//	PWM_Object3.fInit(65535);
-//	PWM_Object4.fInit(65535);
-
-	PWM_Object1.fInit(1000);
-	PWM_Object2.fInit(1000);
-	PWM_Object3.fInit(1000);
-	PWM_Object4.fInit(1000);
+	PWM_Object1.fInit(5000);
+	PWM_Object2.fInit(5000);
+	PWM_Object3.fInit(5000);
+	PWM_Object4.fInit(5000);
 
 
 	PWM_Object1.f2Duty(0);//50%duty
@@ -144,8 +139,11 @@ void HighFreqTask(void){
 			adc_data3 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
 
 			//位置センサを叩くTask
+			LL_ADC_REG_StartConversionSWStart(ADC3);
+			float adc_gain = (float)LL_ADC_REG_ReadConversionData12(ADC3)/4096;
+
 			float one_step = (float)2*M_PI / Motor.getMathLib().getLibSize();
-			sensor.increment(one_step);
+			sensor.increment(10*one_step*adc_gain);
 			//float arg = sensor.getArg();
 
 			float Vd_input = 0;
@@ -153,9 +151,6 @@ void HighFreqTask(void){
 
 			LL_ADC_REG_StartConversionSWStart(ADC2);
 			float adc_speed = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4096;
-
-			LL_ADC_REG_StartConversionSWStart(ADC3);
-			float adc_gain = (float)LL_ADC_REG_ReadConversionData12(ADC3)/4096;
 
 			Vq_input = adc_speed;
 			MotorPWMTask(Motor.getMathLib().radToSizeCount(sensor.getArg()), Vd_input, Vq_input);//暫定で作った関数
@@ -173,6 +168,7 @@ void ADC_Init()
 {
     LL_ADC_Enable( ADC1 );
     LL_ADC_Enable( ADC2 );
+    LL_ADC_Enable( ADC3 );
 
     /* ADC1 Injected conversions end interrupt enabling */
     LL_ADC_ClearFlag_JEOS( ADC1 );
