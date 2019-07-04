@@ -1,3 +1,3 @@
-Src/UiCtrl.o: ../Src/UiCtrl.cpp ../Src/UiCtrl.hpp
+Src/UiCtrl.o: ../Src/UiCtrl.cpp ../Inc/UiCtrl.hpp
 
-../Src/UiCtrl.hpp:
+../Inc/UiCtrl.hpp:

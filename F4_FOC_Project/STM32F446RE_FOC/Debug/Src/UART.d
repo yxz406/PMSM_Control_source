@@ -37,7 +37,7 @@ Src/UART.o: ../Src/UART.cpp ../Inc/usart.h ../Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h ../Src/UART.hpp
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h ../Inc/UART.hpp
 
 ../Inc/usart.h:
 
@@ -121,4 +121,4 @@ Src/UART.o: ../Src/UART.cpp ../Inc/usart.h ../Inc/main.h \
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:
 
-../Src/UART.hpp:
+../Inc/UART.hpp:

@@ -1,3 +1,3 @@
-Src/MathLib.o: ../Src/MathLib.cpp ../Src/MathLib.hpp
+Src/MathLib.o: ../Src/MathLib.cpp ../Inc/MathLib.hpp
 
-../Src/MathLib.hpp:
+../Inc/MathLib.hpp:

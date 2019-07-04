@@ -5,6 +5,13 @@
  *      Author: watashi
  */
 
+/*
+ * せつめい！
+ * センサ周りを処理するclass
+ * 現状強制転流用の仮想エンコーダのみ実装。
+ * ABZエンコーダ等の物理エンコーダもここに実装する。
+ */
+
 #include "ArgSensor.hpp"
 #include "math.h"
 
@@ -42,7 +49,7 @@ void ArgSensor::Start_Stop(bool pIsONState){
 
 void ArgSensor::ImArg(void){
 	if(mIsStart){
-		if(mImArgcount < 10000){
+		if(mImArgcount < 25000){
 			mImArgcount++;
 			//mImArgcount = 25;
 		}

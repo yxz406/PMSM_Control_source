@@ -1,8 +1,8 @@
-Src/MotorInfo.o: ../Src/MotorInfo.cpp ../Src/MotorInfo.hpp \
- ../Src/MathLib.hpp ../Src/Mathlib.hpp
+Src/MotorInfo.o: ../Src/MotorInfo.cpp ../Inc/MotorInfo.hpp \
+ ../Inc/MathLib.hpp ../Inc/Mathlib.hpp
 
-../Src/MotorInfo.hpp:
+../Inc/MotorInfo.hpp:
 
-../Src/MathLib.hpp:
+../Inc/MathLib.hpp:
 
-../Src/Mathlib.hpp:
+../Inc/Mathlib.hpp:

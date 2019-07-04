@@ -33,6 +33,8 @@
 #include "ArgSensor.hpp"
 #include "UiCtrl.hpp"
 
+#include "DebugInfo.hpp"
+
 uint16_t adc_data1 = 0, adc_data2 = 0, adc_data3 = 0, adc_data4 = 0;
 
 void vectorInit(std::vector<int> *pVector);//プロトタイプ宣言
@@ -58,6 +60,8 @@ PWM PWM_Object4;
 ArgSensor sensor; //角度を求める機能を持ったclass
 
 UiCtrl ui_ctrl; //UI入力を処理するclass
+
+DebugInfo Debug;//デバッグ情報かき集め
 
 void cppwrapper(void){
 	MathLib mathlibrary;//三角関数を取得
@@ -127,7 +131,8 @@ void HighFreqTask(void){
 
 			//float one_step = (float)2*M_PI / Motor.getMathLib().getLibSize();//手動インクリ用
 			//sensor.increment(one_step);
-			sensor.ImArg();
+
+			sensor.ImArg();//強制転流実行時のエンコーダ位置取得
 
 			float Vd_input = 0;
 			float Vq_input = 0.5f;
@@ -138,6 +143,8 @@ void HighFreqTask(void){
 			Vq_input = 0;
 			Vd_input = adc_speed;//連れ回し運転
 
+			//Debug.SetData((float)adc_data1, (float)adc_data2, (float)adc_data3, (float)sensor.getArg());
+
 			MotorPWMTask(Motor.getMathLib().radToSizeCount(sensor.getArg()), Vd_input, Vq_input);//暫定で作った関数
 		}
 /*	else
@@ -147,7 +154,7 @@ void HighFreqTask(void){
 }
 
 void BtnAct(void){//強制転流開始へのトリガ
-	ui_ctrl.BtnAct();
+	ui_ctrl.BtnAct(); // ON/OFFのトグルスイッチ　BtnActで動作、getStateで状態を読む
 	sensor.Start_Stop(ui_ctrl.getState());
 }
 

@@ -70,7 +70,7 @@ std::vector<float> MathLib::getCosList(void){
 	return mCosList;
 }
 
-int MathLib::radToSizeCount(float pradian){
+int MathLib::radToSizeCount(float pradian){//0~2piのラジアンを、0~mSizeに変換する
 	return pradian * mRadvsSize;
 }
 

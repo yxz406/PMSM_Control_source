@@ -1,3 +1,3 @@
-Src/ArgSensor.o: ../Src/ArgSensor.cpp ../Src/ArgSensor.hpp
+Src/ArgSensor.o: ../Src/ArgSensor.cpp ../Inc/ArgSensor.hpp
 
-../Src/ArgSensor.hpp:
+../Inc/ArgSensor.hpp:

@@ -10,6 +10,8 @@
  * UARTを簡単に叩けるClass
  * 余計な代入が多いからあまり早くはうごかない
  * (そもそもHALを利用したUARTのため、あまり早くならない)
+ *
+ * 嘘です、LLに対応しました。
  */
 
 
@@ -51,7 +53,7 @@ void UART::setString(std::string pStr){
 
 void UART::Transmit(void){
 	const char* str = mStr.c_str();
-	for(int i = 0; *(str + i) != '¥0'; i++){
+	for(int i = 0; *(str + i) != '/0'; i++){
 		LL_USART_TransmitData8(USART2, *(str + i));
 	}
 }
