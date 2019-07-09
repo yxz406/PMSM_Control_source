@@ -5,10 +5,19 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-void cpploop(void);
+//Init
+void ADC_Init(void);
+
+//Do
 void cppwrapper(void);
 void HighFreqTask(void);
 void BtnAct(void);
+void BtnActOFF(void);
+void BtnActON(void);
+void MotorPWMTask(void);
+
+void DebugTask(float pIu, float pIv, float pIw, float pArg);
+
 #ifdef __cplusplus
 };
 #endif

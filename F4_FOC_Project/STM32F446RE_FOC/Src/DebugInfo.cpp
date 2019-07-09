@@ -22,7 +22,7 @@
 #include "DebugInfo.hpp"
 #include <vector>
 
-SendMotorData::SendMotorData(float pIu, float pIv, float pIw,
+DebugInfo::SendMotorData::SendMotorData(float pIu, float pIv, float pIw,
 							float pIalpha, float pIbeta,
 							float pId, float pIq,
 							float pVu, float pVv, float pVw,
@@ -39,13 +39,13 @@ SendMotorData::SendMotorData(float pIu, float pIv, float pIw,
 	//constructor
 }
 
-SendMotorData::SendMotorData(float pIu, float pIv, float pIw, float pEArg)
+DebugInfo::SendMotorData::SendMotorData(float pIu, float pIv, float pIw, float pEArg)
 :mIu(pIu), mIv(pIv), mIw(pIw), mEArg(pEArg)
 {
 	//constructor
 }
 
-SendMotorData::~SendMotorData(){
+DebugInfo::SendMotorData::~SendMotorData(){
 	//destructor
 }
 
@@ -57,26 +57,15 @@ DebugInfo::~DebugInfo() {
 	// TODO Auto-generated destructor stub
 }
 
-
-void DebugInfo::SetData(float pIu, float pIv, float pIw, float pEArg)
-{
-	SendMotorData bufobject(pIu,pIv,pIw,pEArg);
-	mSendDataVect.push_back(bufobject);
+void DebugInfo::SetMotorData(DebugInfo::SendMotorData* pMotorData){
+	mSendDataVect.push_back(*pMotorData);
 }
 
-
-void DebugInfo::SetData(float pIu, float pIv, float pIw,
-						float pIalpha, float pIbeta,
-						float pId, float pIq,
-						float pVu, float pVv, float pVw,
-						float pValpha, float pVbeta,
-						float pVd, float pVq,
-						float pEArg)
-{
-	SendMotorData bufobject(pIu,pIv,pIw,pIalpha,pIbeta,pId,pIq,pVu,pVv,pVw,pValpha,pVbeta,pVd,pVq,pEArg);
-	mSendDataVect.push_back(bufobject);
-}
-
-std::vector<SendMotorData> DebugInfo::GetVect(void){
+//getter
+std::vector<DebugInfo::SendMotorData> DebugInfo::GetVect(void){
 	return mSendDataVect;
+}
+
+int DebugInfo::GetVectSize(void){
+	return mSendDataVect.size();
 }

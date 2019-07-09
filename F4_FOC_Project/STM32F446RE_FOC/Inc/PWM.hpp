@@ -25,6 +25,7 @@ public:
 	void Duty(int pDuty);
 	void fDuty(float pfDuty);//入力は0~1までの浮動小数点数
 	void f2Duty(float pfDuty);//入力は-1~1までの浮動小数点数
+	void Disable(void);//TIMを停止する。
 };
 
 #endif /* PWM_HPP_ */

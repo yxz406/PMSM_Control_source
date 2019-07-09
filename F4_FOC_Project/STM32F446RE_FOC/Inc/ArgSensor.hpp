@@ -11,6 +11,7 @@
 class ArgSensor {
 private:
 	float mArg;
+	float mArgOld;
 
 	bool mIsStart;
 	int mImArgcount;
@@ -23,6 +24,7 @@ public:
 	void increment(float pArg);
 	void decrement(float pArg);
 	float getArg(void);
+	float getArgOld(void);
 	void Start_Stop(bool pIsONState);
 	void ImArg(void);
 };

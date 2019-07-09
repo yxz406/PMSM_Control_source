@@ -10,55 +10,50 @@
 
 #include <vector>
 
-class SendMotorData{
-public:
-	float mIu;
-	float mIv;
-	float mIw;
-	float mIalpha;
-	float mIbeta;
-	float mId;
-	float mIq;
 
-	float mVu;
-	float mVv;
-	float mVw;
-	float mValpha;
-	float mVbeta;
-	float mVd;
-	float mVq;
-
-	float mEArg;
-
-	SendMotorData();
-	SendMotorData(float pIu, float pIv, float pIw, float pEArg);
-	SendMotorData(float pIu, float pIv, float pIw,
-					float pIalpha, float pIbeta,
-					float pId, float pIq,
-					float pVu, float pVv, float pVw,
-					float pValpha, float pVbeta,
-					float pVd, float pVq,
-					float pEArg);
-	virtual ~SendMotorData();
-};
 
 
 class DebugInfo {
+public:
+	class SendMotorData{
+	public:
+		float mIu;
+		float mIv;
+		float mIw;
+		float mIalpha;
+		float mIbeta;
+		float mId;
+		float mIq;
+
+		float mVu;
+		float mVv;
+		float mVw;
+		float mValpha;
+		float mVbeta;
+		float mVd;
+		float mVq;
+
+		float mEArg;
+
+		SendMotorData();
+		SendMotorData(float pIu, float pIv, float pIw, float pEArg);
+		SendMotorData(float pIu, float pIv, float pIw,
+						float pIalpha, float pIbeta,
+						float pId, float pIq,
+						float pVu, float pVv, float pVw,
+						float pValpha, float pVbeta,
+						float pVd, float pVq,
+						float pEArg);
+		virtual ~SendMotorData();
+	};
 private:
 	std::vector<SendMotorData> mSendDataVect;
 public:
 	DebugInfo();
 	virtual ~DebugInfo();
-	void SetData(float pIu, float pIv, float pIw, float pEArg);
-	void SetData(float pIu, float pIv, float pIw,
-				float pIalpha, float pIbeta,
-				float pId, float pIq,
-				float pVu, float pVv, float pVw,
-				float pValpha, float pVbeta,
-				float pVd, float pVq,
-				float pEArg);
-	void SetVector(void);
+	void SetMotorData(SendMotorData* pMotorData);
 	std::vector<SendMotorData> GetVect(void);
+	int GetVectSize(void);
 };
 
 

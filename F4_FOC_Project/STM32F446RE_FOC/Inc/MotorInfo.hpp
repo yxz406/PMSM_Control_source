@@ -41,6 +41,7 @@ public:
 	void setIu(float pIu);
 	void setIv(float pIv);
 	void setIw(float pIw);
+	void setIuvw(float pIu, float pIv, float pIw);
 
 	void setVu(float pVu);
 	void setVv(float pVv);

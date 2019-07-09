@@ -157,3 +157,7 @@ void PWM::f2Duty(float pfDuty){
 	int pDuty = (pfDuty + 1)/2 * (float)mTimReload;
 	WRITE_REG(*mREG, pDuty);
 }
+
+void PWM::Disable(void){
+	  LL_TIM_DisableARRPreload(mTIMx);
+}

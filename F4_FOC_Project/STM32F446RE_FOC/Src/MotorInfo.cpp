@@ -40,6 +40,12 @@ MathLib MotorInfo::getMathLib(void){return mLib;}
 void MotorInfo::setIu(float pIu){mIu=pIu;};
 void MotorInfo::setIv(float pIv){mIv=pIv;};
 void MotorInfo::setIw(float pIw){mIw=pIw;};
+void MotorInfo::setIuvw(float pIu, float pIv, float pIw){
+	mIu = pIu;
+	mIv = pIv;
+	mIw = pIw;
+}
+
 
 void MotorInfo::setVu(float pVu){mVu=pVu;};
 void MotorInfo::setVv(float pVv){mVv=pVv;};

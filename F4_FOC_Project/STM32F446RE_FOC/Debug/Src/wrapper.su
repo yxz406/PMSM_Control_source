@@ -8,17 +8,23 @@ stm32f4xx_ll_adc.h:4559:22:void LL_ADC_EnableIT_JEOS(ADC_TypeDef*)	16	static
 stm32f4xx_ll_gpio.h:882:22:void LL_GPIO_SetOutputPin(GPIO_TypeDef*, uint32_t)	16	static
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 basic_string.h:6439:3:std::__cxx11::string std::__cxx11::to_string(float)	40	static
-wrapper.cpp:46:6:void cpploop()	16	static
 PWM.hpp:14:7:PWM::PWM()	16	static
 MathLib.hpp:13:7:MathLib::MathLib(const MathLib&)	16	static
-wrapper.cpp:66:6:void cppwrapper()	88	static
-wrapper.cpp:106:6:void MotorPWMTask(int, float, float)	24	static
-wrapper.cpp:119:6:void HighFreqTask()	56	static
-wrapper.cpp:156:6:void BtnAct()	8	static
-wrapper.cpp:162:6:void ADC_Init()	8	static
-wrapper.cpp:173:6:void UARTTask(std::__cxx11::string)	128	static
+wrapper.cpp:59:6:void cppwrapper()	88	static
+wrapper.cpp:99:6:void MotorPWMTask(int, float, float)	24	static
+wrapper.cpp:113:6:void HighFreqTask()	72	static
+wrapper.cpp:151:6:void DebugTask(float, float, float, float)	264	static
+wrapper.cpp:198:6:void BtnAct()	8	static
+wrapper.cpp:203:6:void BtnActOFF()	8	static
+wrapper.cpp:208:6:void BtnActON()	8	static
+wrapper.cpp:213:6:void ADC_Init()	8	static
 string_conversions.h:99:5:) [with _String = std::__cxx11::basic_string<char>; _CharT = char]	52	dynamic
 stl_vector.h:326:7:std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = float; _Alloc = std::allocator<float>]	40	static
+stl_vector.h:563:7:std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::begin() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static
+stl_vector.h:581:7:std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::end() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static
+stl_iterator.h:880:5:bool __gnu_cxx::operator!=(const __gnu_cxx::__normal_iterator<_Iterator, _Container>&, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&) [with _Iterator = DebugInfo::SendMotorData*; _Container = std::vector<DebugInfo::SendMotorData>]	24	static
+stl_iterator.h:800:7:__gnu_cxx::__normal_iterator<_Iterator, _Container>& __gnu_cxx::__normal_iterator<_Iterator, _Container>::operator++() [with _Iterator = DebugInfo::SendMotorData*; _Container = std::vector<DebugInfo::SendMotorData>]	16	static
+stl_iterator.h:792:7:__gnu_cxx::__normal_iterator<_Iterator, _Container>::reference __gnu_cxx::__normal_iterator<_Iterator, _Container>::operator*() const [with _Iterator = DebugInfo::SendMotorData*; _Container = std::vector<DebugInfo::SendMotorData>]	16	static
 basic_string.h:604:9:std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(_InputIterator, _InputIterator, const _Alloc&) [with _InputIterator = char*; <template-parameter-2-2> = void; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	32	static
 stl_vector.h:670:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::size() const [with _Tp = float; _Alloc = std::allocator<float>]	16	static
 alloc_traits.h:94:19:static _Alloc __gnu_cxx::__alloc_traits<_Alloc>::_S_select_on_copy(const _Alloc&) [with _Alloc = std::allocator<float>]	16	static
@@ -29,6 +35,8 @@ stl_vector.h:572:7:std::vector<_Tp, _Alloc>::const_iterator std::vector<_Tp, _Al
 stl_vector.h:590:7:std::vector<_Tp, _Alloc>::const_iterator std::vector<_Tp, _Alloc>::end() const [with _Tp = float; _Alloc = std::allocator<float>]	24	static
 stl_vector.h:115:7:std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() [with _Tp = float; _Alloc = std::allocator<float>]	16	static
 stl_uninitialized.h:287:5:_ForwardIterator std::__uninitialized_copy_a(_InputIterator, _InputIterator, _ForwardIterator, std::allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const float*, std::vector<float> >; _ForwardIterator = float*; _Tp = float]	24	static
+stl_iterator.h:779:7:__gnu_cxx::__normal_iterator<_Iterator, _Container>::__normal_iterator(const _Iterator&) [with _Iterator = DebugInfo::SendMotorData*; _Container = std::vector<DebugInfo::SendMotorData>]	16	static
+stl_iterator.h:844:7:const _Iterator& __gnu_cxx::__normal_iterator<_Iterator, _Container>::base() const [with _Iterator = DebugInfo::SendMotorData*; _Container = std::vector<DebugInfo::SendMotorData>]	16	static
 basic_string.h:252:9:void std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::_M_construct(_InIterator, _InIterator) [with _InIterator = char*; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	32	static
 alloc_traits.h:504:7:static std::allocator_traits<std::allocator<_Tp1> >::allocator_type std::allocator_traits<std::allocator<_Tp1> >::select_on_container_copy_construction(const allocator_type&) [with _Tp = float]	16	static
 allocator.h:133:7:std::allocator< <template-parameter-1-1> >::allocator(const std::allocator< <template-parameter-1-1> >&) [with _Tp = float]	16	static
@@ -57,6 +65,6 @@ stl_algobase.h:277:5:_Iterator std::__niter_base(_Iterator) [with _Iterator = fl
 stl_algobase.h:375:5:_OI std::__copy_move_a(_II, _II, _OI) [with bool _IsMove = false; _II = const float*; _OI = float*]	32	static
 stl_iterator.h:844:7:const _Iterator& __gnu_cxx::__normal_iterator<_Iterator, _Container>::base() const [with _Iterator = const float*; _Container = std::vector<float>]	16	static
 stl_algobase.h:357:9:static _Tp* std::__copy_move<_IsMove, true, std::random_access_iterator_tag>::__copy_m(const _Tp*, const _Tp*, _Tp*) [with _Tp = float; bool _IsMove = false]	32	static
-wrapper.cpp:183:1:void __static_initialization_and_destruction_0(int, int)	16	static
-wrapper.cpp:183:1:cpp)	8	static
-wrapper.cpp:183:1:cpp)	8	static
+wrapper.cpp:221:1:void __static_initialization_and_destruction_0(int, int)	16	static
+wrapper.cpp:221:1:cpp)	8	static
+wrapper.cpp:221:1:cpp)	8	static

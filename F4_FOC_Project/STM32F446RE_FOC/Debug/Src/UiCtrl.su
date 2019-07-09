@@ -2,4 +2,6 @@ UiCtrl.cpp:21:1:UiCtrl::UiCtrl()	16	static
 UiCtrl.cpp:26:1:UiCtrl::~UiCtrl()	16	static
 UiCtrl.cpp:26:1:virtual UiCtrl::~UiCtrl()	16	static
 UiCtrl.cpp:30:6:void UiCtrl::BtnAct()	16	static
-UiCtrl.cpp:38:6:bool UiCtrl::getState()	16	static
+UiCtrl.cpp:38:6:void UiCtrl::BtnActOFF()	16	static
+UiCtrl.cpp:42:6:void UiCtrl::BtnActON()	16	static
+UiCtrl.cpp:47:6:bool UiCtrl::getState()	16	static

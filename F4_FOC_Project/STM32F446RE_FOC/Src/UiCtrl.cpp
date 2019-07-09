@@ -35,4 +35,13 @@ void UiCtrl::BtnAct(){
 	}
 }
 
+void UiCtrl::BtnActOFF(){
+	isONBtnState = false;//問答無用でoffにするタスク
+}
+
+void UiCtrl::BtnActON(){
+	isONBtnState = true;//問答無用でonにするタスク
+}
+
+
 bool UiCtrl::getState(void){return isONBtnState;}

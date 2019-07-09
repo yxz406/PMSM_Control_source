@@ -12,6 +12,8 @@
  * (そもそもHALを利用したUARTのため、あまり早くならない)
  *
  * 嘘です、LLに対応しました。
+ *
+ * いろいろな叩き方ができるようには一応してあるつもり。
  */
 
 
@@ -42,8 +44,19 @@ UART::UART() {
 	mTimeout = 1000;
 }
 
+UART::UART(int pTimeout) : mTimeout(pTimeout) {}
+
 UART::~UART() {
 	// TODO Auto-generated destructor stub
+}
+
+UART::UART(std::string pStr, int pTimeout)
+:mStr(pStr), mTimeout(pTimeout)
+{
+	const char* str = mStr.c_str();
+	for(int i = 0; *(str + i) != '/0'; i++){
+		LL_USART_TransmitData8(USART2, *(str + i));
+	}
 }
 
 void UART::setString(std::string pStr){
@@ -57,6 +70,15 @@ void UART::Transmit(void){
 		LL_USART_TransmitData8(USART2, *(str + i));
 	}
 }
+
+void UART::Transmit(std::string	pStr){
+	mStr = pStr;
+	const char* str = mStr.c_str();
+	for(int i = 0; *(str + i) != '/0'; i++){
+		LL_USART_TransmitData8(USART2, *(str + i));
+	}
+}
+
 
 //HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout)
 //{

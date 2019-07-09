@@ -1,7 +1,10 @@
 stm32f4xx_ll_usart.h:2425:22:void LL_USART_TransmitData8(USART_TypeDef*, uint8_t)	16	static
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-UART.cpp:39:1:UART::UART()	16	static
-UART.cpp:45:1:UART::~UART()	16	static
-UART.cpp:45:1:virtual UART::~UART()	16	static
-UART.cpp:49:6:void UART::setString(std::__cxx11::string)	16	static
-UART.cpp:54:6:void UART::Transmit()	24	static
+UART.cpp:41:1:UART::UART()	16	static
+UART.cpp:47:1:UART::UART(int)	16	static
+UART.cpp:49:1:UART::~UART()	16	static
+UART.cpp:49:1:virtual UART::~UART()	16	static
+UART.cpp:53:1:UART::UART(std::__cxx11::string, int)	32	static
+UART.cpp:62:6:void UART::setString(std::__cxx11::string)	16	static
+UART.cpp:67:6:void UART::Transmit()	24	static
+UART.cpp:74:6:void UART::Transmit(std::__cxx11::string)	24	static

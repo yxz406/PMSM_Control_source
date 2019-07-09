@@ -35,41 +35,36 @@
 
 #include "DebugInfo.hpp"
 
-uint16_t adc_data1 = 0, adc_data2 = 0, adc_data3 = 0, adc_data4 = 0;
+//動作パラメータを設定するファイルを別にする。
+bool isDebugMode = false;
+//bool isDebugMode = true;
+unsigned int debugCount = 720;
 
-void vectorInit(std::vector<int> *pVector);//プロトタイプ宣言
-void ADCReInit(void);
-void ADC_Init(void);
-void UARTTask(std::string pStr);
-void MotorPWMTask(void);
 
-void cpploop(void) {//遊びクラス
-    LedBlink instance;
-    instance.toggle();
-}
-
-//割り込み内部からも叩けるように、これらマイコン内臓の機能を叩くClassの
-//グローバルオブジェクトを生成する。
-MotorInfo Motor; //モータの電圧・電流等を管理、及び座標変換のClass
-
+//全てのWrappr関数で叩けるGlobal Object
+//System Class
 PWM PWM_Object1; //PWMのHWを叩くClass
 PWM PWM_Object2;
 PWM PWM_Object3;
 PWM PWM_Object4;
+UART uartob;
 
+//Process Class
+MotorInfo Motor; //モータの電圧・電流等を管理、及び座標変換のClass
 ArgSensor sensor; //角度を求める機能を持ったclass
-
 UiCtrl ui_ctrl; //UI入力を処理するclass
-
 DebugInfo Debug;//デバッグ情報かき集め
 
+
 void cppwrapper(void){
-	MathLib mathlibrary;//三角関数を取得
-	int mathlib_size = 512;//ライブラリのサイズを指定
-	mathlibrary.fInit(mathlib_size);
+	{//MathLibの生存時間調整(メモリ空けてくれ!!)
+		MathLib mathlibrary;//三角関数を取得
+		int mathlib_size = 512;//ライブラリのサイズを指定
+		mathlibrary.fInit(mathlib_size);
+		Motor.setMathLib(mathlibrary);//モータクラスに算術ライブラリを渡す
+	}
 
-	Motor.setMathLib(mathlibrary);//モータクラスに算術ライブラリを渡す
-
+	//LL_TIM_DisableBRK(TIM1);//こっちは未検証
 	//LL_TIM_DisableIT_BRK(TIM1);//効かない
 
 	PWM_Object1.setTIM(TIM1);
@@ -87,7 +82,6 @@ void cppwrapper(void){
 	PWM_Object3.fInit(4000);
 	PWM_Object4.fInit(4000);
 
-
 	PWM_Object1.f2Duty(0);//50%duty
 	PWM_Object2.f2Duty(0);
 	PWM_Object3.f2Duty(0);
@@ -99,8 +93,7 @@ void cppwrapper(void){
 
 	ADC_Init();
 
-	while(1){
-	}
+	while(1){}
 }
 
 void MotorPWMTask(int pArg, float pVd, float pVq){//パラメータの物理量は将来的に変える
@@ -116,36 +109,38 @@ void MotorPWMTask(int pArg, float pVd, float pVq){//パラメータの物理量�
 	PWM_Object3.f2Duty(Motor.getVw());
 }
 
+
 void HighFreqTask(void){
 
 	if (LL_ADC_IsActiveFlag_JEOS(ADC1) == 1)
 		{
 			LL_ADC_ClearFlag_JEOS(ADC1);
-			adc_data1 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
-			adc_data2 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
-			adc_data3 = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
 
-			//位置センサを叩くTask
-//			LL_ADC_REG_StartConversionSWStart(ADC3);//ADC3を叩くためにはこれ
-//			float adc_gain = (float)LL_ADC_REG_ReadConversionData12(ADC3)/4095;
+			//エンコーダ読み取り
+			float Iu,Iv,Iw;
+			//増幅率のバイアス考慮してない。あとで計算すること。
+			Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1)/4095;
+			Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2)/4095;
+			Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3)/4095;
+			Motor.setIuvw(Iu, Iv, Iw);
 
-			//float one_step = (float)2*M_PI / Motor.getMathLib().getLibSize();//手動インクリ用
-			//sensor.increment(one_step);
-
+			//位置センサを叩く
 			sensor.ImArg();//強制転流実行時のエンコーダ位置取得
 
+			//指令値入力
 			float Vd_input = 0;
 			float Vq_input = 0.5f;
-
 			LL_ADC_REG_StartConversionSWStart(ADC2);
 			float adc_speed = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4095;
-
 			Vq_input = 0;
 			Vd_input = adc_speed;//連れ回し運転
 
-			//Debug.SetData((float)adc_data1, (float)adc_data2, (float)adc_data3, (float)sensor.getArg());
-
+			//PWM出力
 			MotorPWMTask(Motor.getMathLib().radToSizeCount(sensor.getArg()), Vd_input, Vq_input);//暫定で作った関数
+
+			if(isDebugMode){
+			DebugTask(Iu, Iv, Iw, sensor.getArg());
+			}
 		}
 /*	else
 		{
@@ -153,11 +148,67 @@ void HighFreqTask(void){
 		}*/
 }
 
-void BtnAct(void){//強制転流開始へのトリガ
-	ui_ctrl.BtnAct(); // ON/OFFのトグルスイッチ　BtnActで動作、getStateで状態を読む
+void DebugTask(float pIu, float pIv, float pIw, float pArg){
+	//他のclass内に持って行く時には、UARTとかDebugのクラスを渡さないとダメかも。
+	//Wrapperが持つ関数にしてしまうのが一番うまく行くと思った。
+
+	Debug.SetMotorData(new DebugInfo::SendMotorData(pIu,pIv,pIw,pArg));//デバッグの種類増やしたい時はここで変えてね
+	unsigned int VectCount = Debug.GetVectSize();//Debug用にブチ込んだデータの個数
+	if(VectCount < debugCount){
+		//モータ停止の動作
+		BtnActOFF();
+		//モータ停止を確認する動作
+		if(sensor.getArg() == sensor.getArgOld()){
+			//タイマ停止する動作(何回もこれ呼ばれちゃうから)
+			PWM_Object1.Disable();
+			PWM_Object2.Disable();
+			PWM_Object3.Disable();
+			PWM_Object4.Disable();
+			//UARTで転送する動作
+			std::vector<DebugInfo::SendMotorData> vectorbuf = Debug.GetVect();
+			for(const auto& num : vectorbuf){
+				std::string strbuf;
+
+				strbuf.append(std::to_string(num.mIu));
+				strbuf.append(",");
+				strbuf.append(std::to_string(num.mIv));
+				strbuf.append(",");
+				strbuf.append(std::to_string(num.mIw));
+				strbuf.append(",");
+				strbuf.append(std::to_string(num.mEArg));
+				strbuf.append(",");
+#ifdef Debug_alpha_beta //ifdefじゃなくてパラメタのヘッダを持たせるべきか。
+				strbuf.append(std::to_string(num.mIalpha));
+				strbuf.append(",");
+				strbuf.append(std::to_string(num.mIbeta));
+				strbuf.append(",");
+#endif
+				strbuf.append(std::to_string(num.mId));
+				strbuf.append(",");
+				strbuf.append(std::to_string(num.mIq));
+				strbuf.append("/n");
+				uartob.Transmit(strbuf);
+			}
+			while(1){}//ここで止める？要検討
+		}
+	}
+	//暫定で作る
+}
+
+void BtnAct(void){//強制転流開始へのトリガ 割り込みから叩くためにここでラッパする
+	ui_ctrl.BtnAct(); // ON/OFFのトグルスイッチ　BtnActで書き込み、getStateで状態を読む
 	sensor.Start_Stop(ui_ctrl.getState());
 }
 
+void BtnActOFF(void){//強制転流開始へのトリガOFF 割り込みから叩かないから本来UiCtrlで定義するべき
+	ui_ctrl.BtnActOFF(); // OFFのスイッチ　BtnActOFFで書き込み、getStateで状態を読む
+	sensor.Start_Stop(ui_ctrl.getState());
+}
+
+void BtnActON(void){//強制転流開始へのトリガON 予備で作ってある。使うかは不明
+	ui_ctrl.BtnActON(); // ONのトグルスイッチ　BtnActONで書き込み、getStateで状態を読む
+	sensor.Start_Stop(ui_ctrl.getState());
+}
 
 void ADC_Init()
 {
@@ -168,19 +219,3 @@ void ADC_Init()
     LL_ADC_ClearFlag_JEOS( ADC1 );
     LL_ADC_EnableIT_JEOS( ADC1 );
 }
-
-
-void UARTTask(std::string pStr){
-	//以下工事中
-
-	float num = 0.345345f;
-	std::string Str;
-	Str += "number:";
-	Str +=  std::to_string(num);
-	UART uartob;
-	uartob.setString(Str);
-	uartob.Transmit();
-}
-
-
-

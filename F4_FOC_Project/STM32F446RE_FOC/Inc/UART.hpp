@@ -17,9 +17,12 @@ private:
 	int mTimeout;
 public:
 	UART();
+	UART(int pTimeout);
+	UART(std::string pStr, int pTimeout);
 	virtual ~UART();
 	void setString(std::string pStr);
 	void Transmit(void);
+	void Transmit(std::string pStr);
 };
 
 #endif /* UART_HPP_ */

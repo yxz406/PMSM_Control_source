@@ -26,21 +26,28 @@ ArgSensor::~ArgSensor() {
 }
 
 void ArgSensor::Init(void) {
+	mArgOld = 0;
 	mArg = 0;
 }
 
 void ArgSensor::increment(float pArg){
+	mArgOld = mArg;
 	mArg = mArg + pArg + (2*M_PI);
 	mArg = fmodl(mArg, (2*M_PI));
 }
 
 void ArgSensor::decrement(float pArg){
+	mArgOld = mArg;
 	mArg = mArg - pArg + (2*M_PI);
 	mArg = fmodl(mArg, (2*M_PI));
 }
 
 float ArgSensor::getArg(void){
 	return mArg;
+}
+
+float ArgSensor::getArgOld(void){
+	return mArgOld;
 }
 
 void ArgSensor::Start_Stop(bool pIsONState){
@@ -54,6 +61,7 @@ void ArgSensor::ImArg(void){
 			//mImArgcount = 25;
 		}
 		mCalcArg = mImArgcount*0.0000125f*M_PI;//進む差分角
+		mArgOld = mArg;
 		mArg = mArg + mCalcArg + (2*M_PI);
 		mArg = fmodl(mArg, (2*M_PI));
 
@@ -62,6 +70,7 @@ void ArgSensor::ImArg(void){
 			mImArgcount--;
 		}
 		mCalcArg = mImArgcount*0.0000125f*M_PI;
+		mArgOld = mArg;
 		mArg = mArg + mCalcArg + (2*M_PI);
 		mArg = fmodl(mArg, (2*M_PI));
 	}
