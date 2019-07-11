@@ -14,6 +14,8 @@ private:
 	float mArgOld;
 
 	bool mIsStart;
+	bool mIsAccelerating;
+
 	int mImArgcount;
 	float mCalcArg;
 public:
@@ -26,6 +28,8 @@ public:
 	float getArg(void);
 	float getArgOld(void);
 	void Start_Stop(bool pIsONState);
+	bool GetIsAccelerating(void);
+
 	void ImArg(void);
 };
 

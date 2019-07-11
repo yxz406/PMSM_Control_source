@@ -40,6 +40,7 @@ bool isDebugMode = false;
 //bool isDebugMode = true;
 unsigned int debugCount = 720;
 
+bool DebugStartTrig(void);//bool型のhedder宣言ができないかもしれない。どうしよう。
 
 //全てのWrappr関数で叩けるGlobal Object
 //System Class
@@ -138,14 +139,25 @@ void HighFreqTask(void){
 			//PWM出力
 			MotorPWMTask(Motor.getMathLib().radToSizeCount(sensor.getArg()), Vd_input, Vq_input);//暫定で作った関数
 
-			if(isDebugMode){
-			DebugTask(Iu, Iv, Iw, sensor.getArg());
+			if(isDebugMode){//デバッグモードで入る処理
+				if(DebugStartTrig()){//起動後停止の確認処理
+					DebugTask(Iu, Iv, Iw, sensor.getArg());
+				}
 			}
 		}
 /*	else
 		{
 			LL_ADC_WriteReg(ADC1,ISR,0);
 		}*/
+}
+
+bool DebugStartTrig(void){
+	if(ui_ctrl.getState()){
+		if(!sensor.GetIsAccelerating()){
+			return true;
+		}
+	}
+	return false;
 }
 
 void DebugTask(float pIu, float pIv, float pIw, float pArg){
@@ -189,7 +201,7 @@ void DebugTask(float pIu, float pIv, float pIw, float pArg){
 				strbuf.append("/n");
 				uartob.Transmit(strbuf);
 			}
-			while(1){}//ここで止める？要検討
+			//while(1){}//ここで止める？要検討
 		}
 	}
 	//暫定で作る

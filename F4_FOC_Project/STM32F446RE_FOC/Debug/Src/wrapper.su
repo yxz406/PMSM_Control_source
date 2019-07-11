@@ -10,16 +10,18 @@ gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 basic_string.h:6439:3:std::__cxx11::string std::__cxx11::to_string(float)	40	static
 PWM.hpp:14:7:PWM::PWM()	16	static
 MathLib.hpp:13:7:MathLib::MathLib(const MathLib&)	16	static
-wrapper.cpp:59:6:void cppwrapper()	88	static
-wrapper.cpp:99:6:void MotorPWMTask(int, float, float)	24	static
-wrapper.cpp:113:6:void HighFreqTask()	72	static
-wrapper.cpp:151:6:void DebugTask(float, float, float, float)	264	static
-wrapper.cpp:198:6:void BtnAct()	8	static
-wrapper.cpp:203:6:void BtnActOFF()	8	static
-wrapper.cpp:208:6:void BtnActON()	8	static
-wrapper.cpp:213:6:void ADC_Init()	8	static
+wrapper.cpp:60:6:void cppwrapper()	88	static
+wrapper.cpp:100:6:void MotorPWMTask(int, float, float)	24	static
+wrapper.cpp:114:6:void HighFreqTask()	72	static
+wrapper.cpp:154:6:bool DebugStartTrig()	8	static
+wrapper.cpp:163:6:void DebugTask(float, float, float, float)	264	static
+wrapper.cpp:210:6:void BtnAct()	8	static
+wrapper.cpp:215:6:void BtnActOFF()	8	static
+wrapper.cpp:220:6:void BtnActON()	8	static
+wrapper.cpp:225:6:void ADC_Init()	8	static
 string_conversions.h:99:5:) [with _String = std::__cxx11::basic_string<char>; _CharT = char]	52	dynamic
 stl_vector.h:326:7:std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = float; _Alloc = std::allocator<float>]	40	static
+stl_vector.h:433:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static
 stl_vector.h:563:7:std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::begin() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static
 stl_vector.h:581:7:std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::end() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static
 stl_iterator.h:880:5:bool __gnu_cxx::operator!=(const __gnu_cxx::__normal_iterator<_Iterator, _Container>&, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&) [with _Iterator = DebugInfo::SendMotorData*; _Container = std::vector<DebugInfo::SendMotorData>]	24	static
@@ -35,6 +37,10 @@ stl_vector.h:572:7:std::vector<_Tp, _Alloc>::const_iterator std::vector<_Tp, _Al
 stl_vector.h:590:7:std::vector<_Tp, _Alloc>::const_iterator std::vector<_Tp, _Alloc>::end() const [with _Tp = float; _Alloc = std::allocator<float>]	24	static
 stl_vector.h:115:7:std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() [with _Tp = float; _Alloc = std::allocator<float>]	16	static
 stl_uninitialized.h:287:5:_ForwardIterator std::__uninitialized_copy_a(_InputIterator, _InputIterator, _ForwardIterator, std::allocator<_Tp>&) [with _InputIterator = __gnu_cxx::__normal_iterator<const float*, std::vector<float> >; _ForwardIterator = float*; _Tp = float]	24	static
+stl_vector.h:81:14:std::_Vector_base<DebugInfo::SendMotorData, std::allocator<DebugInfo::SendMotorData> >::_Vector_impl::~_Vector_impl()	16	static
+stl_vector.h:161:7:std::_Vector_base<_Tp, _Alloc>::~_Vector_base() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	16	static
+stl_vector.h:115:7:std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	16	static
+stl_construct.h:203:5:void std::_Destroy(_ForwardIterator, _ForwardIterator, std::allocator<_T2>&) [with _ForwardIterator = DebugInfo::SendMotorData*; _Tp = DebugInfo::SendMotorData]	24	static
 stl_iterator.h:779:7:__gnu_cxx::__normal_iterator<_Iterator, _Container>::__normal_iterator(const _Iterator&) [with _Iterator = DebugInfo::SendMotorData*; _Container = std::vector<DebugInfo::SendMotorData>]	16	static
 stl_iterator.h:844:7:const _Iterator& __gnu_cxx::__normal_iterator<_Iterator, _Container>::base() const [with _Iterator = DebugInfo::SendMotorData*; _Container = std::vector<DebugInfo::SendMotorData>]	16	static
 basic_string.h:252:9:void std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::_M_construct(_InIterator, _InIterator) [with _InIterator = char*; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	32	static
@@ -45,13 +51,22 @@ stl_vector.h:92:2:std::_Vector_base<_Tp, _Alloc>::_Vector_impl::_Vector_impl(con
 stl_vector.h:185:7:void std::_Vector_base<_Tp, _Alloc>::_M_create_storage(std::size_t) [with _Tp = float; _Alloc = std::allocator<float>]	16	static
 stl_iterator.h:779:7:__gnu_cxx::__normal_iterator<_Iterator, _Container>::__normal_iterator(const _Iterator&) [with _Iterator = const float*; _Container = std::vector<float>]	16	static
 stl_uninitialized.h:115:5:_ForwardIterator std::uninitialized_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const float*, std::vector<float> >; _ForwardIterator = float*]	32	static
+allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = DebugInfo::SendMotorData]	16	static
+stl_vector.h:176:7:void std::_Vector_base<_Tp, _Alloc>::_M_deallocate(std::_Vector_base<_Tp, _Alloc>::pointer, std::size_t) [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static
+stl_construct.h:127:5:void std::_Destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = DebugInfo::SendMotorData*]	16	static
 basic_string.h:232:9:void std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::_M_construct_aux(_InIterator, _InIterator, std::__false_type) [with _InIterator = char*; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	40	static
 new_allocator.h:81:7:__gnu_cxx::new_allocator<_Tp>::new_allocator(const __gnu_cxx::new_allocator<_Tp>&) [with _Tp = float]	16	static
 stl_vector.h:169:7:std::_Vector_base<_Tp, _Alloc>::pointer std::_Vector_base<_Tp, _Alloc>::_M_allocate(std::size_t) [with _Tp = float; _Alloc = std::allocator<float>]	16	static
 stl_uninitialized.h:99:9:static _ForwardIterator std::__uninitialized_copy<true>::__uninit_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const float*, std::vector<float> >; _ForwardIterator = float*]	24	static
+new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = DebugInfo::SendMotorData]	16	static
+alloc_traits.h:461:7:static void std::allocator_traits<std::allocator<_Tp1> >::deallocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::pointer, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = DebugInfo::SendMotorData]	24	static
+move.h:47:5:constexpr _Tp* std::__addressof(_Tp&) [with _Tp = DebugInfo::SendMotorData]	16	static
+stl_construct.h:105:9:static void std::_Destroy_aux<<anonymous> >::__destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = DebugInfo::SendMotorData*; bool <anonymous> = false]	16	static
 basic_string.tcc:206:7:void std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::_M_construct(_InIterator, _InIterator, std::forward_iterator_tag) [with _FwdIterator = char*; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]	32	static
 alloc_traits.h:435:7:static _Tp* std::allocator_traits<std::allocator<_Tp1> >::allocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = float]	16	static
 stl_algobase.h:446:5:_OI std::copy(_II, _II, _OI) [with _II = __gnu_cxx::__normal_iterator<const float*, std::vector<float> >; _OI = float*]	32	static
+new_allocator.h:116:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(__gnu_cxx::new_allocator<_Tp>::pointer, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = DebugInfo::SendMotorData]	24	static
+stl_construct.h:97:5:void std::_Destroy(_Tp*) [with _Tp = DebugInfo::SendMotorData]	16	static
 type_traits.h:152:5:bool __gnu_cxx::__is_null_pointer(_Type*) [with _Type = char]	16	static
 stl_iterator_base_types.h:205:5:constexpr typename std::iterator_traits<_Iterator>::iterator_category std::__iterator_category(const _Iter&) [with _Iter = char*]	16	static
 stl_iterator_base_funcs.h:138:5:typename std::iterator_traits<_Iterator>::difference_type std::distance(_InputIterator, _InputIterator) [with _InputIterator = char*]	32	static
@@ -65,6 +80,6 @@ stl_algobase.h:277:5:_Iterator std::__niter_base(_Iterator) [with _Iterator = fl
 stl_algobase.h:375:5:_OI std::__copy_move_a(_II, _II, _OI) [with bool _IsMove = false; _II = const float*; _OI = float*]	32	static
 stl_iterator.h:844:7:const _Iterator& __gnu_cxx::__normal_iterator<_Iterator, _Container>::base() const [with _Iterator = const float*; _Container = std::vector<float>]	16	static
 stl_algobase.h:357:9:static _Tp* std::__copy_move<_IsMove, true, std::random_access_iterator_tag>::__copy_m(const _Tp*, const _Tp*, _Tp*) [with _Tp = float; bool _IsMove = false]	32	static
-wrapper.cpp:221:1:void __static_initialization_and_destruction_0(int, int)	16	static
-wrapper.cpp:221:1:cpp)	8	static
-wrapper.cpp:221:1:cpp)	8	static
+wrapper.cpp:233:1:void __static_initialization_and_destruction_0(int, int)	16	static
+wrapper.cpp:233:1:cpp)	8	static
+wrapper.cpp:233:1:cpp)	8	static

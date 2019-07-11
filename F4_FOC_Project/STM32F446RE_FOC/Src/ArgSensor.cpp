@@ -54,11 +54,18 @@ void ArgSensor::Start_Stop(bool pIsONState){
 		mIsStart = pIsONState;
 }
 
+bool ArgSensor::GetIsAccelerating(void){
+	return mIsAccelerating;
+}
+
 void ArgSensor::ImArg(void){
 	if(mIsStart){
 		if(mImArgcount < 25000){
 			mImArgcount++;
 			//mImArgcount = 25;
+			mIsAccelerating = true;
+		} else {
+			mIsAccelerating = false;
 		}
 		mCalcArg = mImArgcount*0.0000125f*M_PI;//進む差分角
 		mArgOld = mArg;
@@ -68,6 +75,9 @@ void ArgSensor::ImArg(void){
 	} else {
 		if(mImArgcount > 0){
 			mImArgcount--;
+			mIsAccelerating = true;
+		} else {
+			mIsAccelerating = false;
 		}
 		mCalcArg = mImArgcount*0.0000125f*M_PI;
 		mArgOld = mArg;

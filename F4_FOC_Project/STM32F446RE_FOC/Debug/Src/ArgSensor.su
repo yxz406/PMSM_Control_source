@@ -7,4 +7,5 @@ ArgSensor.cpp:39:6:void ArgSensor::decrement(float)	24	static
 ArgSensor.cpp:45:7:float ArgSensor::getArg()	16	static
 ArgSensor.cpp:49:7:float ArgSensor::getArgOld()	16	static
 ArgSensor.cpp:53:6:void ArgSensor::Start_Stop(bool)	16	static
-ArgSensor.cpp:57:6:void ArgSensor::ImArg()	24	static
+ArgSensor.cpp:57:6:bool ArgSensor::GetIsAccelerating()	16	static
+ArgSensor.cpp:61:6:void ArgSensor::ImArg()	24	static
