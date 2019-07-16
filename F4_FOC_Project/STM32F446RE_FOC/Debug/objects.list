@@ -28,6 +28,7 @@
 "Src/LedBlink.o"
 "Src/MathLib.o"
 "Src/MotorInfo.o"
+"Src/PID.o"
 "Src/PWM.o"
 "Src/UART.o"
 "Src/UiCtrl.o"

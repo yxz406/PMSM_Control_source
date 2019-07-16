@@ -32,6 +32,7 @@
 #include "MotorInfo.hpp"
 #include "ArgSensor.hpp"
 #include "UiCtrl.hpp"
+#include "PID.hpp"
 
 #include "DebugInfo.hpp"
 
@@ -53,6 +54,8 @@ UART uartob;
 //Process Class
 MotorInfo Motor; //モータの電圧・電流等を管理、及び座標変換のClass
 ArgSensor sensor; //角度を求める機能を持ったclass
+PID IqPID;
+PID IdPID;
 UiCtrl ui_ctrl; //UI入力を処理するclass
 DebugInfo Debug;//デバッグ情報かき集め
 
@@ -64,6 +67,9 @@ void cppwrapper(void){
 		mathlibrary.fInit(mathlib_size);
 		Motor.setMathLib(mathlibrary);//モータクラスに算術ライブラリを渡す
 	}
+
+	IdPID.SetParam(0.5, 0.1, 0);
+	IqPID.SetParam(0.5, 0.1, 0);
 
 	//LL_TIM_DisableBRK(TIM1);//こっちは未検証
 	//LL_TIM_DisableIT_BRK(TIM1);//効かない
@@ -100,6 +106,7 @@ void cppwrapper(void){
 void MotorPWMTask(int pArg, float pVd, float pVq){//パラメータの物理量は将来的に変える
 	//int mathlib_size = Motor.getMathLib().getLibSize();
 	Motor.setArg(pArg);
+	//Motor.setArgDelta(parg);//ここで誤差Δθを入力すること。
 	Motor.setVd(pVd);
 	Motor.setVq(pVq);
 	Motor.invClarkTransform();
@@ -125,12 +132,32 @@ void HighFreqTask(void){
 			Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3)/4095;
 			Motor.setIuvw(Iu, Iv, Iw);
 
+			//Iuvw -> Idqに変換 (Park,Clark変換)
+			Motor.parkTransform();
+			Motor.clarkTransform();
+
+			float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
+			Id = Motor.getId();
+			Iq = Motor.getIq();
+
+			//推定誤差計算
+
+			//推定位置反映
+
 			//位置センサを叩く
 			sensor.ImArg();//強制転流実行時のエンコーダ位置取得
 
 			//指令値入力
 			float Vd_input = 0;
 			float Vq_input = 0.5f;
+
+			//Id,IqのPID制御 //別関数に引っ越しした方が綺麗かもしれない。
+			IdPID.ErrorUpdate(0);
+			//IdPID.ErrorAndTimeUpdate(0, pSampleTime);//こちらを使うべき　推奨
+			IqPID.ErrorUpdate(0);
+			//IqPID.ErrorAndTimeUpdate(0, 0);
+
+			//IO入力?
 			LL_ADC_REG_StartConversionSWStart(ADC2);
 			float adc_speed = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4095;
 			Vq_input = 0;
@@ -172,6 +199,12 @@ void DebugTask(float pIu, float pIv, float pIw, float pArg){
 		//モータ停止を確認する動作
 		if(sensor.getArg() == sensor.getArgOld()){
 			//タイマ停止する動作(何回もこれ呼ばれちゃうから)
+
+			PWM_Object1.f2Duty(0);//50%duty
+			PWM_Object2.f2Duty(0);
+			PWM_Object3.f2Duty(0);
+			PWM_Object4.f2Duty(0);
+
 			PWM_Object1.Disable();
 			PWM_Object2.Disable();
 			PWM_Object3.Disable();

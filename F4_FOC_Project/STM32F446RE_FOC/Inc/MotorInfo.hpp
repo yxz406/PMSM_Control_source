@@ -19,6 +19,8 @@ private:
 	float mIbeta;
 	float mId;
 	float mIq;
+	float mIganma;
+	float mIdelta;
 
 	float mVu;
 	float mVv;
@@ -27,9 +29,12 @@ private:
 	float mVbeta;
 	float mVd;
 	float mVq;
+	float mVganma;
+	float mVdelta;
 
 	MathLib mLib;
 	int marg;
+	int marg_delta;
 
 public:
 	MotorInfo();
@@ -48,18 +53,23 @@ public:
 	void setVw(float pVw);
 
 	void setArg(int parg);
+	void setArgDelta(int parg);
 
 	void parkTransform(void);
 	void clarkTransform(void);
+	void clarkGanmaDelta(void);
 
-	void PID(void);
+	void PID(void);//ここでPID使う？？ライブラリインクルード必要だよね？
 
 	void setVd(float pVd);//強制転流用
 	void setVq(float pVq);
 
+	void invClarkGanmaDelta(void);
 	void invClarkTransform(void);
 	void invParkTransform(void);
 
+	float getIganma(void);
+	float getIdelta(void);
 	float getId(void);
 	float getIq(void);
 	float getVd(void);

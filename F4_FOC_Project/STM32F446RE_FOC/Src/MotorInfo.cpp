@@ -15,6 +15,34 @@
  */
 
 
+/*
+ * 角度の向きについて
+ *
+
+β         d
+*        *
+*       *
+*      *
+*     *                     γ
+*    *                     *
+*   * Δθ →           *
+*  *           *
+* * 　←↑  *      ↑
+***  θ(dq)　　　　θ(γδ)
+* * * * * * * * * * * * * α
+
+* Define
+* αβ軸とdq軸のなす角を、反時計回りを正として、θ(dq)とする。
+* dq軸に対するγδ軸の遅れを、時計回りを正として、Δθとする。
+* αβ軸とγδ軸のなす角を、反時計回りを正として、θ(γδ)とする。
+*
+* Theorem
+* これより、θ(γδ) = θ(dq) + Δθ
+* を得る.
+*
+* */
+
+
 #include "MotorInfo.hpp"
 #include "Mathlib.hpp"
 
@@ -55,24 +83,38 @@ void MotorInfo::setArg(int parg){
 	marg = parg;
 }
 
+void MotorInfo::setArgDelta(int parg){
+	marg_delta = parg;
+}
+
 void MotorInfo::parkTransform(void){
 	mIalpha = mIu - (mIv + mIw)/2;
 	mIbeta = (mIv - mIw)* 1.7320508f/2;
 };
 
-void MotorInfo::clarkTransform(void){
+void MotorInfo::clarkTransform(void){//反時計回り回転
 	mId =  mLib.getCosList().at(marg) * mIalpha + mLib.getSinList().at(marg) * mIbeta;
 	mIq = -mLib.getSinList().at(marg) * mIalpha + mLib.getCosList().at(marg) * mIbeta;
 };
+
+void MotorInfo::clarkGanmaDelta(void){//時計回り回転
+	mIganma = mLib.getCosList().at(marg) * mId - mLib.getSinList().at(marg) * mIq;
+	mIdelta = mLib.getSinList().at(marg) * mId + mLib.getCosList().at(marg) * mIq;
+}
 
 void MotorInfo::PID(void){}
 
 void MotorInfo::setVd(float pVd){mVd = pVd;}
 void MotorInfo::setVq(float pVq){mVq = pVq;}
 
+void MotorInfo::invClarkGanmaDelta(void){
+	mIganma =  mLib.getCosList().at(marg) * mId + mLib.getSinList().at(marg) * mIq;
+	mIdelta = -mLib.getSinList().at(marg) * mId + mLib.getCosList().at(marg) * mIq;
+}
+
 void MotorInfo::invClarkTransform(void){
-	mValpha = mLib.getCosList().at(marg) * mVd - mLib.getSinList().at(marg) * mVq;
-	mVbeta  = mLib.getSinList().at(marg) * mVd + mLib.getCosList().at(marg) * mVq;
+	mValpha = mLib.getCosList().at(marg_delta) * mVd - mLib.getSinList().at(marg_delta) * mVq;
+	mVbeta  = mLib.getSinList().at(marg_delta) * mVd + mLib.getCosList().at(marg_delta) * mVq;
 };
 
 void MotorInfo::invParkTransform(void){
@@ -95,6 +137,9 @@ void MotorInfo::invParkTransform(void){
 //
 //	Iv = -Iu - Iw;
 };
+
+float MotorInfo::getIganma(void){return mIganma;};
+float MotorInfo::getIdelta(void){return mIdelta;};
 
 float MotorInfo::getId(void){return mId;};
 float MotorInfo::getIq(void){return mIq;};
