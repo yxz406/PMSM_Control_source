@@ -8,7 +8,9 @@
 #ifndef MOTORINFO_HPP_
 #define MOTORINFO_HPP_
 
+
 #include "MathLib.hpp"
+#include "PID.hpp"
 
 class MotorInfo {
 private:
@@ -36,12 +38,18 @@ private:
 	int marg;
 	int marg_delta;
 
+	PID mIdPID, mIqPID;
+	PID mIganmaPID, mIdeltaPID;
+
 public:
 	MotorInfo();
 	virtual ~MotorInfo();
 
 	void setMathLib(MathLib pLib);
 	MathLib getMathLib(void);
+
+	void setIdqPIDLib(PID pdPID, PID pqPID);
+	void setIganmadeltaPIDLib(PID pganmaPID, PID pdeltaPID);
 
 	void setIu(float pIu);
 	void setIv(float pIv);
@@ -59,7 +67,8 @@ public:
 	void clarkTransform(void);
 	void clarkGanmaDelta(void);
 
-	void PID(void);//ここでPID使う？？ライブラリインクルード必要だよね？
+	void PIDdq_control(float pdVal, float pqVal, float pTime);//ここでPID使う？？ライブラリインクルード必要だよね？
+	void PIDganmadelta_control(float pganmaVal, float pdeltaVal, float pTime);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
 
 	void setVd(float pVd);//強制転流用
 	void setVq(float pVq);

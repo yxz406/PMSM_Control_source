@@ -61,6 +61,16 @@ void MotorInfo::setMathLib(MathLib pLib){
 
 MathLib MotorInfo::getMathLib(void){return mLib;}
 
+void MotorInfo::setIdqPIDLib(PID pdPID, PID pqPID){
+	mIdPID = pdPID;
+	mIqPID = pqPID;
+}
+
+void MotorInfo::setIganmadeltaPIDLib(PID pganmaPID, PID pdeltaPID){
+	mIganmaPID = pganmaPID;
+	mIdeltaPID = pdeltaPID;
+}
+
 //void MotorInfo::setVu(float pVu):mVu(pVu){};
 //void MotorInfo::setVv(float pVv):mVv(pVv){};
 //void MotorInfo::setVw(float pVw):mVw(pVw){};
@@ -102,7 +112,18 @@ void MotorInfo::clarkGanmaDelta(void){//時計回り回転
 	mIdelta = mLib.getSinList().at(marg) * mId + mLib.getCosList().at(marg) * mIq;
 }
 
-void MotorInfo::PID(void){}
+void MotorInfo::PIDdq_control(float pdVal, float pqVal, float pTime){
+	mIdPID.ErrorAndTimeUpdate(pdVal, pTime);
+	mIqPID.ErrorAndTimeUpdate(pqVal, pTime);
+	mVd = mVd + mIdPID.OutPut();
+	mVq = mVq + mIqPID.OutPut();
+}
+void MotorInfo::PIDganmadelta_control(float pganmaVal, float pdeltaVal, float pTime){
+	mIganmaPID.ErrorAndTimeUpdate(pganmaVal, pTime);
+	mIdeltaPID.ErrorAndTimeUpdate(pdeltaVal, pTime);
+	mVganma = mVganma + mIganmaPID.OutPut();
+	mVdelta = mVdelta + mIdeltaPID.OutPut();
+}
 
 void MotorInfo::setVd(float pVd){mVd = pVd;}
 void MotorInfo::setVq(float pVq){mVq = pVq;}

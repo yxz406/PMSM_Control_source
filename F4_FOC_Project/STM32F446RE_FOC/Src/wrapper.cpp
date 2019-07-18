@@ -5,6 +5,8 @@
  *      Author: watashi
  */
 
+#include "paramsetting.h" //パラメータのマクロ
+
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_ll_adc.h"
 #include "stm32f4xx_ll_tim.h"
@@ -37,9 +39,9 @@
 #include "DebugInfo.hpp"
 
 //動作パラメータを設定するファイルを別にする。
-bool isDebugMode = false;
+bool isDebugMode = DEBUG_MODE;
 //bool isDebugMode = true;
-unsigned int debugCount = 720;
+unsigned int debugCount = DEBUG_COUNT;
 
 bool DebugStartTrig(void);//bool型のhedder宣言ができないかもしれない。どうしよう。
 
@@ -54,8 +56,6 @@ UART uartob;
 //Process Class
 MotorInfo Motor; //モータの電圧・電流等を管理、及び座標変換のClass
 ArgSensor sensor; //角度を求める機能を持ったclass
-PID IqPID;
-PID IdPID;
 UiCtrl ui_ctrl; //UI入力を処理するclass
 DebugInfo Debug;//デバッグ情報かき集め
 
@@ -68,8 +68,16 @@ void cppwrapper(void){
 		Motor.setMathLib(mathlibrary);//モータクラスに算術ライブラリを渡す
 	}
 
-	IdPID.SetParam(0.5, 0.1, 0);
-	IqPID.SetParam(0.5, 0.1, 0);
+	{//PIDLibの生存時間調整(代入後メモリを解放する)
+		PID IqPID;
+		PID IdPID;
+		IdPID.SetParam(PID_GAIN_ID_P, PID_GAIN_ID_I, PID_GAIN_ID_D);
+		IqPID.SetParam(PID_GAIN_IQ_P, PID_GAIN_IQ_I, PID_GAIN_IQ_D);
+		Motor.setIdqPIDLib(IdPID, IqPID);
+		//Motor.setIganmadeltaPIDLib(IganmaPID, IdeltaPID);
+	}
+
+
 
 	//LL_TIM_DisableBRK(TIM1);//こっちは未検証
 	//LL_TIM_DisableIT_BRK(TIM1);//効かない
@@ -84,10 +92,10 @@ void cppwrapper(void){
 	PWM_Object3.setCH(3);
 	PWM_Object4.setCH(4);
 
-	PWM_Object1.fInit(4000);
-	PWM_Object2.fInit(4000);
-	PWM_Object3.fInit(4000);
-	PWM_Object4.fInit(4000);
+	PWM_Object1.fInit(PWM_COUNT);
+	PWM_Object2.fInit(PWM_COUNT);
+	PWM_Object3.fInit(PWM_COUNT);
+	PWM_Object4.fInit(PWM_COUNT);
 
 	PWM_Object1.f2Duty(0);//50%duty
 	PWM_Object2.f2Duty(0);
@@ -151,11 +159,17 @@ void HighFreqTask(void){
 			float Vd_input = 0;
 			float Vq_input = 0.5f;
 
-			//Id,IqのPID制御 //別関数に引っ越しした方が綺麗かもしれない。
-			IdPID.ErrorUpdate(0);
-			//IdPID.ErrorAndTimeUpdate(0, pSampleTime);//こちらを使うべき　推奨
-			IqPID.ErrorUpdate(0);
-			//IqPID.ErrorAndTimeUpdate(0, 0);
+
+			float Id_error;
+			float Iq_error;
+
+			Id_error = 0;
+			Iq_error = 0;
+			//Id,IqのPID制御
+
+			//Motor.PIDdq_control(Id_error, Iq_error, 0.1);
+			//Vd_input = Motor.getVd();
+			//Vq_input = Motor.getVq();
 
 			//IO入力?
 			LL_ADC_REG_StartConversionSWStart(ADC2);

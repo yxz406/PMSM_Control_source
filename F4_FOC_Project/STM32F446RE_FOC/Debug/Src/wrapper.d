@@ -1,4 +1,4 @@
-Src/wrapper.o: ../Src/wrapper.cpp \
+Src/wrapper.o: ../Src/wrapper.cpp ../Inc/paramsetting.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -38,9 +38,11 @@ Src/wrapper.o: ../Src/wrapper.cpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
  ../Inc/wrapper.hpp ../Inc/LedBlink.hpp ../Inc/MathLib.hpp ../Inc/PWM.hpp \
- ../Inc/UART.hpp ../Inc/MotorInfo.hpp ../Inc/MathLib.hpp \
+ ../Inc/UART.hpp ../Inc/MotorInfo.hpp ../Inc/MathLib.hpp ../Inc/PID.hpp \
  ../Inc/ArgSensor.hpp ../Inc/UiCtrl.hpp ../Inc/PID.hpp \
  ../Inc/DebugInfo.hpp
+
+../Inc/paramsetting.h:
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 
@@ -131,6 +133,8 @@ Src/wrapper.o: ../Src/wrapper.cpp \
 ../Inc/MotorInfo.hpp:
 
 ../Inc/MathLib.hpp:
+
+../Inc/PID.hpp:
 
 ../Inc/ArgSensor.hpp:
 
