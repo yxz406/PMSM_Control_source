@@ -127,10 +127,12 @@ void MotorInfo::PIDganmadelta_control(float pganmaVal, float pdeltaVal, float pT
 
 void MotorInfo::setVd(float pVd){mVd = pVd;}
 void MotorInfo::setVq(float pVq){mVq = pVq;}
+void MotorInfo::setVganma(float pVganma){mVganma = pVganma;}
+void MotorInfo::setVdelta(float pVdelta){mVdelta = pVdelta;}
 
 void MotorInfo::invClarkGanmaDelta(void){
-	mIganma =  mLib.getCosList().at(marg) * mId + mLib.getSinList().at(marg) * mIq;
-	mIdelta = -mLib.getSinList().at(marg) * mId + mLib.getCosList().at(marg) * mIq;
+	mVd =  mLib.getCosList().at(marg) * mVganma + mLib.getSinList().at(marg) * mVdelta;
+	mVq = -mLib.getSinList().at(marg) * mVganma + mLib.getCosList().at(marg) * mVdelta;
 }
 
 void MotorInfo::invClarkTransform(void){

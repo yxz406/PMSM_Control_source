@@ -13,11 +13,13 @@ private:
 	float mArg;
 	float mArgOld;
 
+	float mArg_delta;
+
 	bool mIsStart;
 	bool mIsAccelerating;
 
 	int mImArgcount;
-	float mCalcArg;
+
 public:
 	ArgSensor();
 	virtual ~ArgSensor();
@@ -26,11 +28,13 @@ public:
 	void increment(float pArg);
 	void decrement(float pArg);
 	float getArg(void);
+	float getArg_delta(void);
 	float getArgOld(void);
 	void Start_Stop(bool pIsONState);
 	bool GetIsAccelerating(void);
 
 	void ImArg(void);
+	//void ImArg2(void);//連れ回し運転　名前を変える事
 };
 
 #endif /* ARGSENSOR_HPP_ */

@@ -72,6 +72,8 @@ public:
 
 	void setVd(float pVd);//強制転流用
 	void setVq(float pVq);
+	void setVganma(float pVganma);
+	void setVdelta(float pVdelta);
 
 	void invClarkGanmaDelta(void);
 	void invClarkTransform(void);

@@ -71,6 +71,8 @@ std::vector<float> MathLib::getCosList(void){
 }
 
 int MathLib::radToSizeCount(float pradian){//0~2piのラジアンを、0~mSizeに変換する
+	pradian = pradian + (2*M_PI);
+	pradian = fmodl(pradian, (2*M_PI));
 	return pradian * mRadvsSize;
 }
 

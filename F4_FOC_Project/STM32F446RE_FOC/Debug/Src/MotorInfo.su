@@ -25,20 +25,22 @@ MotorInfo.cpp:115:6:void MotorInfo::PIDdq_control(float, float, float)	32	static
 MotorInfo.cpp:121:6:void MotorInfo::PIDganmadelta_control(float, float, float)	32	static
 MotorInfo.cpp:128:6:void MotorInfo::setVd(float)	16	static
 MotorInfo.cpp:129:6:void MotorInfo::setVq(float)	16	static
-MotorInfo.cpp:131:6:void MotorInfo::invClarkGanmaDelta()	72	static
-MotorInfo.cpp:136:6:void MotorInfo::invClarkTransform()	72	static
-MotorInfo.cpp:141:6:void MotorInfo::invParkTransform()	16	static
-MotorInfo.cpp:162:7:float MotorInfo::getIganma()	16	static
-MotorInfo.cpp:163:7:float MotorInfo::getIdelta()	16	static
-MotorInfo.cpp:165:7:float MotorInfo::getId()	16	static
-MotorInfo.cpp:166:7:float MotorInfo::getIq()	16	static
-MotorInfo.cpp:168:7:float MotorInfo::getVd()	16	static
-MotorInfo.cpp:169:7:float MotorInfo::getVq()	16	static
-MotorInfo.cpp:171:7:float MotorInfo::getValpha()	16	static
-MotorInfo.cpp:172:7:float MotorInfo::getVbeta()	16	static
-MotorInfo.cpp:174:7:float MotorInfo::getVu()	16	static
-MotorInfo.cpp:175:7:float MotorInfo::getVv()	16	static
-MotorInfo.cpp:176:7:float MotorInfo::getVw()	16	static
+MotorInfo.cpp:130:6:void MotorInfo::setVganma(float)	16	static
+MotorInfo.cpp:131:6:void MotorInfo::setVdelta(float)	16	static
+MotorInfo.cpp:133:6:void MotorInfo::invClarkGanmaDelta()	72	static
+MotorInfo.cpp:138:6:void MotorInfo::invClarkTransform()	72	static
+MotorInfo.cpp:143:6:void MotorInfo::invParkTransform()	16	static
+MotorInfo.cpp:164:7:float MotorInfo::getIganma()	16	static
+MotorInfo.cpp:165:7:float MotorInfo::getIdelta()	16	static
+MotorInfo.cpp:167:7:float MotorInfo::getId()	16	static
+MotorInfo.cpp:168:7:float MotorInfo::getIq()	16	static
+MotorInfo.cpp:170:7:float MotorInfo::getVd()	16	static
+MotorInfo.cpp:171:7:float MotorInfo::getVq()	16	static
+MotorInfo.cpp:173:7:float MotorInfo::getValpha()	16	static
+MotorInfo.cpp:174:7:float MotorInfo::getVbeta()	16	static
+MotorInfo.cpp:176:7:float MotorInfo::getVu()	16	static
+MotorInfo.cpp:177:7:float MotorInfo::getVv()	16	static
+MotorInfo.cpp:178:7:float MotorInfo::getVw()	16	static
 alloc_traits.h:100:27:static constexpr bool __gnu_cxx::__alloc_traits<_Alloc>::_S_propagate_on_copy_assign() [with _Alloc = std::allocator<float>]	4	static
 alloc_traits.h:109:27:static constexpr bool __gnu_cxx::__alloc_traits<_Alloc>::_S_always_equal() [with _Alloc = std::allocator<float>]	4	static
 vector.tcc:179:5:std::vector<_Tp, _Alloc>& std::vector<_Tp, _Alloc>::operator=(const std::vector<_Tp, _Alloc>&) [with _Tp = float; _Alloc = std::allocator<float>]	40	static

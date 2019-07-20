@@ -19,6 +19,7 @@ ArgSensor::ArgSensor() {
 	// TODO Auto-generated constructor stub
 	mArg = 0;
 	mImArgcount = 0;
+	mArg_delta = 0;
 }
 
 ArgSensor::~ArgSensor() {
@@ -28,6 +29,7 @@ ArgSensor::~ArgSensor() {
 void ArgSensor::Init(void) {
 	mArgOld = 0;
 	mArg = 0;
+	mArg_delta = 0;
 }
 
 void ArgSensor::increment(float pArg){
@@ -50,6 +52,10 @@ float ArgSensor::getArgOld(void){
 	return mArgOld;
 }
 
+float ArgSensor::getArg_delta(void){
+	return mArg_delta;
+}
+
 void ArgSensor::Start_Stop(bool pIsONState){
 		mIsStart = pIsONState;
 }
@@ -58,30 +64,59 @@ bool ArgSensor::GetIsAccelerating(void){
 	return mIsAccelerating;
 }
 
+//void ArgSensor::ImArg(void){
+//	if(mIsStart){
+//		if(mImArgcount < 25000){
+//			mImArgcount++;
+//			//mImArgcount = 25;
+//			mIsAccelerating = true;
+//		} else {
+//			mIsAccelerating = false;
+//		}
+//		mCalcArg = mImArgcount*0.0000125f*M_PI;//進む差分角
+//		mArgOld = mArg;
+//		mArg = mArg + mCalcArg + (2*M_PI);
+//		mArg = fmodl(mArg, (2*M_PI));
+//
+//	} else {
+//		if(mImArgcount > 0){
+//			mImArgcount--;
+//			mIsAccelerating = true;
+//		} else {
+//			mIsAccelerating = false;
+//		}
+//		mCalcArg = mImArgcount*0.0000125f*M_PI;
+//		mArgOld = mArg;
+//		mArg = mArg + mCalcArg + (2*M_PI);
+//		mArg = fmodl(mArg, (2*M_PI));
+//	}
+//}
+
 void ArgSensor::ImArg(void){
 	if(mIsStart){
 		if(mImArgcount < 25000){
-			mImArgcount++;
+			mImArgcount = mImArgcount + 4;
 			//mImArgcount = 25;
 			mIsAccelerating = true;
 		} else {
 			mIsAccelerating = false;
 		}
-		mCalcArg = mImArgcount*0.0000125f*M_PI;//進む差分角
+		mArg_delta = mImArgcount*0.0000125f*M_PI;//進む差分角
 		mArgOld = mArg;
-		mArg = mArg + mCalcArg + (2*M_PI);
+		mArg = mArg + mArg_delta + (2*M_PI);
 		mArg = fmodl(mArg, (2*M_PI));
 
 	} else {
 		if(mImArgcount > 0){
-			mImArgcount--;
+			mImArgcount = mImArgcount - 4;
 			mIsAccelerating = true;
 		} else {
 			mIsAccelerating = false;
 		}
-		mCalcArg = mImArgcount*0.0000125f*M_PI;
+		mArg_delta = mImArgcount*0.0000125f*M_PI;
 		mArgOld = mArg;
-		mArg = mArg + mCalcArg + (2*M_PI);
+		mArg = mArg + mArg_delta + (2*M_PI);
 		mArg = fmodl(mArg, (2*M_PI));
 	}
 }
+

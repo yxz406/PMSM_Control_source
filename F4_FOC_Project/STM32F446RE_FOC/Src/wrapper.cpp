@@ -111,12 +111,18 @@ void cppwrapper(void){
 	while(1){}
 }
 
-void MotorPWMTask(int pArg, float pVd, float pVq){//パラメータの物理量は将来的に変える
+void MotorPWMTask(float pArg, float pArg_delta, float pVganma, float pVdelta){//パラメータの物理量は将来的に変える
 	//int mathlib_size = Motor.getMathLib().getLibSize();
-	Motor.setArg(pArg);
+	int arg = Motor.getMathLib().radToSizeCount(pArg);
+	Motor.setArg(arg);
+
+	int arg_delta = Motor.getMathLib().radToSizeCount(-1 * pArg_delta);
+	Motor.setArgDelta(arg_delta);
+
 	//Motor.setArgDelta(parg);//ここで誤差Δθを入力すること。
-	Motor.setVd(pVd);
-	Motor.setVq(pVq);
+	Motor.setVganma(pVganma);
+	Motor.setVdelta(pVdelta);
+	Motor.invClarkGanmaDelta();
 	Motor.invClarkTransform();
 	Motor.invParkTransform();
 
@@ -124,6 +130,7 @@ void MotorPWMTask(int pArg, float pVd, float pVq){//パラメータの物理量�
 	PWM_Object2.f2Duty(Motor.getVv());
 	PWM_Object3.f2Duty(Motor.getVw());
 }
+
 
 
 void HighFreqTask(void){
@@ -140,6 +147,16 @@ void HighFreqTask(void){
 			Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3)/4095;
 			Motor.setIuvw(Iu, Iv, Iw);
 
+
+			//推定誤差計算
+
+			//推定位置計算
+			//位置センサを叩く
+			sensor.ImArg();//強制転流実行時のエンコーダ位置取得
+
+
+
+
 			//Iuvw -> Idqに変換 (Park,Clark変換)
 			Motor.parkTransform();
 			Motor.clarkTransform();
@@ -148,17 +165,14 @@ void HighFreqTask(void){
 			Id = Motor.getId();
 			Iq = Motor.getIq();
 
-			//推定誤差計算
 
-			//推定位置反映
-
-			//位置センサを叩く
-			sensor.ImArg();//強制転流実行時のエンコーダ位置取得
 
 			//指令値入力
 			float Vd_input = 0;
 			float Vq_input = 0.5f;
 
+			float Vganma_input = 0;
+			float Vdelta_input = 0;
 
 			float Id_error;
 			float Iq_error;
@@ -177,8 +191,11 @@ void HighFreqTask(void){
 			Vq_input = 0;
 			Vd_input = adc_speed;//連れ回し運転
 
+			Vganma_input = adc_speed;
+			Vdelta_input = 0;
+
 			//PWM出力
-			MotorPWMTask(Motor.getMathLib().radToSizeCount(sensor.getArg()), Vd_input, Vq_input);//暫定で作った関数
+			MotorPWMTask(sensor.getArgOld(), sensor.getArg_delta(), Vganma_input, Vdelta_input);//暫定で作った関数
 
 			if(isDebugMode){//デバッグモードで入る処理
 				if(DebugStartTrig()){//起動後停止の確認処理
