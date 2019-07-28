@@ -28,7 +28,8 @@ public:
 	std::vector<float> getSinList(void);
 	std::vector<float> getCosList(void);
 
-	int radToSizeCount(float pradian);
+	int radToSizeCount(float pRadian);
+	float sizeCountToRad(int pSizecount);
 };
 
 

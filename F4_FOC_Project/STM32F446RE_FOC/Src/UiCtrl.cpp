@@ -27,7 +27,7 @@ UiCtrl::~UiCtrl() {
 	// TODO Auto-generated destructor stub
 }
 
-void UiCtrl::BtnAct(){
+void UiCtrl::BtnToggle(){
 	if(isONBtnState == true){//ONの時
 		isONBtnState = false;//offにするタスク
 	} else {

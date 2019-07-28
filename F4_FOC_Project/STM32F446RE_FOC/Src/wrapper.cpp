@@ -40,7 +40,6 @@
 
 //動作パラメータを設定するファイルを別にする。
 bool isDebugMode = DEBUG_MODE;
-//bool isDebugMode = true;
 unsigned int debugCount = DEBUG_COUNT;
 
 bool DebugStartTrig(void);//bool型のhedder宣言ができないかもしれない。どうしよう。
@@ -55,7 +54,6 @@ UART uartob;
 
 //Process Class
 MotorInfo Motor; //モータの電圧・電流等を管理、及び座標変換のClass
-ArgSensor sensor; //角度を求める機能を持ったclass
 UiCtrl ui_ctrl; //UI入力を処理するclass
 DebugInfo Debug;//デバッグ情報かき集め
 
@@ -67,7 +65,10 @@ void cppwrapper(void){
 		mathlibrary.fInit(mathlib_size);
 		Motor.setMathLib(mathlibrary);//モータクラスに算術ライブラリを渡す
 	}
-
+	{
+		ArgSensor sensor; //角度を求める機能を持ったclass
+		Motor.setArgSensor(sensor);
+	}
 	{//PIDLibの生存時間調整(代入後メモリを解放する)
 		PID IqPID;
 		PID IdPID;
@@ -76,8 +77,6 @@ void cppwrapper(void){
 		Motor.setIdqPIDLib(IdPID, IqPID);
 		//Motor.setIganmadeltaPIDLib(IganmaPID, IdeltaPID);
 	}
-
-
 
 	//LL_TIM_DisableBRK(TIM1);//こっちは未検証
 	//LL_TIM_DisableIT_BRK(TIM1);//効かない
@@ -111,17 +110,7 @@ void cppwrapper(void){
 	while(1){}
 }
 
-void MotorPWMTask(float pArg, float pArg_delta, float pVganma, float pVdelta){//パラメータの物理量は将来的に変える
-	//int mathlib_size = Motor.getMathLib().getLibSize();
-	int arg = Motor.getMathLib().radToSizeCount(pArg);
-	Motor.setArg(arg);
-
-	int arg_delta = Motor.getMathLib().radToSizeCount(-1 * pArg_delta);
-	Motor.setArgDelta(arg_delta);
-
-	//Motor.setArgDelta(parg);//ここで誤差Δθを入力すること。
-	Motor.setVganma(pVganma);
-	Motor.setVdelta(pVdelta);
+void MotorOutputTask(void){
 	Motor.invClarkGanmaDelta();
 	Motor.invClarkTransform();
 	Motor.invParkTransform();
@@ -147,15 +136,12 @@ void HighFreqTask(void){
 			Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3)/4095;
 			Motor.setIuvw(Iu, Iv, Iw);
 
-
 			//推定誤差計算
 
-			//推定位置計算
-			//位置センサを叩く
-			sensor.ImArg();//強制転流実行時のエンコーダ位置取得
+			//推定位置計算(センサを叩く)
+			//Motor.culcArg();
 
-
-
+			Motor.ForceCommutation();
 
 			//Iuvw -> Idqに変換 (Park,Clark変換)
 			Motor.parkTransform();
@@ -168,8 +154,8 @@ void HighFreqTask(void){
 
 
 			//指令値入力
-			float Vd_input = 0;
-			float Vq_input = 0.5f;
+//			float Vd_input = 0;
+//			float Vq_input = 0.5f;
 
 			float Vganma_input = 0;
 			float Vdelta_input = 0;
@@ -187,19 +173,22 @@ void HighFreqTask(void){
 
 			//IO入力?
 			LL_ADC_REG_StartConversionSWStart(ADC2);
-			float adc_speed = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4095;
-			Vq_input = 0;
-			Vd_input = adc_speed;//連れ回し運転
+			float adc2_input = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4095;
+//			Vq_input = 0;
+//			Vd_input = adc_speed;//連れ回し運転
 
-			Vganma_input = adc_speed;
+			Vganma_input = adc2_input;//連れ回し運転
 			Vdelta_input = 0;
 
+			Motor.setVganma(Vganma_input);
+			Motor.setVdelta(Vdelta_input);
+
 			//PWM出力
-			MotorPWMTask(sensor.getArgOld(), sensor.getArg_delta(), Vganma_input, Vdelta_input);//暫定で作った関数
+			MotorOutputTask();
 
 			if(isDebugMode){//デバッグモードで入る処理
 				if(DebugStartTrig()){//起動後停止の確認処理
-					DebugTask(Iu, Iv, Iw, sensor.getArg());
+					DebugTask(Iu, Iv, Iw, Motor.getArgRad());
 				}
 			}
 		}
@@ -211,7 +200,7 @@ void HighFreqTask(void){
 
 bool DebugStartTrig(void){
 	if(ui_ctrl.getState()){
-		if(!sensor.GetIsAccelerating()){
+		if(!Motor.mSensor.GetIsAccelerating()){
 			return true;
 		}
 	}
@@ -228,7 +217,7 @@ void DebugTask(float pIu, float pIv, float pIw, float pArg){
 		//モータ停止の動作
 		BtnActOFF();
 		//モータ停止を確認する動作
-		if(sensor.getArg() == sensor.getArgOld()){
+		if(Motor.mSensor.getArg() == Motor.mSensor.getArgOld()){
 			//タイマ停止する動作(何回もこれ呼ばれちゃうから)
 
 			PWM_Object1.f2Duty(0);//50%duty
@@ -272,18 +261,22 @@ void DebugTask(float pIu, float pIv, float pIw, float pArg){
 }
 
 void BtnAct(void){//強制転流開始へのトリガ 割り込みから叩くためにここでラッパする
-	ui_ctrl.BtnAct(); // ON/OFFのトグルスイッチ　BtnActで書き込み、getStateで状態を読む
-	sensor.Start_Stop(ui_ctrl.getState());
+	ui_ctrl.BtnToggle(); // ON/OFFのトグルスイッチ　BtnActで書き込み、getStateで状態を読む
+	if(ui_ctrl.getState()){
+		Motor.startForceCommutation();
+	} else {
+		Motor.stopForceCommutation();
+	}
 }
 
 void BtnActOFF(void){//強制転流開始へのトリガOFF 割り込みから叩かないから本来UiCtrlで定義するべき
 	ui_ctrl.BtnActOFF(); // OFFのスイッチ　BtnActOFFで書き込み、getStateで状態を読む
-	sensor.Start_Stop(ui_ctrl.getState());
+	Motor.stopForceCommutation();
 }
 
 void BtnActON(void){//強制転流開始へのトリガON 予備で作ってある。使うかは不明
 	ui_ctrl.BtnActON(); // ONのトグルスイッチ　BtnActONで書き込み、getStateで状態を読む
-	sensor.Start_Stop(ui_ctrl.getState());
+	Motor.startForceCommutation();
 }
 
 void ADC_Init()

@@ -14,7 +14,7 @@ private:
 public:
 	UiCtrl();
 	virtual ~UiCtrl();
-	void BtnAct();
+	void BtnToggle();
 	void BtnActOFF();
 	void BtnActON();
 	bool getState(void);

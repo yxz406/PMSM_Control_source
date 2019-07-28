@@ -15,7 +15,7 @@ private:
 
 	float mArg_delta;
 
-	bool mIsStart;
+	bool mFCisON;
 	bool mIsAccelerating;
 
 	int mImArgcount;
@@ -30,10 +30,11 @@ public:
 	float getArg(void);
 	float getArg_delta(void);
 	float getArgOld(void);
-	void Start_Stop(bool pIsONState);
+	void FC_Start_Stop(bool pIsON);
 	bool GetIsAccelerating(void);
 
-	void ImArg(void);
+	void ForceComArg(void);
+
 	//void ImArg2(void);//連れ回し運転　名前を変える事
 };
 

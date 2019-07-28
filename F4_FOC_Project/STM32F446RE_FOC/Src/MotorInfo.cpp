@@ -46,6 +46,8 @@
 #include "MotorInfo.hpp"
 #include "Mathlib.hpp"
 
+//Init
+
 MotorInfo::MotorInfo() {
 	// TODO Auto-generated constructor stub
 
@@ -61,6 +63,10 @@ void MotorInfo::setMathLib(MathLib pLib){
 
 MathLib MotorInfo::getMathLib(void){return mLib;}
 
+void MotorInfo::setArgSensor(ArgSensor pSensor){
+	mSensor = pSensor;
+}
+
 void MotorInfo::setIdqPIDLib(PID pdPID, PID pqPID){
 	mIdPID = pdPID;
 	mIqPID = pqPID;
@@ -75,6 +81,17 @@ void MotorInfo::setIganmadeltaPIDLib(PID pganmaPID, PID pdeltaPID){
 //void MotorInfo::setVv(float pVv):mVv(pVv){};
 //void MotorInfo::setVw(float pVw):mVw(pVw){};
 
+//Start,Stop
+void MotorInfo::startForceCommutation(void){
+	mSensor.FC_Start_Stop(true);
+}
+
+void MotorInfo::stopForceCommutation(void){
+	mSensor.FC_Start_Stop(false);
+}
+
+//Update
+
 void MotorInfo::setIu(float pIu){mIu=pIu;};
 void MotorInfo::setIv(float pIv){mIv=pIv;};
 void MotorInfo::setIw(float pIw){mIw=pIw;};
@@ -84,17 +101,43 @@ void MotorInfo::setIuvw(float pIu, float pIv, float pIw){
 	mIw = pIw;
 }
 
-
 void MotorInfo::setVu(float pVu){mVu=pVu;};
 void MotorInfo::setVv(float pVv){mVv=pVv;};
 void MotorInfo::setVw(float pVw){mVw=pVw;};
 
-void MotorInfo::setArg(int parg){
-	marg = parg;
+void MotorInfo::setArg(int pArg){
+	mArg = pArg;
 }
 
-void MotorInfo::setArgDelta(int parg){
-	marg_delta = parg;
+void MotorInfo::setArgDelta(int pArg){
+	mArg_delta = pArg;
+}
+
+float MotorInfo::getArgRad(void){
+	return mLib.sizeCountToRad(mArg);
+}
+
+float MotorInfo::getArgDeltaRad(void){
+	return mLib.sizeCountToRad(mArg_delta);
+}
+
+
+void MotorInfo::culcArg(void){
+}
+
+void MotorInfo::ForceCommutation(void){
+	mSensor.ForceComArg();
+	float ArgOld = mSensor.getArgOld();
+	float ArgDlt = mSensor.getArg_delta();
+	int arg_count = mLib.radToSizeCount(ArgOld);
+	int argdelta_count = mLib.radToSizeCount(-1 * ArgDlt);
+	mArg = arg_count;
+	mArg_delta = argdelta_count; //回転方向より符号は反転する
+	setRPM();
+}
+
+void MotorInfo::setRPM(void){
+	mRPM = (float)(mSensor.getArg() - mSensor.getArgOld()) / (2*3.14f) * 20 * 1000;//適当なパラメータを入れている
 }
 
 void MotorInfo::parkTransform(void){
@@ -103,13 +146,13 @@ void MotorInfo::parkTransform(void){
 };
 
 void MotorInfo::clarkTransform(void){//反時計回り回転
-	mId =  mLib.getCosList().at(marg) * mIalpha + mLib.getSinList().at(marg) * mIbeta;
-	mIq = -mLib.getSinList().at(marg) * mIalpha + mLib.getCosList().at(marg) * mIbeta;
+	mId =  mLib.getCosList().at(mArg) * mIalpha + mLib.getSinList().at(mArg) * mIbeta;
+	mIq = -mLib.getSinList().at(mArg) * mIalpha + mLib.getCosList().at(mArg) * mIbeta;
 };
 
 void MotorInfo::clarkGanmaDelta(void){//時計回り回転
-	mIganma = mLib.getCosList().at(marg) * mId - mLib.getSinList().at(marg) * mIq;
-	mIdelta = mLib.getSinList().at(marg) * mId + mLib.getCosList().at(marg) * mIq;
+	mIganma = mLib.getCosList().at(mArg_delta) * mId - mLib.getSinList().at(mArg_delta) * mIq;
+	mIdelta = mLib.getSinList().at(mArg_delta) * mId + mLib.getCosList().at(mArg_delta) * mIq;
 }
 
 void MotorInfo::PIDdq_control(float pdVal, float pqVal, float pTime){
@@ -131,13 +174,13 @@ void MotorInfo::setVganma(float pVganma){mVganma = pVganma;}
 void MotorInfo::setVdelta(float pVdelta){mVdelta = pVdelta;}
 
 void MotorInfo::invClarkGanmaDelta(void){
-	mVd =  mLib.getCosList().at(marg) * mVganma + mLib.getSinList().at(marg) * mVdelta;
-	mVq = -mLib.getSinList().at(marg) * mVganma + mLib.getCosList().at(marg) * mVdelta;
+	mVd =  mLib.getCosList().at(mArg) * mVganma + mLib.getSinList().at(mArg) * mVdelta;
+	mVq = -mLib.getSinList().at(mArg) * mVganma + mLib.getCosList().at(mArg) * mVdelta;
 }
 
 void MotorInfo::invClarkTransform(void){
-	mValpha = mLib.getCosList().at(marg_delta) * mVd - mLib.getSinList().at(marg_delta) * mVq;
-	mVbeta  = mLib.getSinList().at(marg_delta) * mVd + mLib.getCosList().at(marg_delta) * mVq;
+	mValpha = mLib.getCosList().at(mArg_delta) * mVd - mLib.getSinList().at(mArg_delta) * mVq;
+	mVbeta  = mLib.getSinList().at(mArg_delta) * mVd + mLib.getCosList().at(mArg_delta) * mVq;
 };
 
 void MotorInfo::invParkTransform(void){

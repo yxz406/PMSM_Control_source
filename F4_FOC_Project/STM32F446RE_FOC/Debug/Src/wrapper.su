@@ -10,16 +10,17 @@ gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 basic_string.h:6439:3:std::__cxx11::string std::__cxx11::to_string(float)	40	static
 PWM.hpp:14:7:PWM::PWM()	16	static
 MathLib.hpp:13:7:MathLib::MathLib(const MathLib&)	16	static
+ArgSensor.hpp:11:7:constexpr ArgSensor::ArgSensor(const ArgSensor&)	16	static
 PID.hpp:13:7:constexpr PID::PID(const PID&)	16	static
-wrapper.cpp:63:6:void cppwrapper()	208	static
-wrapper.cpp:114:6:void MotorPWMTask(float, float, float, float)	104	static
-wrapper.cpp:136:6:void HighFreqTask()	64	static
-wrapper.cpp:212:6:bool DebugStartTrig()	8	static
-wrapper.cpp:221:6:void DebugTask(float, float, float, float)	264	static
-wrapper.cpp:274:6:void BtnAct()	8	static
-wrapper.cpp:279:6:void BtnActOFF()	8	static
-wrapper.cpp:284:6:void BtnActON()	8	static
-wrapper.cpp:289:6:void ADC_Init()	8	static
+wrapper.cpp:61:6:void cppwrapper()	256	static
+wrapper.cpp:113:6:void MotorOutputTask()	8	static
+wrapper.cpp:125:6:void HighFreqTask()	48	static
+wrapper.cpp:201:6:bool DebugStartTrig()	8	static
+wrapper.cpp:210:6:void DebugTask(float, float, float, float)	264	static
+wrapper.cpp:263:6:void BtnAct()	8	static
+wrapper.cpp:272:6:void BtnActOFF()	8	static
+wrapper.cpp:277:6:void BtnActON()	8	static
+wrapper.cpp:282:6:void ADC_Init()	8	static
 string_conversions.h:99:5:) [with _String = std::__cxx11::basic_string<char>; _CharT = char]	52	dynamic
 stl_vector.h:326:7:std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = float; _Alloc = std::allocator<float>]	40	static
 stl_vector.h:433:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static
@@ -81,6 +82,6 @@ stl_algobase.h:277:5:_Iterator std::__niter_base(_Iterator) [with _Iterator = fl
 stl_algobase.h:375:5:_OI std::__copy_move_a(_II, _II, _OI) [with bool _IsMove = false; _II = const float*; _OI = float*]	32	static
 stl_iterator.h:844:7:const _Iterator& __gnu_cxx::__normal_iterator<_Iterator, _Container>::base() const [with _Iterator = const float*; _Container = std::vector<float>]	16	static
 stl_algobase.h:357:9:static _Tp* std::__copy_move<_IsMove, true, std::random_access_iterator_tag>::__copy_m(const _Tp*, const _Tp*, _Tp*) [with _Tp = float; bool _IsMove = false]	32	static
-wrapper.cpp:297:1:void __static_initialization_and_destruction_0(int, int)	16	static
-wrapper.cpp:297:1:cpp)	8	static
-wrapper.cpp:297:1:cpp)	8	static
+wrapper.cpp:290:1:void __static_initialization_and_destruction_0(int, int)	16	static
+wrapper.cpp:290:1:cpp)	8	static
+wrapper.cpp:290:1:cpp)	8	static

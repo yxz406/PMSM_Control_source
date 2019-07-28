@@ -1,46 +1,55 @@
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-MotorInfo.cpp:49:1:MotorInfo::MotorInfo()	16	static
-MotorInfo.cpp:54:1:MotorInfo::~MotorInfo()	16	static
-MotorInfo.cpp:54:1:virtual MotorInfo::~MotorInfo()	16	static
+MotorInfo.cpp:51:1:MotorInfo::MotorInfo()	16	static
+MotorInfo.cpp:56:1:MotorInfo::~MotorInfo()	16	static
+MotorInfo.cpp:56:1:virtual MotorInfo::~MotorInfo()	16	static
 MathLib.hpp:13:7:MathLib& MathLib::operator=(const MathLib&)	16	static
-MotorInfo.cpp:58:6:void MotorInfo::setMathLib(MathLib)	16	static
+MotorInfo.cpp:60:6:void MotorInfo::setMathLib(MathLib)	16	static
 MathLib.hpp:13:7:MathLib::MathLib(const MathLib&)	16	static
-MotorInfo.cpp:62:9:MathLib MotorInfo::getMathLib()	16	static
+MotorInfo.cpp:64:9:MathLib MotorInfo::getMathLib()	16	static
+ArgSensor.hpp:11:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
+MotorInfo.cpp:66:6:void MotorInfo::setArgSensor(ArgSensor)	16	static
 PID.hpp:13:7:constexpr PID& PID::operator=(const PID&)	16	static
-MotorInfo.cpp:64:6:void MotorInfo::setIdqPIDLib(PID, PID)	24	static
-MotorInfo.cpp:69:6:void MotorInfo::setIganmadeltaPIDLib(PID, PID)	24	static
-MotorInfo.cpp:78:6:void MotorInfo::setIu(float)	16	static
-MotorInfo.cpp:79:6:void MotorInfo::setIv(float)	16	static
-MotorInfo.cpp:80:6:void MotorInfo::setIw(float)	16	static
-MotorInfo.cpp:81:6:void MotorInfo::setIuvw(float, float, float)	24	static
-MotorInfo.cpp:88:6:void MotorInfo::setVu(float)	16	static
-MotorInfo.cpp:89:6:void MotorInfo::setVv(float)	16	static
-MotorInfo.cpp:90:6:void MotorInfo::setVw(float)	16	static
-MotorInfo.cpp:92:6:void MotorInfo::setArg(int)	16	static
-MotorInfo.cpp:96:6:void MotorInfo::setArgDelta(int)	16	static
-MotorInfo.cpp:100:6:void MotorInfo::parkTransform()	16	static
-MotorInfo.cpp:105:6:void MotorInfo::clarkTransform()	72	static
-MotorInfo.cpp:110:6:void MotorInfo::clarkGanmaDelta()	72	static
-MotorInfo.cpp:115:6:void MotorInfo::PIDdq_control(float, float, float)	32	static
-MotorInfo.cpp:121:6:void MotorInfo::PIDganmadelta_control(float, float, float)	32	static
-MotorInfo.cpp:128:6:void MotorInfo::setVd(float)	16	static
-MotorInfo.cpp:129:6:void MotorInfo::setVq(float)	16	static
-MotorInfo.cpp:130:6:void MotorInfo::setVganma(float)	16	static
-MotorInfo.cpp:131:6:void MotorInfo::setVdelta(float)	16	static
-MotorInfo.cpp:133:6:void MotorInfo::invClarkGanmaDelta()	72	static
-MotorInfo.cpp:138:6:void MotorInfo::invClarkTransform()	72	static
-MotorInfo.cpp:143:6:void MotorInfo::invParkTransform()	16	static
-MotorInfo.cpp:164:7:float MotorInfo::getIganma()	16	static
-MotorInfo.cpp:165:7:float MotorInfo::getIdelta()	16	static
-MotorInfo.cpp:167:7:float MotorInfo::getId()	16	static
-MotorInfo.cpp:168:7:float MotorInfo::getIq()	16	static
-MotorInfo.cpp:170:7:float MotorInfo::getVd()	16	static
-MotorInfo.cpp:171:7:float MotorInfo::getVq()	16	static
-MotorInfo.cpp:173:7:float MotorInfo::getValpha()	16	static
-MotorInfo.cpp:174:7:float MotorInfo::getVbeta()	16	static
-MotorInfo.cpp:176:7:float MotorInfo::getVu()	16	static
-MotorInfo.cpp:177:7:float MotorInfo::getVv()	16	static
-MotorInfo.cpp:178:7:float MotorInfo::getVw()	16	static
+MotorInfo.cpp:70:6:void MotorInfo::setIdqPIDLib(PID, PID)	24	static
+MotorInfo.cpp:75:6:void MotorInfo::setIganmadeltaPIDLib(PID, PID)	24	static
+MotorInfo.cpp:85:6:void MotorInfo::startForceCommutation()	16	static
+MotorInfo.cpp:89:6:void MotorInfo::stopForceCommutation()	16	static
+MotorInfo.cpp:95:6:void MotorInfo::setIu(float)	16	static
+MotorInfo.cpp:96:6:void MotorInfo::setIv(float)	16	static
+MotorInfo.cpp:97:6:void MotorInfo::setIw(float)	16	static
+MotorInfo.cpp:98:6:void MotorInfo::setIuvw(float, float, float)	24	static
+MotorInfo.cpp:104:6:void MotorInfo::setVu(float)	16	static
+MotorInfo.cpp:105:6:void MotorInfo::setVv(float)	16	static
+MotorInfo.cpp:106:6:void MotorInfo::setVw(float)	16	static
+MotorInfo.cpp:108:6:void MotorInfo::setArg(int)	16	static
+MotorInfo.cpp:112:6:void MotorInfo::setArgDelta(int)	16	static
+MotorInfo.cpp:116:7:float MotorInfo::getArgRad()	16	static
+MotorInfo.cpp:120:7:float MotorInfo::getArgDeltaRad()	16	static
+MotorInfo.cpp:125:6:void MotorInfo::culcArg()	16	static
+MotorInfo.cpp:128:6:void MotorInfo::ForceCommutation()	32	static
+MotorInfo.cpp:139:6:void MotorInfo::setRPM()	24	static
+MotorInfo.cpp:143:6:void MotorInfo::parkTransform()	16	static
+MotorInfo.cpp:148:6:void MotorInfo::clarkTransform()	72	static
+MotorInfo.cpp:153:6:void MotorInfo::clarkGanmaDelta()	72	static
+MotorInfo.cpp:158:6:void MotorInfo::PIDdq_control(float, float, float)	32	static
+MotorInfo.cpp:164:6:void MotorInfo::PIDganmadelta_control(float, float, float)	32	static
+MotorInfo.cpp:171:6:void MotorInfo::setVd(float)	16	static
+MotorInfo.cpp:172:6:void MotorInfo::setVq(float)	16	static
+MotorInfo.cpp:173:6:void MotorInfo::setVganma(float)	16	static
+MotorInfo.cpp:174:6:void MotorInfo::setVdelta(float)	16	static
+MotorInfo.cpp:176:6:void MotorInfo::invClarkGanmaDelta()	72	static
+MotorInfo.cpp:181:6:void MotorInfo::invClarkTransform()	72	static
+MotorInfo.cpp:186:6:void MotorInfo::invParkTransform()	16	static
+MotorInfo.cpp:207:7:float MotorInfo::getIganma()	16	static
+MotorInfo.cpp:208:7:float MotorInfo::getIdelta()	16	static
+MotorInfo.cpp:210:7:float MotorInfo::getId()	16	static
+MotorInfo.cpp:211:7:float MotorInfo::getIq()	16	static
+MotorInfo.cpp:213:7:float MotorInfo::getVd()	16	static
+MotorInfo.cpp:214:7:float MotorInfo::getVq()	16	static
+MotorInfo.cpp:216:7:float MotorInfo::getValpha()	16	static
+MotorInfo.cpp:217:7:float MotorInfo::getVbeta()	16	static
+MotorInfo.cpp:219:7:float MotorInfo::getVu()	16	static
+MotorInfo.cpp:220:7:float MotorInfo::getVv()	16	static
+MotorInfo.cpp:221:7:float MotorInfo::getVw()	16	static
 alloc_traits.h:100:27:static constexpr bool __gnu_cxx::__alloc_traits<_Alloc>::_S_propagate_on_copy_assign() [with _Alloc = std::allocator<float>]	4	static
 alloc_traits.h:109:27:static constexpr bool __gnu_cxx::__alloc_traits<_Alloc>::_S_always_equal() [with _Alloc = std::allocator<float>]	4	static
 vector.tcc:179:5:std::vector<_Tp, _Alloc>& std::vector<_Tp, _Alloc>::operator=(const std::vector<_Tp, _Alloc>&) [with _Tp = float; _Alloc = std::allocator<float>]	40	static

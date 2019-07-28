@@ -10,6 +10,7 @@
 
 
 #include "MathLib.hpp"
+#include "ArgSensor.hpp"
 #include "PID.hpp"
 
 class MotorInfo {
@@ -35,22 +36,36 @@ private:
 	float mVdelta;
 
 	MathLib mLib;
-	int marg;
-	int marg_delta;
+	int mArg;
+	int mArg_delta;
+
+	float mRPM;
 
 	PID mIdPID, mIqPID;
 	PID mIganmaPID, mIdeltaPID;
 
 public:
+	ArgSensor mSensor;
+
+
+public:
+	//Init
 	MotorInfo();
 	virtual ~MotorInfo();
 
 	void setMathLib(MathLib pLib);
 	MathLib getMathLib(void);
 
+	void setArgSensor(ArgSensor pSensor);
+
 	void setIdqPIDLib(PID pdPID, PID pqPID);
 	void setIganmadeltaPIDLib(PID pganmaPID, PID pdeltaPID);
 
+	//start,stop
+	void startForceCommutation(void);
+	void stopForceCommutation(void);
+
+	//update
 	void setIu(float pIu);
 	void setIv(float pIv);
 	void setIw(float pIw);
@@ -60,8 +75,16 @@ public:
 	void setVv(float pVv);
 	void setVw(float pVw);
 
-	void setArg(int parg);
-	void setArgDelta(int parg);
+	void setArg(int pArg);//これはsetSizeCount
+	void setArgDelta(int pArg);
+	float getArgRad(void);
+	float getArgDeltaRad(void);
+
+	void culcArg(void);//角度検出
+
+	void ForceCommutation(void);
+
+	void setRPM(void);
 
 	void parkTransform(void);
 	void clarkTransform(void);

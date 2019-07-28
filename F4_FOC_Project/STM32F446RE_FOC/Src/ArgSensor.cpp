@@ -20,6 +20,7 @@ ArgSensor::ArgSensor() {
 	mArg = 0;
 	mImArgcount = 0;
 	mArg_delta = 0;
+	mFCisON = 0;
 }
 
 ArgSensor::~ArgSensor() {
@@ -30,6 +31,7 @@ void ArgSensor::Init(void) {
 	mArgOld = 0;
 	mArg = 0;
 	mArg_delta = 0;
+	mFCisON = 0;
 }
 
 void ArgSensor::increment(float pArg){
@@ -56,44 +58,16 @@ float ArgSensor::getArg_delta(void){
 	return mArg_delta;
 }
 
-void ArgSensor::Start_Stop(bool pIsONState){
-		mIsStart = pIsONState;
+void ArgSensor::FC_Start_Stop(bool pIsON){
+		mFCisON = pIsON;
 }
 
 bool ArgSensor::GetIsAccelerating(void){
 	return mIsAccelerating;
 }
 
-//void ArgSensor::ImArg(void){
-//	if(mIsStart){
-//		if(mImArgcount < 25000){
-//			mImArgcount++;
-//			//mImArgcount = 25;
-//			mIsAccelerating = true;
-//		} else {
-//			mIsAccelerating = false;
-//		}
-//		mCalcArg = mImArgcount*0.0000125f*M_PI;//進む差分角
-//		mArgOld = mArg;
-//		mArg = mArg + mCalcArg + (2*M_PI);
-//		mArg = fmodl(mArg, (2*M_PI));
-//
-//	} else {
-//		if(mImArgcount > 0){
-//			mImArgcount--;
-//			mIsAccelerating = true;
-//		} else {
-//			mIsAccelerating = false;
-//		}
-//		mCalcArg = mImArgcount*0.0000125f*M_PI;
-//		mArgOld = mArg;
-//		mArg = mArg + mCalcArg + (2*M_PI);
-//		mArg = fmodl(mArg, (2*M_PI));
-//	}
-//}
-
-void ArgSensor::ImArg(void){
-	if(mIsStart){
+void ArgSensor::ForceComArg(void){
+	if(mFCisON){
 		if(mImArgcount < 25000){
 			mImArgcount = mImArgcount + 4;
 			//mImArgcount = 25;
