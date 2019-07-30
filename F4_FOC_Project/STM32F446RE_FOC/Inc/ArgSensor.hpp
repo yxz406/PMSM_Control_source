@@ -34,6 +34,7 @@ public:
 	bool GetIsAccelerating(void);
 
 	void ForceComArg(void);
+	void Observer(void);
 
 	//void ImArg2(void);//連れ回し運転　名前を変える事
 };

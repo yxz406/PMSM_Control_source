@@ -21,6 +21,8 @@
 #include "stm32f4xx_ll_pwr.h"
 #include "stm32f4xx_ll_dma.h"
 
+#include "TIMInit.hpp"
+
 #include <vector>
 #include <string>
 #include "math.h"
@@ -35,6 +37,7 @@
 #include "ArgSensor.hpp"
 #include "UiCtrl.hpp"
 #include "PID.hpp"
+#include "TimInfo.hpp"
 
 #include "DebugInfo.hpp"
 
@@ -42,10 +45,9 @@
 bool isDebugMode = DEBUG_MODE;
 unsigned int debugCount = DEBUG_COUNT;
 
-bool DebugStartTrig(void);//bool型のhedder宣言ができないかもしれない。どうしよう。
-
 //全てのWrappr関数で叩けるGlobal Object
 //System Class
+TIMInit TimerInit;
 PWM PWM_Object1; //PWMのHWを叩くClass
 PWM PWM_Object2;
 PWM PWM_Object3;
@@ -59,6 +61,7 @@ DebugInfo Debug;//デバッグ情報かき集め
 
 
 void cppwrapper(void){
+	TimerInit.Init();//CubeMXに頼らないタイマ定義
 	{//MathLibの生存時間調整(メモリ空けてくれ!!)
 		MathLib mathlibrary;//三角関数を取得
 		int mathlib_size = 512;//ライブラリのサイズを指定
@@ -68,6 +71,11 @@ void cppwrapper(void){
 	{
 		ArgSensor sensor; //角度を求める機能を持ったclass
 		Motor.setArgSensor(sensor);
+	}
+	{
+		TimInfo Tim_Info;//タイマの経過時間測定Class
+		Tim_Info.Init(TIM1);
+		Motor.setTimInfo(Tim_Info);
 	}
 	{//PIDLibの生存時間調整(代入後メモリを解放する)
 		PID IqPID;
@@ -187,7 +195,7 @@ void HighFreqTask(void){
 			MotorOutputTask();
 
 			if(isDebugMode){//デバッグモードで入る処理
-				if(DebugStartTrig()){//起動後停止の確認処理
+				if( (ui_ctrl.getState()) && (!Motor.mSensor.GetIsAccelerating()) ){//起動後停止の確認処理
 					DebugTask(Iu, Iv, Iw, Motor.getArgRad());
 				}
 			}
@@ -196,15 +204,6 @@ void HighFreqTask(void){
 		{
 			LL_ADC_WriteReg(ADC1,ISR,0);
 		}*/
-}
-
-bool DebugStartTrig(void){
-	if(ui_ctrl.getState()){
-		if(!Motor.mSensor.GetIsAccelerating()){
-			return true;
-		}
-	}
-	return false;
 }
 
 void DebugTask(float pIu, float pIv, float pIw, float pArg){

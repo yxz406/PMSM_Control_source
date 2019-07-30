@@ -30,6 +30,8 @@
 "Src/MotorInfo.o"
 "Src/PID.o"
 "Src/PWM.o"
+"Src/TIMInit.o"
+"Src/TimInfo.o"
 "Src/UART.o"
 "Src/UiCtrl.o"
 "Src/adc.o"

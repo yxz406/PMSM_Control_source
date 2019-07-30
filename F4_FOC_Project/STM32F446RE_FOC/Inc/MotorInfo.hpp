@@ -12,6 +12,7 @@
 #include "MathLib.hpp"
 #include "ArgSensor.hpp"
 #include "PID.hpp"
+#include "TimInfo.hpp"
 
 class MotorInfo {
 private:
@@ -41,6 +42,8 @@ private:
 
 	float mRPM;
 
+	TimInfo mTimInfo;
+
 	PID mIdPID, mIqPID;
 	PID mIganmaPID, mIdeltaPID;
 
@@ -57,6 +60,8 @@ public:
 	MathLib getMathLib(void);
 
 	void setArgSensor(ArgSensor pSensor);
+
+	void setTimInfo(TimInfo pTimInfo);
 
 	void setIdqPIDLib(PID pdPID, PID pqPID);
 	void setIganmadeltaPIDLib(PID pganmaPID, PID pdeltaPID);

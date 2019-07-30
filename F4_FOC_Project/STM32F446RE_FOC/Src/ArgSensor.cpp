@@ -70,14 +70,14 @@ void ArgSensor::ForceComArg(void){
 	if(mFCisON){
 		if(mImArgcount < 25000){
 			mImArgcount = mImArgcount + 4;
-			//mImArgcount = 25;
 			mIsAccelerating = true;
 		} else {
 			mIsAccelerating = false;
 		}
-		mArg_delta = mImArgcount*0.0000125f*M_PI;//進む差分角
+		float arg_add;
+		arg_add = mImArgcount*0.0000125f*M_PI;//進む差分角
 		mArgOld = mArg;
-		mArg = mArg + mArg_delta + (2*M_PI);
+		mArg = mArg + arg_add + (2*M_PI);
 		mArg = fmodl(mArg, (2*M_PI));
 
 	} else {
@@ -87,10 +87,14 @@ void ArgSensor::ForceComArg(void){
 		} else {
 			mIsAccelerating = false;
 		}
-		mArg_delta = mImArgcount*0.0000125f*M_PI;
+		float arg_add;
+		arg_add = mImArgcount*0.0000125f*M_PI;
 		mArgOld = mArg;
-		mArg = mArg + mArg_delta + (2*M_PI);
+		mArg = mArg + arg_add + (2*M_PI);
 		mArg = fmodl(mArg, (2*M_PI));
 	}
 }
 
+void ArgSensor::Observer(void){
+
+}

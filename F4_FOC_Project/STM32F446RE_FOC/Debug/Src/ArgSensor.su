@@ -9,4 +9,5 @@ ArgSensor.cpp:53:7:float ArgSensor::getArgOld()	16	static
 ArgSensor.cpp:57:7:float ArgSensor::getArg_delta()	16	static
 ArgSensor.cpp:61:6:void ArgSensor::FC_Start_Stop(bool)	16	static
 ArgSensor.cpp:65:6:bool ArgSensor::GetIsAccelerating()	16	static
-ArgSensor.cpp:69:6:void ArgSensor::ForceComArg()	24	static
+ArgSensor.cpp:69:6:void ArgSensor::ForceComArg()	32	static
+ArgSensor.cpp:98:6:void ArgSensor::Observer()	16	static

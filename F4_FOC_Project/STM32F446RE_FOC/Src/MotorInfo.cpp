@@ -44,7 +44,6 @@
 
 
 #include "MotorInfo.hpp"
-#include "Mathlib.hpp"
 
 //Init
 
@@ -66,6 +65,11 @@ MathLib MotorInfo::getMathLib(void){return mLib;}
 void MotorInfo::setArgSensor(ArgSensor pSensor){
 	mSensor = pSensor;
 }
+
+void MotorInfo::setTimInfo(TimInfo pTimInfo) {
+	mTimInfo = pTimInfo;
+}
+
 
 void MotorInfo::setIdqPIDLib(PID pdPID, PID pqPID){
 	mIdPID = pdPID;

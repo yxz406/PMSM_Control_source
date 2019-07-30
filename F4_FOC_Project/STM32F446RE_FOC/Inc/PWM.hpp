@@ -5,11 +5,13 @@
  *      Author: watashi
  */
 
-#include "stm32f4xx_ll_tim.h"//need
+
 
 
 #ifndef PWM_HPP_
 #define PWM_HPP_
+
+#include "stm32f4xx_ll_tim.h"//need
 
 class PWM {
 private:

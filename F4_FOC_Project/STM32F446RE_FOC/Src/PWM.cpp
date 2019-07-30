@@ -21,7 +21,7 @@
 
 #include "PWM.hpp"
 #include "stm32f4xx_hal.h"
-#include "tim.h"
+//#include "tim.h"
 
 void PWM::setTIM(TIM_TypeDef* pTIMx){
 	mTIMx = pTIMx;

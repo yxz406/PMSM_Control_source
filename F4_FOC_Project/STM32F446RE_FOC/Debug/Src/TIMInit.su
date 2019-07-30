@@ -1,0 +1,20 @@
+core_cm4.h:1676:26:uint32_t __NVIC_GetPriorityGrouping()	4	static
+core_cm4.h:1688:22:void __NVIC_EnableIRQ(IRQn_Type)	16	static
+core_cm4.h:1816:22:void __NVIC_SetPriority(IRQn_Type, uint32_t)	16	static
+core_cm4.h:1863:26:uint32_t NVIC_EncodePriority(uint32_t, uint32_t, uint32_t)	40	static
+stm32f4xx_ll_tim.h:1228:22:void LL_TIM_DisableARRPreload(TIM_TypeDef*)	16	static
+stm32f4xx_ll_tim.h:1833:22:void LL_TIM_OC_DisableFast(TIM_TypeDef*, uint32_t)	24	static
+stm32f4xx_ll_tim.h:1877:22:void LL_TIM_OC_EnablePreload(TIM_TypeDef*, uint32_t)	24	static
+stm32f4xx_ll_tim.h:2646:22:void LL_TIM_SetTriggerOutput(TIM_TypeDef*, uint32_t)	16	static
+stm32f4xx_ll_tim.h:2664:22:void LL_TIM_SetSlaveMode(TIM_TypeDef*, uint32_t)	16	static
+stm32f4xx_ll_tim.h:2686:22:void LL_TIM_SetTriggerInput(TIM_TypeDef*, uint32_t)	16	static
+stm32f4xx_ll_tim.h:2712:22:void LL_TIM_DisableMasterSlaveMode(TIM_TypeDef*)	16	static
+stm32f4xx_ll_tim.h:3535:22:void LL_TIM_DisableIT_TRIG(TIM_TypeDef*)	16	static
+stm32f4xx_ll_tim.h:3806:22:void LL_TIM_DisableDMAReq_TRIG(TIM_TypeDef*)	16	static
+stm32f4xx_ll_bus.h:411:22:void LL_AHB1_GRP1_EnableClock(uint32_t)	24	static
+stm32f4xx_ll_bus.h:1706:22:void LL_APB2_GRP1_EnableClock(uint32_t)	24	static
+TIMInit.cpp:10:1:TIMInit::TIMInit()	16	static
+TIMInit.cpp:15:1:TIMInit::~TIMInit()	16	static
+TIMInit.cpp:15:1:virtual TIMInit::~TIMInit()	16	static
+TIMInit.cpp:22:6:void TIMInit::Init()	16	static
+TIMInit.cpp:27:6:void MX_TIM1_Init()	112	static
