@@ -13,7 +13,6 @@
  */
 
 #include "ArgSensor.hpp"
-#include "math.h"
 
 ArgSensor::ArgSensor() {
 	// TODO Auto-generated constructor stub

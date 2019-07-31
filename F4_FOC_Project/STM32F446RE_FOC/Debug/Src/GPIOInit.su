@@ -1,0 +1,14 @@
+core_cm4.h:1676:26:uint32_t __NVIC_GetPriorityGrouping()	4	static
+core_cm4.h:1688:22:void __NVIC_EnableIRQ(IRQn_Type)	16	static
+core_cm4.h:1816:22:void __NVIC_SetPriority(IRQn_Type, uint32_t)	16	static
+core_cm4.h:1863:26:uint32_t NVIC_EncodePriority(uint32_t, uint32_t, uint32_t)	40	static
+stm32f4xx_ll_system.h:670:22:void LL_SYSCFG_SetEXTISource(uint32_t, uint32_t)	24	static,ignoring_inline_asm
+stm32f4xx_ll_gpio.h:274:22:void LL_GPIO_SetPinMode(GPIO_TypeDef*, uint32_t, uint32_t)	40	static,ignoring_inline_asm
+stm32f4xx_ll_gpio.h:485:22:void LL_GPIO_SetPinPull(GPIO_TypeDef*, uint32_t, uint32_t)	40	static,ignoring_inline_asm
+stm32f4xx_ll_gpio.h:911:22:void LL_GPIO_ResetOutputPin(GPIO_TypeDef*, uint32_t)	16	static
+stm32f4xx_ll_bus.h:411:22:void LL_AHB1_GRP1_EnableClock(uint32_t)	24	static
+GPIOInit.cpp:10:1:GPIOInit::GPIOInit()	16	static
+GPIOInit.cpp:15:1:GPIOInit::~GPIOInit()	16	static
+GPIOInit.cpp:15:1:virtual GPIOInit::~GPIOInit()	16	static
+GPIOInit.cpp:21:6:void GPIOInit::Init()	16	static
+GPIOInit.cpp:25:6:void MX_GPIO_Init()	40	static

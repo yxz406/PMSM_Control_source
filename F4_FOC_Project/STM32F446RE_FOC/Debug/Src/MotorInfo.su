@@ -2,13 +2,13 @@ gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 MotorInfo.cpp:50:1:MotorInfo::MotorInfo()	16	static
 MotorInfo.cpp:55:1:MotorInfo::~MotorInfo()	16	static
 MotorInfo.cpp:55:1:virtual MotorInfo::~MotorInfo()	16	static
-MathLib.hpp:13:7:MathLib& MathLib::operator=(const MathLib&)	16	static
+MathLib.hpp:14:7:MathLib& MathLib::operator=(const MathLib&)	16	static
 MotorInfo.cpp:59:6:void MotorInfo::setMathLib(MathLib)	16	static
-MathLib.hpp:13:7:MathLib::MathLib(const MathLib&)	16	static
+MathLib.hpp:14:7:MathLib::MathLib(const MathLib&)	16	static
 MotorInfo.cpp:63:9:MathLib MotorInfo::getMathLib()	16	static
-ArgSensor.hpp:11:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
+ArgSensor.hpp:13:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
 MotorInfo.cpp:65:6:void MotorInfo::setArgSensor(ArgSensor)	16	static
-TimInfo.hpp:14:7:constexpr TimInfo& TimInfo::operator=(const TimInfo&)	16	static
+TimInfo.hpp:13:7:constexpr TimInfo& TimInfo::operator=(const TimInfo&)	16	static
 MotorInfo.cpp:69:6:void MotorInfo::setTimInfo(TimInfo)	16	static
 PID.hpp:13:7:constexpr PID& PID::operator=(const PID&)	16	static
 MotorInfo.cpp:74:6:void MotorInfo::setIdqPIDLib(PID, PID)	24	static

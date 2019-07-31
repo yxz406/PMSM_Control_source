@@ -8,6 +8,8 @@
 #ifndef ARGSENSOR_HPP_
 #define ARGSENSOR_HPP_
 
+#include "math.h"
+
 class ArgSensor {
 private:
 	float mArg;

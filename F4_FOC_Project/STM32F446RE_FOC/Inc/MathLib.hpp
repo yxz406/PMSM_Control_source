@@ -9,6 +9,7 @@
 #define MATHLIB_HPP_
 
 #include <vector>
+#include "math.h"
 
 class MathLib {
 private:

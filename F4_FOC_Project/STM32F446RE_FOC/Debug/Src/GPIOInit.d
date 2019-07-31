@@ -1,4 +1,4 @@
-Src/TIMInit.o: ../Src/TIMInit.cpp ../Inc/TIMInit.hpp \
+Src/GPIOInit.o: ../Src/GPIOInit.cpp ../Inc/GPIOInit.hpp \
  ../Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
@@ -39,9 +39,9 @@ Src/TIMInit.o: ../Src/TIMInit.cpp ../Inc/TIMInit.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
- ../Inc/ErrorHandler.hpp
+ ../Inc/ErrorHandler.hpp ../Inc/PinDef.h
 
-../Inc/TIMInit.hpp:
+../Inc/GPIOInit.hpp:
 
 ../Inc/STM32SystemPack.h:
 
@@ -124,3 +124,5 @@ Src/TIMInit.o: ../Src/TIMInit.cpp ../Inc/TIMInit.hpp \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:
 
 ../Inc/ErrorHandler.hpp:
+
+../Inc/PinDef.h:

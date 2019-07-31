@@ -1,9 +1,9 @@
 stm32f4xx_ll_tim.h:1301:26:uint32_t LL_TIM_GetCounter(TIM_TypeDef*)	16	static
 stm32f4xx_ll_tim.h:1370:26:uint32_t LL_TIM_GetAutoReload(TIM_TypeDef*)	16	static
-TimInfo.cpp:25:1:TimInfo::TimInfo()	16	static
-TimInfo.cpp:30:1:TimInfo::~TimInfo()	16	static
-TimInfo.cpp:30:1:virtual TimInfo::~TimInfo()	16	static
-TimInfo.cpp:34:6:void TimInfo::Init(TIM_TypeDef*)	16	static
-TimInfo.cpp:50:6:void TimInfo::StartTimMesure()	16	static
-TimInfo.cpp:54:6:void TimInfo::StopTimMesure()	16	static
-TimInfo.cpp:58:5:int TimInfo::CalcTime()	24	static
+TimInfo.cpp:12:1:TimInfo::TimInfo()	16	static
+TimInfo.cpp:17:1:TimInfo::~TimInfo()	16	static
+TimInfo.cpp:17:1:virtual TimInfo::~TimInfo()	16	static
+TimInfo.cpp:21:6:void TimInfo::Init(TIM_TypeDef*)	16	static
+TimInfo.cpp:37:6:void TimInfo::StartTimMesure()	16	static
+TimInfo.cpp:41:6:void TimInfo::StopTimMesure()	16	static
+TimInfo.cpp:45:5:int TimInfo::CalcTime()	24	static

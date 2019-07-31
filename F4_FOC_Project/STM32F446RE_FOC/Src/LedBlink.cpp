@@ -5,6 +5,8 @@
  *      Author: watashi
  */
 
+//あそびクラス　そのうち消す
+
 #include "LedBlink.hpp"
 #include "gpio.h"
 //#include "stm32f4xx_hal.h"

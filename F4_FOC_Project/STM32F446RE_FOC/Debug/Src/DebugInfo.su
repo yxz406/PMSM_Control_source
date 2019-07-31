@@ -1,14 +1,14 @@
 new:168:14:void* operator new(std::size_t, void*)	16	static
-DebugInfo.cpp:25:1:DebugInfo::SendMotorData::SendMotorData(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float)	72	static
-DebugInfo.cpp:42:1:DebugInfo::SendMotorData::SendMotorData(float, float, float, float)	32	static
-DebugInfo.cpp:48:1:DebugInfo::SendMotorData::~SendMotorData()	16	static
-DebugInfo.cpp:48:1:virtual DebugInfo::SendMotorData::~SendMotorData()	16	static
-DebugInfo.cpp:52:1:DebugInfo::DebugInfo()	16	static
-DebugInfo.cpp:56:1:DebugInfo::~DebugInfo()	16	static
-DebugInfo.cpp:56:1:virtual DebugInfo::~DebugInfo()	16	static
-DebugInfo.cpp:60:6:void DebugInfo::SetMotorData(DebugInfo::SendMotorData*)	16	static
-DebugInfo.cpp:65:39:std::vector<DebugInfo::SendMotorData> DebugInfo::GetVect()	16	static
-DebugInfo.cpp:69:5:int DebugInfo::GetVectSize()	16	static
+DebugInfo.cpp:24:1:DebugInfo::SendMotorData::SendMotorData(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float)	72	static
+DebugInfo.cpp:41:1:DebugInfo::SendMotorData::SendMotorData(float, float, float, float)	32	static
+DebugInfo.cpp:47:1:DebugInfo::SendMotorData::~SendMotorData()	16	static
+DebugInfo.cpp:47:1:virtual DebugInfo::SendMotorData::~SendMotorData()	16	static
+DebugInfo.cpp:51:1:DebugInfo::DebugInfo()	16	static
+DebugInfo.cpp:55:1:DebugInfo::~DebugInfo()	16	static
+DebugInfo.cpp:55:1:virtual DebugInfo::~DebugInfo()	16	static
+DebugInfo.cpp:59:6:void DebugInfo::SetMotorData(DebugInfo::SendMotorData*)	16	static
+DebugInfo.cpp:64:39:std::vector<DebugInfo::SendMotorData> DebugInfo::GetVect()	16	static
+DebugInfo.cpp:68:5:int DebugInfo::GetVectSize()	16	static
 stl_vector.h:259:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	16	static
 stl_vector.h:433:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static
 stl_vector.h:939:7:void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	16	static

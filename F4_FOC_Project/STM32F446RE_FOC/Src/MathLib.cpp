@@ -18,8 +18,6 @@
  */
 
 #include "MathLib.hpp"
-#include <vector>
-#include "math.h"
 
 MathLib::MathLib() {
 	mSize = 0;

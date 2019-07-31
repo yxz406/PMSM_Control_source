@@ -8,6 +8,7 @@
 #ifndef UART_HPP_
 #define UART_HPP_
 
+#include "STM32SystemPack.h"
 #include <string>
 
 class UART {

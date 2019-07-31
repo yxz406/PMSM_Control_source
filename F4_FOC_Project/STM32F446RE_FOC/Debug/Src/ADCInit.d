@@ -1,4 +1,4 @@
-Src/TIMInit.o: ../Src/TIMInit.cpp ../Inc/TIMInit.hpp \
+Src/ADCInit.o: ../Src/ADCInit.cpp ../Inc/ADCInit.hpp \
  ../Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
@@ -41,7 +41,7 @@ Src/TIMInit.o: ../Src/TIMInit.cpp ../Inc/TIMInit.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
  ../Inc/ErrorHandler.hpp
 
-../Inc/TIMInit.hpp:
+../Inc/ADCInit.hpp:
 
 ../Inc/STM32SystemPack.h:
 

@@ -1,0 +1,9 @@
+stm32f4xx_ll_usart.h:409:22:void LL_USART_Enable(USART_TypeDef*)	16	static
+stm32f4xx_ll_usart.h:1478:22:void LL_USART_ConfigAsyncMode(USART_TypeDef*)	16	static
+stm32f4xx_ll_bus.h:411:22:void LL_AHB1_GRP1_EnableClock(uint32_t)	24	static
+stm32f4xx_ll_bus.h:1187:22:void LL_APB1_GRP1_EnableClock(uint32_t)	24	static
+USARTInit.cpp:10:1:USARTInit::USARTInit()	16	static
+USARTInit.cpp:15:1:USARTInit::~USARTInit()	16	static
+USARTInit.cpp:15:1:virtual USARTInit::~USARTInit()	16	static
+USARTInit.cpp:21:6:void USARTInit::Init()	16	static
+USARTInit.cpp:25:6:void MX_USART2_UART_Init()	64	static

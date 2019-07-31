@@ -113,12 +113,12 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USART2_UART_Init();
+  //MX_GPIO_Init();
+  MX_USART2_UART_Init();//これだけはテスト前の移植が怖いから残している。
   //MX_TIM1_Init();
-  MX_ADC1_Init();
-  MX_ADC2_Init();
-  MX_ADC3_Init();
+  //MX_ADC1_Init();
+  //MX_ADC2_Init();
+  //MX_ADC3_Init();
   /* USER CODE BEGIN 2 */
   cppwrapper();
   /* USER CODE END 2 */

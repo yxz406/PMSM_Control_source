@@ -8,8 +8,7 @@
 #ifndef TIMINFO_HPP_
 #define TIMINFO_HPP_
 
-
-#include "stm32f4xx_ll_tim.h"//need
+#include "STM32SystemPack.h"
 
 class TimInfo {
 private:

@@ -5,23 +5,18 @@
  *      Author: watashi
  */
 
+//このClassだけは、C/C++の架け橋なので、
+//.hppの#includeがHedder側でできない。
+//なのでソース内に記述する。
+
 #include "paramsetting.h" //パラメータのマクロ
 
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx_ll_adc.h"
-#include "stm32f4xx_ll_tim.h"
-#include "stm32f4xx.h"
-#include "stm32f4xx_ll_system.h"
-#include "stm32f4xx_ll_gpio.h"
-#include "stm32f4xx_ll_exti.h"
-#include "stm32f4xx_ll_bus.h"
-#include "stm32f4xx_ll_cortex.h"
-#include "stm32f4xx_ll_rcc.h"
-#include "stm32f4xx_ll_utils.h"
-#include "stm32f4xx_ll_pwr.h"
-#include "stm32f4xx_ll_dma.h"
+#include "STM32SystemPack.h"
 
 #include "TIMInit.hpp"
+#include "ADCInit.hpp"
+#include "GPIOInit.hpp"
+#include "USARTInit.hpp"
 
 #include <vector>
 #include <string>
@@ -45,9 +40,14 @@
 bool isDebugMode = DEBUG_MODE;
 unsigned int debugCount = DEBUG_COUNT;
 
+
 //全てのWrappr関数で叩けるGlobal Object
 //System Class
+GPIOInit GPIOInit;
+USARTInit USARTInit;
+ADCInit ADCInit;
 TIMInit TimerInit;
+
 PWM PWM_Object1; //PWMのHWを叩くClass
 PWM PWM_Object2;
 PWM PWM_Object3;
@@ -61,7 +61,12 @@ DebugInfo Debug;//デバッグ情報かき集め
 
 
 void cppwrapper(void){
-	TimerInit.Init();//CubeMXに頼らないタイマ定義
+	//以下CubeMXに頼らない定義たち
+	GPIOInit.Init();
+	USARTInit.Init();
+	ADCInit.Init();
+	TimerInit.Init();
+
 	{//MathLibの生存時間調整(メモリ空けてくれ!!)
 		MathLib mathlibrary;//三角関数を取得
 		int mathlib_size = 512;//ライブラリのサイズを指定

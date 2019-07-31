@@ -20,7 +20,6 @@
  *(配列のfor使って調理してください(にっこり))
  */
 #include "DebugInfo.hpp"
-#include <vector>
 
 DebugInfo::SendMotorData::SendMotorData(float pIu, float pIv, float pIw,
 							float pIalpha, float pIbeta,
