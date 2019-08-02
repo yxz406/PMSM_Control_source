@@ -9,13 +9,14 @@
 #define TIMINIT_HPP_
 
 #include "STM32SystemPack.h"
+#include "paramsetting.h"
 
 
 class TIMInit {
 public:
 	TIMInit();
 	virtual ~TIMInit();
-	void Init();
+	static void Init();
 };
 
 #endif /* TIMINIT_HPP_ */

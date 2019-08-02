@@ -32,7 +32,7 @@ class USARTInit {
 public:
 	USARTInit();
 	virtual ~USARTInit();
-	void Init();
+	static void Init();
 };
 
 #endif /* USARTINIT_HPP_ */

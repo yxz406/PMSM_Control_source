@@ -1,5 +1,5 @@
 Src/TimInfo.o: ../Src/TimInfo.cpp ../Inc/TimInfo.hpp \
- ../Inc/STM32SystemPack.h \
+ ../Inc/../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -39,11 +39,11 @@ Src/TimInfo.o: ../Src/TimInfo.cpp ../Inc/TimInfo.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
- ../Inc/ErrorHandler.hpp
+ ../Inc/../SystemLib/Inc/ErrorHandler.hpp
 
 ../Inc/TimInfo.hpp:
 
-../Inc/STM32SystemPack.h:
+../Inc/../SystemLib/Inc/STM32SystemPack.h:
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 
@@ -123,4 +123,4 @@ Src/TimInfo.o: ../Src/TimInfo.cpp ../Inc/TimInfo.hpp \
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:
 
-../Inc/ErrorHandler.hpp:
+../Inc/../SystemLib/Inc/ErrorHandler.hpp:

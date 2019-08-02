@@ -1,0 +1,4 @@
+ErrorHandler.cpp:10:1:ErrorHandler::ErrorHandler()	16	static
+ErrorHandler.cpp:15:1:ErrorHandler::~ErrorHandler()	16	static
+ErrorHandler.cpp:15:1:virtual ErrorHandler::~ErrorHandler()	16	static
+ErrorHandler.cpp:19:6:static void ErrorHandler::ADC_Error_Handler()	4	static

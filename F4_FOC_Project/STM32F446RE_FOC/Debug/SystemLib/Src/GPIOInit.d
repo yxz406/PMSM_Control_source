@@ -1,5 +1,6 @@
-Src/GPIOInit.o: ../Src/GPIOInit.cpp ../Inc/GPIOInit.hpp \
- ../Inc/STM32SystemPack.h \
+SystemLib/Src/GPIOInit.o: ../SystemLib/Src/GPIOInit.cpp \
+ ../Inc/../SystemLib/Inc/GPIOInit.hpp \
+ ../Inc/../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -39,11 +40,11 @@ Src/GPIOInit.o: ../Src/GPIOInit.cpp ../Inc/GPIOInit.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
- ../Inc/ErrorHandler.hpp ../Inc/PinDef.h
+ ../Inc/../SystemLib/Inc/ErrorHandler.hpp ../Inc/PinDef.h
 
-../Inc/GPIOInit.hpp:
+../Inc/../SystemLib/Inc/GPIOInit.hpp:
 
-../Inc/STM32SystemPack.h:
+../Inc/../SystemLib/Inc/STM32SystemPack.h:
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 
@@ -123,6 +124,6 @@ Src/GPIOInit.o: ../Src/GPIOInit.cpp ../Inc/GPIOInit.hpp \
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:
 
-../Inc/ErrorHandler.hpp:
+../Inc/../SystemLib/Inc/ErrorHandler.hpp:
 
 ../Inc/PinDef.h:

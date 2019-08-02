@@ -5,7 +5,7 @@
  *      Author: watashi
  */
 
-#include "ErrorHandler.hpp"
+#include "../SystemLib/Inc/ErrorHandler.hpp"
 
 ErrorHandler::ErrorHandler() {
 	// TODO Auto-generated constructor stub

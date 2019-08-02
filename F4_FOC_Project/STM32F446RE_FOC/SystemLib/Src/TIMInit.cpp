@@ -5,7 +5,7 @@
  *      Author: watashi
  */
 
-#include "TIMInit.hpp"
+#include "../SystemLib/Inc/TIMInit.hpp"
 
 TIMInit::TIMInit() {
 	// TODO Auto-generated constructor stub

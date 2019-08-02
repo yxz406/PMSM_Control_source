@@ -1,5 +1,5 @@
 Src/wrapper.o: ../Src/wrapper.cpp ../Inc/paramsetting.h \
- ../Inc/STM32SystemPack.h \
+ ../Src/../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -39,17 +39,22 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/paramsetting.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
- ../Inc/ErrorHandler.hpp ../Inc/TIMInit.hpp ../Inc/STM32SystemPack.h \
- ../Inc/ADCInit.hpp ../Inc/GPIOInit.hpp ../Inc/PinDef.h \
- ../Inc/USARTInit.hpp ../Inc/wrapper.hpp ../Inc/LedBlink.hpp \
- ../Inc/MathLib.hpp ../Inc/PWM.hpp ../Inc/UART.hpp ../Inc/MotorInfo.hpp \
- ../Inc/MathLib.hpp ../Inc/ArgSensor.hpp ../Inc/PID.hpp \
- ../Inc/TimInfo.hpp ../Inc/ArgSensor.hpp ../Inc/UiCtrl.hpp ../Inc/PID.hpp \
- ../Inc/TimInfo.hpp ../Inc/DebugInfo.hpp
+ ../Src/../SystemLib/Inc/ErrorHandler.hpp \
+ ../Src/../SystemLib/Inc/ADCInit.hpp \
+ ../Src/../SystemLib/Inc/STM32SystemPack.h \
+ ../Src/../SystemLib/Inc/GPIOInit.hpp ../Inc/PinDef.h \
+ ../Src/../SystemLib/Inc/TIMInit.hpp \
+ ../Src/../SystemLib/Inc/USARTInit.hpp ../Inc/wrapper.hpp \
+ ../Inc/LedBlink.hpp ../Inc/MathLib.hpp ../Inc/PWM.hpp \
+ ../Inc/../SystemLib/Inc/STM32SystemPack.h ../Inc/paramsetting.h \
+ ../Inc/UART.hpp ../Inc/MotorInfo.hpp ../Inc/MathLib.hpp \
+ ../Inc/ArgSensor.hpp ../Inc/PID.hpp ../Inc/TimInfo.hpp \
+ ../Inc/ArgSensor.hpp ../Inc/UiCtrl.hpp ../Inc/PID.hpp ../Inc/TimInfo.hpp \
+ ../Inc/DebugInfo.hpp
 
 ../Inc/paramsetting.h:
 
-../Inc/STM32SystemPack.h:
+../Src/../SystemLib/Inc/STM32SystemPack.h:
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 
@@ -129,19 +134,19 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/paramsetting.h \
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:
 
-../Inc/ErrorHandler.hpp:
+../Src/../SystemLib/Inc/ErrorHandler.hpp:
 
-../Inc/TIMInit.hpp:
+../Src/../SystemLib/Inc/ADCInit.hpp:
 
-../Inc/STM32SystemPack.h:
+../Src/../SystemLib/Inc/STM32SystemPack.h:
 
-../Inc/ADCInit.hpp:
-
-../Inc/GPIOInit.hpp:
+../Src/../SystemLib/Inc/GPIOInit.hpp:
 
 ../Inc/PinDef.h:
 
-../Inc/USARTInit.hpp:
+../Src/../SystemLib/Inc/TIMInit.hpp:
+
+../Src/../SystemLib/Inc/USARTInit.hpp:
 
 ../Inc/wrapper.hpp:
 
@@ -150,6 +155,10 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/paramsetting.h \
 ../Inc/MathLib.hpp:
 
 ../Inc/PWM.hpp:
+
+../Inc/../SystemLib/Inc/STM32SystemPack.h:
+
+../Inc/paramsetting.h:
 
 ../Inc/UART.hpp:
 

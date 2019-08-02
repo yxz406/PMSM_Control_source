@@ -15,7 +15,7 @@ class GPIOInit {
 public:
 	GPIOInit();
 	virtual ~GPIOInit();
-	void Init();
+	static void Init();
 };
 
 #endif /* GPIOINIT_HPP_ */

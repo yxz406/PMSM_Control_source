@@ -1,0 +1,3 @@
+TIMCtrl.cpp:10:1:TIMCtrl::TIMCtrl()	16	static
+TIMCtrl.cpp:15:1:TIMCtrl::~TIMCtrl()	16	static
+TIMCtrl.cpp:15:1:virtual TIMCtrl::~TIMCtrl()	16	static

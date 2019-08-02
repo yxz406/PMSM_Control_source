@@ -16,5 +16,5 @@ stm32f4xx_ll_bus.h:1706:22:void LL_APB2_GRP1_EnableClock(uint32_t)	24	static
 TIMInit.cpp:10:1:TIMInit::TIMInit()	16	static
 TIMInit.cpp:15:1:TIMInit::~TIMInit()	16	static
 TIMInit.cpp:15:1:virtual TIMInit::~TIMInit()	16	static
-TIMInit.cpp:22:6:void TIMInit::Init()	16	static
+TIMInit.cpp:22:6:static void TIMInit::Init()	8	static
 TIMInit.cpp:27:6:void MX_TIM1_Init()	112	static

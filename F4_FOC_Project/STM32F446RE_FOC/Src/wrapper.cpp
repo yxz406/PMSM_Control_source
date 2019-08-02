@@ -9,14 +9,17 @@
 //.hppの#includeがHedder側でできない。
 //なのでソース内に記述する。
 
+
+
 #include "paramsetting.h" //パラメータのマクロ
 
-#include "STM32SystemPack.h"
+#include "../SystemLib/Inc/STM32SystemPack.h"
 
-#include "TIMInit.hpp"
-#include "ADCInit.hpp"
-#include "GPIOInit.hpp"
-#include "USARTInit.hpp"
+#include "../SystemLib/Inc/ADCInit.hpp"
+#include "../SystemLib/Inc/GPIOInit.hpp"
+#include "../SystemLib/Inc/TIMInit.hpp"
+#include "../SystemLib/Inc/USARTInit.hpp"
+
 
 #include <vector>
 #include <string>
@@ -43,10 +46,10 @@ unsigned int debugCount = DEBUG_COUNT;
 
 //全てのWrappr関数で叩けるGlobal Object
 //System Class
-GPIOInit GPIOInit;
-USARTInit USARTInit;
-ADCInit ADCInit;
-TIMInit TimerInit;
+//GPIOInit GPIOInit;
+//USARTInit USARTInit;
+//ADCInit ADCInit;
+//TIMInit TimerInit;
 
 PWM PWM_Object1; //PWMのHWを叩くClass
 PWM PWM_Object2;
@@ -62,10 +65,10 @@ DebugInfo Debug;//デバッグ情報かき集め
 
 void cppwrapper(void){
 	//以下CubeMXに頼らない定義たち
-	GPIOInit.Init();
-	USARTInit.Init();
-	ADCInit.Init();
-	TimerInit.Init();
+	GPIOInit::Init();
+	USARTInit::Init();
+	ADCInit::Init();
+	TIMInit::Init();
 
 	{//MathLibの生存時間調整(メモリ空けてくれ!!)
 		MathLib mathlibrary;//三角関数を取得

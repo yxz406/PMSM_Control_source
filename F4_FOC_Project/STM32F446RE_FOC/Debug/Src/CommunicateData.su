@@ -1,3 +1,0 @@
-CommunicateData.cpp:11:1:CommunicateData::~CommunicateData()	16	static
-CommunicateData.cpp:11:1:virtual CommunicateData::~CommunicateData()	16	static
-CommunicateData.cpp:15:1:CommunicateData::CommunicateData()	16	static
