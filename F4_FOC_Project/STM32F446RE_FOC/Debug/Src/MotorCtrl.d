@@ -1,4 +1,4 @@
-Src/wrapper.o: ../Src/wrapper.cpp ../Inc/wrapper.hpp ../Inc/MotorCtrl.hpp \
+Src/MotorCtrl.o: ../Src/MotorCtrl.cpp ../Inc/MotorCtrl.hpp \
  ../Inc/paramsetting.h ../Inc/../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
@@ -48,8 +48,6 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/wrapper.hpp ../Inc/MotorCtrl.hpp \
  ../Inc/MathLib.hpp ../Inc/ArgSensor.hpp ../Inc/PID.hpp \
  ../Inc/TimInfo.hpp ../Inc/PWM.hpp ../Inc/UART.hpp ../Inc/UiCtrl.hpp \
  ../Inc/DebugInfo.hpp
-
-../Inc/wrapper.hpp:
 
 ../Inc/MotorCtrl.hpp:
 

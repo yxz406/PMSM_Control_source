@@ -27,6 +27,7 @@
 "Src/DebugInfo.o"
 "Src/LedBlink.o"
 "Src/MathLib.o"
+"Src/MotorCtrl.o"
 "Src/MotorInfo.o"
 "Src/PID.o"
 "Src/PWM.o"

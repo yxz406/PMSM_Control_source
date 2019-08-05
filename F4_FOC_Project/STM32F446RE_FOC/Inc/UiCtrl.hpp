@@ -10,14 +10,16 @@
 
 class UiCtrl {
 private:
-	bool isONBtnState;
+
 public:
+	static bool isONBtnState;
 	UiCtrl();
 	virtual ~UiCtrl();
-	void BtnToggle();
-	void BtnActOFF();
-	void BtnActON();
-	bool getState(void);
+	static void BtnToggle();
+	static void BtnActOFF();
+	static void BtnActON();
+	static bool getState(void);
 };
+
 
 #endif /* UICTRL_HPP_ */

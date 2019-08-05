@@ -18,6 +18,9 @@
 
 #include "UiCtrl.hpp"
 
+
+bool UiCtrl::isONBtnState = false;
+
 UiCtrl::UiCtrl() {
 	// TODO Auto-generated constructor stub
 	isONBtnState = false;
