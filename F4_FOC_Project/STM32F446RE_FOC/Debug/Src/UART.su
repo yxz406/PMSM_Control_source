@@ -1,10 +1,12 @@
+stm32f4xx_ll_usart.h:1813:26:uint32_t LL_USART_IsActiveFlag_TXE(USART_TypeDef*)	16	static
 stm32f4xx_ll_usart.h:2425:22:void LL_USART_TransmitData8(USART_TypeDef*, uint8_t)	16	static
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-UART.cpp:23:1:UART::UART()	16	static
-UART.cpp:29:1:UART::UART(int)	16	static
-UART.cpp:31:1:UART::~UART()	16	static
-UART.cpp:31:1:virtual UART::~UART()	16	static
-UART.cpp:35:1:UART::UART(std::__cxx11::string, int)	32	static
-UART.cpp:44:6:void UART::setString(std::__cxx11::string)	16	static
-UART.cpp:49:6:void UART::Transmit()	24	static
-UART.cpp:56:6:void UART::Transmit(std::__cxx11::string)	24	static
+UART.cpp:25:1:UART::UART()	16	static
+UART.cpp:31:1:UART::UART(int)	16	static
+UART.cpp:33:1:UART::~UART()	16	static
+UART.cpp:33:1:virtual UART::~UART()	16	static
+UART.cpp:37:1:UART::UART(std::__cxx11::string, int)	32	static
+UART.cpp:47:6:void UART::setString(std::__cxx11::string)	16	static
+UART.cpp:52:6:void UART::Transmit()	24	static
+UART.cpp:59:6:static void UART::Transmit(std::__cxx11::string)	24	static
+UART.cpp:73:6:void usart2_puts(char*)	16	static

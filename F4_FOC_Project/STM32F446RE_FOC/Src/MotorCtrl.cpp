@@ -38,6 +38,7 @@ void MotorCtrl::SetPWMch4(PWM pPWM) {
 
 void MotorCtrl::InitSystem(void) {
 	//以下CubeMXに頼らない定義たち
+	//mainで既に定義されているとうまく動かないかもしれない。注意。
 	GPIOInit::Init();
 	USARTInit::Init();
 	ADCInit::Init();
@@ -100,6 +101,7 @@ void MotorCtrl::InitMotorInfo(void) {
 	}
 	{
 		ArgSensor sensor; //角度を求める機能を持ったclass
+		sensor.Init();
 		mMotorInfo.setArgSensor(sensor);
 	}
 	{
@@ -178,9 +180,7 @@ void MotorCtrl::HighFreqTask(void) {
 		MotorOutputTask();
 
 		if(DEBUG_MODE){//デバッグモードで入る処理
-			if( (UiCtrl::getState()) && (!mMotorInfo.mSensor.GetIsAccelerating()) ){//起動後停止の確認処理
-				MotorCtrl::DebugTask(Iu, Iv, Iw, mMotorInfo.getArgRad());
-			}
+			MotorCtrl::DebugTask(Iu, Iv, Iw, mMotorInfo.getArgRad());
 		}
 
 	}
@@ -202,56 +202,34 @@ void MotorCtrl::MotorOutputTask(void){
 
 
 void MotorCtrl::DebugTask(float pIu, float pIv, float pIw, float pArg){
-	//他のclass内に持って行く時には、UARTとかDebugのクラスを渡さないとダメかも。
-	//Wrapperが持つ関数にしてしまうのが一番うまく行くと思った。
-
-	mDebug.SetMotorData(new DebugInfo::SendMotorData(pIu,pIv,pIw,pArg));//デバッグの種類増やしたい時はここで変えてね
-	unsigned int VectCount = mDebug.GetVectSize();//Debug用にブチ込んだデータの個数
-	if(VectCount < DEBUG_COUNT){
-		//モータ停止の動作
-		MotorCtrl::BtnActOFF();
-		//モータ停止を確認する動作
-		if(mMotorInfo.mSensor.getArg() == mMotorInfo.mSensor.getArgOld()){
-			//タイマ停止する動作(何回もこれ呼ばれちゃうから)
-
-			mPWMch1.f2Duty(0);//50%duty
-			mPWMch2.f2Duty(0);
-			mPWMch3.f2Duty(0);
-			mPWMch4.f2Duty(0);
-
-			mPWMch1.Disable();
-			mPWMch2.Disable();
-			mPWMch3.Disable();
-			mPWMch4.Disable();
-			//UARTで転送する動作
-			std::vector<DebugInfo::SendMotorData> vectorbuf = mDebug.GetVect();
-			for(const auto& num : vectorbuf){
-				std::string strbuf;
-
-				strbuf.append(std::to_string(num.mIu));
-				strbuf.append(",");
-				strbuf.append(std::to_string(num.mIv));
-				strbuf.append(",");
-				strbuf.append(std::to_string(num.mIw));
-				strbuf.append(",");
-				strbuf.append(std::to_string(num.mEArg));
-				strbuf.append(",");
-#ifdef Debug_alpha_beta //ifdefじゃなくてパラメタのヘッダを持たせるべきか。
-				strbuf.append(std::to_string(num.mIalpha));
-				strbuf.append(",");
-				strbuf.append(std::to_string(num.mIbeta));
-				strbuf.append(",");
-#endif
-				strbuf.append(std::to_string(num.mId));
-				strbuf.append(",");
-				strbuf.append(std::to_string(num.mIq));
-				strbuf.append("/n");
-				mUART.Transmit(strbuf);
-			}
-			//while(1){}//ここで止める？要検討
+	int sw = mDebug.GetDbgStatus();
+	switch(sw){
+	case 0:
+		if(mMotorInfo.mSensor.GetArgCount() > 24000){
+		mDebug.DbgInfoRegister(pIu, pIv, pIw, pArg);
 		}
+		break;
+	case 1:
+		//止める動作が必要だと思う
+		MotorCtrl::BtnActOFF();
+		mDebug.SetDebugStatus(2);
+		break;
+	case 2:
+		//止まるのを確認したら次にすすめる
+		if(mMotorInfo.mSensor.GetArgCount() < 10){
+			mDebug.SetDebugStatus(3);
+		}
+		break;
+	case 3:
+		mDebug.PrintStatus();
+		HAL_Delay(1);
+		mDebug.SetDebugStatus(0);
+//		//こんな感じで状態遷移の動作をさせればいいのではないでしょうか。
+		break;
+	default :
+		//例外は何もしない
+		break;
 	}
-	//暫定で作る
 }
 
 
@@ -274,3 +252,12 @@ void MotorCtrl::BtnActON(void){//強制転流開始へのトリガON 予備で�
 	UiCtrl::BtnActON(); // ONのトグルスイッチ　BtnActONで書き込み、getStateで状態を読む
 	mMotorInfo.startForceCommutation();
 }
+
+
+////////////////func of debug ///////////////////
+void MotorCtrl::DbgUart(std::string pStr) {
+	UART::Transmit(pStr);
+}
+
+
+

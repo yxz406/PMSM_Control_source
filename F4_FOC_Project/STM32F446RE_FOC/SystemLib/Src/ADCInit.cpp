@@ -6,7 +6,7 @@
  */
 
 
-#include "../SystemLib/Inc/ADCInit.hpp"
+#include "ADCInit.hpp"
 
 ADCInit::ADCInit() {
 	// TODO Auto-generated constructor stub

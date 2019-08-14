@@ -1,6 +1,5 @@
 SystemLib/Src/ADCInit.o: ../SystemLib/Src/ADCInit.cpp \
- ../Inc/../SystemLib/Inc/ADCInit.hpp \
- ../Inc/../SystemLib/Inc/STM32SystemPack.h \
+ ../SystemLib/Inc/ADCInit.hpp ../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -40,11 +39,11 @@ SystemLib/Src/ADCInit.o: ../SystemLib/Src/ADCInit.cpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
- ../Inc/../SystemLib/Inc/ErrorHandler.hpp
+ ../SystemLib/Inc/ErrorHandler.hpp
 
-../Inc/../SystemLib/Inc/ADCInit.hpp:
+../SystemLib/Inc/ADCInit.hpp:
 
-../Inc/../SystemLib/Inc/STM32SystemPack.h:
+../SystemLib/Inc/STM32SystemPack.h:
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 
@@ -124,4 +123,4 @@ SystemLib/Src/ADCInit.o: ../SystemLib/Src/ADCInit.cpp \
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:
 
-../Inc/../SystemLib/Inc/ErrorHandler.hpp:
+../SystemLib/Inc/ErrorHandler.hpp:

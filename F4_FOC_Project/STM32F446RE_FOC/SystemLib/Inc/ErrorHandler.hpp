@@ -15,6 +15,7 @@ public:
 	ErrorHandler();
 	virtual ~ErrorHandler();
 	static void ADC_Error_Handler();
+	static void UART_Error_Handler();
 };
 
 #endif /* ERRORHANDLER_HPP_ */

@@ -11,7 +11,7 @@
 #ifndef PWM_HPP_
 #define PWM_HPP_
 
-#include "../SystemLib/Inc/STM32SystemPack.h"
+#include "STM32SystemPack.h"
 #include "paramsetting.h"
 //#include "stm32f4xx_ll_tim.h"//need
 

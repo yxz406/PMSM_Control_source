@@ -34,6 +34,8 @@ public:
 	float getArgOld(void);
 	void FC_Start_Stop(bool pIsON);
 	bool GetIsAccelerating(void);
+	bool GetFCisON(void);
+	int GetArgCount(void);
 
 	void ForceComArg(void);
 	void Observer(void);

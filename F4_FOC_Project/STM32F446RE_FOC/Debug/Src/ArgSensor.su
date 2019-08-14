@@ -1,13 +1,15 @@
 ArgSensor.cpp:17:1:ArgSensor::ArgSensor()	16	static
-ArgSensor.cpp:25:1:ArgSensor::~ArgSensor()	16	static
-ArgSensor.cpp:25:1:virtual ArgSensor::~ArgSensor()	16	static
-ArgSensor.cpp:29:6:void ArgSensor::Init()	16	static
-ArgSensor.cpp:36:6:void ArgSensor::increment(float)	24	static
-ArgSensor.cpp:42:6:void ArgSensor::decrement(float)	24	static
-ArgSensor.cpp:48:7:float ArgSensor::getArg()	16	static
-ArgSensor.cpp:52:7:float ArgSensor::getArgOld()	16	static
-ArgSensor.cpp:56:7:float ArgSensor::getArg_delta()	16	static
-ArgSensor.cpp:60:6:void ArgSensor::FC_Start_Stop(bool)	16	static
-ArgSensor.cpp:64:6:bool ArgSensor::GetIsAccelerating()	16	static
-ArgSensor.cpp:68:6:void ArgSensor::ForceComArg()	32	static
-ArgSensor.cpp:97:6:void ArgSensor::Observer()	16	static
+ArgSensor.cpp:26:1:ArgSensor::~ArgSensor()	16	static
+ArgSensor.cpp:26:1:virtual ArgSensor::~ArgSensor()	16	static
+ArgSensor.cpp:30:6:void ArgSensor::Init()	16	static
+ArgSensor.cpp:38:6:void ArgSensor::increment(float)	24	static
+ArgSensor.cpp:44:6:void ArgSensor::decrement(float)	24	static
+ArgSensor.cpp:50:7:float ArgSensor::getArg()	16	static
+ArgSensor.cpp:54:7:float ArgSensor::getArgOld()	16	static
+ArgSensor.cpp:58:7:float ArgSensor::getArg_delta()	16	static
+ArgSensor.cpp:62:6:void ArgSensor::FC_Start_Stop(bool)	16	static
+ArgSensor.cpp:66:6:bool ArgSensor::GetIsAccelerating()	16	static
+ArgSensor.cpp:70:6:bool ArgSensor::GetFCisON()	16	static
+ArgSensor.cpp:74:5:int ArgSensor::GetArgCount()	16	static
+ArgSensor.cpp:78:6:void ArgSensor::ForceComArg()	32	static
+ArgSensor.cpp:107:6:void ArgSensor::Observer()	16	static

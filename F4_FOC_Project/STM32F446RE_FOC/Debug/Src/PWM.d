@@ -1,5 +1,5 @@
 Src/PWM.o: ../Src/PWM.cpp ../Inc/PWM.hpp \
- ../Inc/../SystemLib/Inc/STM32SystemPack.h \
+ ../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -39,11 +39,11 @@ Src/PWM.o: ../Src/PWM.cpp ../Inc/PWM.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
- ../Inc/../SystemLib/Inc/ErrorHandler.hpp ../Inc/paramsetting.h
+ ../SystemLib/Inc/ErrorHandler.hpp ../Inc/paramsetting.h
 
 ../Inc/PWM.hpp:
 
-../Inc/../SystemLib/Inc/STM32SystemPack.h:
+../SystemLib/Inc/STM32SystemPack.h:
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 
@@ -123,6 +123,6 @@ Src/PWM.o: ../Src/PWM.cpp ../Inc/PWM.hpp \
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:
 
-../Inc/../SystemLib/Inc/ErrorHandler.hpp:
+../SystemLib/Inc/ErrorHandler.hpp:
 
 ../Inc/paramsetting.h:

@@ -10,12 +10,13 @@
 
 #include "paramsetting.h" //パラメータのマクロ
 
-#include "../SystemLib/Inc/STM32SystemPack.h"
+// ../SystemLib/Inc/
+#include "STM32SystemPack.h"
 
-#include "../SystemLib/Inc/ADCInit.hpp"
-#include "../SystemLib/Inc/GPIOInit.hpp"
-#include "../SystemLib/Inc/TIMInit.hpp"
-#include "../SystemLib/Inc/USARTInit.hpp"
+#include "ADCInit.hpp"
+#include "GPIOInit.hpp"
+#include "TIMInit.hpp"
+#include "USARTInit.hpp"
 
 //#include <vector>
 
@@ -24,7 +25,8 @@
 #include "UART.hpp"
 #include "UiCtrl.hpp"
 
-#include "DebugInfo.hpp"
+//#include "DebugInfo.hpp"
+#include "DebugCtrl.hpp"
 
 class MotorCtrl {
 private:
@@ -35,8 +37,8 @@ private:
 	PWM mPWMch3;
 	PWM mPWMch4;
 
-	DebugInfo mDebug;
-	UART mUART;
+	//DebugInfo mDebug;
+	DebugCtrl mDebug;
 
 public:
 	MotorCtrl();
@@ -59,6 +61,9 @@ public:
 	void BtnAct(void);
 	void BtnActOFF(void);
 	void BtnActON(void);
+
+	//debug
+	void DbgUart(std::string pStr);
 };
 
 #endif /* MOTORCTRL_HPP_ */

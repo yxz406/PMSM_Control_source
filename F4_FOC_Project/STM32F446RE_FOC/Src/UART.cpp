@@ -12,6 +12,8 @@
  * (そもそもHALを利用したUARTのため、あまり早くならない)
  *
  * 嘘です、LLに対応しました。
+ *0808 Transmit関数をstaticに対応。
+ *これClassの必要あるの？
  *
  * いろいろな叩き方ができるようには一応してあるつもり。
  */
@@ -37,7 +39,8 @@ UART::UART(std::string pStr, int pTimeout)
 {
 	const char* str = mStr.c_str();
 	for(int i = 0; *(str + i) != '/0'; i++){
-		LL_USART_TransmitData8(USART2, *(str + i));
+		//LL_USART_TransmitData8(USART2, *(str + i));
+
 	}
 }
 
@@ -49,16 +52,29 @@ void UART::setString(std::string pStr){
 void UART::Transmit(void){
 	const char* str = mStr.c_str();
 	for(int i = 0; *(str + i) != '/0'; i++){
-		LL_USART_TransmitData8(USART2, *(str + i));
+		//LL_USART_TransmitData8(USART2, *(str + i));
 	}
 }
 
 void UART::Transmit(std::string	pStr){
-	mStr = pStr;
-	const char* str = mStr.c_str();
-	for(int i = 0; *(str + i) != '/0'; i++){
-		LL_USART_TransmitData8(USART2, *(str + i));
+	const char* str = pStr.c_str();
+	while(*str){ // forで回すと安定しないので、whileでイテレータとして利用する
+		while(!LL_USART_IsActiveFlag_TXE(USART2)){}; // čekej než bude volno v Tx Bufferu
+		LL_USART_TransmitData8(USART2,*str++); // předej znak k odeslání
 	}
+//	for(int i = 0; *(str + i) != '/0'; i++){
+//		if(str + i){
+//			LL_USART_TransmitData8(USART2, *(str + i));
+//		}
+////		HAL_Delay(20);
+//	}
+}
+
+void usart2_puts(char* pBuf){
+	while(*pBuf){ // než narazíš na konec řetězce (znak /0)
+		while(!LL_USART_IsActiveFlag_TXE(USART2)){}; // čekej než bude volno v Tx Bufferu
+		LL_USART_TransmitData8(USART2,*pBuf++); // předej znak k odeslání
+		}
 }
 
 

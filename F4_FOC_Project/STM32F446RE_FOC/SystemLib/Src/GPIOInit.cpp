@@ -5,7 +5,7 @@
  *      Author: watashi
  */
 
-#include "../SystemLib/Inc/GPIOInit.hpp"
+#include "GPIOInit.hpp"
 
 GPIOInit::GPIOInit() {
 	// TODO Auto-generated constructor stub

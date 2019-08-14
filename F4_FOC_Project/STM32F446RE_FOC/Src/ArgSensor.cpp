@@ -20,6 +20,7 @@ ArgSensor::ArgSensor() {
 	mImArgcount = 0;
 	mArg_delta = 0;
 	mFCisON = 0;
+	mIsAccelerating = false;
 }
 
 ArgSensor::~ArgSensor() {
@@ -31,6 +32,7 @@ void ArgSensor::Init(void) {
 	mArg = 0;
 	mArg_delta = 0;
 	mFCisON = 0;
+	mIsAccelerating = false;
 }
 
 void ArgSensor::increment(float pArg){
@@ -63,6 +65,14 @@ void ArgSensor::FC_Start_Stop(bool pIsON){
 
 bool ArgSensor::GetIsAccelerating(void){
 	return mIsAccelerating;
+}
+
+bool ArgSensor::GetFCisON(void) {//意味なかった。閾値用
+	return mFCisON;
+}
+
+int ArgSensor::GetArgCount(void) {
+	return mImArgcount;
 }
 
 void ArgSensor::ForceComArg(void){
