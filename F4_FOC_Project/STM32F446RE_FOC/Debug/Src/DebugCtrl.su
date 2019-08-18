@@ -5,8 +5,8 @@ DebugCtrl.cpp:15:1:DebugCtrl::~DebugCtrl()	16	static
 DebugCtrl.cpp:15:1:virtual DebugCtrl::~DebugCtrl()	16	static
 DebugCtrl.cpp:19:5:int DebugCtrl::GetDbgStatus()	16	static
 DebugCtrl.cpp:23:6:void DebugCtrl::DbgInfoRegister(float, float, float, float)	40	static
-DebugCtrl.cpp:48:6:void DebugCtrl::SetDebugStatus(int)	16	static
-DebugCtrl.cpp:52:6:void DebugCtrl::PrintStatus()	240	static
+DebugCtrl.cpp:49:6:void DebugCtrl::SetDebugStatus(int)	16	static
+DebugCtrl.cpp:53:6:void DebugCtrl::PrintStatus()	240	static
 string_conversions.h:99:5:) [with _String = std::__cxx11::basic_string<char>; _CharT = char]	52	dynamic
 stl_vector.h:433:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static
 stl_vector.h:563:7:std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::begin() [with _Tp = DebugInfo::SendMotorData; _Alloc = std::allocator<DebugInfo::SendMotorData>]	24	static

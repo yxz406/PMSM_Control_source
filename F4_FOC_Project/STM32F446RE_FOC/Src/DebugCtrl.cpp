@@ -24,6 +24,7 @@ void DebugCtrl::DbgInfoRegister(float pIu, float pIv, float pIw, float pArg){
 	//DEBUG_COUNTを超えるまではDebugInfoに情報を登録し続ける
 	//超えた瞬間に、DebugStatusを更新することで次の関数に入るようにする。
 	mDebugInfo.SetMotorData(new DebugInfo::SendMotorData(pIu,pIv,pIw,pArg));//デバッグの種類増やしたい時はここで変えてね
+
 	if(mDebugInfo.GetVectSize() == DEBUG_COUNT) {
 		mDebugStatus = 1;//情報格納完了
 	}
@@ -72,7 +73,8 @@ void DebugCtrl::PrintStatus() {
 		strbuf.append(std::to_string(num.mId));
 		strbuf.append(",");
 		strbuf.append(std::to_string(num.mIq));
-		strbuf.append("/n");
+
+		strbuf.append("\r\n");
 		UART::Transmit(strbuf);
 	}
 }

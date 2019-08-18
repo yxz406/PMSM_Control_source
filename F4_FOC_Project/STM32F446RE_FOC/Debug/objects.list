@@ -26,6 +26,7 @@
 "Src/ArgSensor.o"
 "Src/DebugCtrl.o"
 "Src/DebugInfo.o"
+"Src/DebugInfoTiny.o"
 "Src/LedBlink.o"
 "Src/MathLib.o"
 "Src/MotorCtrl.o"

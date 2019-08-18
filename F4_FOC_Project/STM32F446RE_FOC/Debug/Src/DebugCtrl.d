@@ -39,7 +39,8 @@ Src/DebugCtrl.o: ../Src/DebugCtrl.cpp ../Inc/DebugCtrl.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
- ../SystemLib/Inc/ErrorHandler.hpp ../Inc/DebugInfo.hpp
+ ../SystemLib/Inc/ErrorHandler.hpp ../Inc/DebugInfo.hpp \
+ ../Inc/DebugInfoTiny.hpp
 
 ../Inc/DebugCtrl.hpp:
 
@@ -130,3 +131,5 @@ Src/DebugCtrl.o: ../Src/DebugCtrl.cpp ../Inc/DebugCtrl.hpp \
 ../SystemLib/Inc/ErrorHandler.hpp:
 
 ../Inc/DebugInfo.hpp:
+
+../Inc/DebugInfoTiny.hpp:

@@ -45,7 +45,7 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/wrapper.hpp ../Inc/MotorCtrl.hpp \
  ../SystemLib/Inc/USARTInit.hpp ../Inc/MotorInfo.hpp ../Inc/MathLib.hpp \
  ../Inc/ArgSensor.hpp ../Inc/PID.hpp ../Inc/TimInfo.hpp ../Inc/PWM.hpp \
  ../Inc/UART.hpp ../Inc/UiCtrl.hpp ../Inc/DebugCtrl.hpp \
- ../Inc/DebugInfo.hpp
+ ../Inc/DebugInfo.hpp ../Inc/DebugInfoTiny.hpp
 
 ../Inc/wrapper.hpp:
 
@@ -168,3 +168,5 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/wrapper.hpp ../Inc/MotorCtrl.hpp \
 ../Inc/DebugCtrl.hpp:
 
 ../Inc/DebugInfo.hpp:
+
+../Inc/DebugInfoTiny.hpp:

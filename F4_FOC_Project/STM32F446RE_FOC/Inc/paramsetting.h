@@ -18,6 +18,8 @@
 //デバッグ設定
 #define DEBUG_MODE 1 //デバッグモード
 #define DEBUG_COUNT 360 //デバッグ数のカウント
+//#define DEBUG_COUNT 720 //デバッグ数のカウント
+
 //#define DEBUG_COUNT 7 //デバッグ数のカウント
 
 //モータのパラメータ設定

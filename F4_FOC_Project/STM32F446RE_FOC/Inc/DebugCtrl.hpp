@@ -13,6 +13,7 @@
 #include "UART.hpp"
 //#include <vector>
 #include "DebugInfo.hpp"
+#include "DebugInfoTiny.hpp"
 
 
 class DebugCtrl {
