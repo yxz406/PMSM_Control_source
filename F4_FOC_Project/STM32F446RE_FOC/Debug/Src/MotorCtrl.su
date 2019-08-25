@@ -14,7 +14,8 @@ MotorCtrl.cpp:15:1:virtual MotorCtrl::~MotorCtrl()	16	static
 MathLib.hpp:14:7:MathLib& MathLib::operator=(const MathLib&)	16	static
 TimInfo.hpp:13:7:constexpr TimInfo& TimInfo::operator=(const TimInfo&)	16	static
 PID.hpp:13:7:constexpr PID& PID::operator=(const PID&)	16	static
-ArgSensor.hpp:13:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
+Observer.hpp:14:7:constexpr Observer& Observer::operator=(const Observer&)	24	static
+ArgSensor.hpp:14:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
 MotorInfo.hpp:17:7:MotorInfo& MotorInfo::operator=(const MotorInfo&)	16	static
 MotorCtrl.cpp:19:6:void MotorCtrl::SetMotorInfo(MotorInfo)	16	static
 MotorCtrl.cpp:23:6:void MotorCtrl::SetPWMch1(PWM)	16	static
@@ -24,17 +25,18 @@ MotorCtrl.cpp:35:6:void MotorCtrl::SetPWMch4(PWM)	16	static
 MotorCtrl.cpp:39:6:void MotorCtrl::InitSystem()	16	static
 MotorCtrl.cpp:48:6:void MotorCtrl::InitPWM()	88	static
 MathLib.hpp:14:7:MathLib::MathLib(const MathLib&)	16	static
-ArgSensor.hpp:13:7:constexpr ArgSensor::ArgSensor(const ArgSensor&)	16	static
+Observer.hpp:14:7:constexpr Observer::Observer(const Observer&)	24	static
+ArgSensor.hpp:14:7:constexpr ArgSensor::ArgSensor(const ArgSensor&)	16	static
 TimInfo.hpp:13:7:constexpr TimInfo::TimInfo(const TimInfo&)	16	static
 PID.hpp:13:7:constexpr PID::PID(const PID&)	16	static
-MotorCtrl.cpp:95:6:void MotorCtrl::InitMotorInfo()	312	static
+MotorCtrl.cpp:95:6:void MotorCtrl::InitMotorInfo()	512	static
 MotorCtrl.cpp:122:6:void MotorCtrl::HighFreqTask()	56	static
 MotorCtrl.cpp:196:6:void MotorCtrl::MotorOutputTask()	24	static
 MotorCtrl.cpp:207:6:void MotorCtrl::DebugTask(float, float, float, float)	40	static
-MotorCtrl.cpp:240:6:void MotorCtrl::BtnAct()	16	static
-MotorCtrl.cpp:249:6:void MotorCtrl::BtnActOFF()	16	static
-MotorCtrl.cpp:254:6:void MotorCtrl::BtnActON()	16	static
-MotorCtrl.cpp:261:6:void MotorCtrl::DbgUart(std::__cxx11::string)	40	static
+MotorCtrl.cpp:242:6:void MotorCtrl::BtnAct()	16	static
+MotorCtrl.cpp:251:6:void MotorCtrl::BtnActOFF()	16	static
+MotorCtrl.cpp:256:6:void MotorCtrl::BtnActON()	16	static
+MotorCtrl.cpp:263:6:void MotorCtrl::DbgUart(std::__cxx11::string)	40	static
 alloc_traits.h:100:27:static constexpr bool __gnu_cxx::__alloc_traits<_Alloc>::_S_propagate_on_copy_assign() [with _Alloc = std::allocator<float>]	4	static
 alloc_traits.h:109:27:static constexpr bool __gnu_cxx::__alloc_traits<_Alloc>::_S_always_equal() [with _Alloc = std::allocator<float>]	4	static
 vector.tcc:179:5:std::vector<_Tp, _Alloc>& std::vector<_Tp, _Alloc>::operator=(const std::vector<_Tp, _Alloc>&) [with _Tp = float; _Alloc = std::allocator<float>]	40	static

@@ -104,6 +104,6 @@ void ArgSensor::ForceComArg(void){
 	}
 }
 
-void ArgSensor::Observer(void){
-
-}
+//void ArgSensor::Observer(void){
+//
+//}

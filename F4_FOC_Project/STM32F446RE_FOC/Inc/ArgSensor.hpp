@@ -9,6 +9,7 @@
 #define ARGSENSOR_HPP_
 
 #include "math.h"
+#include "Observer.hpp"
 
 class ArgSensor {
 private:
@@ -21,6 +22,7 @@ private:
 	bool mIsAccelerating;
 
 	int mImArgcount;
+	Observer mObserver;
 
 public:
 	ArgSensor();
@@ -38,7 +40,7 @@ public:
 	int GetArgCount(void);
 
 	void ForceComArg(void);
-	void Observer(void);
+	//void Observer(void);
 
 	//void ImArg2(void);//連れ回し運転　名前を変える事
 };

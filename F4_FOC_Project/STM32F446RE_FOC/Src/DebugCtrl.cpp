@@ -46,6 +46,15 @@ void DebugCtrl::DbgInfoRegister(float pIu, float pIv, float pIw, float pArg){
 //			mPWMch4.Disable();
 }
 
+void DebugCtrl::DbgInfoTinyRegister(float pIu, float pIv, float pIw, float pArg){
+	//DEBUG_COUNTを超えるまではDebugInfoに情報を登録し続ける
+	//超えた瞬間に、DebugStatusを更新することで次の関数に入るようにする。
+	mDebugInfoTiny.SetMotorData(pIu, pIv, pIw, 0, 0, 0, 0, pArg);
+	if(mDebugInfoTiny.GetCNT() == DEBUG_COUNT) {
+		mDebugStatus = 1;//情報格納完了
+	}
+}
+
 void DebugCtrl::SetDebugStatus(int pStatus) {
 	mDebugStatus = pStatus;
 }
@@ -76,5 +85,34 @@ void DebugCtrl::PrintStatus() {
 
 		strbuf.append("\r\n");
 		UART::Transmit(strbuf);
+	}
+}
+
+void DebugCtrl::PrintStatusTiny() {
+	//UARTで転送する動作
+	int CNT = 0;
+	while(CNT != DEBUG_COUNT){
+		std::string strbuf;
+		strbuf.append(std::to_string(mDebugInfoTiny.mIu[CNT]));
+		strbuf.append(",");
+		strbuf.append(std::to_string(mDebugInfoTiny.mIv[CNT]));
+		strbuf.append(",");
+		strbuf.append(std::to_string(mDebugInfoTiny.mIw[CNT]));
+		strbuf.append(",");
+		strbuf.append(std::to_string(mDebugInfoTiny.mEArg[CNT]));
+		strbuf.append(",");
+		#ifdef Debug_alpha_beta //ifdefじゃなくてパラメタのヘッダを持たせるべきか。
+		strbuf.append(std::to_string(mDebugInfoTiny.mIalpha[CNT]));
+		strbuf.append(",");
+		strbuf.append(std::to_string(mDebugInfoTiny.mIbeta[CNT]));
+		strbuf.append(",");
+		#endif
+		strbuf.append(std::to_string(mDebugInfoTiny.mVd[CNT]));
+		strbuf.append(",");
+		strbuf.append(std::to_string(mDebugInfoTiny.mVq[CNT]));
+
+		strbuf.append("\r\n");
+		UART::Transmit(strbuf);
+		CNT++;
 	}
 }

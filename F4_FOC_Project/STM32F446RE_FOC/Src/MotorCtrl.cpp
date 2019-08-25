@@ -209,7 +209,8 @@ void MotorCtrl::DebugTask(float pIu, float pIv, float pIw, float pArg){
 	switch(sw){
 	case 0:
 		if(mMotorInfo.mSensor.GetArgCount() > 24000){
-		mDebug.DbgInfoRegister(pIu, pIv, pIw, pArg);
+		mDebug.DbgInfoTinyRegister(pIu, pIv, pIw, pArg);
+		//mDebug.DbgInfoRegister(pIu, pIv, pIw, pArg);
 		}
 		break;
 	case 1:
@@ -224,7 +225,8 @@ void MotorCtrl::DebugTask(float pIu, float pIv, float pIw, float pArg){
 		}
 		break;
 	case 3:
-		mDebug.PrintStatus();
+		mDebug.PrintStatusTiny();
+		//mDebug.PrintStatus();
 		HAL_Delay(1);
 		mDebug.SetDebugStatus(0);
 //		//こんな感じで状態遷移の動作をさせればいいのではないでしょうか。

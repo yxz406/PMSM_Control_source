@@ -1,0 +1,13 @@
+miyayu月曜日 20:59
+意味がありそうなのはこんなもんですかね。
+K=1
+v4→eta_ab
+v5→est_emf_ab
+v6→error_emf_ab
+v9→adapt_emf_ab
+v14→est_omega_ele
+
+v21→eta
+v23→est_emf
+v24→est_delTheta
+v30→est_Theta

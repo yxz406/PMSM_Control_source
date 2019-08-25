@@ -1,0 +1,116 @@
+/*
+ * Observer.cpp
+ *
+ *  Created on: Aug 20, 2019
+ *      Author: watashi
+ */
+
+#include "Observer.hpp"
+
+
+////////////離散的積分ブロックの演算のためのClass////////////
+void Observer::Zintegrate2n::ZintegrateInit(float pK){
+	mVector = {0};
+	mOldVec = {0};
+	mK = pK;
+}
+
+std::array<float, 2> Observer::Zintegrate2n::integrate(float pTime, std::array<float, 2> pVector) {
+	mOldVec.at(0) = mVector.at(0);
+	mOldVec.at(1) = mVector.at(1);
+	mVector.at(0) = mOldVec.at(0) + mK * pTime * pVector.at(0);
+	mVector.at(1) = mOldVec.at(1) + mK * pTime * pVector.at(1);
+	return mOldVec;
+}
+///////////////////////////////////////////////////////
+
+Observer::Observer() {
+	// TODO Auto-generated constructor stub
+
+}
+
+Observer::~Observer() {
+	// TODO Auto-generated destructor stub
+}
+
+void Observer::MotorParamInit(float pR, float pLd, float pLq) {
+	mR = pR;
+	mLd = pLd;
+	mLq = pLq;
+}
+
+void Observer::obsBiasInit(float pG1) {
+	mG1 = pG1;
+}
+
+void Observer::SetIalpha_beta(float pIalpha, float pIbeta){
+	mIalpha_beta.at(0) = pIalpha;
+	mIalpha_beta.at(1) = pIbeta;
+}
+void Observer::SetValpha_beta(float pValpha, float pVbeta){
+	mValpha_beta.at(0) = pValpha;
+	mValpha_beta.at(1) = pVbeta;
+}
+
+std::array<float, 2> Observer::MatrixMultiple2n(float pa11, float pa12,
+	                    				float pa21, float pa22,
+										std::array<float, 2> pVector) {
+
+	std::array<float, 2> vector;
+	vector.at(0) = pa11 * pVector.at(0) + pa12 * pVector.at(1);
+	vector.at(1) = pa21 * pVector.at(0) + pa22 * pVector.at(1);
+
+	return vector;
+}
+
+std::array<float, 2> Observer::VectorMultiple2n(float pGain, std::array<float, 2> pVector) {
+
+	std::array<float, 2> vector;
+	vector.at(0) = pGain * pVector.at(0);
+	vector.at(1) = pGain * pVector.at(1);
+
+	return vector;
+}
+
+std::array<float, 2> Observer::VectorAdd2n(std::array<float, 2> pVector1, std::array<float, 2> pVector2) {
+
+	std::array<float, 2> vector;
+	vector.at(0) = pVector1.at(0) + pVector2.at(0);
+	vector.at(1) = pVector1.at(1) + pVector2.at(1);
+
+	return vector;
+}
+
+//std::array<float, 2> Observer::Zintegrate2n(float pTime, std::array<float, 2> pVector) {
+//
+//	std::array<float, 2> vector;
+//	vector.at(0) = pVector1.at(0) + pVector2.at(0);
+//	vector.at(1) = pVector1.at(1) + pVector2.at(1);
+//
+//	return vector;
+//}
+
+
+
+void Observer::calc() {
+
+	mv1 = MatrixMultiple2n(      -1 * mR / mLd * mG1, -1 * (1 - mLq/mLd) * mEstOmegaE,
+			             (1 - mLq/mLd) * mEstOmegaE, -1 * mR / mLd * mG1,
+				          mIalpha_beta);
+
+
+	std::array<float, 2> vecbuf1;//可読性向上のためのbuff
+	vecbuf1 = VectorMultiple2n((float)-mG1/mLd, mIalpha_beta);
+
+	mv2 = VectorAdd2n(mv1, VectorMultiple2n(-1, mIalpha_beta) );
+
+	std::array<float, 2> vecbuf2;
+	//vecbuf2 = VectorAdd2n
+	vecbuf2 = VectorAdd2n(VectorMultiple2n(mG1/mLd, mValpha_beta),VectorMultiple2n(mG1,mv2));
+
+
+	mv4 = mv4Integrate.integrate(0.001, mv3);
+	//v4 = Zintegrate2n(Time, v3);
+
+
+}

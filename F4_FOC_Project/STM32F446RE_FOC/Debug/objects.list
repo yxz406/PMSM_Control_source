@@ -31,6 +31,7 @@
 "Src/MathLib.o"
 "Src/MotorCtrl.o"
 "Src/MotorInfo.o"
+"Src/Observer.o"
 "Src/PID.o"
 "Src/PWM.o"
 "Src/TIMCtrl.o"

@@ -13,8 +13,8 @@
  * 将来的には外部RAMに情報詰め込みたいけどなぁ
  */
 
-#ifndef DEBUGINFO_HPP_
-#define DEBUGINFO_HPP_
+#ifndef DEBUGINFOTINY_HPP_
+#define DEBUGINFOTINY_HPP_
 
 #include <vector>
 #include <array>

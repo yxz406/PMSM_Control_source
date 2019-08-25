@@ -18,7 +18,8 @@
 
 class DebugCtrl {
 private:
-	DebugInfo mDebugInfo;
+	DebugInfo mDebugInfo;//動的確保
+	DebugInfoTiny mDebugInfoTiny;//静的確保
 	int mDebugSize;
 
 	int mDebugStatus;
@@ -28,8 +29,10 @@ public:
 	virtual ~DebugCtrl();
 	int GetDbgStatus();
 	void DbgInfoRegister(float pIu, float pIv, float pIw, float pArg);
+	void DbgInfoTinyRegister(float pIu, float pIv, float pIw, float pArg);
 	void SetDebugStatus(int pStatus);
 	void PrintStatus();
+	void PrintStatusTiny();
 };
 
 #endif /* DEBUGCTRL_HPP_ */
