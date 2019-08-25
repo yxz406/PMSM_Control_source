@@ -9,6 +9,20 @@
 
 
 ////////////離散的積分ブロックの演算のためのClass////////////
+
+void Observer::Zintegrate1n::ZintegrateInit(float pK){
+	mValue = 0;
+	mOldVal = 0;
+	mK = pK;
+}
+
+float Observer::Zintegrate1n::integrate(float pTime, float pValue) {
+	mOldVal = mValue;
+	mValue = mOldVal + mK * pTime * pValue;
+	return mOldVal;
+}
+
+
 void Observer::Zintegrate2n::ZintegrateInit(float pK){
 	mVector = {0};
 	mOldVec = {0};
@@ -81,6 +95,15 @@ std::array<float, 2> Observer::VectorAdd2n(std::array<float, 2> pVector1, std::a
 	return vector;
 }
 
+float Observer::VectorMultiple12_21(std::array<float, 2>pVector1, std::array<float, 2> pVector2) {
+
+	float sum;
+	sum = pVector1.at(0) * pVector2.at(0) + pVector1.at(1) * pVector2.at(1);
+
+	return sum;
+}
+
+
 //std::array<float, 2> Observer::Zintegrate2n(float pTime, std::array<float, 2> pVector) {
 //
 //	std::array<float, 2> vector;
@@ -92,10 +115,10 @@ std::array<float, 2> Observer::VectorAdd2n(std::array<float, 2> pVector1, std::a
 
 
 
-void Observer::calc() {
+void Observer::calc(float pTime) {
 
 	mv1 = MatrixMultiple2n(      -1 * mR / mLd * mG1, -1 * (1 - mLq/mLd) * mEstOmegaE,
-			             (1 - mLq/mLd) * mEstOmegaE, -1 * mR / mLd * mG1,
+			              (1 - mLq/mLd) * mEstOmegaE, -1 * mR / mLd * mG1,
 				          mIalpha_beta);
 
 
@@ -108,9 +131,38 @@ void Observer::calc() {
 	//vecbuf2 = VectorAdd2n
 	vecbuf2 = VectorAdd2n(VectorMultiple2n(mG1/mLd, mValpha_beta),VectorMultiple2n(mG1,mv2));
 
+	mv3 = VectorAdd2n(vecbuf2, mEta_ab);
 
-	mv4 = mv4Integrate.integrate(0.001, mv3);
-	//v4 = Zintegrate2n(Time, v3);
+	mEta_ab = mEtaIntegrate.integrate(pTime, mv3);
 
+	mEstEmf_ab = VectorAdd2n(mEta_ab, VectorMultiple2n(-mG1, mIalpha_beta) );
+
+	///////下のブロック
+
+	mErrEmf_ab = VectorAdd2n(mEstEmf_ab, VectorMultiple2n(-1, mv9) );
+
+	mv7 = MatrixMultiple2n( mG1, -1 * mG2,
+			              	mG2, mG1,
+							mErrEmf_ab);
+
+	mv8 = VectorAdd2n(mv7, mv10);
+
+	mv9 = mv9Integrate.integrate(pTime, mv8);
+
+	////
+	mJv9 =  MatrixMultiple2n( 0, -1,
+          					  1,  0,
+							  mv9);
+
+	mVal11 = VectorMultiple12_21(mErrEmf_ab, mJv9);
+
+	mVal12 = mKi * mVal11;
+
+	mVal13 = mVal13Integrate.integrate(pTime, mVal12);
+
+	mEstOmegaE = mKp * mVal11 + mVal13;
+	//////
+
+	mv10 = VectorMultiple2n(mEstOmegaE, mJv9);
 
 }

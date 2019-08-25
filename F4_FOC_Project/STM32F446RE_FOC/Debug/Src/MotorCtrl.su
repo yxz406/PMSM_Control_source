@@ -29,7 +29,7 @@ Observer.hpp:14:7:constexpr Observer::Observer(const Observer&)	24	static
 ArgSensor.hpp:14:7:constexpr ArgSensor::ArgSensor(const ArgSensor&)	16	static
 TimInfo.hpp:13:7:constexpr TimInfo::TimInfo(const TimInfo&)	16	static
 PID.hpp:13:7:constexpr PID::PID(const PID&)	16	static
-MotorCtrl.cpp:95:6:void MotorCtrl::InitMotorInfo()	512	static
+MotorCtrl.cpp:95:6:void MotorCtrl::InitMotorInfo()	712	static
 MotorCtrl.cpp:122:6:void MotorCtrl::HighFreqTask()	56	static
 MotorCtrl.cpp:196:6:void MotorCtrl::MotorOutputTask()	24	static
 MotorCtrl.cpp:207:6:void MotorCtrl::DebugTask(float, float, float, float)	40	static
