@@ -43,9 +43,16 @@ private:
 	float mG1;
 	float mG2;
 
+
+	float mAlpha;
+
 	//input vector
 	std::array<float, 2> mIalpha_beta;
 	std::array<float, 2> mValpha_beta;
+
+	std::array<float, 2> mIganma_delta;
+	std::array<float, 2> mVganma_delta;
+
 
 	//vector for calc
 	//float eta_ab;
@@ -68,7 +75,7 @@ private:
 	std::array<float, 2> mv2;
 	std::array<float, 2> mv3;
 
-	Zintegrate2n mEtaIntegrate;
+	Zintegrate2n mEta_abIntegrate;
 	std::array<float, 2> mEta_ab;
 	std::array<float, 2> mEstEmf_ab;
 
@@ -91,6 +98,35 @@ private:
 	float mVal13;
 
 
+	//拡張誘起電圧オブザーバ
+	std::array<float, 2> mv15;
+	std::array<float, 2> mv16;
+	std::array<float, 2> mv17;
+	std::array<float, 2> mv18;
+	std::array<float, 2> mv19;
+
+	std::array<float, 2> mv20;
+
+	Zintegrate2n mEtaIntegrate;
+	std::array<float, 2> mEta;
+	std::array<float, 2> mv22;
+
+	std::array<float, 2> mv23;
+
+	float mVal24;
+
+	float mK1;
+	float mK2;
+	float mK3;
+
+	Zintegrate1n mVal26Integrate;
+	float mVal26;
+	Zintegrate1n mVal28Integrate;
+	float mVal28;
+	Zintegrate1n mVal29Integrate;
+	float mVal29;
+
+	float mEstTheta;
 
 public:
 	Observer();
@@ -114,6 +150,7 @@ public:
 
 	void calc(float pTime);
 
+	float atan2(float pNumerator, float pDenominator);
 };
 
 #endif /* OBSERVER_HPP_ */
