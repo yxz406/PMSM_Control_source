@@ -104,16 +104,10 @@ float Observer::VectorMultiple12_21(std::array<float, 2>pVector1, std::array<flo
 }
 
 
-//std::array<float, 2> Observer::Zintegrate2n(float pTime, std::array<float, 2> pVector) {
-//
-//	std::array<float, 2> vector;
-//	vector.at(0) = pVector1.at(0) + pVector2.at(0);
-//	vector.at(1) = pVector1.at(1) + pVector2.at(1);
-//
-//	return vector;
-//}
-
-
+float Observer::atan2(float pNumerator, float pDenominator){
+	return atan2f(pNumerator, pDenominator);
+	//ここがださい
+}
 
 void Observer::calc(float pTime) {
 
@@ -200,3 +194,5 @@ void Observer::calc(float pTime) {
 
 	mEstTheta = (mK1 * mVal24) + mVal26 + mVal29;
 }
+
+

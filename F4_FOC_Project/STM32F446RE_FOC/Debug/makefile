@@ -54,7 +54,7 @@ all: STM32F446RE_FOC.elf secondary-outputs
 
 # Tool invocations
 STM32F446RE_FOC.elf: $(OBJS) $(USER_OBJS) /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/STM32F446RETX_FLASH.ld
-	arm-none-eabi-g++ -o "STM32F446RE_FOC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F446RE_FOC.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+	arm-none-eabi-g++ -o "STM32F446RE_FOC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F446RE_FOC.map" -Wl,--gc-sections -static -L"/Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP" -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

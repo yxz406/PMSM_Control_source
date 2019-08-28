@@ -43,9 +43,11 @@ Src/MotorCtrl.o: ../Src/MotorCtrl.cpp ../Inc/MotorCtrl.hpp \
  ../SystemLib/Inc/STM32SystemPack.h ../SystemLib/Inc/GPIOInit.hpp \
  ../Inc/PinDef.h ../SystemLib/Inc/TIMInit.hpp ../Inc/paramsetting.h \
  ../SystemLib/Inc/USARTInit.hpp ../Inc/MotorInfo.hpp ../Inc/MathLib.hpp \
- ../Inc/ArgSensor.hpp ../Inc/Observer.hpp ../Inc/PID.hpp \
- ../Inc/TimInfo.hpp ../Inc/PWM.hpp ../Inc/UART.hpp ../Inc/UiCtrl.hpp \
- ../Inc/DebugCtrl.hpp ../Inc/DebugInfo.hpp ../Inc/DebugInfoTiny.hpp
+ ../Inc/ArgSensor.hpp ../Inc/Observer.hpp ../CMSIS_DSP/arm_math.h \
+ ../CMSIS_DSP/arm_const_structs.h ../CMSIS_DSP/arm_math.h \
+ ../CMSIS_DSP/arm_common_tables.h ../Inc/PID.hpp ../Inc/TimInfo.hpp \
+ ../Inc/PWM.hpp ../Inc/UART.hpp ../Inc/UiCtrl.hpp ../Inc/DebugCtrl.hpp \
+ ../Inc/DebugInfo.hpp ../Inc/DebugInfoTiny.hpp
 
 ../Inc/MotorCtrl.hpp:
 
@@ -154,6 +156,14 @@ Src/MotorCtrl.o: ../Src/MotorCtrl.cpp ../Inc/MotorCtrl.hpp \
 ../Inc/ArgSensor.hpp:
 
 ../Inc/Observer.hpp:
+
+../CMSIS_DSP/arm_math.h:
+
+../CMSIS_DSP/arm_const_structs.h:
+
+../CMSIS_DSP/arm_math.h:
+
+../CMSIS_DSP/arm_common_tables.h:
 
 ../Inc/PID.hpp:
 

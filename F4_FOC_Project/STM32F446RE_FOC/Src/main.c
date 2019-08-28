@@ -1,28 +1,5 @@
 /* USER CODE BEGIN Header */
 /**
- * エンコードはUTF-8以外だとバグるから、
- * Project->Properties->textfile encording -> (other)UTF-8
- * に切り替えてつかうこと。
- * 共同開発時のおやくそく、守ってね！
- *
- * うまく動かない時について
- * "騒ぐ前にエラー読んでGrepしろ"←エンジニアの基本
- *
- * はまりやすい箇所
- * 問題:Buildは通るが、Debag押すと読み込めない
- * (Can't find a source ~ 的なエラー出る)
- * 解決策:.mxprojectファイルのPreviousGenFilesが間違ってる可能性がある。
- *		　workspaceを、デフォルトのワークスペース「workspace_1.0.0」で開発しているので、ここ入れて動かしてみて。
- *
- * 問題:Buildが通らない
- * 解決策:Unix + UTF-8 環境をデフォルトとしています。(何も弄らなければ通るはず)
- *
- * 問題:何か文字化けしている。
- * 解決策:必死で対応してるから、待て
- *
- *　意見:「プロトタイプ宣言をヘッダに書くように、このTipsもreadmeに移した方がよくない？」
- *　回答:我思君達不読必読書式
- *
   ******************************************************************************
   * @file           : main.c
   * @brief          : Main program body
@@ -113,12 +90,12 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-//  MX_GPIO_Init();
-//  MX_USART2_UART_Init();
-//  MX_TIM1_Init();
-//  MX_ADC1_Init();
-//  MX_ADC2_Init();
-//  MX_ADC3_Init();
+  MX_GPIO_Init();
+  MX_USART2_UART_Init();
+  MX_TIM1_Init();
+  MX_ADC1_Init();
+  MX_ADC2_Init();
+  MX_ADC3_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

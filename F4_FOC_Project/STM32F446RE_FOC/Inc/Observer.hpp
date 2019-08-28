@@ -10,6 +10,12 @@
 
 #include <array>
 #include "paramsetting.h"
+#include "math.h"
+
+#define ARM_MATH_CM4
+#include "arm_math.h"
+#include "arm_const_structs.h"
+
 
 class Observer {
 public://pub-class

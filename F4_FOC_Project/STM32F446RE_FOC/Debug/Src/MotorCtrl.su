@@ -14,7 +14,7 @@ MotorCtrl.cpp:15:1:virtual MotorCtrl::~MotorCtrl()	16	static
 MathLib.hpp:14:7:MathLib& MathLib::operator=(const MathLib&)	16	static
 TimInfo.hpp:13:7:constexpr TimInfo& TimInfo::operator=(const TimInfo&)	16	static
 PID.hpp:13:7:constexpr PID& PID::operator=(const PID&)	16	static
-Observer.hpp:14:7:constexpr Observer& Observer::operator=(const Observer&)	24	static
+Observer.hpp:20:7:constexpr Observer& Observer::operator=(const Observer&)	24	static
 ArgSensor.hpp:14:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
 MotorInfo.hpp:17:7:MotorInfo& MotorInfo::operator=(const MotorInfo&)	16	static
 MotorCtrl.cpp:19:6:void MotorCtrl::SetMotorInfo(MotorInfo)	16	static
@@ -25,7 +25,7 @@ MotorCtrl.cpp:35:6:void MotorCtrl::SetPWMch4(PWM)	16	static
 MotorCtrl.cpp:39:6:void MotorCtrl::InitSystem()	16	static
 MotorCtrl.cpp:48:6:void MotorCtrl::InitPWM()	88	static
 MathLib.hpp:14:7:MathLib::MathLib(const MathLib&)	16	static
-Observer.hpp:14:7:constexpr Observer::Observer(const Observer&)	24	static
+Observer.hpp:20:7:constexpr Observer::Observer(const Observer&)	24	static
 ArgSensor.hpp:14:7:constexpr ArgSensor::ArgSensor(const ArgSensor&)	16	static
 TimInfo.hpp:13:7:constexpr TimInfo::TimInfo(const TimInfo&)	16	static
 PID.hpp:13:7:constexpr PID::PID(const PID&)	16	static

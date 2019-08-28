@@ -19,17 +19,14 @@
 MotorCtrl M_Ctrl;
 
 
-
 void cppwrapper(void){
-
-
-
 
 	M_Ctrl.InitSystem();
 
 	//debug
 	std::string DbgStr;
 	int Dbgint=3456;
+
 	DbgStr.append("testnum:");
 	DbgStr.append(std::to_string(Dbgint));
 	DbgStr.append("\r\n");

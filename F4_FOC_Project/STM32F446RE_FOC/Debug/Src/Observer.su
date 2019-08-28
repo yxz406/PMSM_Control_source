@@ -14,6 +14,7 @@ Observer.cpp:69:22:std::array<float, 2> Observer::MatrixMultiple2n(float, float,
 Observer.cpp:80:22:std::array<float, 2> Observer::VectorMultiple2n(float, std::array<float, 2>)	56	static
 Observer.cpp:89:22:std::array<float, 2> Observer::VectorAdd2n(std::array<float, 2>, std::array<float, 2>)	64	static
 Observer.cpp:98:7:float Observer::VectorMultiple12_21(std::array<float, 2>, std::array<float, 2>)	48	static
-Observer.cpp:118:6:void Observer::calc(float)	120	static
+Observer.cpp:107:7:float Observer::atan2(float, float)	24	static
+Observer.cpp:112:6:void Observer::calc(float)	120	static
 array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 2]	16	static
 array:55:7:static constexpr _Tp& std::__array_traits<_Tp, _Nm>::_S_ref(const _Tp (&)[_Nm], std::size_t) [with _Tp = float; unsigned int _Nm = 2]	16	static
