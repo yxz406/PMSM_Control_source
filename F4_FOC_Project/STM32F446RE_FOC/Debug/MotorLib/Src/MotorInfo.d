@@ -1,5 +1,6 @@
-Src/MotorInfo.o: ../Src/MotorInfo.cpp ../Inc/MotorInfo.hpp \
- ../Inc/MathLib.hpp ../Inc/ArgSensor.hpp ../Inc/Observer.hpp \
+MotorLib/Src/MotorInfo.o: ../MotorLib/Src/MotorInfo.cpp \
+ ../MotorLib/Inc/MotorInfo.hpp ../Inc/MathLib.hpp \
+ ../MotorLib/Inc/ArgSensor.hpp ../Observer/Inc/Observer.hpp \
  ../Inc/paramsetting.h ../CMSIS_DSP/arm_math.h \
  ../Drivers/CMSIS/Include/core_cm4.h \
  ../Drivers/CMSIS/Include/cmsis_version.h \
@@ -44,13 +45,13 @@ Src/MotorInfo.o: ../Src/MotorInfo.cpp ../Inc/MotorInfo.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
  ../SystemLib/Inc/ErrorHandler.hpp
 
-../Inc/MotorInfo.hpp:
+../MotorLib/Inc/MotorInfo.hpp:
 
 ../Inc/MathLib.hpp:
 
-../Inc/ArgSensor.hpp:
+../MotorLib/Inc/ArgSensor.hpp:
 
-../Inc/Observer.hpp:
+../Observer/Inc/Observer.hpp:
 
 ../Inc/paramsetting.h:
 

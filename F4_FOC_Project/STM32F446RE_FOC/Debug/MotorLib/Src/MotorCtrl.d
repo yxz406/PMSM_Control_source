@@ -1,5 +1,6 @@
-Src/DebugCtrl.o: ../Src/DebugCtrl.cpp ../Inc/DebugCtrl.hpp \
- ../Inc/paramsetting.h ../Inc/UART.hpp ../SystemLib/Inc/STM32SystemPack.h \
+MotorLib/Src/MotorCtrl.o: ../MotorLib/Src/MotorCtrl.cpp \
+ ../MotorLib/Inc/MotorCtrl.hpp ../Inc/paramsetting.h \
+ ../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -39,14 +40,21 @@ Src/DebugCtrl.o: ../Src/DebugCtrl.cpp ../Inc/DebugCtrl.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
- ../SystemLib/Inc/ErrorHandler.hpp ../Inc/DebugInfo.hpp \
- ../Inc/DebugInfoTiny.hpp
+ ../SystemLib/Inc/ErrorHandler.hpp ../SystemLib/Inc/ADCInit.hpp \
+ ../SystemLib/Inc/STM32SystemPack.h ../SystemLib/Inc/GPIOInit.hpp \
+ ../Inc/PinDef.h ../SystemLib/Inc/TIMInit.hpp \
+ ../SystemLib/Inc/USARTInit.hpp ../MotorLib/Inc/MotorInfo.hpp \
+ ../Inc/MathLib.hpp ../MotorLib/Inc/ArgSensor.hpp \
+ ../Observer/Inc/Observer.hpp ../CMSIS_DSP/arm_math.h \
+ ../CMSIS_DSP/arm_const_structs.h ../CMSIS_DSP/arm_math.h \
+ ../CMSIS_DSP/arm_common_tables.h ../Inc/PID.hpp ../Inc/TimInfo.hpp \
+ ../Inc/PWM.hpp ../Inc/paramsetting.h ../Inc/UART.hpp ../Inc/UiCtrl.hpp \
+ ../MotorLib/Inc/DebugCtrl.hpp ../MotorLib/Inc/DebugInfo.hpp \
+ ../MotorLib/Inc/DebugInfoTiny.hpp
 
-../Inc/DebugCtrl.hpp:
+../MotorLib/Inc/MotorCtrl.hpp:
 
 ../Inc/paramsetting.h:
-
-../Inc/UART.hpp:
 
 ../SystemLib/Inc/STM32SystemPack.h:
 
@@ -130,6 +138,48 @@ Src/DebugCtrl.o: ../Src/DebugCtrl.cpp ../Inc/DebugCtrl.hpp \
 
 ../SystemLib/Inc/ErrorHandler.hpp:
 
-../Inc/DebugInfo.hpp:
+../SystemLib/Inc/ADCInit.hpp:
 
-../Inc/DebugInfoTiny.hpp:
+../SystemLib/Inc/STM32SystemPack.h:
+
+../SystemLib/Inc/GPIOInit.hpp:
+
+../Inc/PinDef.h:
+
+../SystemLib/Inc/TIMInit.hpp:
+
+../SystemLib/Inc/USARTInit.hpp:
+
+../MotorLib/Inc/MotorInfo.hpp:
+
+../Inc/MathLib.hpp:
+
+../MotorLib/Inc/ArgSensor.hpp:
+
+../Observer/Inc/Observer.hpp:
+
+../CMSIS_DSP/arm_math.h:
+
+../CMSIS_DSP/arm_const_structs.h:
+
+../CMSIS_DSP/arm_math.h:
+
+../CMSIS_DSP/arm_common_tables.h:
+
+../Inc/PID.hpp:
+
+../Inc/TimInfo.hpp:
+
+../Inc/PWM.hpp:
+
+../Inc/paramsetting.h:
+
+../Inc/UART.hpp:
+
+../Inc/UiCtrl.hpp:
+
+../MotorLib/Inc/DebugCtrl.hpp:
+
+../MotorLib/Inc/DebugInfo.hpp:
+
+../MotorLib/Inc/DebugInfoTiny.hpp:

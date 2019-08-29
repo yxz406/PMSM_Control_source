@@ -1,5 +1,6 @@
-Src/MotorCtrl.o: ../Src/MotorCtrl.cpp ../Inc/MotorCtrl.hpp \
- ../Inc/paramsetting.h ../SystemLib/Inc/STM32SystemPack.h \
+MotorLib/Src/DebugCtrl.o: ../MotorLib/Src/DebugCtrl.cpp \
+ ../MotorLib/Inc/DebugCtrl.hpp ../Inc/paramsetting.h ../Inc/UART.hpp \
+ ../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -39,19 +40,14 @@ Src/MotorCtrl.o: ../Src/MotorCtrl.cpp ../Inc/MotorCtrl.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
- ../SystemLib/Inc/ErrorHandler.hpp ../SystemLib/Inc/ADCInit.hpp \
- ../SystemLib/Inc/STM32SystemPack.h ../SystemLib/Inc/GPIOInit.hpp \
- ../Inc/PinDef.h ../SystemLib/Inc/TIMInit.hpp ../Inc/paramsetting.h \
- ../SystemLib/Inc/USARTInit.hpp ../Inc/MotorInfo.hpp ../Inc/MathLib.hpp \
- ../Inc/ArgSensor.hpp ../Inc/Observer.hpp ../CMSIS_DSP/arm_math.h \
- ../CMSIS_DSP/arm_const_structs.h ../CMSIS_DSP/arm_math.h \
- ../CMSIS_DSP/arm_common_tables.h ../Inc/PID.hpp ../Inc/TimInfo.hpp \
- ../Inc/PWM.hpp ../Inc/UART.hpp ../Inc/UiCtrl.hpp ../Inc/DebugCtrl.hpp \
- ../Inc/DebugInfo.hpp ../Inc/DebugInfoTiny.hpp
+ ../SystemLib/Inc/ErrorHandler.hpp ../MotorLib/Inc/DebugInfo.hpp \
+ ../MotorLib/Inc/DebugInfoTiny.hpp
 
-../Inc/MotorCtrl.hpp:
+../MotorLib/Inc/DebugCtrl.hpp:
 
 ../Inc/paramsetting.h:
+
+../Inc/UART.hpp:
 
 ../SystemLib/Inc/STM32SystemPack.h:
 
@@ -135,48 +131,6 @@ Src/MotorCtrl.o: ../Src/MotorCtrl.cpp ../Inc/MotorCtrl.hpp \
 
 ../SystemLib/Inc/ErrorHandler.hpp:
 
-../SystemLib/Inc/ADCInit.hpp:
+../MotorLib/Inc/DebugInfo.hpp:
 
-../SystemLib/Inc/STM32SystemPack.h:
-
-../SystemLib/Inc/GPIOInit.hpp:
-
-../Inc/PinDef.h:
-
-../SystemLib/Inc/TIMInit.hpp:
-
-../Inc/paramsetting.h:
-
-../SystemLib/Inc/USARTInit.hpp:
-
-../Inc/MotorInfo.hpp:
-
-../Inc/MathLib.hpp:
-
-../Inc/ArgSensor.hpp:
-
-../Inc/Observer.hpp:
-
-../CMSIS_DSP/arm_math.h:
-
-../CMSIS_DSP/arm_const_structs.h:
-
-../CMSIS_DSP/arm_math.h:
-
-../CMSIS_DSP/arm_common_tables.h:
-
-../Inc/PID.hpp:
-
-../Inc/TimInfo.hpp:
-
-../Inc/PWM.hpp:
-
-../Inc/UART.hpp:
-
-../Inc/UiCtrl.hpp:
-
-../Inc/DebugCtrl.hpp:
-
-../Inc/DebugInfo.hpp:
-
-../Inc/DebugInfoTiny.hpp:
+../MotorLib/Inc/DebugInfoTiny.hpp:

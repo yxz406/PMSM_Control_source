@@ -15,7 +15,45 @@
 #define ARM_MATH_CM4
 #include "arm_math.h"
 #include "arm_const_structs.h"
-
+/*
+ *命名について nihongo:英語
+ *
+ *拡張誘起電圧オブザーバ:Extended EMF Observer
+ *適応オブザーバ:Adaptive Observer
+ *推定:Estimated
+ *
+ * 必要な値(static)
+ * G1:適応オブザーバでよく目にするやつ AdaptObsGain1 みたいにならないのか?
+ * G2:適応オブザーバで少し出てくるやつ AdaptObsGain2 みたいにならないのか?
+ *
+ * Kp:適応オブザーバで少し出てくるやつ AdaptObs**GainKp
+ * Ki:適応オブザーバで少し出てくるやつ AdaptObs**GainKi
+ * みたいにならないの？？？そもそも何に対するゲインなの？？？
+ * ここらへんはっきりさせないと後々管理に困るよね？
+ * １年後見てすぐにどの(どっちの)パラメータかわかるの？
+ *
+ * mAlpha:EMFオブザーバで出てくるやつ EMFObsGainAlpha みたいにならないの?
+ *
+ * K1:
+ * K2:
+ * K3:EMFObserverで  EMFObsGainK3
+ *
+ * 必要な値(dynamic)
+ * ほか、かなり大量のv*とかVal*とかあるけど、これどうするの？意味わからないよね？
+ * せめてbufVec, bufVal, にするべきだし、
+ * bufEMFVec, bufAdaptVec　とか名前長くなるけど、そうなるんだったら
+ * AdaptObs.hpp
+ * EMFObs.hpp
+ * にクラスわけする？？？？
+ *
+ * Observer.hpp
+ * |-AdaptObs.hpp
+ * |-EMFObs.hpp
+ *
+ * Observerにゲインは置いておいて、それぞれに渡す。
+ * そうするといくらか楽にはなるかもしれないね。
+ *
+ */
 
 class Observer {
 public://pub-class
@@ -45,6 +83,8 @@ private:
 	float mR;
 	float mLd;
 	float mLq;
+
+	float mCycleTime;
 
 	float mG1;
 	float mG2;
@@ -138,12 +178,18 @@ public:
 	Observer();
 	virtual ~Observer();
 	void func();
+
+	//Init
 	void MotorParamInit(float pR, float pLd, float pLq);
 	void obsBiasInit(float pG1);
 
+	//Setter
 	void SetIalpha_beta(float pIalpha, float pIbeta);
 	void SetValpha_beta(float pValpha, float pVbeta);
+	void SetCycleTime(float pCycleTime);
 
+	//Getter
+	float GetEstTheta(void);
 
 	std::array<float, 2> MatrixMultiple2n(float pa11, float pa12,
 								  float pa21, float pa22,

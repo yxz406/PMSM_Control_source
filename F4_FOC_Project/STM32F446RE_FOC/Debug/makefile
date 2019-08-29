@@ -11,6 +11,8 @@ RM := rm -rf
 -include SystemLib/Src/subdir.mk
 -include Startup/subdir.mk
 -include Src/subdir.mk
+-include Observer/Src/subdir.mk
+-include MotorLib/Src/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include subdir.mk
 -include objects.mk

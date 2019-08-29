@@ -57,6 +57,7 @@ void Observer::obsBiasInit(float pG1) {
 	mG1 = pG1;
 }
 
+//Setter
 void Observer::SetIalpha_beta(float pIalpha, float pIbeta){
 	mIalpha_beta.at(0) = pIalpha;
 	mIalpha_beta.at(1) = pIbeta;
@@ -65,6 +66,17 @@ void Observer::SetValpha_beta(float pValpha, float pVbeta){
 	mValpha_beta.at(0) = pValpha;
 	mValpha_beta.at(1) = pVbeta;
 }
+
+void Observer::SetCycleTime(float pCycleTime) {
+	mCycleTime = pCycleTime;
+}
+
+//Getter
+float Observer::GetEstTheta(void) {
+	return mEstTheta;
+}
+
+
 
 std::array<float, 2> Observer::MatrixMultiple2n(float pa11, float pa12,
 	                    				float pa21, float pa22,

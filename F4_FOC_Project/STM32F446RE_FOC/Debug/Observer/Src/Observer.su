@@ -8,13 +8,15 @@ Observer.cpp:46:1:Observer::~Observer()	16	static
 Observer.cpp:46:1:virtual Observer::~Observer()	16	static
 Observer.cpp:50:6:void Observer::MotorParamInit(float, float, float)	24	static
 Observer.cpp:56:6:void Observer::obsBiasInit(float)	16	static
-Observer.cpp:60:6:void Observer::SetIalpha_beta(float, float)	24	static
-Observer.cpp:64:6:void Observer::SetValpha_beta(float, float)	24	static
-Observer.cpp:69:22:std::array<float, 2> Observer::MatrixMultiple2n(float, float, float, float, std::array<float, 2>)	72	static
-Observer.cpp:80:22:std::array<float, 2> Observer::VectorMultiple2n(float, std::array<float, 2>)	56	static
-Observer.cpp:89:22:std::array<float, 2> Observer::VectorAdd2n(std::array<float, 2>, std::array<float, 2>)	64	static
-Observer.cpp:98:7:float Observer::VectorMultiple12_21(std::array<float, 2>, std::array<float, 2>)	48	static
-Observer.cpp:107:7:float Observer::atan2(float, float)	24	static
-Observer.cpp:112:6:void Observer::calc(float)	120	static
+Observer.cpp:61:6:void Observer::SetIalpha_beta(float, float)	24	static
+Observer.cpp:65:6:void Observer::SetValpha_beta(float, float)	24	static
+Observer.cpp:70:6:void Observer::SetCycleTime(float)	16	static
+Observer.cpp:75:7:float Observer::GetEstTheta()	16	static
+Observer.cpp:81:22:std::array<float, 2> Observer::MatrixMultiple2n(float, float, float, float, std::array<float, 2>)	72	static
+Observer.cpp:92:22:std::array<float, 2> Observer::VectorMultiple2n(float, std::array<float, 2>)	56	static
+Observer.cpp:101:22:std::array<float, 2> Observer::VectorAdd2n(std::array<float, 2>, std::array<float, 2>)	64	static
+Observer.cpp:110:7:float Observer::VectorMultiple12_21(std::array<float, 2>, std::array<float, 2>)	48	static
+Observer.cpp:119:7:float Observer::atan2(float, float)	24	static
+Observer.cpp:124:6:void Observer::calc(float)	120	static
 array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 2]	16	static
 array:55:7:static constexpr _Tp& std::__array_traits<_Tp, _Nm>::_S_ref(const _Tp (&)[_Nm], std::size_t) [with _Tp = float; unsigned int _Nm = 2]	16	static
