@@ -1,13 +1,16 @@
 MotorLib/Src/MotorInfo.o: ../MotorLib/Src/MotorInfo.cpp \
- ../MotorLib/Inc/MotorInfo.hpp ../Inc/MathLib.hpp \
+ ../MotorLib/Inc/MotorInfo.hpp ../MathLib/Inc/MathLib.hpp \
  ../MotorLib/Inc/ArgSensor.hpp ../Observer/Inc/Observer.hpp \
- ../Inc/paramsetting.h ../CMSIS_DSP/arm_math.h \
+ ../Observer/Inc/AdaptVelEst.hpp ../MathLib/Inc/Matrix.hpp \
+ ../MathLib/Inc/DSPInc.hpp ../CMSIS_DSP/arm_math.h \
  ../Drivers/CMSIS/Include/core_cm4.h \
  ../Drivers/CMSIS/Include/cmsis_version.h \
  ../Drivers/CMSIS/Include/cmsis_compiler.h \
  ../Drivers/CMSIS/Include/cmsis_gcc.h ../CMSIS_DSP/arm_const_structs.h \
- ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_common_tables.h ../Inc/PID.hpp \
- ../Inc/TimInfo.hpp ../SystemLib/Inc/STM32SystemPack.h \
+ ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_common_tables.h \
+ ../MathLib/Inc/ZIntegrate.hpp ../MathLib/Inc/Trigonometric.hpp \
+ ../Observer/Inc/EMFObs.hpp ../MathLib/Inc/PID.hpp ../Inc/TimInfo.hpp \
+ ../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -47,13 +50,17 @@ MotorLib/Src/MotorInfo.o: ../MotorLib/Src/MotorInfo.cpp \
 
 ../MotorLib/Inc/MotorInfo.hpp:
 
-../Inc/MathLib.hpp:
+../MathLib/Inc/MathLib.hpp:
 
 ../MotorLib/Inc/ArgSensor.hpp:
 
 ../Observer/Inc/Observer.hpp:
 
-../Inc/paramsetting.h:
+../Observer/Inc/AdaptVelEst.hpp:
+
+../MathLib/Inc/Matrix.hpp:
+
+../MathLib/Inc/DSPInc.hpp:
 
 ../CMSIS_DSP/arm_math.h:
 
@@ -71,7 +78,13 @@ MotorLib/Src/MotorInfo.o: ../MotorLib/Src/MotorInfo.cpp \
 
 ../CMSIS_DSP/arm_common_tables.h:
 
-../Inc/PID.hpp:
+../MathLib/Inc/ZIntegrate.hpp:
+
+../MathLib/Inc/Trigonometric.hpp:
+
+../Observer/Inc/EMFObs.hpp:
+
+../MathLib/Inc/PID.hpp:
 
 ../Inc/TimInfo.hpp:
 

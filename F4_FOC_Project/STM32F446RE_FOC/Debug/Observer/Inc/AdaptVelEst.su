@@ -1,0 +1,13 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+AdaptVelEst.cpp:10:1:AdaptVelEst::AdaptVelEst()	16	static
+AdaptVelEst.cpp:16:1:AdaptVelEst::~AdaptVelEst()	16	static
+AdaptVelEst.cpp:16:1:virtual AdaptVelEst::~AdaptVelEst()	16	static
+AdaptVelEst.cpp:21:6:void AdaptVelEst::MotorParamInit(float, float, float)	24	static
+AdaptVelEst.cpp:26:6:void AdaptVelEst::obsBiasInit(float)	16	static
+AdaptVelEst.cpp:31:6:void AdaptVelEst::SetIalpha_beta(float, float)	24	static
+AdaptVelEst.cpp:35:6:void AdaptVelEst::SetValpha_beta(float, float)	24	static
+AdaptVelEst.cpp:39:6:void AdaptVelEst::SetCycleTime(float)	16	static
+AdaptVelEst.cpp:44:6:void AdaptVelEst::AdaptiveVelocityEstimator()	32	static
+AdaptVelEst.cpp:87:7:float AdaptVelEst::GetEstOmegaE()	16	static
+array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 2]	16	static
+array:55:7:static constexpr _Tp& std::__array_traits<_Tp, _Nm>::_S_ref(const _Tp (&)[_Nm], std::size_t) [with _Tp = float; unsigned int _Nm = 2]	16	static

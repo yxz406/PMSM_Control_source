@@ -1,4 +1,4 @@
-Src/PWM.o: ../Src/PWM.cpp ../Inc/PWM.hpp \
+SystemLib/Src/PWM.o: ../SystemLib/Src/PWM.cpp ../SystemLib/Inc/PWM.hpp \
  ../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
@@ -41,7 +41,7 @@ Src/PWM.o: ../Src/PWM.cpp ../Inc/PWM.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
  ../SystemLib/Inc/ErrorHandler.hpp ../Inc/paramsetting.h
 
-../Inc/PWM.hpp:
+../SystemLib/Inc/PWM.hpp:
 
 ../SystemLib/Inc/STM32SystemPack.h:
 

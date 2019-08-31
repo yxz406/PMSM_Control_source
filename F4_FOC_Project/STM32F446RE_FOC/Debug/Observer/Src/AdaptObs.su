@@ -1,0 +1,3 @@
+AdaptObs.cpp:10:1:AdaptObs::AdaptObs()	16	static
+AdaptObs.cpp:15:1:AdaptObs::~AdaptObs()	16	static
+AdaptObs.cpp:15:1:virtual AdaptObs::~AdaptObs()	16	static

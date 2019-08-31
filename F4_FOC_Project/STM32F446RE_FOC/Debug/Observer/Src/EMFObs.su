@@ -1,0 +1,3 @@
+EMFObs.cpp:10:1:EMFObs::EMFObs()	16	static
+EMFObs.cpp:15:1:EMFObs::~EMFObs()	16	static
+EMFObs.cpp:15:1:virtual EMFObs::~EMFObs()	16	static

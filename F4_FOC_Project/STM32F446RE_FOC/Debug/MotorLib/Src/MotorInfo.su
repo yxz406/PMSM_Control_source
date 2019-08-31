@@ -6,7 +6,9 @@ MathLib.hpp:14:7:MathLib& MathLib::operator=(const MathLib&)	16	static
 MotorInfo.cpp:59:6:void MotorInfo::setMathLib(MathLib)	16	static
 MathLib.hpp:14:7:MathLib::MathLib(const MathLib&)	16	static
 MotorInfo.cpp:63:9:MathLib MotorInfo::getMathLib()	16	static
-Observer.hpp:58:7:constexpr Observer& Observer::operator=(const Observer&)	24	static
+AdaptVelEst.hpp:23:7:constexpr AdaptVelEst& AdaptVelEst::operator=(const AdaptVelEst&)	24	static
+EMFObs.hpp:11:7:constexpr EMFObs& EMFObs::operator=(const EMFObs&)	16	static
+Observer.hpp:14:7:constexpr Observer& Observer::operator=(const Observer&)	16	static
 ArgSensor.hpp:14:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
 MotorInfo.cpp:65:6:void MotorInfo::setArgSensor(ArgSensor)	16	static
 TimInfo.hpp:13:7:constexpr TimInfo& TimInfo::operator=(const TimInfo&)	16	static

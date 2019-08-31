@@ -42,13 +42,16 @@ MotorLib/Src/MotorCtrl.o: ../MotorLib/Src/MotorCtrl.cpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
  ../SystemLib/Inc/ErrorHandler.hpp ../SystemLib/Inc/ADCInit.hpp \
  ../SystemLib/Inc/STM32SystemPack.h ../SystemLib/Inc/GPIOInit.hpp \
- ../Inc/PinDef.h ../SystemLib/Inc/TIMInit.hpp \
+ ../SystemLib/Inc/PinDef.h ../SystemLib/Inc/TIMInit.hpp \
  ../SystemLib/Inc/USARTInit.hpp ../MotorLib/Inc/MotorInfo.hpp \
- ../Inc/MathLib.hpp ../MotorLib/Inc/ArgSensor.hpp \
- ../Observer/Inc/Observer.hpp ../CMSIS_DSP/arm_math.h \
- ../CMSIS_DSP/arm_const_structs.h ../CMSIS_DSP/arm_math.h \
- ../CMSIS_DSP/arm_common_tables.h ../Inc/PID.hpp ../Inc/TimInfo.hpp \
- ../Inc/PWM.hpp ../Inc/paramsetting.h ../Inc/UART.hpp ../Inc/UiCtrl.hpp \
+ ../MathLib/Inc/MathLib.hpp ../MotorLib/Inc/ArgSensor.hpp \
+ ../Observer/Inc/Observer.hpp ../Observer/Inc/AdaptVelEst.hpp \
+ ../MathLib/Inc/Matrix.hpp ../MathLib/Inc/DSPInc.hpp \
+ ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_const_structs.h \
+ ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_common_tables.h \
+ ../MathLib/Inc/ZIntegrate.hpp ../MathLib/Inc/Trigonometric.hpp \
+ ../Observer/Inc/EMFObs.hpp ../MathLib/Inc/PID.hpp ../Inc/TimInfo.hpp \
+ ../SystemLib/Inc/PWM.hpp ../Inc/UART.hpp ../Inc/UiCtrl.hpp \
  ../MotorLib/Inc/DebugCtrl.hpp ../MotorLib/Inc/DebugInfo.hpp \
  ../MotorLib/Inc/DebugInfoTiny.hpp
 
@@ -144,7 +147,7 @@ MotorLib/Src/MotorCtrl.o: ../MotorLib/Src/MotorCtrl.cpp \
 
 ../SystemLib/Inc/GPIOInit.hpp:
 
-../Inc/PinDef.h:
+../SystemLib/Inc/PinDef.h:
 
 ../SystemLib/Inc/TIMInit.hpp:
 
@@ -152,11 +155,17 @@ MotorLib/Src/MotorCtrl.o: ../MotorLib/Src/MotorCtrl.cpp \
 
 ../MotorLib/Inc/MotorInfo.hpp:
 
-../Inc/MathLib.hpp:
+../MathLib/Inc/MathLib.hpp:
 
 ../MotorLib/Inc/ArgSensor.hpp:
 
 ../Observer/Inc/Observer.hpp:
+
+../Observer/Inc/AdaptVelEst.hpp:
+
+../MathLib/Inc/Matrix.hpp:
+
+../MathLib/Inc/DSPInc.hpp:
 
 ../CMSIS_DSP/arm_math.h:
 
@@ -166,13 +175,17 @@ MotorLib/Src/MotorCtrl.o: ../MotorLib/Src/MotorCtrl.cpp \
 
 ../CMSIS_DSP/arm_common_tables.h:
 
-../Inc/PID.hpp:
+../MathLib/Inc/ZIntegrate.hpp:
+
+../MathLib/Inc/Trigonometric.hpp:
+
+../Observer/Inc/EMFObs.hpp:
+
+../MathLib/Inc/PID.hpp:
 
 ../Inc/TimInfo.hpp:
 
-../Inc/PWM.hpp:
-
-../Inc/paramsetting.h:
+../SystemLib/Inc/PWM.hpp:
 
 ../Inc/UART.hpp:
 

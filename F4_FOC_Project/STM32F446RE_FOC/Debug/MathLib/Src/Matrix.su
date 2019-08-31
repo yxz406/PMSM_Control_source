@@ -1,0 +1,12 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+Matrix.cpp:10:1:Matrix::Matrix()	16	static
+Matrix.cpp:15:1:Matrix::~Matrix()	16	static
+Matrix.cpp:15:1:virtual Matrix::~Matrix()	16	static
+Matrix.cpp:19:22:static std::array<float, 2> Matrix::MatrixMultiple2x2(float, float, float, float, std::array<float, 2>)	64	static
+Matrix.cpp:30:22:static std::array<float, 2> Matrix::VectorMultiple2x1(float, std::array<float, 2>)	56	static
+Matrix.cpp:39:22:static std::array<float, 2> Matrix::VectorAdd2x1(std::array<float, 2>, std::array<float, 2>)	56	static
+Matrix.cpp:47:22:static std::array<float, 2> Matrix::VectorAdd2x1(std::array<float, 2>, std::array<float, 2>, std::array<float, 2>)	64	static
+Matrix.cpp:56:22:static std::array<float, 2> Matrix::VectorSubtract2x1(std::array<float, 2>, std::array<float, 2>)	56	static
+Matrix.cpp:66:7:static float Matrix::VectorMultiple1x2_2x1(std::array<float, 2>, std::array<float, 2>)	40	static
+array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 2]	16	static
+array:55:7:static constexpr _Tp& std::__array_traits<_Tp, _Nm>::_S_ref(const _Tp (&)[_Nm], std::size_t) [with _Tp = float; unsigned int _Nm = 2]	16	static
