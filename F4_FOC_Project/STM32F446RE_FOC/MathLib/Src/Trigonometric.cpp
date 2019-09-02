@@ -17,11 +17,11 @@ Trigonometric::~Trigonometric() {
 }
 
 float Trigonometric::sin(float pVal) {
-	return sin(pVal);
+	return arm_sin_f32(pVal);
 }
 
 float Trigonometric::cos(float pVal) {
-	return cos(pVal);
+	return arm_cos_f32(pVal);
 }
 
 float Trigonometric::atan2(float pNumerator, float pDenominator){

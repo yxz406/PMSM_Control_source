@@ -93,12 +93,7 @@ void MotorCtrl::InitPWM(void) {
 }
 
 void MotorCtrl::InitMotorInfo(void) {
-	{//MathLibの生存時間調整(メモリ空けてくれ!!)
-		MathLib mathlibrary;//三角関数を取得
-		int mathlib_size = 512;//ライブラリのサイズを指定
-		mathlibrary.fInit(mathlib_size);
-		mMotorInfo.setMathLib(mathlibrary);//モータクラスに算術ライブラリを渡す
-	}
+
 	{
 		ArgSensor sensor; //角度を求める機能を持ったclass
 		sensor.Init();
@@ -183,7 +178,7 @@ void MotorCtrl::HighFreqTask(void) {
 		MotorOutputTask();
 
 		if(DEBUG_MODE){//デバッグモードで入る処理
-			MotorCtrl::DebugTask(Iu, Iv, Iw, mMotorInfo.getArgRad());
+			//MotorCtrl::DebugTask(Iu, Iv, Iw, mMotorInfo.getArgRad());
 		}
 
 	}

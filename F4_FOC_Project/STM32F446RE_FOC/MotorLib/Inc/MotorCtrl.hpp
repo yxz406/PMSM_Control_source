@@ -9,6 +9,7 @@
 #define MOTORCTRL_HPP_
 
 #include "paramsetting.h" //パラメータのマクロ
+#include "MotorLibDefPack.hpp"
 
 // ../SystemLib/Inc/
 #include "STM32SystemPack.h"

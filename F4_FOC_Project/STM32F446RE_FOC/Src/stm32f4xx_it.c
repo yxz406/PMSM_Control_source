@@ -23,6 +23,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "wrapper.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -203,7 +204,7 @@ void SysTick_Handler(void)
 void ADC_IRQHandler(void)
 {
   /* USER CODE BEGIN ADC_IRQn 0 */
-
+	HighFreqTask();
   /* USER CODE END ADC_IRQn 0 */
   HAL_ADC_IRQHandler(&hadc3);
   /* USER CODE BEGIN ADC_IRQn 1 */
@@ -251,7 +252,7 @@ void EXTI15_10_IRQHandler(void)
   {
     LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
     /* USER CODE BEGIN LL_EXTI_LINE_13 */
-    
+    BtnAct();
     /* USER CODE END LL_EXTI_LINE_13 */
   }
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */

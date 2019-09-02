@@ -8,8 +8,11 @@
 #ifndef MOTORINFO_HPP_
 #define MOTORINFO_HPP_
 
+#include "MotorLibDefPack.hpp"
 
-#include "MathLib.hpp"
+#include "MotorMath.hpp"
+//#include <array>
+
 #include "ArgSensor.hpp"
 #include "PID.hpp"
 #include "TimInfo.hpp"
@@ -36,9 +39,9 @@ private:
 	float mVganma;
 	float mVdelta;
 
-	MathLib mLib;
-	int mArg;
-	int mArg_delta;
+
+	fp_rad mArg;
+	fp_rad mArg_delta;
 
 	float mRPM;
 
@@ -55,9 +58,6 @@ public:
 	//Init
 	MotorInfo();
 	virtual ~MotorInfo();
-
-	void setMathLib(MathLib pLib);
-	MathLib getMathLib(void);
 
 	void setArgSensor(ArgSensor pSensor);
 
@@ -82,8 +82,6 @@ public:
 
 	void setArg(int pArg);//これはsetSizeCount
 	void setArgDelta(int pArg);
-	float getArgRad(void);
-	float getArgDeltaRad(void);
 
 	void culcArg(void);//角度検出
 

@@ -1,15 +1,17 @@
 MotorLib/Src/MotorInfo.o: ../MotorLib/Src/MotorInfo.cpp \
- ../MotorLib/Inc/MotorInfo.hpp ../MathLib/Inc/MathLib.hpp \
- ../MotorLib/Inc/ArgSensor.hpp ../Observer/Inc/Observer.hpp \
- ../Observer/Inc/AdaptVelEst.hpp ../MathLib/Inc/Matrix.hpp \
- ../MathLib/Inc/DSPInc.hpp ../CMSIS_DSP/arm_math.h \
- ../Drivers/CMSIS/Include/core_cm4.h \
+ ../MotorLib/Inc/MotorInfo.hpp ../MotorLib/Inc/MotorLibDefPack.hpp \
+ ../MathLib/Inc/MotorMath.hpp ../MotorLib/Inc/MotorLibDefPack.hpp \
+ ../MathLib/Inc/Matrix.hpp ../MathLib/Inc/DSPInc.hpp \
+ ../CMSIS_DSP/arm_math.h ../Drivers/CMSIS/Include/core_cm4.h \
  ../Drivers/CMSIS/Include/cmsis_version.h \
  ../Drivers/CMSIS/Include/cmsis_compiler.h \
  ../Drivers/CMSIS/Include/cmsis_gcc.h ../CMSIS_DSP/arm_const_structs.h \
  ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_common_tables.h \
- ../MathLib/Inc/ZIntegrate.hpp ../MathLib/Inc/Trigonometric.hpp \
- ../Observer/Inc/EMFObs.hpp ../MathLib/Inc/PID.hpp ../Inc/TimInfo.hpp \
+ ../MathLib/Inc/Trigonometric.hpp ../MotorLib/Inc/ArgSensor.hpp \
+ ../Observer/Inc/Observer.hpp ../Observer/Inc/AdaptVelEst.hpp \
+ ../MathLib/Inc/Matrix.hpp ../MathLib/Inc/ZIntegrate.hpp \
+ ../MathLib/Inc/Trigonometric.hpp ../Observer/Inc/EMFObs.hpp \
+ ../MathLib/Inc/PID.hpp ../Inc/TimInfo.hpp \
  ../SystemLib/Inc/STM32SystemPack.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Inc/stm32f4xx_hal_conf.h \
@@ -50,13 +52,11 @@ MotorLib/Src/MotorInfo.o: ../MotorLib/Src/MotorInfo.cpp \
 
 ../MotorLib/Inc/MotorInfo.hpp:
 
-../MathLib/Inc/MathLib.hpp:
+../MotorLib/Inc/MotorLibDefPack.hpp:
 
-../MotorLib/Inc/ArgSensor.hpp:
+../MathLib/Inc/MotorMath.hpp:
 
-../Observer/Inc/Observer.hpp:
-
-../Observer/Inc/AdaptVelEst.hpp:
+../MotorLib/Inc/MotorLibDefPack.hpp:
 
 ../MathLib/Inc/Matrix.hpp:
 
@@ -77,6 +77,16 @@ MotorLib/Src/MotorInfo.o: ../MotorLib/Src/MotorInfo.cpp \
 ../CMSIS_DSP/arm_math.h:
 
 ../CMSIS_DSP/arm_common_tables.h:
+
+../MathLib/Inc/Trigonometric.hpp:
+
+../MotorLib/Inc/ArgSensor.hpp:
+
+../Observer/Inc/Observer.hpp:
+
+../Observer/Inc/AdaptVelEst.hpp:
+
+../MathLib/Inc/Matrix.hpp:
 
 ../MathLib/Inc/ZIntegrate.hpp:
 

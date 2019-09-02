@@ -25,6 +25,7 @@
 "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.o"
 "MathLib/Src/MathLib.o"
 "MathLib/Src/Matrix.o"
+"MathLib/Src/MotorMath.o"
 "MathLib/Src/PID.o"
 "MathLib/Src/Trigonometric.o"
 "MathLib/Src/ZIntegrate.o"

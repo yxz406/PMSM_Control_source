@@ -16,6 +16,7 @@
 #define INC_TRIGONOMETRIC_HPP_
 
 #include "math.h"
+#include "DSPInc.hpp"
 
 class Trigonometric {
 public:

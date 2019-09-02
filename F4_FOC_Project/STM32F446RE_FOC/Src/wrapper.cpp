@@ -23,14 +23,14 @@ void cppwrapper(void){
 
 	M_Ctrl.InitSystem();
 
-	//debug
-	std::string DbgStr;
-	int Dbgint=3456;
-
-	DbgStr.append("testnum:");
-	DbgStr.append(std::to_string(Dbgint));
-	DbgStr.append("\r\n");
-	M_Ctrl.DbgUart(DbgStr);
+//	//debug
+//	std::string DbgStr;
+//	int Dbgint=3456;
+//
+//	DbgStr.append("testnum:");
+//	DbgStr.append(std::to_string(Dbgint));
+//	DbgStr.append("\r\n");
+//	M_Ctrl.DbgUart(DbgStr);
 
 	M_Ctrl.InitMotorInfo();
 	M_Ctrl.InitPWM();
