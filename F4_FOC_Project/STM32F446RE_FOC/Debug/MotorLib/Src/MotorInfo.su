@@ -5,7 +5,7 @@ MotorInfo.cpp:55:1:virtual MotorInfo::~MotorInfo()	16	static
 AdaptVelEst.hpp:23:7:constexpr AdaptVelEst& AdaptVelEst::operator=(const AdaptVelEst&)	24	static
 EMFObs.hpp:11:7:constexpr EMFObs& EMFObs::operator=(const EMFObs&)	16	static
 Observer.hpp:14:7:constexpr Observer& Observer::operator=(const Observer&)	16	static
-ArgSensor.hpp:14:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
+ArgSensor.hpp:16:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
 MotorInfo.cpp:59:6:void MotorInfo::setArgSensor(ArgSensor)	16	static
 TimInfo.hpp:13:7:constexpr TimInfo& TimInfo::operator=(const TimInfo&)	16	static
 MotorInfo.cpp:63:6:void MotorInfo::setTimInfo(TimInfo)	16	static
@@ -26,18 +26,18 @@ MotorInfo.cpp:110:6:void MotorInfo::setArgDelta(int)	16	static
 MotorInfo.cpp:123:6:void MotorInfo::culcArg()	16	static
 MotorInfo.cpp:127:6:void MotorInfo::ForceCommutation()	24	static
 MotorInfo.cpp:140:6:void MotorInfo::setRPM()	24	static
-MotorInfo.cpp:144:6:void MotorInfo::parkTransform()	40	static
-MotorInfo.cpp:154:6:void MotorInfo::clarkTransform()	32	static
-MotorInfo.cpp:163:6:void MotorInfo::clarkGanmaDelta()	40	static
+MotorInfo.cpp:144:6:void MotorInfo::clarkTransform()	40	static
+MotorInfo.cpp:154:6:void MotorInfo::parkTransform()	32	static
+MotorInfo.cpp:163:6:void MotorInfo::parkGanmaDelta()	40	static
 MotorInfo.cpp:174:6:void MotorInfo::PIDdq_control(float, float, float)	32	static
 MotorInfo.cpp:180:6:void MotorInfo::PIDganmadelta_control(float, float, float)	32	static
 MotorInfo.cpp:187:6:void MotorInfo::setVd(float)	16	static
 MotorInfo.cpp:188:6:void MotorInfo::setVq(float)	16	static
 MotorInfo.cpp:189:6:void MotorInfo::setVganma(float)	16	static
 MotorInfo.cpp:190:6:void MotorInfo::setVdelta(float)	16	static
-MotorInfo.cpp:192:6:void MotorInfo::invClarkGanmaDelta()	40	static
-MotorInfo.cpp:204:6:void MotorInfo::invClarkTransform()	32	static
-MotorInfo.cpp:213:6:void MotorInfo::invParkTransform()	40	static
+MotorInfo.cpp:192:6:void MotorInfo::invParkGanmaDelta()	40	static
+MotorInfo.cpp:204:6:void MotorInfo::invParkTransform()	32	static
+MotorInfo.cpp:213:6:void MotorInfo::invClarkTransform()	40	static
 MotorInfo.cpp:237:7:float MotorInfo::getIganma()	16	static
 MotorInfo.cpp:238:7:float MotorInfo::getIdelta()	16	static
 MotorInfo.cpp:240:7:float MotorInfo::getId()	16	static

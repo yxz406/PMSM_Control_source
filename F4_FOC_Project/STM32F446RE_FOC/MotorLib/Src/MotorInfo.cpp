@@ -141,32 +141,32 @@ void MotorInfo::setRPM(void){
 	mRPM = (float)(mSensor.getArg() - mSensor.getArgOld()) / (2*3.14f) * 20 * 1000;//適当なパラメータを入れている
 }
 
-void MotorInfo::parkTransform(void){
+void MotorInfo::clarkTransform(void){
 	//	mIalpha = mIu - (mIv + mIw)/2;
 	//	mIbeta = (mIv - mIw)* 1.7320508f/2;
 	std::array<float, 3> Iuvw = {mIu, mIv, mIw};
-	std::array<float, 2> Iab = MotorMath::parkTransform(Iuvw);
+	std::array<float, 2> Iab = MotorMath::clarkTransform(Iuvw);
 
 	mIalpha = Iab.at(0);
 	mIbeta = Iab.at(1);
 };
 
-void MotorInfo::clarkTransform(void){//反時計回り回転
+void MotorInfo::parkTransform(void){//反時計回り回転
 //	mId =  mLib.getCosList().at(mArg) * mIalpha + mLib.getSinList().at(mArg) * mIbeta;
 //	mIq = -mLib.getSinList().at(mArg) * mIalpha + mLib.getCosList().at(mArg) * mIbeta;
 	std::array<float, 2> Iab = {mIalpha, mIbeta};
-	std::array<float, 2> Idq = MotorMath::clarkTransform(mArg, Iab);
+	std::array<float, 2> Idq = MotorMath::parkTransform(mArg, Iab);
 	mId = Idq.at(0);
 	mIq = Idq.at(1);
 };
 
-void MotorInfo::clarkGanmaDelta(void){//時計回り回転
+void MotorInfo::parkGanmaDelta(void){//時計回り回転
 //	mIganma = mLib.getCosList().at(mArg_delta) * mId - mLib.getSinList().at(mArg_delta) * mIq;
 //	mIdelta = mLib.getSinList().at(mArg_delta) * mId + mLib.getCosList().at(mArg_delta) * mIq;
 	std::array<float, 2> Idq = {mId, mIq};
 	fp_rad Argdelta = mArg_delta;
 	fp_rad InvArgDelta = -1.0f * Argdelta;
-	std::array<float, 2> Iganmadelta = MotorMath::clarkTransform(InvArgDelta, Idq);
+	std::array<float, 2> Iganmadelta = MotorMath::parkTransform(InvArgDelta, Idq);
 	mIganma = Iganmadelta.at(0);
 	mIdelta = Iganmadelta.at(1);
 }
@@ -189,32 +189,32 @@ void MotorInfo::setVq(float pVq){mVq = pVq;}
 void MotorInfo::setVganma(float pVganma){mVganma = pVganma;}
 void MotorInfo::setVdelta(float pVdelta){mVdelta = pVdelta;}
 
-void MotorInfo::invClarkGanmaDelta(void){
+void MotorInfo::invParkGanmaDelta(void){
 
 //	mVd =  mLib.getCosList().at(mArg) * mVganma + mLib.getSinList().at(mArg) * mVdelta;
 //	mVq = -mLib.getSinList().at(mArg) * mVganma + mLib.getCosList().at(mArg) * mVdelta;
 	std::array<float, 2> Vganmadelta = {mVganma, mVdelta};
 	fp_rad Argdelta = mArg_delta;
 	fp_rad InvArgDelta = -1.0f * Argdelta;
-	std::array<float, 2> Vdq = MotorMath::InvclarkTransform(InvArgDelta, Vganmadelta);
+	std::array<float, 2> Vdq = MotorMath::InvparkTransform(InvArgDelta, Vganmadelta);
 	mVd = Vdq.at(0);
 	mVq = Vdq.at(1);
 }
 
-void MotorInfo::invClarkTransform(void){
+void MotorInfo::invParkTransform(void){
 //	mValpha = mLib.getCosList().at(mArg_delta) * mVd - mLib.getSinList().at(mArg_delta) * mVq;
 //	mVbeta  = mLib.getSinList().at(mArg_delta) * mVd + mLib.getCosList().at(mArg_delta) * mVq;
 	std::array<float, 2> Vdq= {mVd, mVq};
-	std::array<float, 2> Vab = MotorMath::InvclarkTransform(mArg, Vdq);
+	std::array<float, 2> Vab = MotorMath::InvparkTransform(mArg, Vdq);
 	mValpha = Vab.at(0);
 	mVbeta = Vab.at(1);
 };
 
-void MotorInfo::invParkTransform(void){
+void MotorInfo::invClarkTransform(void){
 //	mVu = 0.75f * mValpha;
 //	mVv = -0.75f * mValpha + mValpha / 3 + mVbeta / 1.7320508f;
 //	mVw = - mValpha / 3 - mVbeta / 1.7320508f;
-	std::array<float, 3> Vuvw = MotorMath::InvparkTransform({mValpha, mVbeta});
+	std::array<float, 3> Vuvw = MotorMath::InvclarkTransform({mValpha, mVbeta});
 	mVu = Vuvw.at(0);
 	mVv = Vuvw.at(1);
 	mVw = Vuvw.at(2);

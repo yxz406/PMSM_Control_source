@@ -4221,6 +4221,223 @@ Discarded input sections
  .debug_frame   0x0000000000000000      0x1a8 MathLib/Src/ZIntegrate.o
  .ARM.attributes
                 0x0000000000000000       0x39 MathLib/Src/ZIntegrate.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .group         0x0000000000000000        0xc MotorLib/Src/ArgCtrl.o
+ .text          0x0000000000000000        0x0 MotorLib/Src/ArgCtrl.o
+ .data          0x0000000000000000        0x0 MotorLib/Src/ArgCtrl.o
+ .bss           0x0000000000000000        0x0 MotorLib/Src/ArgCtrl.o
+ .rodata._ZStL19piecewise_construct
+                0x0000000000000000        0x1 MotorLib/Src/ArgCtrl.o
+ .text._ZL20__gthread_key_deletei
+                0x0000000000000000       0x16 MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrlC2Ev
+                0x0000000000000000       0x40 MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrlD2Ev
+                0x0000000000000000       0x40 MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrlD0Ev
+                0x0000000000000000       0x20 MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrl4InitEv
+                0x0000000000000000       0x34 MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrl9incrementEf
+                0x0000000000000000       0x88 MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrl9decrementEf
+                0x0000000000000000       0x88 MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrl6getArgEv
+                0x0000000000000000       0x1e MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrl9getArgErrEv
+                0x0000000000000000       0x1e MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrl9getArgOldEv
+                0x0000000000000000       0x1e MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrl6FCInitEf
+                0x0000000000000000       0x1e MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrl14FCaccelerationEv
+                0x0000000000000000       0xc4 MotorLib/Src/ArgCtrl.o
+ .text._ZN7ArgCtrl14FCdecelerationEv
+                0x0000000000000000       0xc4 MotorLib/Src/ArgCtrl.o
+ .rodata._ZTV7ArgCtrl
+                0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_info    0x0000000000000000     0x3900 MotorLib/Src/ArgCtrl.o
+ .debug_abbrev  0x0000000000000000      0x5b1 MotorLib/Src/ArgCtrl.o
+ .debug_aranges
+                0x0000000000000000       0x80 MotorLib/Src/ArgCtrl.o
+ .debug_ranges  0x0000000000000000       0x70 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x64a MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0xb38 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x168 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x3f4 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x18 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x22 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x40 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x18 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x94 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x3c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x34 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x17b MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x57 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x52 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x1f MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x43 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x20 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x1a3 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x353 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x1da MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x16 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x35 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x16 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x29 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x3c7 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x28 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x41 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x12 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x20 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x1c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x6e MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x2e MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x19 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x76 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x19 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x22 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x3c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x1c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x33 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x173 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x1c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0xef MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x6a MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x1d1 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x17 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x5e MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x16 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x4c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x5e MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x11 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x11 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x2f MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x16 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0xf0 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x1c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x1c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x52 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x40 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x40 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0xd7 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x1c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x3d MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x16 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x130 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x11d MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000      0x241 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x17 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x10 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x12 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x1c MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x22 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0xd9 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x12 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x16 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x20 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0xd6 MotorLib/Src/ArgCtrl.o
+ .debug_macro   0x0000000000000000       0x7c MotorLib/Src/ArgCtrl.o
+ .debug_line    0x0000000000000000     0x11f3 MotorLib/Src/ArgCtrl.o
+ .debug_str     0x0000000000000000     0xf7ca MotorLib/Src/ArgCtrl.o
+ .comment       0x0000000000000000       0x7c MotorLib/Src/ArgCtrl.o
+ .debug_frame   0x0000000000000000      0x214 MotorLib/Src/ArgCtrl.o
+ .ARM.attributes
+                0x0000000000000000       0x39 MotorLib/Src/ArgCtrl.o
  .group         0x0000000000000000        0xc MotorLib/Src/ArgSensor.o
  .group         0x0000000000000000        0xc MotorLib/Src/ArgSensor.o
  .group         0x0000000000000000        0xc MotorLib/Src/ArgSensor.o
@@ -5666,7 +5883,7 @@ Discarded input sections
                 0x0000000000000000       0x14 MotorLib/Src/MotorInfo.o
  .text._ZN9MotorInfo6setRPMEv
                 0x0000000000000000       0x64 MotorLib/Src/MotorInfo.o
- .text._ZN9MotorInfo15clarkGanmaDeltaEv
+ .text._ZN9MotorInfo14parkGanmaDeltaEv
                 0x0000000000000000       0x7e MotorLib/Src/MotorInfo.o
  .text._ZN9MotorInfo13PIDdq_controlEfff
                 0x0000000000000000       0x84 MotorLib/Src/MotorInfo.o
@@ -10397,6 +10614,7 @@ LOAD MathLib/Src/MotorMath.o
 LOAD MathLib/Src/PID.o
 LOAD MathLib/Src/Trigonometric.o
 LOAD MathLib/Src/ZIntegrate.o
+LOAD MotorLib/Src/ArgCtrl.o
 LOAD MotorLib/Src/ArgSensor.o
 LOAD MotorLib/Src/DebugCtrl.o
 LOAD MotorLib/Src/DebugInfo.o
@@ -10742,18 +10960,18 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
                 0x0000000008003b14       0x1e MathLib/Src/Matrix.o
                 0x0000000008003b14                std::__array_traits<float, 2u>::_S_ref(float const (&) [2], unsigned int)
  *fill*         0x0000000008003b32        0x2 
- .text._ZN9MotorMath13parkTransformESt5arrayIfLj3EE
+ .text._ZN9MotorMath14clarkTransformESt5arrayIfLj3EE
                 0x0000000008003b34       0xf8 MathLib/Src/MotorMath.o
-                0x0000000008003b34                MotorMath::parkTransform(std::array<float, 3u>)
- .text._ZN9MotorMath14clarkTransformEfSt5arrayIfLj2EE
+                0x0000000008003b34                MotorMath::clarkTransform(std::array<float, 3u>)
+ .text._ZN9MotorMath13parkTransformEfSt5arrayIfLj2EE
                 0x0000000008003c2c      0x104 MathLib/Src/MotorMath.o
-                0x0000000008003c2c                MotorMath::clarkTransform(float, std::array<float, 2u>)
- .text._ZN9MotorMath17InvclarkTransformEfSt5arrayIfLj2EE
+                0x0000000008003c2c                MotorMath::parkTransform(float, std::array<float, 2u>)
+ .text._ZN9MotorMath16InvparkTransformEfSt5arrayIfLj2EE
                 0x0000000008003d30      0x104 MathLib/Src/MotorMath.o
-                0x0000000008003d30                MotorMath::InvclarkTransform(float, std::array<float, 2u>)
- .text._ZN9MotorMath16InvparkTransformESt5arrayIfLj2EE
+                0x0000000008003d30                MotorMath::InvparkTransform(float, std::array<float, 2u>)
+ .text._ZN9MotorMath17InvclarkTransformESt5arrayIfLj2EE
                 0x0000000008003e34      0x138 MathLib/Src/MotorMath.o
-                0x0000000008003e34                MotorMath::InvparkTransform(std::array<float, 2u>)
+                0x0000000008003e34                MotorMath::InvclarkTransform(std::array<float, 2u>)
  .text._ZNSt5arrayIfLj3EE2atEj
                 0x0000000008003f6c       0x34 MathLib/Src/MotorMath.o
                 0x0000000008003f6c                std::array<float, 3u>::at(unsigned int)
@@ -11033,27 +11251,27 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
  .text._ZN9MotorInfo16ForceCommutationEv
                 0x00000000080056e6       0x48 MotorLib/Src/MotorInfo.o
                 0x00000000080056e6                MotorInfo::ForceCommutation()
- .text._ZN9MotorInfo13parkTransformEv
-                0x000000000800572e       0x76 MotorLib/Src/MotorInfo.o
-                0x000000000800572e                MotorInfo::parkTransform()
  .text._ZN9MotorInfo14clarkTransformEv
+                0x000000000800572e       0x76 MotorLib/Src/MotorInfo.o
+                0x000000000800572e                MotorInfo::clarkTransform()
+ .text._ZN9MotorInfo13parkTransformEv
                 0x00000000080057a4       0x72 MotorLib/Src/MotorInfo.o
-                0x00000000080057a4                MotorInfo::clarkTransform()
+                0x00000000080057a4                MotorInfo::parkTransform()
  .text._ZN9MotorInfo9setVganmaEf
                 0x0000000008005816       0x1e MotorLib/Src/MotorInfo.o
                 0x0000000008005816                MotorInfo::setVganma(float)
  .text._ZN9MotorInfo9setVdeltaEf
                 0x0000000008005834       0x1e MotorLib/Src/MotorInfo.o
                 0x0000000008005834                MotorInfo::setVdelta(float)
- .text._ZN9MotorInfo18invClarkGanmaDeltaEv
+ .text._ZN9MotorInfo17invParkGanmaDeltaEv
                 0x0000000008005852       0x7e MotorLib/Src/MotorInfo.o
-                0x0000000008005852                MotorInfo::invClarkGanmaDelta()
- .text._ZN9MotorInfo17invClarkTransformEv
-                0x00000000080058d0       0x72 MotorLib/Src/MotorInfo.o
-                0x00000000080058d0                MotorInfo::invClarkTransform()
+                0x0000000008005852                MotorInfo::invParkGanmaDelta()
  .text._ZN9MotorInfo16invParkTransformEv
+                0x00000000080058d0       0x72 MotorLib/Src/MotorInfo.o
+                0x00000000080058d0                MotorInfo::invParkTransform()
+ .text._ZN9MotorInfo17invClarkTransformEv
                 0x0000000008005942       0x84 MotorLib/Src/MotorInfo.o
-                0x0000000008005942                MotorInfo::invParkTransform()
+                0x0000000008005942                MotorInfo::invClarkTransform()
  .text._ZN9MotorInfo5getIdEv
                 0x00000000080059c6       0x1e MotorLib/Src/MotorInfo.o
                 0x00000000080059c6                MotorInfo::getId()
@@ -12005,7 +12223,7 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
                 0x00000000000012c8       0x22 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.macos64_1.0.0.201904181610/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7e-m/fpv4-sp/hard/crtn.o
 OUTPUT(STM32F446RE_FOC.elf elf32-littlearm)
 
-.debug_info     0x0000000000000000    0x4b7dc
+.debug_info     0x0000000000000000    0x4b7cd
  .debug_info    0x0000000000000000      0x973 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
  .debug_info    0x0000000000000973      0xc9c Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o
  .debug_info    0x000000000000160f      0xb18 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o
@@ -12021,38 +12239,38 @@ OUTPUT(STM32F446RE_FOC.elf elf32-littlearm)
  .debug_info    0x0000000000007287      0xf4a Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.o
  .debug_info    0x00000000000081d1      0x776 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.o
  .debug_info    0x0000000000008947     0x3ceb MathLib/Src/Matrix.o
- .debug_info    0x000000000000c632     0x4114 MathLib/Src/MotorMath.o
- .debug_info    0x0000000000010746     0x2f99 MathLib/Src/PID.o
- .debug_info    0x00000000000136df     0x1b92 MathLib/Src/Trigonometric.o
- .debug_info    0x0000000000015271     0x3934 MotorLib/Src/ArgSensor.o
- .debug_info    0x0000000000018ba5     0x7981 MotorLib/Src/DebugCtrl.o
- .debug_info    0x0000000000020526     0x3ea6 MotorLib/Src/DebugInfo.o
- .debug_info    0x00000000000243cc     0x2bc9 MotorLib/Src/DebugInfoTiny.o
- .debug_info    0x0000000000026f95     0x7531 MotorLib/Src/MotorCtrl.o
- .debug_info    0x000000000002e4c6     0x7918 MotorLib/Src/MotorInfo.o
- .debug_info    0x0000000000035dde     0x3faf Observer/Src/AdaptVelEst.o
- .debug_info    0x0000000000039d8d      0x195 Observer/Src/EMFObs.o
- .debug_info    0x0000000000039f22     0x38a3 Observer/Src/Observer.o
- .debug_info    0x000000000003d7c5      0x6d9 Src/TimInfo.o
- .debug_info    0x000000000003de9e      0x22b Src/UiCtrl.o
- .debug_info    0x000000000003e0c9     0x1619 Src/adc.o
- .debug_info    0x000000000003f6e2      0xa14 Src/main.o
- .debug_info    0x00000000000400f6      0x3bf Src/stm32f4xx_hal_msp.o
- .debug_info    0x00000000000404b5      0x7d7 Src/stm32f4xx_it.o
- .debug_info    0x0000000000040c8c      0xebd Src/syscalls.o
- .debug_info    0x0000000000041b49      0x91c Src/sysmem.o
- .debug_info    0x0000000000042465      0x536 Src/system_stm32f4xx.o
- .debug_info    0x000000000004299b     0x3641 Src/wrapper.o
- .debug_info    0x0000000000045fdc       0x22 Startup/startup_stm32f446retx.o
- .debug_info    0x0000000000045ffe     0x1797 SystemLib/Src/ADCInit.o
- .debug_info    0x0000000000047795      0x1cf SystemLib/Src/ErrorHandler.o
- .debug_info    0x0000000000047964      0xffd SystemLib/Src/GPIOInit.o
- .debug_info    0x0000000000048961      0x754 SystemLib/Src/PWM.o
- .debug_info    0x00000000000490b5     0x11e8 SystemLib/Src/TIMInit.o
- .debug_info    0x000000000004a29d      0x88a SystemLib/Src/USARTInit.o
- .debug_info    0x000000000004ab27      0x183 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_sin_f32.o)
- .debug_info    0x000000000004acaa      0x181 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_cos_f32.o)
- .debug_info    0x000000000004ae2b      0x9b1 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_common_tables.o)
+ .debug_info    0x000000000000c632     0x40fa MathLib/Src/MotorMath.o
+ .debug_info    0x000000000001072c     0x2f99 MathLib/Src/PID.o
+ .debug_info    0x00000000000136c5     0x1b92 MathLib/Src/Trigonometric.o
+ .debug_info    0x0000000000015257     0x393f MotorLib/Src/ArgSensor.o
+ .debug_info    0x0000000000018b96     0x7981 MotorLib/Src/DebugCtrl.o
+ .debug_info    0x0000000000020517     0x3ea6 MotorLib/Src/DebugInfo.o
+ .debug_info    0x00000000000243bd     0x2bc9 MotorLib/Src/DebugInfoTiny.o
+ .debug_info    0x0000000000026f86     0x7531 MotorLib/Src/MotorCtrl.o
+ .debug_info    0x000000000002e4b7     0x7918 MotorLib/Src/MotorInfo.o
+ .debug_info    0x0000000000035dcf     0x3faf Observer/Src/AdaptVelEst.o
+ .debug_info    0x0000000000039d7e      0x195 Observer/Src/EMFObs.o
+ .debug_info    0x0000000000039f13     0x38a3 Observer/Src/Observer.o
+ .debug_info    0x000000000003d7b6      0x6d9 Src/TimInfo.o
+ .debug_info    0x000000000003de8f      0x22b Src/UiCtrl.o
+ .debug_info    0x000000000003e0ba     0x1619 Src/adc.o
+ .debug_info    0x000000000003f6d3      0xa14 Src/main.o
+ .debug_info    0x00000000000400e7      0x3bf Src/stm32f4xx_hal_msp.o
+ .debug_info    0x00000000000404a6      0x7d7 Src/stm32f4xx_it.o
+ .debug_info    0x0000000000040c7d      0xebd Src/syscalls.o
+ .debug_info    0x0000000000041b3a      0x91c Src/sysmem.o
+ .debug_info    0x0000000000042456      0x536 Src/system_stm32f4xx.o
+ .debug_info    0x000000000004298c     0x3641 Src/wrapper.o
+ .debug_info    0x0000000000045fcd       0x22 Startup/startup_stm32f446retx.o
+ .debug_info    0x0000000000045fef     0x1797 SystemLib/Src/ADCInit.o
+ .debug_info    0x0000000000047786      0x1cf SystemLib/Src/ErrorHandler.o
+ .debug_info    0x0000000000047955      0xffd SystemLib/Src/GPIOInit.o
+ .debug_info    0x0000000000048952      0x754 SystemLib/Src/PWM.o
+ .debug_info    0x00000000000490a6     0x11e8 SystemLib/Src/TIMInit.o
+ .debug_info    0x000000000004a28e      0x88a SystemLib/Src/USARTInit.o
+ .debug_info    0x000000000004ab18      0x183 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_sin_f32.o)
+ .debug_info    0x000000000004ac9b      0x181 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_cos_f32.o)
+ .debug_info    0x000000000004ae1c      0x9b1 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_common_tables.o)
 
 .debug_abbrev   0x0000000000000000     0x9091
  .debug_abbrev  0x0000000000000000      0x1cb Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
@@ -12247,7 +12465,7 @@ OUTPUT(STM32F446RE_FOC.elf elf32-littlearm)
  .debug_ranges  0x00000000000019c0       0x10 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_sin_f32.o)
  .debug_ranges  0x00000000000019d0       0x10 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_cos_f32.o)
 
-.debug_macro    0x0000000000000000    0x2faa2
+.debug_macro    0x0000000000000000    0x2faad
  .debug_macro   0x0000000000000000      0x229 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
  .debug_macro   0x0000000000000229      0xa66 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
  .debug_macro   0x0000000000000c8f      0x184 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
@@ -12363,65 +12581,65 @@ OUTPUT(STM32F446RE_FOC.elf elf32-littlearm)
  .debug_macro   0x00000000000262e1      0x23c MathLib/Src/Trigonometric.o
  .debug_macro   0x000000000002651d       0xd9 MathLib/Src/Trigonometric.o
  .debug_macro   0x00000000000265f6       0x16 MathLib/Src/Trigonometric.o
- .debug_macro   0x000000000002660c      0x63f MotorLib/Src/ArgSensor.o
- .debug_macro   0x0000000000026c4b      0x7b9 MotorLib/Src/DebugCtrl.o
- .debug_macro   0x0000000000027404       0x52 MotorLib/Src/DebugCtrl.o
- .debug_macro   0x0000000000027456     0x102d MotorLib/Src/DebugCtrl.o
- .debug_macro   0x0000000000028483      0xb54 MotorLib/Src/DebugCtrl.o
- .debug_macro   0x0000000000028fd7      0x5ec MotorLib/Src/DebugCtrl.o
- .debug_macro   0x00000000000295c3      0x1bb MotorLib/Src/DebugCtrl.o
- .debug_macro   0x000000000002977e      0x149 MotorLib/Src/DebugCtrl.o
- .debug_macro   0x00000000000298c7       0xe8 MotorLib/Src/DebugCtrl.o
- .debug_macro   0x00000000000299af      0x1a8 MotorLib/Src/DebugCtrl.o
- .debug_macro   0x0000000000029b57       0x61 MotorLib/Src/DebugCtrl.o
- .debug_macro   0x0000000000029bb8      0x1e6 MotorLib/Src/DebugCtrl.o
- .debug_macro   0x0000000000029d9e       0x10 MotorLib/Src/DebugCtrl.o
- .debug_macro   0x0000000000029dae      0x1fa MotorLib/Src/DebugInfo.o
- .debug_macro   0x0000000000029fa8      0x592 MotorLib/Src/DebugInfoTiny.o
- .debug_macro   0x000000000002a53a      0x93b MotorLib/Src/MotorCtrl.o
- .debug_macro   0x000000000002ae75       0x64 MotorLib/Src/MotorCtrl.o
- .debug_macro   0x000000000002aed9       0x64 MotorLib/Src/MotorCtrl.o
- .debug_macro   0x000000000002af3d      0x868 MotorLib/Src/MotorInfo.o
- .debug_macro   0x000000000002b7a5       0x54 MotorLib/Src/MotorInfo.o
- .debug_macro   0x000000000002b7f9      0x627 Observer/Src/AdaptVelEst.o
- .debug_macro   0x000000000002be20      0x3cd Observer/Src/AdaptVelEst.o
- .debug_macro   0x000000000002c1ed       0x1b Observer/Src/EMFObs.o
- .debug_macro   0x000000000002c208      0x63d Observer/Src/Observer.o
- .debug_macro   0x000000000002c845      0x258 Src/TimInfo.o
- .debug_macro   0x000000000002ca9d       0x1b Src/UiCtrl.o
- .debug_macro   0x000000000002cab8      0x24e Src/adc.o
- .debug_macro   0x000000000002cd06      0x27a Src/main.o
- .debug_macro   0x000000000002cf80      0x244 Src/stm32f4xx_hal_msp.o
- .debug_macro   0x000000000002d1c4      0x258 Src/stm32f4xx_it.o
- .debug_macro   0x000000000002d41c      0x243 Src/syscalls.o
- .debug_macro   0x000000000002d65f       0x34 Src/syscalls.o
- .debug_macro   0x000000000002d693      0x330 Src/syscalls.o
- .debug_macro   0x000000000002d9c3       0x43 Src/syscalls.o
- .debug_macro   0x000000000002da06       0x10 Src/syscalls.o
- .debug_macro   0x000000000002da16       0x35 Src/syscalls.o
- .debug_macro   0x000000000002da4b       0x10 Src/syscalls.o
- .debug_macro   0x000000000002da5b       0x10 Src/syscalls.o
- .debug_macro   0x000000000002da6b       0x35 Src/syscalls.o
- .debug_macro   0x000000000002daa0      0x122 Src/syscalls.o
- .debug_macro   0x000000000002dbc2       0x10 Src/syscalls.o
- .debug_macro   0x000000000002dbd2      0x145 Src/syscalls.o
- .debug_macro   0x000000000002dd17      0x189 Src/syscalls.o
- .debug_macro   0x000000000002dea0       0x16 Src/syscalls.o
- .debug_macro   0x000000000002deb6       0x88 Src/syscalls.o
- .debug_macro   0x000000000002df3e      0x1ae Src/sysmem.o
- .debug_macro   0x000000000002e0ec      0x23b Src/sysmem.o
- .debug_macro   0x000000000002e327       0x16 Src/sysmem.o
- .debug_macro   0x000000000002e33d      0x1cf Src/system_stm32f4xx.o
- .debug_macro   0x000000000002e50c      0x945 Src/wrapper.o
- .debug_macro   0x000000000002ee51      0x258 SystemLib/Src/ADCInit.o
- .debug_macro   0x000000000002f0a9       0x1b SystemLib/Src/ErrorHandler.o
- .debug_macro   0x000000000002f0c4      0x261 SystemLib/Src/GPIOInit.o
- .debug_macro   0x000000000002f325      0x261 SystemLib/Src/PWM.o
- .debug_macro   0x000000000002f586      0x261 SystemLib/Src/TIMInit.o
- .debug_macro   0x000000000002f7e7      0x25d SystemLib/Src/USARTInit.o
- .debug_macro   0x000000000002fa44       0x5e SystemLib/Src/USARTInit.o
+ .debug_macro   0x000000000002660c      0x64a MotorLib/Src/ArgSensor.o
+ .debug_macro   0x0000000000026c56      0x7b9 MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x000000000002740f       0x52 MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x0000000000027461     0x102d MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x000000000002848e      0xb54 MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x0000000000028fe2      0x5ec MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x00000000000295ce      0x1bb MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x0000000000029789      0x149 MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x00000000000298d2       0xe8 MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x00000000000299ba      0x1a8 MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x0000000000029b62       0x61 MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x0000000000029bc3      0x1e6 MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x0000000000029da9       0x10 MotorLib/Src/DebugCtrl.o
+ .debug_macro   0x0000000000029db9      0x1fa MotorLib/Src/DebugInfo.o
+ .debug_macro   0x0000000000029fb3      0x592 MotorLib/Src/DebugInfoTiny.o
+ .debug_macro   0x000000000002a545      0x93b MotorLib/Src/MotorCtrl.o
+ .debug_macro   0x000000000002ae80       0x64 MotorLib/Src/MotorCtrl.o
+ .debug_macro   0x000000000002aee4       0x64 MotorLib/Src/MotorCtrl.o
+ .debug_macro   0x000000000002af48      0x868 MotorLib/Src/MotorInfo.o
+ .debug_macro   0x000000000002b7b0       0x54 MotorLib/Src/MotorInfo.o
+ .debug_macro   0x000000000002b804      0x627 Observer/Src/AdaptVelEst.o
+ .debug_macro   0x000000000002be2b      0x3cd Observer/Src/AdaptVelEst.o
+ .debug_macro   0x000000000002c1f8       0x1b Observer/Src/EMFObs.o
+ .debug_macro   0x000000000002c213      0x63d Observer/Src/Observer.o
+ .debug_macro   0x000000000002c850      0x258 Src/TimInfo.o
+ .debug_macro   0x000000000002caa8       0x1b Src/UiCtrl.o
+ .debug_macro   0x000000000002cac3      0x24e Src/adc.o
+ .debug_macro   0x000000000002cd11      0x27a Src/main.o
+ .debug_macro   0x000000000002cf8b      0x244 Src/stm32f4xx_hal_msp.o
+ .debug_macro   0x000000000002d1cf      0x258 Src/stm32f4xx_it.o
+ .debug_macro   0x000000000002d427      0x243 Src/syscalls.o
+ .debug_macro   0x000000000002d66a       0x34 Src/syscalls.o
+ .debug_macro   0x000000000002d69e      0x330 Src/syscalls.o
+ .debug_macro   0x000000000002d9ce       0x43 Src/syscalls.o
+ .debug_macro   0x000000000002da11       0x10 Src/syscalls.o
+ .debug_macro   0x000000000002da21       0x35 Src/syscalls.o
+ .debug_macro   0x000000000002da56       0x10 Src/syscalls.o
+ .debug_macro   0x000000000002da66       0x10 Src/syscalls.o
+ .debug_macro   0x000000000002da76       0x35 Src/syscalls.o
+ .debug_macro   0x000000000002daab      0x122 Src/syscalls.o
+ .debug_macro   0x000000000002dbcd       0x10 Src/syscalls.o
+ .debug_macro   0x000000000002dbdd      0x145 Src/syscalls.o
+ .debug_macro   0x000000000002dd22      0x189 Src/syscalls.o
+ .debug_macro   0x000000000002deab       0x16 Src/syscalls.o
+ .debug_macro   0x000000000002dec1       0x88 Src/syscalls.o
+ .debug_macro   0x000000000002df49      0x1ae Src/sysmem.o
+ .debug_macro   0x000000000002e0f7      0x23b Src/sysmem.o
+ .debug_macro   0x000000000002e332       0x16 Src/sysmem.o
+ .debug_macro   0x000000000002e348      0x1cf Src/system_stm32f4xx.o
+ .debug_macro   0x000000000002e517      0x945 Src/wrapper.o
+ .debug_macro   0x000000000002ee5c      0x258 SystemLib/Src/ADCInit.o
+ .debug_macro   0x000000000002f0b4       0x1b SystemLib/Src/ErrorHandler.o
+ .debug_macro   0x000000000002f0cf      0x261 SystemLib/Src/GPIOInit.o
+ .debug_macro   0x000000000002f330      0x261 SystemLib/Src/PWM.o
+ .debug_macro   0x000000000002f591      0x261 SystemLib/Src/TIMInit.o
+ .debug_macro   0x000000000002f7f2      0x25d SystemLib/Src/USARTInit.o
+ .debug_macro   0x000000000002fa4f       0x5e SystemLib/Src/USARTInit.o
 
-.debug_line     0x0000000000000000    0x1f331
+.debug_line     0x0000000000000000    0x1f348
  .debug_line    0x0000000000000000      0x8d6 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
  .debug_line    0x00000000000008d6      0xb40 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o
  .debug_line    0x0000000000001416      0x9dc Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o
@@ -12440,37 +12658,37 @@ OUTPUT(STM32F446RE_FOC.elf elf32-littlearm)
  .debug_line    0x0000000000009719     0x118e MathLib/Src/MotorMath.o
  .debug_line    0x000000000000a8a7     0x10c3 MathLib/Src/PID.o
  .debug_line    0x000000000000b96a      0xa54 MathLib/Src/Trigonometric.o
- .debug_line    0x000000000000c3be     0x120f MotorLib/Src/ArgSensor.o
- .debug_line    0x000000000000d5cd     0x1842 MotorLib/Src/DebugCtrl.o
- .debug_line    0x000000000000ee0f      0xf34 MotorLib/Src/DebugInfo.o
- .debug_line    0x000000000000fd43     0x106c MotorLib/Src/DebugInfoTiny.o
- .debug_line    0x0000000000010daf     0x19b3 MotorLib/Src/MotorCtrl.o
- .debug_line    0x0000000000012762     0x1958 MotorLib/Src/MotorInfo.o
- .debug_line    0x00000000000140ba     0x11d0 Observer/Src/AdaptVelEst.o
- .debug_line    0x000000000001528a       0x8b Observer/Src/EMFObs.o
- .debug_line    0x0000000000015315     0x1166 Observer/Src/Observer.o
- .debug_line    0x000000000001647b      0x8bc Src/TimInfo.o
- .debug_line    0x0000000000016d37       0xc0 Src/UiCtrl.o
- .debug_line    0x0000000000016df7      0xa50 Src/adc.o
- .debug_line    0x0000000000017847      0x84f Src/main.o
- .debug_line    0x0000000000018096      0x7e4 Src/stm32f4xx_hal_msp.o
- .debug_line    0x000000000001887a      0x91d Src/stm32f4xx_it.o
- .debug_line    0x0000000000019197      0x779 Src/syscalls.o
- .debug_line    0x0000000000019910      0x595 Src/sysmem.o
- .debug_line    0x0000000000019ea5      0x6f0 Src/system_stm32f4xx.o
- .debug_line    0x000000000001a595     0x16d7 Src/wrapper.o
- .debug_line    0x000000000001bc6c       0x81 Startup/startup_stm32f446retx.o
- .debug_line    0x000000000001bced      0xaae SystemLib/Src/ADCInit.o
- .debug_line    0x000000000001c79b       0xc1 SystemLib/Src/ErrorHandler.o
- .debug_line    0x000000000001c85c      0x9bd SystemLib/Src/GPIOInit.o
- .debug_line    0x000000000001d219      0x95d SystemLib/Src/PWM.o
- .debug_line    0x000000000001db76      0xabd SystemLib/Src/TIMInit.o
- .debug_line    0x000000000001e633      0x8d8 SystemLib/Src/USARTInit.o
- .debug_line    0x000000000001ef0b      0x17c /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_sin_f32.o)
- .debug_line    0x000000000001f087      0x175 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_cos_f32.o)
- .debug_line    0x000000000001f1fc      0x135 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_common_tables.o)
+ .debug_line    0x000000000000c3be     0x1226 MotorLib/Src/ArgSensor.o
+ .debug_line    0x000000000000d5e4     0x1842 MotorLib/Src/DebugCtrl.o
+ .debug_line    0x000000000000ee26      0xf34 MotorLib/Src/DebugInfo.o
+ .debug_line    0x000000000000fd5a     0x106c MotorLib/Src/DebugInfoTiny.o
+ .debug_line    0x0000000000010dc6     0x19b3 MotorLib/Src/MotorCtrl.o
+ .debug_line    0x0000000000012779     0x1958 MotorLib/Src/MotorInfo.o
+ .debug_line    0x00000000000140d1     0x11d0 Observer/Src/AdaptVelEst.o
+ .debug_line    0x00000000000152a1       0x8b Observer/Src/EMFObs.o
+ .debug_line    0x000000000001532c     0x1166 Observer/Src/Observer.o
+ .debug_line    0x0000000000016492      0x8bc Src/TimInfo.o
+ .debug_line    0x0000000000016d4e       0xc0 Src/UiCtrl.o
+ .debug_line    0x0000000000016e0e      0xa50 Src/adc.o
+ .debug_line    0x000000000001785e      0x84f Src/main.o
+ .debug_line    0x00000000000180ad      0x7e4 Src/stm32f4xx_hal_msp.o
+ .debug_line    0x0000000000018891      0x91d Src/stm32f4xx_it.o
+ .debug_line    0x00000000000191ae      0x779 Src/syscalls.o
+ .debug_line    0x0000000000019927      0x595 Src/sysmem.o
+ .debug_line    0x0000000000019ebc      0x6f0 Src/system_stm32f4xx.o
+ .debug_line    0x000000000001a5ac     0x16d7 Src/wrapper.o
+ .debug_line    0x000000000001bc83       0x81 Startup/startup_stm32f446retx.o
+ .debug_line    0x000000000001bd04      0xaae SystemLib/Src/ADCInit.o
+ .debug_line    0x000000000001c7b2       0xc1 SystemLib/Src/ErrorHandler.o
+ .debug_line    0x000000000001c873      0x9bd SystemLib/Src/GPIOInit.o
+ .debug_line    0x000000000001d230      0x95d SystemLib/Src/PWM.o
+ .debug_line    0x000000000001db8d      0xabd SystemLib/Src/TIMInit.o
+ .debug_line    0x000000000001e64a      0x8d8 SystemLib/Src/USARTInit.o
+ .debug_line    0x000000000001ef22      0x17c /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_sin_f32.o)
+ .debug_line    0x000000000001f09e      0x175 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_cos_f32.o)
+ .debug_line    0x000000000001f213      0x135 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_common_tables.o)
 
-.debug_str      0x0000000000000000   0x1028a9
+.debug_str      0x0000000000000000   0x102885
  .debug_str     0x0000000000000000    0xc3835 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
                                       0xc4282 (size before relaxing)
  .debug_str     0x00000000000c3835      0x583 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o
@@ -12501,69 +12719,69 @@ OUTPUT(STM32F446RE_FOC.elf elf32-littlearm)
                                       0xcf570 (size before relaxing)
  .debug_str     0x00000000000e12e6     0xaf25 MathLib/Src/Matrix.o
                                        0xfbce (size before relaxing)
- .debug_str     0x00000000000ec20b      0x573 MathLib/Src/MotorMath.o
-                                       0xff1e (size before relaxing)
- .debug_str     0x00000000000ec77e      0x354 MathLib/Src/PID.o
+ .debug_str     0x00000000000ec20b      0x553 MathLib/Src/MotorMath.o
+                                       0xfefe (size before relaxing)
+ .debug_str     0x00000000000ec75e      0x354 MathLib/Src/PID.o
                                        0xd41a (size before relaxing)
- .debug_str     0x00000000000ecad2      0x13c MathLib/Src/Trigonometric.o
+ .debug_str     0x00000000000ecab2      0x13c MathLib/Src/Trigonometric.o
                                        0xb691 (size before relaxing)
- .debug_str     0x00000000000ecc0e      0x2f9 MotorLib/Src/ArgSensor.o
-                                       0xf81b (size before relaxing)
- .debug_str     0x00000000000ecf07     0xbf82 MotorLib/Src/DebugCtrl.o
+ .debug_str     0x00000000000ecbee      0x2f9 MotorLib/Src/ArgSensor.o
+                                       0xf83c (size before relaxing)
+ .debug_str     0x00000000000ecee7     0xbf82 MotorLib/Src/DebugCtrl.o
                                       0xef4e4 (size before relaxing)
- .debug_str     0x00000000000f8e89     0x1d73 MotorLib/Src/DebugInfo.o
+ .debug_str     0x00000000000f8e69     0x1d73 MotorLib/Src/DebugInfo.o
                                        0xb45e (size before relaxing)
- .debug_str     0x00000000000fabfc      0x124 MotorLib/Src/DebugInfoTiny.o
+ .debug_str     0x00000000000fabdc      0x124 MotorLib/Src/DebugInfoTiny.o
                                        0xd408 (size before relaxing)
- .debug_str     0x00000000000fad20      0x8d3 MotorLib/Src/MotorCtrl.o
+ .debug_str     0x00000000000fad00      0x8d3 MotorLib/Src/MotorCtrl.o
                                       0xee73e (size before relaxing)
- .debug_str     0x00000000000fb5f3     0x4d61 MotorLib/Src/MotorInfo.o
-                                      0xee8a0 (size before relaxing)
- .debug_str     0x0000000000100354      0x439 Observer/Src/AdaptVelEst.o
+ .debug_str     0x00000000000fb5d3     0x4d5d MotorLib/Src/MotorInfo.o
+                                      0xee89c (size before relaxing)
+ .debug_str     0x0000000000100330      0x439 Observer/Src/AdaptVelEst.o
                                        0xfe34 (size before relaxing)
- .debug_str     0x000000000010078d       0x7b Observer/Src/EMFObs.o
+ .debug_str     0x0000000000100769       0x7b Observer/Src/EMFObs.o
                                        0x31c3 (size before relaxing)
- .debug_str     0x0000000000100808      0x1a8 Observer/Src/Observer.o
+ .debug_str     0x00000000001007e4      0x1a8 Observer/Src/Observer.o
                                        0xf7ae (size before relaxing)
- .debug_str     0x00000000001009b0      0x1a1 Src/TimInfo.o
+ .debug_str     0x000000000010098c      0x1a1 Src/TimInfo.o
                                       0xde710 (size before relaxing)
- .debug_str     0x0000000000100b51      0x118 Src/UiCtrl.o
+ .debug_str     0x0000000000100b2d      0x118 Src/UiCtrl.o
                                        0x3262 (size before relaxing)
- .debug_str     0x0000000000100c69      0x193 Src/adc.o
+ .debug_str     0x0000000000100c45      0x193 Src/adc.o
                                       0xdf051 (size before relaxing)
- .debug_str     0x0000000000100dfc       0x63 Src/main.o
+ .debug_str     0x0000000000100dd8       0x63 Src/main.o
                                       0xde75e (size before relaxing)
- .debug_str     0x0000000000100e5f       0x1b Src/stm32f4xx_hal_msp.o
+ .debug_str     0x0000000000100e3b       0x1b Src/stm32f4xx_hal_msp.o
                                       0xde1ee (size before relaxing)
- .debug_str     0x0000000000100e7a      0x130 Src/stm32f4xx_it.o
+ .debug_str     0x0000000000100e56      0x130 Src/stm32f4xx_it.o
                                       0xde601 (size before relaxing)
- .debug_str     0x0000000000100faa      0xd66 Src/syscalls.o
+ .debug_str     0x0000000000100f86      0xd66 Src/syscalls.o
                                        0x88bd (size before relaxing)
- .debug_str     0x0000000000101d10       0x31 Src/sysmem.o
+ .debug_str     0x0000000000101cec       0x31 Src/sysmem.o
                                        0x7b16 (size before relaxing)
- .debug_str     0x0000000000101d41       0x50 Src/system_stm32f4xx.o
+ .debug_str     0x0000000000101d1d       0x50 Src/system_stm32f4xx.o
                                       0xc36fb (size before relaxing)
- .debug_str     0x0000000000101d91       0x8e Src/wrapper.o
+ .debug_str     0x0000000000101d6d       0x8e Src/wrapper.o
                                       0xe9113 (size before relaxing)
- .debug_str     0x0000000000101e1f       0x31 Startup/startup_stm32f446retx.o
+ .debug_str     0x0000000000101dfb       0x31 Startup/startup_stm32f446retx.o
                                          0x73 (size before relaxing)
- .debug_str     0x0000000000101e50      0x23e SystemLib/Src/ADCInit.o
+ .debug_str     0x0000000000101e2c      0x23e SystemLib/Src/ADCInit.o
                                       0xdf68a (size before relaxing)
- .debug_str     0x000000000010208e      0x13e SystemLib/Src/ErrorHandler.o
+ .debug_str     0x000000000010206a      0x13e SystemLib/Src/ErrorHandler.o
                                        0x327c (size before relaxing)
- .debug_str     0x00000000001021cc      0x12e SystemLib/Src/GPIOInit.o
+ .debug_str     0x00000000001021a8      0x12e SystemLib/Src/GPIOInit.o
                                       0xdf0d8 (size before relaxing)
- .debug_str     0x00000000001022fa       0x98 SystemLib/Src/PWM.o
+ .debug_str     0x00000000001022d6       0x98 SystemLib/Src/PWM.o
                                       0xde793 (size before relaxing)
- .debug_str     0x0000000000102392      0x1ed SystemLib/Src/TIMInit.o
+ .debug_str     0x000000000010236e      0x1ed SystemLib/Src/TIMInit.o
                                       0xdf26a (size before relaxing)
- .debug_str     0x000000000010257f      0x15a SystemLib/Src/USARTInit.o
+ .debug_str     0x000000000010255b      0x15a SystemLib/Src/USARTInit.o
                                       0xdea38 (size before relaxing)
- .debug_str     0x00000000001026d9      0x169 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_sin_f32.o)
+ .debug_str     0x00000000001026b5      0x169 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_sin_f32.o)
                                         0x255 (size before relaxing)
- .debug_str     0x0000000000102842       0x39 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_cos_f32.o)
+ .debug_str     0x000000000010281e       0x39 /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_cos_f32.o)
                                         0x255 (size before relaxing)
- .debug_str     0x000000000010287b       0x2e /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_common_tables.o)
+ .debug_str     0x0000000000102857       0x2e /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP/libarm_cortexM4lf_math.a(arm_common_tables.o)
                                         0x717 (size before relaxing)
 
 .comment        0x0000000000000000       0xe9

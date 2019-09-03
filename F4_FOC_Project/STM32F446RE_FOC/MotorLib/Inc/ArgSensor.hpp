@@ -8,15 +8,17 @@
 #ifndef ARGSENSOR_HPP_
 #define ARGSENSOR_HPP_
 
+#include "MotorLibDefPack.hpp"
 #include "math.h"
 #include "Observer.hpp"
 
+
 class ArgSensor {
 private:
-	float mArg;
-	float mArgOld;
+	fp_rad mArg;
+	fp_rad mArgOld;
 
-	float mArg_delta;
+	fp_rad mArg_delta;
 
 	bool mFCisON;
 	bool mIsAccelerating;
@@ -29,8 +31,8 @@ public:
 	virtual ~ArgSensor();
 
 	void Init(void);
-	void increment(float pArg);
-	void decrement(float pArg);
+	void increment(fp_rad pArg);
+	void decrement(fp_rad pArg);
 	float getArg(void);
 	float getArg_delta(void);
 	float getArgOld(void);

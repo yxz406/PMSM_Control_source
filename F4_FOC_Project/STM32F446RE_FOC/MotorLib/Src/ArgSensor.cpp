@@ -35,35 +35,35 @@ void ArgSensor::Init(void) {
 	mIsAccelerating = false;
 }
 
-void ArgSensor::increment(float pArg){
+void ArgSensor::increment(fp_rad pArg) {
 	mArgOld = mArg;
 	mArg = mArg + pArg + (2*M_PI);
 	mArg = fmodl(mArg, (2*M_PI));
 }
 
-void ArgSensor::decrement(float pArg){
+void ArgSensor::decrement(fp_rad pArg) {
 	mArgOld = mArg;
 	mArg = mArg - pArg + (2*M_PI);
 	mArg = fmodl(mArg, (2*M_PI));
 }
 
-float ArgSensor::getArg(void){
+float ArgSensor::getArg(void) {
 	return mArg;
 }
 
-float ArgSensor::getArgOld(void){
+float ArgSensor::getArgOld(void) {
 	return mArgOld;
 }
 
-float ArgSensor::getArg_delta(void){
+float ArgSensor::getArg_delta(void) {
 	return mArg_delta;
 }
 
-void ArgSensor::FC_Start_Stop(bool pIsON){
+void ArgSensor::FC_Start_Stop(bool pIsON) {
 		mFCisON = pIsON;
 }
 
-bool ArgSensor::GetIsAccelerating(void){
+bool ArgSensor::GetIsAccelerating(void) {
 	return mIsAccelerating;
 }
 
@@ -75,7 +75,7 @@ int ArgSensor::GetArgCount(void) {
 	return mImArgcount;
 }
 
-void ArgSensor::ForceComArg(void){
+void ArgSensor::ForceComArg(void) {
 	if(mFCisON){
 		if(mImArgcount < 35000){
 			mImArgcount = mImArgcount + 4;

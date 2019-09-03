@@ -2,10 +2,10 @@ gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 MotorMath.cpp:10:1:MotorMath::MotorMath()	16	static
 MotorMath.cpp:15:1:MotorMath::~MotorMath()	16	static
 MotorMath.cpp:15:1:virtual MotorMath::~MotorMath()	16	static
-MotorMath.cpp:22:22:static std::array<float, 2> MotorMath::parkTransform(std::array<float, 3>)	56	static
-MotorMath.cpp:33:22:static std::array<float, 2> MotorMath::clarkTransform(fp_rad, std::array<float, 2>)	72	static
-MotorMath.cpp:47:22:static std::array<float, 2> MotorMath::InvclarkTransform(fp_rad, std::array<float, 2>)	72	static
-MotorMath.cpp:63:22:static std::array<float, 3> MotorMath::InvparkTransform(std::array<float, 2>)	64	static
+MotorMath.cpp:22:22:static std::array<float, 2> MotorMath::clarkTransform(std::array<float, 3>)	56	static
+MotorMath.cpp:33:22:static std::array<float, 2> MotorMath::parkTransform(fp_rad, std::array<float, 2>)	72	static
+MotorMath.cpp:47:22:static std::array<float, 2> MotorMath::InvparkTransform(fp_rad, std::array<float, 2>)	72	static
+MotorMath.cpp:63:22:static std::array<float, 3> MotorMath::InvclarkTransform(std::array<float, 2>)	64	static
 array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 2]	16	static
 array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 3]	16	static
 array:55:7:static constexpr _Tp& std::__array_traits<_Tp, _Nm>::_S_ref(const _Tp (&)[_Nm], std::size_t) [with _Tp = float; unsigned int _Nm = 2]	16	static

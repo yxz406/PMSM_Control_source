@@ -17,16 +17,13 @@ class MotorMath {
 public:
 	MotorMath();
 	virtual ~MotorMath();
-	static std::array<float, 2> parkTransform (std::array<float, 3> pVector);
-	static std::array<float, 2> clarkTransform( fp_rad pRadian,
+	static std::array<float, 2> clarkTransform (std::array<float, 3> pVector);
+	static std::array<float, 2> parkTransform( fp_rad pRadian,
 												std::array<float, 2> pVector);
 
-	static std::array<float, 2> InvclarkTransform( fp_rad pRadian,
+	static std::array<float, 2> InvparkTransform( fp_rad pRadian,
 												   std::array<float, 2> pVector);
-	static std::array<float, 3> InvparkTransform (std::array<float, 2> pVector);
-
-	//	static  parkTransform(void);
-	void clarkTransform(void);
+	static std::array<float, 3> InvclarkTransform (std::array<float, 2> pVector);
 };
 
 #endif /* INC_MOTORMATH_HPP_ */

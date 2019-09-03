@@ -89,9 +89,9 @@ public:
 
 	void setRPM(void);
 
-	void parkTransform(void);
 	void clarkTransform(void);
-	void clarkGanmaDelta(void);
+	void parkTransform(void);
+	void parkGanmaDelta(void);
 
 	void PIDdq_control(float pdVal, float pqVal, float pTime);//ここでPID使う？？ライブラリインクルード必要だよね？
 	void PIDganmadelta_control(float pganmaVal, float pdeltaVal, float pTime);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
@@ -101,9 +101,9 @@ public:
 	void setVganma(float pVganma);
 	void setVdelta(float pVdelta);
 
-	void invClarkGanmaDelta(void);
-	void invClarkTransform(void);
+	void invParkGanmaDelta(void);
 	void invParkTransform(void);
+	void invClarkTransform(void);
 
 	float getIganma(void);
 	float getIdelta(void);

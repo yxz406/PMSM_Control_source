@@ -1,0 +1,3 @@
+ForceCom.cpp:10:1:ForceCom::ForceCom()	16	static
+ForceCom.cpp:15:1:ForceCom::~ForceCom()	16	static
+ForceCom.cpp:15:1:virtual ForceCom::~ForceCom()	16	static

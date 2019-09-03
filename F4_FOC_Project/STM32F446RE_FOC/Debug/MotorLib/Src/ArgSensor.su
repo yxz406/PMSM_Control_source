@@ -3,8 +3,8 @@ ArgSensor.cpp:17:1:ArgSensor::ArgSensor()	16	static
 ArgSensor.cpp:26:1:ArgSensor::~ArgSensor()	16	static
 ArgSensor.cpp:26:1:virtual ArgSensor::~ArgSensor()	16	static
 ArgSensor.cpp:30:6:void ArgSensor::Init()	16	static
-ArgSensor.cpp:38:6:void ArgSensor::increment(float)	24	static
-ArgSensor.cpp:44:6:void ArgSensor::decrement(float)	24	static
+ArgSensor.cpp:38:6:void ArgSensor::increment(fp_rad)	24	static
+ArgSensor.cpp:44:6:void ArgSensor::decrement(fp_rad)	24	static
 ArgSensor.cpp:50:7:float ArgSensor::getArg()	16	static
 ArgSensor.cpp:54:7:float ArgSensor::getArgOld()	16	static
 ArgSensor.cpp:58:7:float ArgSensor::getArg_delta()	16	static

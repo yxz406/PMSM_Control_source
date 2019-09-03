@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  000201e0  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0004b7dc  00000000  00000000  00020210  2**0
+ 12 .debug_info   0004b7cd  00000000  00000000  00020210  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 00009091  00000000  00000000  0006b9ec  2**0
+ 13 .debug_abbrev 00009091  00000000  00000000  0006b9dd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_aranges 00001cd0  00000000  00000000  00074a80  2**3
+ 14 .debug_aranges 00001cd0  00000000  00000000  00074a70  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 000019e0  00000000  00000000  00076750  2**3
+ 15 .debug_ranges 000019e0  00000000  00000000  00076740  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  0002faa2  00000000  00000000  00078130  2**0
+ 16 .debug_macro  0002faad  00000000  00000000  00078120  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   0001f331  00000000  00000000  000a7bd2  2**0
+ 17 .debug_line   0001f348  00000000  00000000  000a7bcd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    001028a9  00000000  00000000  000c6f03  2**0
+ 18 .debug_str    00102885  00000000  00000000  000c6f15  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      000000e9  00000000  00000000  001c97ac  2**0
+ 19 .comment      000000e9  00000000  00000000  001c979a  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000084a4  00000000  00000000  001c9898  2**2
+ 20 .debug_frame  000084a4  00000000  00000000  001c9884  2**2
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_loc    0000018a  00000000  00000000  001d1d3c  2**0
+ 21 .debug_loc    0000018a  00000000  00000000  001d1d28  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -8890,13 +8890,13 @@ ErrorStatus LL_USART_Init(USART_TypeDef *USARTx, LL_USART_InitTypeDef *USART_Ini
  8003b30:	4770      	bx	lr
 	...
 
-08003b34 <_ZN9MotorMath13parkTransformESt5arrayIfLj3EE>:
+08003b34 <_ZN9MotorMath14clarkTransformESt5arrayIfLj3EE>:
 }
 
 
 //input [u,v,w]
 //output [a,b]
-std::array<float, 2> MotorMath::parkTransform (std::array<float, 3> pVector) {
+std::array<float, 2> MotorMath::clarkTransform (std::array<float, 3> pVector) {
  8003b34:	b580      	push	{r7, lr}
  8003b36:	ed2d 8b02 	vpush	{d8}
  8003b3a:	b08a      	sub	sp, #40	; 0x28
@@ -8953,7 +8953,7 @@ std::array<float, 2> MotorMath::parkTransform (std::array<float, 3> pVector) {
  8003bcc:	4603      	mov	r3, r0
  8003bce:	edd3 7a00 	vldr	s15, [r3]
  8003bd2:	ee78 7a67 	vsub.f32	s15, s16, s15
- 8003bd6:	ed9f 7a14 	vldr	s14, [pc, #80]	; 8003c28 <_ZN9MotorMath13parkTransformESt5arrayIfLj3EE+0xf4>
+ 8003bd6:	ed9f 7a14 	vldr	s14, [pc, #80]	; 8003c28 <_ZN9MotorMath14clarkTransformESt5arrayIfLj3EE+0xf4>
  8003bda:	ee27 8a87 	vmul.f32	s16, s15, s14
  8003bde:	f107 0318 	add.w	r3, r7, #24
  8003be2:	2101      	movs	r1, #1
@@ -8983,10 +8983,10 @@ std::array<float, 2> MotorMath::parkTransform (std::array<float, 3> pVector) {
  8003c26:	bf00      	nop
  8003c28:	3fddb3d7 	.word	0x3fddb3d7
 
-08003c2c <_ZN9MotorMath14clarkTransformEfSt5arrayIfLj2EE>:
+08003c2c <_ZN9MotorMath13parkTransformEfSt5arrayIfLj2EE>:
 
 
-std::array<float, 2> MotorMath::clarkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
+std::array<float, 2> MotorMath::parkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
  8003c2c:	b580      	push	{r7, lr}
  8003c2e:	ed2d 8b02 	vpush	{d8}
  8003c32:	b08e      	sub	sp, #56	; 0x38
@@ -9078,9 +9078,9 @@ std::array<float, 2> MotorMath::clarkTransform(fp_rad pRadian, std::array<float,
  8003d2a:	ecbd 8b02 	vpop	{d8}
  8003d2e:	bd80      	pop	{r7, pc}
 
-08003d30 <_ZN9MotorMath17InvclarkTransformEfSt5arrayIfLj2EE>:
+08003d30 <_ZN9MotorMath16InvparkTransformEfSt5arrayIfLj2EE>:
 
-std::array<float, 2> MotorMath::InvclarkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
+std::array<float, 2> MotorMath::InvparkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
  8003d30:	b580      	push	{r7, lr}
  8003d32:	ed2d 8b02 	vpush	{d8}
  8003d36:	b08e      	sub	sp, #56	; 0x38
@@ -9172,11 +9172,11 @@ std::array<float, 2> MotorMath::InvclarkTransform(fp_rad pRadian, std::array<flo
  8003e2e:	ecbd 8b02 	vpop	{d8}
  8003e32:	bd80      	pop	{r7, pc}
 
-08003e34 <_ZN9MotorMath16InvparkTransformESt5arrayIfLj2EE>:
+08003e34 <_ZN9MotorMath17InvclarkTransformESt5arrayIfLj2EE>:
 
 //input [a,b]
 //output [u,v,w]
-std::array<float, 3> MotorMath::InvparkTransform (std::array<float, 2> pVector) {
+std::array<float, 3> MotorMath::InvclarkTransform (std::array<float, 2> pVector) {
  8003e34:	b580      	push	{r7, lr}
  8003e36:	ed2d 8b02 	vpush	{d8}
  8003e3a:	b08c      	sub	sp, #48	; 0x30
@@ -9228,7 +9228,7 @@ std::array<float, 3> MotorMath::InvparkTransform (std::array<float, 2> pVector) 
  8003eba:	f7ff fe11 	bl	8003ae0 <_ZNSt5arrayIfLj2EE2atEj>
  8003ebe:	4603      	mov	r3, r0
  8003ec0:	edd3 7a00 	vldr	s15, [r3]
- 8003ec4:	ed9f 7a28 	vldr	s14, [pc, #160]	; 8003f68 <_ZN9MotorMath16InvparkTransformESt5arrayIfLj2EE+0x134>
+ 8003ec4:	ed9f 7a28 	vldr	s14, [pc, #160]	; 8003f68 <_ZN9MotorMath17InvclarkTransformESt5arrayIfLj2EE+0x134>
  8003ec8:	ee87 8a87 	vdiv.f32	s16, s15, s14
  8003ecc:	f107 0318 	add.w	r3, r7, #24
  8003ed0:	2101      	movs	r1, #1
@@ -9253,7 +9253,7 @@ std::array<float, 3> MotorMath::InvparkTransform (std::array<float, 2> pVector) 
  8003f08:	f7ff fdea 	bl	8003ae0 <_ZNSt5arrayIfLj2EE2atEj>
  8003f0c:	4603      	mov	r3, r0
  8003f0e:	edd3 7a00 	vldr	s15, [r3]
- 8003f12:	ed9f 7a15 	vldr	s14, [pc, #84]	; 8003f68 <_ZN9MotorMath16InvparkTransformESt5arrayIfLj2EE+0x134>
+ 8003f12:	ed9f 7a15 	vldr	s14, [pc, #84]	; 8003f68 <_ZN9MotorMath17InvclarkTransformESt5arrayIfLj2EE+0x134>
  8003f16:	ee87 8a87 	vdiv.f32	s16, s15, s14
  8003f1a:	f107 0318 	add.w	r3, r7, #24
  8003f1e:	2102      	movs	r1, #2
@@ -9592,11 +9592,11 @@ void ArgSensor::Init(void) {
 
 0800415e <_ZN9ArgSensor9getArgOldEv>:
 
-float ArgSensor::getArg(void){
+float ArgSensor::getArg(void) {
 	return mArg;
 }
 
-float ArgSensor::getArgOld(void){
+float ArgSensor::getArgOld(void) {
  800415e:	b480      	push	{r7}
  8004160:	b083      	sub	sp, #12
  8004162:	af00      	add	r7, sp, #0
@@ -9614,7 +9614,7 @@ float ArgSensor::getArgOld(void){
 
 0800417c <_ZN9ArgSensor12getArg_deltaEv>:
 
-float ArgSensor::getArg_delta(void){
+float ArgSensor::getArg_delta(void) {
  800417c:	b480      	push	{r7}
  800417e:	b083      	sub	sp, #12
  8004180:	af00      	add	r7, sp, #0
@@ -9632,7 +9632,7 @@ float ArgSensor::getArg_delta(void){
 
 0800419a <_ZN9ArgSensor13FC_Start_StopEb>:
 
-void ArgSensor::FC_Start_Stop(bool pIsON){
+void ArgSensor::FC_Start_Stop(bool pIsON) {
  800419a:	b480      	push	{r7}
  800419c:	b083      	sub	sp, #12
  800419e:	af00      	add	r7, sp, #0
@@ -9656,7 +9656,7 @@ int ArgSensor::GetArgCount(void) {
 	return mImArgcount;
 }
 
-void ArgSensor::ForceComArg(void){
+void ArgSensor::ForceComArg(void) {
  80041b8:	b590      	push	{r4, r7, lr}
  80041ba:	b085      	sub	sp, #20
  80041bc:	af00      	add	r7, sp, #0
@@ -11166,10 +11166,10 @@ class Observer {
  8004c22:	bd80      	pop	{r7, pc}
 
 08004c24 <_ZN9ArgSensoraSERKS_>:
-#define ARGSENSOR_HPP_
-
+#include "MotorLibDefPack.hpp"
 #include "math.h"
 #include "Observer.hpp"
+
 
 class ArgSensor {
  8004c24:	b580      	push	{r7, lr}
@@ -12034,16 +12034,16 @@ void MotorCtrl::HighFreqTask(void) {
  80053c8:	f000 f98d 	bl	80056e6 <_ZN9MotorInfo16ForceCommutationEv>
 
 		//Iuvw -> Idqに変換 (Park,Clark変換)
-		mMotorInfo.parkTransform();
+		mMotorInfo.clarkTransform();
  80053cc:	687b      	ldr	r3, [r7, #4]
  80053ce:	3304      	adds	r3, #4
  80053d0:	4618      	mov	r0, r3
- 80053d2:	f000 f9ac 	bl	800572e <_ZN9MotorInfo13parkTransformEv>
-		mMotorInfo.clarkTransform();
+ 80053d2:	f000 f9ac 	bl	800572e <_ZN9MotorInfo14clarkTransformEv>
+		mMotorInfo.parkTransform();
  80053d6:	687b      	ldr	r3, [r7, #4]
  80053d8:	3304      	adds	r3, #4
  80053da:	4618      	mov	r0, r3
- 80053dc:	f000 f9e2 	bl	80057a4 <_ZN9MotorInfo14clarkTransformEv>
+ 80053dc:	f000 f9e2 	bl	80057a4 <_ZN9MotorInfo13parkTransformEv>
 
 		float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
 		Id = mMotorInfo.getId();
@@ -12145,21 +12145,21 @@ void MotorCtrl::MotorOutputTask(void){
  800547a:	b083      	sub	sp, #12
  800547c:	af00      	add	r7, sp, #0
  800547e:	6078      	str	r0, [r7, #4]
-	mMotorInfo.invClarkGanmaDelta();
+	mMotorInfo.invParkGanmaDelta();
  8005480:	687b      	ldr	r3, [r7, #4]
  8005482:	3304      	adds	r3, #4
  8005484:	4618      	mov	r0, r3
- 8005486:	f000 f9e4 	bl	8005852 <_ZN9MotorInfo18invClarkGanmaDeltaEv>
-	mMotorInfo.invClarkTransform();
+ 8005486:	f000 f9e4 	bl	8005852 <_ZN9MotorInfo17invParkGanmaDeltaEv>
+	mMotorInfo.invParkTransform();
  800548a:	687b      	ldr	r3, [r7, #4]
  800548c:	3304      	adds	r3, #4
  800548e:	4618      	mov	r0, r3
- 8005490:	f000 fa1e 	bl	80058d0 <_ZN9MotorInfo17invClarkTransformEv>
-	mMotorInfo.invParkTransform();
+ 8005490:	f000 fa1e 	bl	80058d0 <_ZN9MotorInfo16invParkTransformEv>
+	mMotorInfo.invClarkTransform();
  8005494:	687b      	ldr	r3, [r7, #4]
  8005496:	3304      	adds	r3, #4
  8005498:	4618      	mov	r0, r3
- 800549a:	f000 fa52 	bl	8005942 <_ZN9MotorInfo16invParkTransformEv>
+ 800549a:	f000 fa52 	bl	8005942 <_ZN9MotorInfo17invClarkTransformEv>
 
 	mPWMch1.f2Duty(mMotorInfo.getVu());
  800549e:	687b      	ldr	r3, [r7, #4]
@@ -12540,13 +12540,13 @@ void MotorInfo::ForceCommutation(void){
  800572a:	46bd      	mov	sp, r7
  800572c:	bd80      	pop	{r7, pc}
 
-0800572e <_ZN9MotorInfo13parkTransformEv>:
+0800572e <_ZN9MotorInfo14clarkTransformEv>:
 
 void MotorInfo::setRPM(void){
 	mRPM = (float)(mSensor.getArg() - mSensor.getArgOld()) / (2*3.14f) * 20 * 1000;//適当なパラメータを入れている
 }
 
-void MotorInfo::parkTransform(void){
+void MotorInfo::clarkTransform(void){
  800572e:	b580      	push	{r7, lr}
  8005730:	b088      	sub	sp, #32
  8005732:	af00      	add	r7, sp, #0
@@ -12563,14 +12563,14 @@ void MotorInfo::parkTransform(void){
  8005742:	687b      	ldr	r3, [r7, #4]
  8005744:	68db      	ldr	r3, [r3, #12]
  8005746:	61fb      	str	r3, [r7, #28]
-	std::array<float, 2> Iab = MotorMath::parkTransform(Iuvw);
+	std::array<float, 2> Iab = MotorMath::clarkTransform(Iuvw);
  8005748:	edd7 6a05 	vldr	s13, [r7, #20]
  800574c:	ed97 7a06 	vldr	s14, [r7, #24]
  8005750:	edd7 7a07 	vldr	s15, [r7, #28]
  8005754:	eeb0 0a66 	vmov.f32	s0, s13
  8005758:	eef0 0a47 	vmov.f32	s1, s14
  800575c:	eeb0 1a67 	vmov.f32	s2, s15
- 8005760:	f7fe f9e8 	bl	8003b34 <_ZN9MotorMath13parkTransformESt5arrayIfLj3EE>
+ 8005760:	f7fe f9e8 	bl	8003b34 <_ZN9MotorMath14clarkTransformESt5arrayIfLj3EE>
  8005764:	eeb0 7a40 	vmov.f32	s14, s0
  8005768:	eef0 7a60 	vmov.f32	s15, s1
  800576c:	ed87 7a03 	vstr	s14, [r7, #12]
@@ -12600,9 +12600,9 @@ void MotorInfo::parkTransform(void){
  80057a0:	46bd      	mov	sp, r7
  80057a2:	bd80      	pop	{r7, pc}
 
-080057a4 <_ZN9MotorInfo14clarkTransformEv>:
+080057a4 <_ZN9MotorInfo13parkTransformEv>:
 
-void MotorInfo::clarkTransform(void){//反時計回り回転
+void MotorInfo::parkTransform(void){//反時計回り回転
  80057a4:	b580      	push	{r7, lr}
  80057a6:	b086      	sub	sp, #24
  80057a8:	af00      	add	r7, sp, #0
@@ -12616,7 +12616,7 @@ void MotorInfo::clarkTransform(void){//反時計回り回転
  80057b2:	687b      	ldr	r3, [r7, #4]
  80057b4:	695b      	ldr	r3, [r3, #20]
  80057b6:	617b      	str	r3, [r7, #20]
-	std::array<float, 2> Idq = MotorMath::clarkTransform(mArg, Iab);
+	std::array<float, 2> Idq = MotorMath::parkTransform(mArg, Iab);
  80057b8:	687b      	ldr	r3, [r7, #4]
  80057ba:	edd3 7a13 	vldr	s15, [r3, #76]	; 0x4c
  80057be:	edd7 6a04 	vldr	s13, [r7, #16]
@@ -12624,7 +12624,7 @@ void MotorInfo::clarkTransform(void){//反時計回り回転
  80057c6:	eef0 0a66 	vmov.f32	s1, s13
  80057ca:	eeb0 1a47 	vmov.f32	s2, s14
  80057ce:	eeb0 0a67 	vmov.f32	s0, s15
- 80057d2:	f7fe fa2b 	bl	8003c2c <_ZN9MotorMath14clarkTransformEfSt5arrayIfLj2EE>
+ 80057d2:	f7fe fa2b 	bl	8003c2c <_ZN9MotorMath13parkTransformEfSt5arrayIfLj2EE>
  80057d6:	eeb0 7a40 	vmov.f32	s14, s0
  80057da:	eef0 7a60 	vmov.f32	s15, s1
  80057de:	ed87 7a02 	vstr	s14, [r7, #8]
@@ -12690,9 +12690,9 @@ void MotorInfo::setVdelta(float pVdelta){mVdelta = pVdelta;}
  800584c:	f85d 7b04 	ldr.w	r7, [sp], #4
  8005850:	4770      	bx	lr
 
-08005852 <_ZN9MotorInfo18invClarkGanmaDeltaEv>:
+08005852 <_ZN9MotorInfo17invParkGanmaDeltaEv>:
 
-void MotorInfo::invClarkGanmaDelta(void){
+void MotorInfo::invParkGanmaDelta(void){
  8005852:	b580      	push	{r7, lr}
  8005854:	b088      	sub	sp, #32
  8005856:	af00      	add	r7, sp, #0
@@ -12715,13 +12715,13 @@ void MotorInfo::invClarkGanmaDelta(void){
  800586c:	edd7 7a07 	vldr	s15, [r7, #28]
  8005870:	eef1 7a67 	vneg.f32	s15, s15
  8005874:	edc7 7a06 	vstr	s15, [r7, #24]
-	std::array<float, 2> Vdq = MotorMath::InvclarkTransform(InvArgDelta, Vganmadelta);
+	std::array<float, 2> Vdq = MotorMath::InvparkTransform(InvArgDelta, Vganmadelta);
  8005878:	ed97 7a04 	vldr	s14, [r7, #16]
  800587c:	edd7 7a05 	vldr	s15, [r7, #20]
  8005880:	eef0 0a47 	vmov.f32	s1, s14
  8005884:	eeb0 1a67 	vmov.f32	s2, s15
  8005888:	ed97 0a06 	vldr	s0, [r7, #24]
- 800588c:	f7fe fa50 	bl	8003d30 <_ZN9MotorMath17InvclarkTransformEfSt5arrayIfLj2EE>
+ 800588c:	f7fe fa50 	bl	8003d30 <_ZN9MotorMath16InvparkTransformEfSt5arrayIfLj2EE>
  8005890:	eeb0 7a40 	vmov.f32	s14, s0
  8005894:	eef0 7a60 	vmov.f32	s15, s1
  8005898:	ed87 7a02 	vstr	s14, [r7, #8]
@@ -12750,9 +12750,9 @@ void MotorInfo::invClarkGanmaDelta(void){
  80058cc:	46bd      	mov	sp, r7
  80058ce:	bd80      	pop	{r7, pc}
 
-080058d0 <_ZN9MotorInfo17invClarkTransformEv>:
+080058d0 <_ZN9MotorInfo16invParkTransformEv>:
 
-void MotorInfo::invClarkTransform(void){
+void MotorInfo::invParkTransform(void){
  80058d0:	b580      	push	{r7, lr}
  80058d2:	b086      	sub	sp, #24
  80058d4:	af00      	add	r7, sp, #0
@@ -12766,7 +12766,7 @@ void MotorInfo::invClarkTransform(void){
  80058de:	687b      	ldr	r3, [r7, #4]
  80058e0:	6c1b      	ldr	r3, [r3, #64]	; 0x40
  80058e2:	617b      	str	r3, [r7, #20]
-	std::array<float, 2> Vab = MotorMath::InvclarkTransform(mArg, Vdq);
+	std::array<float, 2> Vab = MotorMath::InvparkTransform(mArg, Vdq);
  80058e4:	687b      	ldr	r3, [r7, #4]
  80058e6:	edd3 7a13 	vldr	s15, [r3, #76]	; 0x4c
  80058ea:	edd7 6a04 	vldr	s13, [r7, #16]
@@ -12774,7 +12774,7 @@ void MotorInfo::invClarkTransform(void){
  80058f2:	eef0 0a66 	vmov.f32	s1, s13
  80058f6:	eeb0 1a47 	vmov.f32	s2, s14
  80058fa:	eeb0 0a67 	vmov.f32	s0, s15
- 80058fe:	f7fe fa17 	bl	8003d30 <_ZN9MotorMath17InvclarkTransformEfSt5arrayIfLj2EE>
+ 80058fe:	f7fe fa17 	bl	8003d30 <_ZN9MotorMath16InvparkTransformEfSt5arrayIfLj2EE>
  8005902:	eeb0 7a40 	vmov.f32	s14, s0
  8005906:	eef0 7a60 	vmov.f32	s15, s1
  800590a:	ed87 7a02 	vstr	s14, [r7, #8]
@@ -12803,9 +12803,9 @@ void MotorInfo::invClarkTransform(void){
  800593e:	46bd      	mov	sp, r7
  8005940:	bd80      	pop	{r7, pc}
 
-08005942 <_ZN9MotorInfo16invParkTransformEv>:
+08005942 <_ZN9MotorInfo17invClarkTransformEv>:
 
-void MotorInfo::invParkTransform(void){
+void MotorInfo::invClarkTransform(void){
  8005942:	b580      	push	{r7, lr}
  8005944:	b088      	sub	sp, #32
  8005946:	af00      	add	r7, sp, #0
@@ -12813,7 +12813,7 @@ void MotorInfo::invParkTransform(void){
 //	mVu = 0.75f * mValpha;
 //	mVv = -0.75f * mValpha + mValpha / 3 + mVbeta / 1.7320508f;
 //	mVw = - mValpha / 3 - mVbeta / 1.7320508f;
-	std::array<float, 3> Vuvw = MotorMath::InvparkTransform({mValpha, mVbeta});
+	std::array<float, 3> Vuvw = MotorMath::InvclarkTransform({mValpha, mVbeta});
  800594a:	687b      	ldr	r3, [r7, #4]
  800594c:	6b5b      	ldr	r3, [r3, #52]	; 0x34
  800594e:	61bb      	str	r3, [r7, #24]
@@ -12824,7 +12824,7 @@ void MotorInfo::invParkTransform(void){
  800595a:	edd7 7a07 	vldr	s15, [r7, #28]
  800595e:	eeb0 0a47 	vmov.f32	s0, s14
  8005962:	eef0 0a67 	vmov.f32	s1, s15
- 8005966:	f7fe fa65 	bl	8003e34 <_ZN9MotorMath16InvparkTransformESt5arrayIfLj2EE>
+ 8005966:	f7fe fa65 	bl	8003e34 <_ZN9MotorMath17InvclarkTransformESt5arrayIfLj2EE>
  800596a:	eef0 6a40 	vmov.f32	s13, s0
  800596e:	eeb0 7a60 	vmov.f32	s14, s1
  8005972:	eef0 7a41 	vmov.f32	s15, s2

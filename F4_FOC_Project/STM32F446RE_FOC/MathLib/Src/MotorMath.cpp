@@ -19,7 +19,7 @@ MotorMath::~MotorMath() {
 
 //input [u,v,w]
 //output [a,b]
-std::array<float, 2> MotorMath::parkTransform (std::array<float, 3> pVector) {
+std::array<float, 2> MotorMath::clarkTransform (std::array<float, 3> pVector) {
 	std::array<float ,2> RtnArr;
 	//mIalpha = mIu - (mIv + mIw)/2;
 	//mIbeta = (mIv - mIw)* 1.7320508f/2;
@@ -30,7 +30,7 @@ std::array<float, 2> MotorMath::parkTransform (std::array<float, 3> pVector) {
 };
 
 
-std::array<float, 2> MotorMath::clarkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
+std::array<float, 2> MotorMath::parkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
 	//mId =  mLib.getCosList().at(mArg) * mIalpha + mLib.getSinList().at(mArg) * mIbeta;
 	//mIq = -mLib.getSinList().at(mArg) * mIalpha + mLib.getCosList().at(mArg) * mIbeta;
 	float sinVal = Trigonometric::sin(pRadian);
@@ -44,7 +44,7 @@ std::array<float, 2> MotorMath::clarkTransform(fp_rad pRadian, std::array<float,
 	return RtnArr;
 }
 
-std::array<float, 2> MotorMath::InvclarkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
+std::array<float, 2> MotorMath::InvparkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
 	//mId =  mLib.getCosList().at(mArg) * mIalpha + mLib.getSinList().at(mArg) * mIbeta;
 	//mIq = -mLib.getSinList().at(mArg) * mIalpha + mLib.getCosList().at(mArg) * mIbeta;
 	float sinVal = Trigonometric::sin(pRadian);
@@ -60,7 +60,7 @@ std::array<float, 2> MotorMath::InvclarkTransform(fp_rad pRadian, std::array<flo
 
 //input [a,b]
 //output [u,v,w]
-std::array<float, 3> MotorMath::InvparkTransform (std::array<float, 2> pVector) {
+std::array<float, 3> MotorMath::InvclarkTransform (std::array<float, 2> pVector) {
 	//mVu = 0.75f * mValpha;
 	//mVv = -0.75f * mValpha + mValpha / 3 + mVbeta / 1.7320508f;
 	//mVw = - mValpha / 3 - mVbeta / 1.7320508f;

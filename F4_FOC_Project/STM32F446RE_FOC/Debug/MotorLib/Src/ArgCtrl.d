@@ -1,5 +1,5 @@
-MotorLib/Src/ArgSensor.o: ../MotorLib/Src/ArgSensor.cpp \
- ../MotorLib/Inc/ArgSensor.hpp ../MotorLib/Inc/MotorLibDefPack.hpp \
+MotorLib/Src/ArgCtrl.o: ../MotorLib/Src/ArgCtrl.cpp \
+ ../MotorLib/Inc/ArgCtrl.hpp ../MotorLib/Inc/MotorLibDefPack.hpp \
  ../Observer/Inc/Observer.hpp ../Observer/Inc/AdaptVelEst.hpp \
  ../MathLib/Inc/Matrix.hpp ../MathLib/Inc/DSPInc.hpp \
  ../CMSIS_DSP/arm_math.h ../Drivers/CMSIS/Include/core_cm4.h \
@@ -10,7 +10,7 @@ MotorLib/Src/ArgSensor.o: ../MotorLib/Src/ArgSensor.cpp \
  ../MathLib/Inc/ZIntegrate.hpp ../MathLib/Inc/Trigonometric.hpp \
  ../Observer/Inc/EMFObs.hpp
 
-../MotorLib/Inc/ArgSensor.hpp:
+../MotorLib/Inc/ArgCtrl.hpp:
 
 ../MotorLib/Inc/MotorLibDefPack.hpp:
 

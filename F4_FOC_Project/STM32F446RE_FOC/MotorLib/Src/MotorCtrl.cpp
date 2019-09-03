@@ -137,8 +137,8 @@ void MotorCtrl::HighFreqTask(void) {
 		mMotorInfo.ForceCommutation();
 
 		//Iuvw -> Idqに変換 (Park,Clark変換)
-		mMotorInfo.parkTransform();
 		mMotorInfo.clarkTransform();
+		mMotorInfo.parkTransform();
 
 		float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
 		Id = mMotorInfo.getId();
@@ -189,9 +189,9 @@ void MotorCtrl::HighFreqTask(void) {
 }
 
 void MotorCtrl::MotorOutputTask(void){
-	mMotorInfo.invClarkGanmaDelta();
-	mMotorInfo.invClarkTransform();
+	mMotorInfo.invParkGanmaDelta();
 	mMotorInfo.invParkTransform();
+	mMotorInfo.invClarkTransform();
 
 	mPWMch1.f2Duty(mMotorInfo.getVu());
 	mPWMch2.f2Duty(mMotorInfo.getVv());

@@ -29,6 +29,7 @@
 "MathLib/Src/PID.o"
 "MathLib/Src/Trigonometric.o"
 "MathLib/Src/ZIntegrate.o"
+"MotorLib/Src/ArgCtrl.o"
 "MotorLib/Src/ArgSensor.o"
 "MotorLib/Src/DebugCtrl.o"
 "MotorLib/Src/DebugInfo.o"
