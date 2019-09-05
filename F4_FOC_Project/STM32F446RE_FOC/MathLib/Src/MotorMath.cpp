@@ -25,7 +25,8 @@ std::array<float, 2> MotorMath::clarkTransform (std::array<float, 3> pVector) {
 	//mIbeta = (mIv - mIw)* 1.7320508f/2;
 	RtnArr.at(0) = pVector.at(0) - ((pVector.at(1) + pVector.at(2))/2) ;
 	RtnArr.at(1) = (pVector.at(1) - pVector.at(2)) * 1.7320508f/2;
-
+	RtnArr.at(0) = RtnArr.at(0) * 0.81649658f;//√2/3
+	RtnArr.at(1) = RtnArr.at(1) * 0.81649658f;//√2/3
 	return RtnArr;
 };
 
@@ -68,5 +69,8 @@ std::array<float, 3> MotorMath::InvclarkTransform (std::array<float, 2> pVector)
 	RtnArr.at(0) = 0.75f * pVector.at(0);
 	RtnArr.at(1) = -0.75f * pVector.at(0) + pVector.at(0) / 3 + pVector.at(1) / 1.7320508f;
 	RtnArr.at(2) = - pVector.at(0) / 3 - pVector.at(1) / 1.7320508f;
+	RtnArr.at(0) = RtnArr.at(0) * 0.81649658f;//√2/3
+	RtnArr.at(1) = RtnArr.at(1) * 0.81649658f;//√2/3
+	RtnArr.at(2) = RtnArr.at(2) * 0.81649658f;//√2/3
 	return RtnArr;
 };

@@ -59,8 +59,9 @@ void ArgCtrl::FCInit(fp_rad pFCtargetSPD){
 }
 
 ForceCom_Status ArgCtrl::FCacceleration(void) {
-	if(ArgCtrl::mOmega < ForceCom.mFCtargetSPD){
-		ForceCom.mAccelSPD = ForceCom.mAccelSPD + 4;//ここ加速度を制御してる
+	//if(ForceCom.mAccelSPD < ForceCom.mFCtargetSPD){
+	if(ForceCom.mAccelSPD < 30000){
+		ForceCom.mAccelSPD = ForceCom.mAccelSPD + 0.5;//ここ加速度を制御してる
 		fp_rad arg_add;
 		arg_add = ForceCom.mAccelSPD*0.00000125f*M_PI;//進む差分角
 		increment(arg_add);
@@ -74,8 +75,8 @@ ForceCom_Status ArgCtrl::FCacceleration(void) {
 }
 
 ForceCom_Status ArgCtrl::FCdeceleration(void) {
-	if(ArgCtrl::mOmega >= 0){
-		ForceCom.mAccelSPD = ForceCom.mAccelSPD + 4;//ここ加速度を制御してる
+	if(ForceCom.mAccelSPD >= 0){
+		ForceCom.mAccelSPD = ForceCom.mAccelSPD - 1;//ここ加速度を制御してる
 		float arg_add;
 		arg_add = ForceCom.mAccelSPD*0.00000125f*M_PI;//進む差分角
 		increment(arg_add);

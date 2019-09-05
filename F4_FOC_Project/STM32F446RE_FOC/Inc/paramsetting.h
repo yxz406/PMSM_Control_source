@@ -22,6 +22,11 @@
 
 //#define DEBUG_COUNT 7 //デバッグ数のカウント
 
+//ボードの I -> V 倍率
+#define BOARD_OPAMP_R1 2200
+#define BOARD_OPAMP_R2 6800
+#define BOARD_CURRENT_R 0.1
+
 //モータのパラメータ設定
 #define M_PARAM_LD 0.5
 #define M_PARAM_LQ 0.5

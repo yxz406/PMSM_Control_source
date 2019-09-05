@@ -16,29 +16,9 @@ MotorCtrl::~MotorCtrl() {
 	// TODO Auto-generated destructor stub
 }
 
-void MotorCtrl::SetMotorInfo(MotorInfo pMotorInfo) {
-	mMotorInfo = pMotorInfo;
-}
-
-void MotorCtrl::SetPWMch1(PWM pPWM) {
-	mPWMch1 = pPWM;
-}
-
-void MotorCtrl::SetPWMch2(PWM pPWM) {
-	mPWMch2 = pPWM;
-}
-
-void MotorCtrl::SetPWMch3(PWM pPWM) {
-	mPWMch3 = pPWM;
-}
-
-void MotorCtrl::SetPWMch4(PWM pPWM) {
-	mPWMch4 = pPWM;
-}
-
 void MotorCtrl::InitSystem(void) {
 	//以下CubeMXに頼らない定義たち
-	//mainで既に定義されているとうまく動かないかもしれない。注意。
+	//mainで既に定義されているとうまく動かないから、Mainで定義する前に呼び出すこと。
 	GPIOInit::Init();
 	USARTInit::Init();
 	ADCInit::Init();
@@ -95,21 +75,23 @@ void MotorCtrl::InitPWM(void) {
 void MotorCtrl::InitMotorInfo(void) {
 
 	{
-		ArgSensor sensor; //角度を求める機能を持ったclass
-		sensor.Init();
-		mMotorInfo.setArgSensor(sensor);
+		ArgCtrl ArgCtrl; //角度を求める機能を持ったclass
+		ArgCtrl.Init();
+		mArgCtrl = ArgCtrl;
 	}
-	{
-		TimInfo Tim_Info;//タイマの経過時間測定Class
-		Tim_Info.Init(TIM1);
-		mMotorInfo.setTimInfo(Tim_Info);
-	}
+//	{
+//		TimInfo Tim_Info;//タイマの経過時間測定Class
+//		Tim_Info.Init(TIM1);
+//		mMotorInfo.setTimInfo(Tim_Info);
+//	}
 	{//PIDLibの生存時間調整(代入後メモリを解放する)
-		PID IqPID;
 		PID IdPID;
+		PID IqPID;
 		IdPID.SetParam(PID_GAIN_ID_P, PID_GAIN_ID_I, PID_GAIN_ID_D);
 		IqPID.SetParam(PID_GAIN_IQ_P, PID_GAIN_IQ_I, PID_GAIN_IQ_D);
-		mMotorInfo.setIdqPIDLib(IdPID, IqPID);
+		mIdPID = IdPID;
+		mIqPID = IqPID;
+		//mMotorInfo.setIdqPIDLib(IdPID, IqPID);
 		//mMotorInfo.setIganmadeltaPIDLib(IganmaPID, IdeltaPID);
 	}
 }
@@ -127,24 +109,31 @@ void MotorCtrl::HighFreqTask(void) {
 //		Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1)/4095;
 //		Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2)/4095;
 //		Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3)/4095;
-		mMotorInfo.setIuvw(Iu, Iv, Iw);
+		setIuvw(Iu, Iv, Iw);
 
 		//推定誤差計算
 
 		//推定位置計算(センサを叩く)
 		//Motor.culcArg();
 
-		mMotorInfo.ForceCommutation();
+		ForceCommutation();
 
-		//Iuvw -> Idqに変換 (Park,Clark変換)
-		mMotorInfo.clarkTransform();
-		mMotorInfo.parkTransform();
+		//Iuvw -> Iab
+		clarkTransform();
+		//Iab -> Idq
+		parkTransform();
+		//Idq -> Igd
+		parkGanmaDelta();
 
+
+		std::array<float, 2> Idq = getIdq();
 		float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
-		Id = mMotorInfo.getId();
-		Iq = mMotorInfo.getIq();
+		Id = Idq.at(0);
+		Iq = Idq.at(1);
+
 
 		//指令値入力
+		//本当はここをpIdqTargetにして入力にする
 		//float Vd_input = 0;
 		//float Vq_input = 0.5f;
 
@@ -154,31 +143,47 @@ void MotorCtrl::HighFreqTask(void) {
 		float Id_error;
 		float Iq_error;
 
-		Id_error = 0;
-		Iq_error = 0;
+		float Id_target;
+		float Iq_target;
+
+		Id_target = 0;
+		Iq_target = 0;//ここに目標値を入れる(外部から入れるからSetter必要かも)
+
+		Id_error = Id_target - Id;
+		Iq_error = Iq_target - Iq;
+
+		std::array<float, 2> IdqErr = {Id_error, Iq_error};
 		//Id,IqのPID制御
 
-		//Motor.PIDdq_control(Id_error, Iq_error, 0.1);
-		//Vd_input = Motor.getVd();
-		//Vq_input = Motor.getVq();
+		//第二引数に制御周期を入力する。これも計算で出すか、パラメタとして入力すること
+		PIDdq_control(IdqErr, 0.1);
 
 		//IO入力?
 		LL_ADC_REG_StartConversionSWStart(ADC2);
 		float adc2_input = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4095;
+
 		//Vq_input = 0;
 		//Vd_input = adc_speed;//連れ回し運転
 
 		Vganma_input = adc2_input;//連れ回し運転
 		Vdelta_input = 0;
 
-		mMotorInfo.setVganma(Vganma_input);
-		mMotorInfo.setVdelta(Vdelta_input);
+		//mMotorInfo.setVganma(Vganma_input);
+		//mMotorInfo.setVdelta(Vdelta_input);
+		std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
+		setVgd(inputVgd);
 
+		//Vgd -> Vdq
+		invParkGanmaDelta();
+		//Vdq -> Vab
+		invParkTransform();
+		//Vab -> Vuvw
+		invClarkTransform();
 		//PWM出力
 		MotorOutputTask();
 
 		if(DEBUG_MODE){//デバッグモードで入る処理
-			//MotorCtrl::DebugTask(Iu, Iv, Iw, mMotorInfo.getArgRad());
+			//DebugTask(mMotorInfo.mArg, mMotorInfo.mArgErr, mMotorInfo.mIuvw, mMotorInfo.mIab, mMotorInfo.mIdq, mMotorInfo.mIgd);
 		}
 
 	}
@@ -189,24 +194,126 @@ void MotorCtrl::HighFreqTask(void) {
 }
 
 void MotorCtrl::MotorOutputTask(void){
-	mMotorInfo.invParkGanmaDelta();
-	mMotorInfo.invParkTransform();
-	mMotorInfo.invClarkTransform();
+	mPWMch1.f2Duty(mMotorInfo.mVuvw.at(0));
+	mPWMch2.f2Duty(mMotorInfo.mVuvw.at(1));
+	mPWMch3.f2Duty(mMotorInfo.mVuvw.at(2));
+}
 
-	mPWMch1.f2Duty(mMotorInfo.getVu());
-	mPWMch2.f2Duty(mMotorInfo.getVv());
-	mPWMch3.f2Duty(mMotorInfo.getVw());
+//Motor
+void MotorCtrl::setIuvw(float pIu, float pIv, float pIw){
+	mMotorInfo.mIuvw.at(0) = pIu;
+	mMotorInfo.mIuvw.at(1) = pIv;
+	mMotorInfo.mIuvw.at(2) = pIw;
+}
+
+void MotorCtrl::ForceCommutation(void) {
+	if(mUIStatus.mStartStopTRG) {
+	mArgCtrl.FCacceleration();
+	} else {
+	mArgCtrl.FCdeceleration();
+	}
+	mMotorInfo.mArg = mArgCtrl.getArg();
+	mMotorInfo.mArgErr = mArgCtrl.getArgErr(); //回転方向より符号は反転する
+}
+
+void MotorCtrl::clarkTransform(void) {
+	std::array<float, 3> Iuvw = mMotorInfo.mIuvw;
+	std::array<float, 2> Iab = MotorMath::clarkTransform(Iuvw);
+	mMotorInfo.mIab = Iab;
+}
+
+void MotorCtrl::parkTransform(void) {
+	fp_rad Arg = mMotorInfo.mArg;
+	std::array<float, 2> Iab = mMotorInfo.mIab;
+	std::array<float, 2> Idq = MotorMath::parkTransform(Arg, Iab);
+	mMotorInfo.mIdq = Idq;
+}
+
+void MotorCtrl::parkGanmaDelta(void) {
+	fp_rad ArgErr = mMotorInfo.mArgErr;
+	std::array<float, 2> Idq = mMotorInfo.mIdq;
+	fp_rad InvArgErr = -1.0f * ArgErr;
+	std::array<float, 2> Igd = MotorMath::parkTransform(InvArgErr, Idq);
+	mMotorInfo.mIgd = Igd;
+}
+
+std::array<float, 2> MotorCtrl::getIdq() {
+	return mMotorInfo.mIdq;
+}
+
+std::array<float, 2> MotorCtrl::getIgd() {
+	return mMotorInfo.mIgd;
+}
+
+void MotorCtrl::PIDdq_control(std::array<float, 2> pErrIdq, float pTime) {
+	float ErrId = pErrIdq.at(0);
+	float ErrIq = pErrIdq.at(1);
+	mIdPID.ErrorAndTimeUpdate(ErrId, pTime);
+	mIqPID.ErrorAndTimeUpdate(ErrIq, pTime);
+
+	float Vd = mMotorInfo.mVdq.at(0);
+	float Vq = mMotorInfo.mVdq.at(1);
+
+	Vd = Vd + mIdPID.OutPut();
+	Vq = Vq + mIqPID.OutPut();
+	mMotorInfo.mVdq = {Vd, Vq};
+}
+
+void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd, float pTime) {
+	{
+		float ErrIganma = pErrIgd.at(0);
+		float ErrIdelta = pErrIgd.at(1);
+		mIganmaPID.ErrorAndTimeUpdate(ErrIganma, pTime);
+		mIdeltaPID.ErrorAndTimeUpdate(ErrIdelta, pTime);
+
+		float Vganma = mMotorInfo.mVgd.at(0);
+		float Vdelta = mMotorInfo.mVgd.at(1);
+
+		Vganma = Vganma + mIganmaPID.OutPut();
+		Vdelta = Vdelta + mIdeltaPID.OutPut();
+		mMotorInfo.mVgd = {Vganma, Vdelta};
+	}
+}
+
+void MotorCtrl::setVdq(std::array<float, 2> pVdq) {
+	//強制転流用
+	mMotorInfo.mVdq = pVdq;
+}
+
+void MotorCtrl::setVgd(std::array<float, 2> pVgd) {
+	mMotorInfo.mVgd = pVgd;
+}
+
+void MotorCtrl::invParkGanmaDelta(void) {
+	std::array<float, 2> Vgd = mMotorInfo.mVgd;
+	fp_rad ArgErr = mMotorInfo.mArgErr;
+	fp_rad InvArgErr = -1.0f * ArgErr;
+	std::array<float, 2> Vdq = MotorMath::InvparkTransform(InvArgErr, Vgd);
+	mMotorInfo.mVdq = Vdq;
+}
+void MotorCtrl::invParkTransform(void) {
+	fp_rad Arg = mMotorInfo.mArg;
+	std::array<float, 2> Vdq= mMotorInfo.mVdq;
+	std::array<float, 2> Vab = MotorMath::InvparkTransform(Arg, Vdq);
+	mMotorInfo.mVab = Vab;
+}
+
+void MotorCtrl::invClarkTransform(void) {
+	std::array<float, 2> Vab = mMotorInfo.mVab;
+	std::array<float, 3> Vuvw = MotorMath::InvclarkTransform(Vab);
+	mMotorInfo.mVuvw = Vuvw;
 }
 
 
+//Debug
 void MotorCtrl::DebugTask(float pIu, float pIv, float pIw, float pArg){
 	int sw = mDebug.GetDbgStatus();
 	switch(sw){
 	case 0:
-		if(mMotorInfo.mSensor.GetArgCount() > 24000){
+		//if(mMotorInfo.mSensor.GetArgCount() > 24000){
 		mDebug.DbgInfoTinyRegister(pIu, pIv, pIw, pArg);
 		//mDebug.DbgInfoRegister(pIu, pIv, pIw, pArg);
-		}
+		//}
 		break;
 	case 1:
 		//止める動作が必要だと思う
@@ -215,9 +322,9 @@ void MotorCtrl::DebugTask(float pIu, float pIv, float pIw, float pArg){
 		break;
 	case 2:
 		//止まるのを確認したら次にすすめる
-		if(mMotorInfo.mSensor.GetArgCount() < 10){
+		//if(mMotorInfo.mSensor.GetArgCount() < 10){
 			mDebug.SetDebugStatus(3);
-		}
+		//}
 		break;
 	case 3:
 		mDebug.PrintStatusTiny();
@@ -233,24 +340,21 @@ void MotorCtrl::DebugTask(float pIu, float pIv, float pIw, float pArg){
 }
 
 
-
+//UICtrl
 void MotorCtrl::BtnAct(void){//強制転流開始へのトリガ 割り込みから叩くためにここでラッパする
-	UiCtrl::BtnToggle(); // ON/OFFのトグルスイッチ　BtnActで書き込み、getStateで状態を読む
-	if(UiCtrl::getState()){
-		mMotorInfo.startForceCommutation();
+	if(mUIStatus.mStartStopTRG){
+		BtnActOFF();
 	} else {
-		mMotorInfo.stopForceCommutation();
+		BtnActON();
 	}
 }
 
-void MotorCtrl::BtnActOFF(void){//強制転流開始へのトリガOFF 割り込みから叩かないから本来UiCtrlで定義するべき
-	UiCtrl::BtnActOFF(); // OFFのスイッチ　BtnActOFFで書き込み、getStateで状態を読む
-	mMotorInfo.stopForceCommutation();
+void MotorCtrl::BtnActOFF(void){//強制転流開始へのトリガOFF
+	mUIStatus.mStartStopTRG = 0;
 }
 
-void MotorCtrl::BtnActON(void){//強制転流開始へのトリガON 予備で作ってある。使うかは不明
-	UiCtrl::BtnActON(); // ONのトグルスイッチ　BtnActONで書き込み、getStateで状態を読む
-	mMotorInfo.startForceCommutation();
+void MotorCtrl::BtnActON(void){//強制転流開始へのトリガON
+	mUIStatus.mStartStopTRG = 1;
 }
 
 

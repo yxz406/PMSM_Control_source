@@ -43,17 +43,16 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/wrapper.hpp \
  ../SystemLib/Inc/ErrorHandler.hpp ../SystemLib/Inc/ADCInit.hpp \
  ../SystemLib/Inc/STM32SystemPack.h ../SystemLib/Inc/GPIOInit.hpp \
  ../SystemLib/Inc/PinDef.h ../SystemLib/Inc/TIMInit.hpp \
- ../SystemLib/Inc/USARTInit.hpp ../MotorLib/Inc/MotorInfo.hpp \
- ../MathLib/Inc/MotorMath.hpp ../MotorLib/Inc/MotorLibDefPack.hpp \
+ ../SystemLib/Inc/USARTInit.hpp ../MotorLib/Inc/ArgCtrl.hpp \
+ ../Observer/Inc/Observer.hpp ../Observer/Inc/AdaptVelEst.hpp \
  ../MathLib/Inc/Matrix.hpp ../MathLib/Inc/DSPInc.hpp \
  ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_const_structs.h \
  ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_common_tables.h \
- ../MathLib/Inc/Trigonometric.hpp ../MotorLib/Inc/ArgSensor.hpp \
- ../Observer/Inc/Observer.hpp ../Observer/Inc/AdaptVelEst.hpp \
- ../MathLib/Inc/Matrix.hpp ../MathLib/Inc/ZIntegrate.hpp \
- ../MathLib/Inc/Trigonometric.hpp ../Observer/Inc/EMFObs.hpp \
- ../MathLib/Inc/PID.hpp ../Inc/TimInfo.hpp ../SystemLib/Inc/PWM.hpp \
- ../Inc/UART.hpp ../Inc/UiCtrl.hpp ../MotorLib/Inc/DebugCtrl.hpp \
+ ../MathLib/Inc/ZIntegrate.hpp ../MathLib/Inc/Trigonometric.hpp \
+ ../Observer/Inc/EMFObs.hpp ../MathLib/Inc/MotorMath.hpp \
+ ../MotorLib/Inc/MotorLibDefPack.hpp ../MathLib/Inc/Matrix.hpp \
+ ../MathLib/Inc/Trigonometric.hpp ../MathLib/Inc/PID.hpp \
+ ../SystemLib/Inc/PWM.hpp ../Inc/UART.hpp ../MotorLib/Inc/DebugCtrl.hpp \
  ../MotorLib/Inc/DebugInfo.hpp ../MotorLib/Inc/DebugInfoTiny.hpp
 
 ../Inc/wrapper.hpp:
@@ -158,11 +157,11 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/wrapper.hpp \
 
 ../SystemLib/Inc/USARTInit.hpp:
 
-../MotorLib/Inc/MotorInfo.hpp:
+../MotorLib/Inc/ArgCtrl.hpp:
 
-../MathLib/Inc/MotorMath.hpp:
+../Observer/Inc/Observer.hpp:
 
-../MotorLib/Inc/MotorLibDefPack.hpp:
+../Observer/Inc/AdaptVelEst.hpp:
 
 ../MathLib/Inc/Matrix.hpp:
 
@@ -176,31 +175,25 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/wrapper.hpp \
 
 ../CMSIS_DSP/arm_common_tables.h:
 
-../MathLib/Inc/Trigonometric.hpp:
-
-../MotorLib/Inc/ArgSensor.hpp:
-
-../Observer/Inc/Observer.hpp:
-
-../Observer/Inc/AdaptVelEst.hpp:
-
-../MathLib/Inc/Matrix.hpp:
-
 ../MathLib/Inc/ZIntegrate.hpp:
 
 ../MathLib/Inc/Trigonometric.hpp:
 
 ../Observer/Inc/EMFObs.hpp:
 
-../MathLib/Inc/PID.hpp:
+../MathLib/Inc/MotorMath.hpp:
 
-../Inc/TimInfo.hpp:
+../MotorLib/Inc/MotorLibDefPack.hpp:
+
+../MathLib/Inc/Matrix.hpp:
+
+../MathLib/Inc/Trigonometric.hpp:
+
+../MathLib/Inc/PID.hpp:
 
 ../SystemLib/Inc/PWM.hpp:
 
 ../Inc/UART.hpp:
-
-../Inc/UiCtrl.hpp:
 
 ../MotorLib/Inc/DebugCtrl.hpp:
 

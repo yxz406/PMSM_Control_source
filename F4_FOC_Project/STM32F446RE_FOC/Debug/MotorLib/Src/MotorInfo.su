@@ -1,54 +1,49 @@
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 MotorInfo.cpp:50:1:MotorInfo::MotorInfo()	16	static
-MotorInfo.cpp:55:1:MotorInfo::~MotorInfo()	16	static
-MotorInfo.cpp:55:1:virtual MotorInfo::~MotorInfo()	16	static
-AdaptVelEst.hpp:23:7:constexpr AdaptVelEst& AdaptVelEst::operator=(const AdaptVelEst&)	24	static
-EMFObs.hpp:11:7:constexpr EMFObs& EMFObs::operator=(const EMFObs&)	16	static
-Observer.hpp:14:7:constexpr Observer& Observer::operator=(const Observer&)	16	static
-ArgSensor.hpp:16:7:constexpr ArgSensor& ArgSensor::operator=(const ArgSensor&)	16	static
-MotorInfo.cpp:59:6:void MotorInfo::setArgSensor(ArgSensor)	16	static
+MotorInfo.cpp:56:1:MotorInfo::~MotorInfo()	16	static
+MotorInfo.cpp:56:1:virtual MotorInfo::~MotorInfo()	16	static
+ArgCtrl.hpp:16:7:constexpr ArgCtrl& ArgCtrl::operator=(const ArgCtrl&)	16	static
+MotorInfo.cpp:60:6:void MotorInfo::setArgCtrl(ArgCtrl)	16	static
 TimInfo.hpp:13:7:constexpr TimInfo& TimInfo::operator=(const TimInfo&)	16	static
-MotorInfo.cpp:63:6:void MotorInfo::setTimInfo(TimInfo)	16	static
+MotorInfo.cpp:64:6:void MotorInfo::setTimInfo(TimInfo)	16	static
 PID.hpp:13:7:constexpr PID& PID::operator=(const PID&)	16	static
-MotorInfo.cpp:68:6:void MotorInfo::setIdqPIDLib(PID, PID)	24	static
-MotorInfo.cpp:73:6:void MotorInfo::setIganmadeltaPIDLib(PID, PID)	24	static
-MotorInfo.cpp:83:6:void MotorInfo::startForceCommutation()	16	static
-MotorInfo.cpp:87:6:void MotorInfo::stopForceCommutation()	16	static
-MotorInfo.cpp:93:6:void MotorInfo::setIu(float)	16	static
-MotorInfo.cpp:94:6:void MotorInfo::setIv(float)	16	static
-MotorInfo.cpp:95:6:void MotorInfo::setIw(float)	16	static
-MotorInfo.cpp:96:6:void MotorInfo::setIuvw(float, float, float)	24	static
-MotorInfo.cpp:102:6:void MotorInfo::setVu(float)	16	static
-MotorInfo.cpp:103:6:void MotorInfo::setVv(float)	16	static
-MotorInfo.cpp:104:6:void MotorInfo::setVw(float)	16	static
-MotorInfo.cpp:106:6:void MotorInfo::setArg(int)	16	static
-MotorInfo.cpp:110:6:void MotorInfo::setArgDelta(int)	16	static
-MotorInfo.cpp:123:6:void MotorInfo::culcArg()	16	static
-MotorInfo.cpp:127:6:void MotorInfo::ForceCommutation()	24	static
-MotorInfo.cpp:140:6:void MotorInfo::setRPM()	24	static
-MotorInfo.cpp:144:6:void MotorInfo::clarkTransform()	40	static
-MotorInfo.cpp:154:6:void MotorInfo::parkTransform()	32	static
-MotorInfo.cpp:163:6:void MotorInfo::parkGanmaDelta()	40	static
-MotorInfo.cpp:174:6:void MotorInfo::PIDdq_control(float, float, float)	32	static
-MotorInfo.cpp:180:6:void MotorInfo::PIDganmadelta_control(float, float, float)	32	static
-MotorInfo.cpp:187:6:void MotorInfo::setVd(float)	16	static
-MotorInfo.cpp:188:6:void MotorInfo::setVq(float)	16	static
-MotorInfo.cpp:189:6:void MotorInfo::setVganma(float)	16	static
-MotorInfo.cpp:190:6:void MotorInfo::setVdelta(float)	16	static
-MotorInfo.cpp:192:6:void MotorInfo::invParkGanmaDelta()	40	static
-MotorInfo.cpp:204:6:void MotorInfo::invParkTransform()	32	static
-MotorInfo.cpp:213:6:void MotorInfo::invClarkTransform()	40	static
-MotorInfo.cpp:237:7:float MotorInfo::getIganma()	16	static
-MotorInfo.cpp:238:7:float MotorInfo::getIdelta()	16	static
-MotorInfo.cpp:240:7:float MotorInfo::getId()	16	static
-MotorInfo.cpp:241:7:float MotorInfo::getIq()	16	static
-MotorInfo.cpp:243:7:float MotorInfo::getVd()	16	static
-MotorInfo.cpp:244:7:float MotorInfo::getVq()	16	static
-MotorInfo.cpp:246:7:float MotorInfo::getValpha()	16	static
-MotorInfo.cpp:247:7:float MotorInfo::getVbeta()	16	static
-MotorInfo.cpp:249:7:float MotorInfo::getVu()	16	static
-MotorInfo.cpp:250:7:float MotorInfo::getVv()	16	static
-MotorInfo.cpp:251:7:float MotorInfo::getVw()	16	static
+MotorInfo.cpp:69:6:void MotorInfo::setIdqPIDLib(PID, PID)	24	static
+MotorInfo.cpp:74:6:void MotorInfo::setIganmadeltaPIDLib(PID, PID)	24	static
+MotorInfo.cpp:84:6:void MotorInfo::SetStartStopTRG(int)	16	static
+MotorInfo.cpp:92:6:void MotorInfo::setIu(float)	16	static
+MotorInfo.cpp:93:6:void MotorInfo::setIv(float)	16	static
+MotorInfo.cpp:94:6:void MotorInfo::setIw(float)	16	static
+MotorInfo.cpp:95:6:void MotorInfo::setIuvw(float, float, float)	24	static
+MotorInfo.cpp:101:6:void MotorInfo::setVu(float)	16	static
+MotorInfo.cpp:102:6:void MotorInfo::setVv(float)	16	static
+MotorInfo.cpp:103:6:void MotorInfo::setVw(float)	16	static
+MotorInfo.cpp:105:6:void MotorInfo::setArg(int)	16	static
+MotorInfo.cpp:109:6:void MotorInfo::setArgDelta(int)	16	static
+MotorInfo.cpp:122:6:void MotorInfo::culcArg()	16	static
+MotorInfo.cpp:126:6:void MotorInfo::ForceCommutation()	16	static
+MotorInfo.cpp:148:6:void MotorInfo::clarkTransform()	40	static
+MotorInfo.cpp:158:6:void MotorInfo::parkTransform()	32	static
+MotorInfo.cpp:167:6:void MotorInfo::parkGanmaDelta()	40	static
+MotorInfo.cpp:178:6:void MotorInfo::PIDdq_control(float, float, float)	32	static
+MotorInfo.cpp:184:6:void MotorInfo::PIDganmadelta_control(float, float, float)	32	static
+MotorInfo.cpp:191:6:void MotorInfo::setVd(float)	16	static
+MotorInfo.cpp:192:6:void MotorInfo::setVq(float)	16	static
+MotorInfo.cpp:193:6:void MotorInfo::setVganma(float)	16	static
+MotorInfo.cpp:194:6:void MotorInfo::setVdelta(float)	16	static
+MotorInfo.cpp:196:6:void MotorInfo::invParkGanmaDelta()	40	static
+MotorInfo.cpp:208:6:void MotorInfo::invParkTransform()	32	static
+MotorInfo.cpp:217:6:void MotorInfo::invClarkTransform()	40	static
+MotorInfo.cpp:241:7:float MotorInfo::getIganma()	16	static
+MotorInfo.cpp:242:7:float MotorInfo::getIdelta()	16	static
+MotorInfo.cpp:244:7:float MotorInfo::getId()	16	static
+MotorInfo.cpp:245:7:float MotorInfo::getIq()	16	static
+MotorInfo.cpp:247:7:float MotorInfo::getVd()	16	static
+MotorInfo.cpp:248:7:float MotorInfo::getVq()	16	static
+MotorInfo.cpp:250:7:float MotorInfo::getValpha()	16	static
+MotorInfo.cpp:251:7:float MotorInfo::getVbeta()	16	static
+MotorInfo.cpp:253:7:float MotorInfo::getVu()	16	static
+MotorInfo.cpp:254:7:float MotorInfo::getVv()	16	static
+MotorInfo.cpp:255:7:float MotorInfo::getVw()	16	static
 array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 2]	16	static
 array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 3]	16	static
 array:55:7:static constexpr _Tp& std::__array_traits<_Tp, _Nm>::_S_ref(const _Tp (&)[_Nm], std::size_t) [with _Tp = float; unsigned int _Nm = 2]	16	static
