@@ -102,6 +102,7 @@ void MotorCtrl::InitMotorInfo(void) {
 void MotorCtrl::HighFreqTask(void) {
 	LL_GPIO_SetOutputPin(GPIOA, GPIO_PIN_5);
 
+
 	//エンコーダ読み取り
 	float Iu,Iv,Iw;
 	//増幅率のバイアス考慮してない。あとで計算すること。
@@ -184,6 +185,21 @@ void MotorCtrl::HighFreqTask(void) {
 	//PWM出力
 	MotorOutputTask();
 
+	{
+		//SEGGER RTT DEBUG
+		int adc_u = (int)Iu;
+		int adc_v = (int)Iv;
+		int adc_w = (int)Iw;
+
+		//
+//		char str[8];
+//		float val = 2.334563;
+//		sprintf(str, "%f", val);
+		//SEGGER_RTT_printf(0, "val = %s\n", str);
+
+		char* str2 = "2.334563";
+		SEGGER_RTT_printf(0, "adcVal:%d,%d,%d,%s\n" ,adc_u, adc_v, adc_w, str2);
+	}
 	if(DEBUG_MODE){//デバッグモードで入る処理
 		//DebugTask(mMotorInfo.mArg, mMotorInfo.mArgErr, mMotorInfo.mIuvw, mMotorInfo.mIab, mMotorInfo.mIdq, mMotorInfo.mIgd);
 	}

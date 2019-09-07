@@ -30,6 +30,7 @@ Drivers/STM32F4xx_HAL_Driver/Src \
 MathLib/Src \
 MotorLib/Src \
 Observer/Src \
+SEGGER/Src \
 Src \
 Startup \
 SystemLib/Src \

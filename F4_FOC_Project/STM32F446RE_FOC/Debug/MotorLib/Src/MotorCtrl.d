@@ -53,7 +53,8 @@ MotorLib/Src/MotorCtrl.o: ../MotorLib/Src/MotorCtrl.cpp \
  ../MotorLib/Inc/MotorLibDefPack.hpp ../MathLib/Inc/Matrix.hpp \
  ../MathLib/Inc/Trigonometric.hpp ../MathLib/Inc/PID.hpp \
  ../SystemLib/Inc/PWM.hpp ../Inc/UART.hpp ../MotorLib/Inc/DebugCtrl.hpp \
- ../MotorLib/Inc/DebugInfo.hpp ../MotorLib/Inc/DebugInfoTiny.hpp
+ ../MotorLib/Inc/DebugInfo.hpp ../MotorLib/Inc/DebugInfoTiny.hpp \
+ ../SEGGER/Inc/SEGGER_RTT.h ../SEGGER/Inc/SEGGER_RTT_Conf.h
 
 ../MotorLib/Inc/MotorCtrl.hpp:
 
@@ -198,3 +199,7 @@ MotorLib/Src/MotorCtrl.o: ../MotorLib/Src/MotorCtrl.cpp \
 ../MotorLib/Inc/DebugInfo.hpp:
 
 ../MotorLib/Inc/DebugInfoTiny.hpp:
+
+../SEGGER/Inc/SEGGER_RTT.h:
+
+../SEGGER/Inc/SEGGER_RTT_Conf.h:

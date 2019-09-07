@@ -36,6 +36,8 @@
 "Observer/Src/AdaptVelEst.o"
 "Observer/Src/EMFObs.o"
 "Observer/Src/Observer.o"
+"SEGGER/Src/SEGGER_RTT.o"
+"SEGGER/Src/SEGGER_RTT_printf.o"
 "Src/LedBlink.o"
 "Src/TimInfo.o"
 "Src/adc.o"

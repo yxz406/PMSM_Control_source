@@ -30,6 +30,8 @@
 
 #include "DebugCtrl.hpp"
 
+#include "SEGGER_RTT.h"
+
 class MotorCtrl {
 	class MotorInfo {
 	public:

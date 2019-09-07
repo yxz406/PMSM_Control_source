@@ -11,6 +11,7 @@ RM := rm -rf
 -include SystemLib/Src/subdir.mk
 -include Startup/subdir.mk
 -include Src/subdir.mk
+-include SEGGER/Src/subdir.mk
 -include Observer/Src/subdir.mk
 -include MotorLib/Src/subdir.mk
 -include MathLib/Src/subdir.mk
@@ -56,8 +57,8 @@ STM32F446RE_FOC.list \
 all: STM32F446RE_FOC.elf secondary-outputs
 
 # Tool invocations
-STM32F446RE_FOC.elf: $(OBJS) $(USER_OBJS) /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/STM32F446RETX_FLASH.ld
-	arm-none-eabi-g++ -o "STM32F446RE_FOC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F446RE_FOC.map" -Wl,--gc-sections -static -L"/Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32F446RE_FOC/CMSIS_DSP" -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+STM32F446RE_FOC.elf: $(OBJS) $(USER_OBJS) C:\Users\watashi\STM32CubeIDE\workspace_1.0.0\STM32F446RE_FOC\STM32F446RETX_FLASH.ld
+	arm-none-eabi-g++ -o "STM32F446RE_FOC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\watashi\STM32CubeIDE\workspace_1.0.0\STM32F446RE_FOC\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F446RE_FOC.map" -Wl,--gc-sections -static -L"C:\Users\watashi\STM32CubeIDE\workspace_1.0.0\STM32F446RE_FOC\CMSIS_DSP" -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
