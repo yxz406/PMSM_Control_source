@@ -1,4 +1,5 @@
 /* USER CODE BEGIN Header */
+#if 0
 /**
   ******************************************************************************
   * @file    stm32f4xx_it.c
@@ -261,6 +262,6 @@ void EXTI15_10_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-
+#endif
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

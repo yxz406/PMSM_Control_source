@@ -53,6 +53,7 @@
 "SystemLib/Src/ADCInit.o"
 "SystemLib/Src/ErrorHandler.o"
 "SystemLib/Src/GPIOInit.o"
+"SystemLib/Src/Interrupt.o"
 "SystemLib/Src/PWM.o"
 "SystemLib/Src/TIMInit.o"
 "SystemLib/Src/UART.o"

@@ -63,13 +63,16 @@ void MotorCtrl::InitPWM(void) {
 	mPWMch3 = PWM_Object3;
 	mPWMch4 = PWM_Object4;
 
-	//ADC Start
+    PWM_Object4.f2Duty(0.9);
+
+    //ADC Start
     LL_ADC_Enable( ADC1 );
     LL_ADC_Enable( ADC2 );
     LL_ADC_Enable( ADC3 );
     /* ADC1 Injected conversions end interrupt enabling */
     LL_ADC_ClearFlag_JEOS( ADC1 );
     LL_ADC_EnableIT_JEOS( ADC1 );
+
 }
 
 void MotorCtrl::InitMotorInfo(void) {
@@ -97,100 +100,94 @@ void MotorCtrl::InitMotorInfo(void) {
 }
 
 void MotorCtrl::HighFreqTask(void) {
-	if (LL_ADC_IsActiveFlag_JEOS(ADC1) == 1)
-	{
-		LL_ADC_ClearFlag_JEOS(ADC1);
-		//エンコーダ読み取り
-		float Iu,Iv,Iw;
-		//増幅率のバイアス考慮してない。あとで計算すること。
-		Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
-		Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
-		Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
+	LL_GPIO_SetOutputPin(GPIOA, GPIO_PIN_5);
+
+	//エンコーダ読み取り
+	float Iu,Iv,Iw;
+	//増幅率のバイアス考慮してない。あとで計算すること。
+	Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
+	Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
+	Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
 //		Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1)/4095;
 //		Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2)/4095;
 //		Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3)/4095;
-		setIuvw(Iu, Iv, Iw);
+	setIuvw(Iu, Iv, Iw);
 
 		//推定誤差計算
 
 		//推定位置計算(センサを叩く)
 		//Motor.culcArg();
 
-		ForceCommutation();
+	ForceCommutation();
 
-		//Iuvw -> Iab
-		clarkTransform();
-		//Iab -> Idq
-		parkTransform();
-		//Idq -> Igd
-		parkGanmaDelta();
-
-
-		std::array<float, 2> Idq = getIdq();
-		float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
-		Id = Idq.at(0);
-		Iq = Idq.at(1);
+	//Iuvw -> Iab
+	clarkTransform();
+	//Iab -> Idq
+	parkTransform();
+	//Idq -> Igd
+	parkGanmaDelta();
 
 
-		//指令値入力
-		//本当はここをpIdqTargetにして入力にする
-		//float Vd_input = 0;
-		//float Vq_input = 0.5f;
+	std::array<float, 2> Idq = getIdq();
+	float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
+	Id = Idq.at(0);
+	Iq = Idq.at(1);
 
-		float Vganma_input = 0;
-		float Vdelta_input = 0;
 
-		float Id_error;
-		float Iq_error;
+	//指令値入力
+	//本当はここをpIdqTargetにして入力にする
+	//float Vd_input = 0;
+	//float Vq_input = 0.5f;
 
-		float Id_target;
-		float Iq_target;
+	float Vganma_input = 0;
+	float Vdelta_input = 0;
 
-		Id_target = 0;
-		Iq_target = 0;//ここに目標値を入れる(外部から入れるからSetter必要かも)
+	float Id_error;
+	float Iq_error;
 
-		Id_error = Id_target - Id;
-		Iq_error = Iq_target - Iq;
+	float Id_target;
+	float Iq_target;
 
-		std::array<float, 2> IdqErr = {Id_error, Iq_error};
-		//Id,IqのPID制御
+	Id_target = 0;
+	Iq_target = 0;//ここに目標値を入れる(外部から入れるからSetter必要かも)
 
-		//第二引数に制御周期を入力する。これも計算で出すか、パラメタとして入力すること
-		PIDdq_control(IdqErr, 0.1);
+	Id_error = Id_target - Id;
+	Iq_error = Iq_target - Iq;
 
-		//IO入力?
-		LL_ADC_REG_StartConversionSWStart(ADC2);
-		float adc2_input = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4095;
+	std::array<float, 2> IdqErr = {Id_error, Iq_error};
+	//Id,IqのPID制御
 
-		//Vq_input = 0;
-		//Vd_input = adc_speed;//連れ回し運転
+	//第二引数に制御周期を入力する。これも計算で出すか、パラメタとして入力すること
+	PIDdq_control(IdqErr, 0.1);
 
-		Vganma_input = adc2_input;//連れ回し運転
-		Vdelta_input = 0;
+	//IO入力?
+	LL_ADC_REG_StartConversionSWStart(ADC2);
+	float adc2_input = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4095;
 
-		//mMotorInfo.setVganma(Vganma_input);
-		//mMotorInfo.setVdelta(Vdelta_input);
-		std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
-		setVgd(inputVgd);
+	//Vq_input = 0;
+	//Vd_input = adc_speed;//連れ回し運転
 
-		//Vgd -> Vdq
-		invParkGanmaDelta();
-		//Vdq -> Vab
-		invParkTransform();
-		//Vab -> Vuvw
-		invClarkTransform();
-		//PWM出力
-		MotorOutputTask();
+	Vganma_input = adc2_input;//連れ回し運転
+	Vdelta_input = 0;
 
-		if(DEBUG_MODE){//デバッグモードで入る処理
-			//DebugTask(mMotorInfo.mArg, mMotorInfo.mArgErr, mMotorInfo.mIuvw, mMotorInfo.mIab, mMotorInfo.mIdq, mMotorInfo.mIgd);
-		}
+	//mMotorInfo.setVganma(Vganma_input);
+	//mMotorInfo.setVdelta(Vdelta_input);
+	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
+	setVgd(inputVgd);
 
+	//Vgd -> Vdq
+	invParkGanmaDelta();
+	//Vdq -> Vab
+	invParkTransform();
+	//Vab -> Vuvw
+	invClarkTransform();
+	//PWM出力
+	MotorOutputTask();
+
+	if(DEBUG_MODE){//デバッグモードで入る処理
+		//DebugTask(mMotorInfo.mArg, mMotorInfo.mArgErr, mMotorInfo.mIuvw, mMotorInfo.mIab, mMotorInfo.mIdq, mMotorInfo.mIgd);
 	}
-/*	else
- * 	{
- * 			LL_ADC_WriteReg(ADC1,ISR,0);
- * 				}*/
+	LL_GPIO_ResetOutputPin(GPIOA, GPIO_PIN_5);
 }
 
 void MotorCtrl::MotorOutputTask(void){
