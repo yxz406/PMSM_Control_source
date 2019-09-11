@@ -10,17 +10,16 @@
 
 #include "AdaptVelEst.hpp"
 #include "EMFObs.hpp"
+#include "EstimatedAxisError.hpp"
+#include "PII2.hpp"
 
 class Observer {
 private:
-
-	AdaptVelEst mVelocityEst;
 	EMFObs mEMFObserver;
+	PII2 mEstThetaPII2;
 
-	float mIalpha;
-	float mIbeta;
-	float mValpha;
-	float mVbeta;
+	std::array<float, 2> mIGanmaDelta;
+	std::array<float, 2> mVGanmaDelta;
 
 	float mCycleTime;
 
@@ -32,34 +31,18 @@ public:
 	virtual ~Observer();
 
 	//Initializer
-	void AdaptVelEstInit(float pR, float pLd, float pLq, float pCycleTime, float pG1, float pG2, float pKp, float pKi);
-	void EMFObsInit(float pG1);
+	void InitEMFObs(float pCycleTime, float pR, float pLd, float pLq, float pG1, float pGainAlpha);
+	void InitPII2(float pCycleTime, float pK1, float pK2, float pK3);
 
 	//Setter
-	void SetIAlphaBeta(float pIalpha, float pIbeta);
-	void SetVAlphaBeta(float pValpha, float pVbeta);
-	void SetCycleTime(float pCycleTime);
+	void SetIGanmaDelta(std::array<float, 2> pIGanmaDelta);
+	void SetVGanmaDelta(std::array<float, 2> pVGanmaDelta);
 
 	//Calculator
-	void Calc();
+	void Calculate();
 
 	//Getter
 	float GetEstTheta(void);
 };
 
 #endif /* OBSERVER_HPP_ */
-
-
-//miyayu月曜日 20:59
-//意味がありそうなのはこんなもんですかね。
-//K=1
-//v4→eta_ab
-//v5→est_emf_ab
-//v6→error_emf_ab
-//v9→adapt_emf_ab
-//v14→est_omega_ele
-//
-//v21→eta
-//v23→est_emf
-//v24→est_delTheta
-//v30→est_Theta

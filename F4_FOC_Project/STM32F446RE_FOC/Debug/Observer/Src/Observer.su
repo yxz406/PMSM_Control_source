@@ -2,9 +2,9 @@ gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 Observer.cpp:10:1:Observer::Observer()	16	static
 Observer.cpp:14:1:Observer::~Observer()	16	static
 Observer.cpp:14:1:virtual Observer::~Observer()	16	static
-Observer.cpp:19:6:void Observer::SetIAlphaBeta(float, float)	24	static
-Observer.cpp:23:6:void Observer::SetVAlphaBeta(float, float)	24	static
-Observer.cpp:27:6:void Observer::SetCycleTime(float)	16	static
-Observer.cpp:32:6:void Observer::AdaptVelEstInit(float, float, float, float, float, float, float, float)	48	static
-Observer.cpp:40:6:void Observer::Calc()	16	static
-Observer.cpp:49:7:float Observer::GetEstTheta()	16	static
+Observer.cpp:19:6:void Observer::InitEMFObs(float, float, float, float, float, float)	40	static
+Observer.cpp:26:6:void Observer::InitPII2(float, float, float, float)	32	static
+Observer.cpp:34:6:void Observer::SetIGanmaDelta(std::array<float, 2>)	24	static
+Observer.cpp:37:6:void Observer::SetVGanmaDelta(std::array<float, 2>)	24	static
+Observer.cpp:42:6:void Observer::Calculate()	32	static
+Observer.cpp:56:7:float Observer::GetEstTheta()	16	static

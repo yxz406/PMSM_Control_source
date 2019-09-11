@@ -52,9 +52,9 @@ void MX_TIM1_Init(void)
   NVIC_SetPriority(TIM1_UP_TIM10_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
   NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
 
-  TIM_InitStruct.Prescaler = 0;
+  TIM_InitStruct.Prescaler = ( TIM_CLOCK_DIVIDER - 1 );
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_CENTER_UP;
-  TIM_InitStruct.Autoreload = PWM_COUNT;
+  TIM_InitStruct.Autoreload = PWM_PERIOD_COUNT;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV2;
   TIM_InitStruct.RepetitionCounter = 0;
   LL_TIM_Init(TIM1, &TIM_InitStruct);
@@ -114,6 +114,7 @@ void MX_TIM1_Init(void)
   GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+#ifdef DEBUG_ADC_TRIG_PWM_OUT
   //ch4 Init
   GPIO_InitStruct.Pin = LL_GPIO_PIN_11;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
@@ -122,5 +123,5 @@ void MX_TIM1_Init(void)
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
+#endif
 }

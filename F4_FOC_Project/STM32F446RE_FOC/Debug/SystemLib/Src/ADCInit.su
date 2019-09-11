@@ -18,4 +18,4 @@ ADCInit.cpp:16:1:virtual ADCInit::~ADCInit()	16	static
 ADCInit.cpp:28:6:static void ADCInit::Init()	8	static
 ADCInit.cpp:37:6:void MX_ADC1_Init()	96	static
 ADCInit.cpp:127:6:void MX_ADC2_Init()	80	static
-ADCInit.cpp:214:6:void MX_ADC3_Init()	24	static
+ADCInit.cpp:215:6:void MX_ADC3_Init()	24	static

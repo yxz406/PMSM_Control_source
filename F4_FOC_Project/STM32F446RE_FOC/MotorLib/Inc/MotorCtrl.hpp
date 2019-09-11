@@ -33,6 +33,8 @@
 #include "SEGGER_RTT.h"
 
 class MotorCtrl {
+public:
+
 	class MotorInfo {
 	public:
 		std::array<float, 3> mIuvw;
@@ -47,10 +49,17 @@ class MotorCtrl {
 		fp_rad mArg;
 		fp_rad mArgErr;
 	};
+
+	enum MotorStartStopStatus {
+			MotorStop = 0,
+			MotorStart = 1,
+		};
+
 	class UIStatus {
 	public:
-		bool mStartStopTRG;
+		MotorStartStopStatus mStartStopTRG;
 	};
+
 private:
 	MotorInfo mMotorInfo;
 

@@ -44,10 +44,10 @@ void MotorCtrl::InitPWM(void) {
 	PWM_Object3.setCH(3);
 	PWM_Object4.setCH(4);
 
-	PWM_Object1.fInit(PWM_COUNT);
-	PWM_Object2.fInit(PWM_COUNT);
-	PWM_Object3.fInit(PWM_COUNT);
-	PWM_Object4.fInit(PWM_COUNT);
+	PWM_Object1.fInit(PWM_PERIOD_COUNT);
+	PWM_Object2.fInit(PWM_PERIOD_COUNT);
+	PWM_Object3.fInit(PWM_PERIOD_COUNT);
+	PWM_Object4.fInit(PWM_PERIOD_COUNT);
 
 	PWM_Object1.f2Duty(0);//50%duty
 	PWM_Object2.f2Duty(0);
@@ -171,8 +171,6 @@ void MotorCtrl::HighFreqTask(void) {
 	Vganma_input = adc2_input;//連れ回し運転
 	Vdelta_input = 0;
 
-	//mMotorInfo.setVganma(Vganma_input);
-	//mMotorInfo.setVdelta(Vdelta_input);
 	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
 	setVgd(inputVgd);
 
@@ -363,11 +361,11 @@ void MotorCtrl::BtnAct(void){//強制転流開始へのトリガ 割り込みか
 }
 
 void MotorCtrl::BtnActOFF(void){//強制転流開始へのトリガOFF
-	mUIStatus.mStartStopTRG = 0;
+	mUIStatus.mStartStopTRG = MotorStop;
 }
 
 void MotorCtrl::BtnActON(void){//強制転流開始へのトリガON
-	mUIStatus.mStartStopTRG = 1;
+	mUIStatus.mStartStopTRG = MotorStart;
 }
 
 

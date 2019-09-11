@@ -49,7 +49,8 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/wrapper.hpp \
  ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_const_structs.h \
  ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_common_tables.h \
  ../MathLib/Inc/ZIntegrate.hpp ../MathLib/Inc/Trigonometric.hpp \
- ../Observer/Inc/EMFObs.hpp ../MathLib/Inc/MotorMath.hpp \
+ ../Observer/Inc/EMFObs.hpp ../Observer/Inc/EstimatedAxisError.hpp \
+ ../Observer/Inc/PII2.hpp ../MathLib/Inc/MotorMath.hpp \
  ../MotorLib/Inc/MotorLibDefPack.hpp ../MathLib/Inc/Matrix.hpp \
  ../MathLib/Inc/Trigonometric.hpp ../MathLib/Inc/PID.hpp \
  ../SystemLib/Inc/PWM.hpp ../Inc/UART.hpp ../MotorLib/Inc/DebugCtrl.hpp \
@@ -181,6 +182,10 @@ Src/wrapper.o: ../Src/wrapper.cpp ../Inc/wrapper.hpp \
 ../MathLib/Inc/Trigonometric.hpp:
 
 ../Observer/Inc/EMFObs.hpp:
+
+../Observer/Inc/EstimatedAxisError.hpp:
+
+../Observer/Inc/PII2.hpp:
 
 ../MathLib/Inc/MotorMath.hpp:
 

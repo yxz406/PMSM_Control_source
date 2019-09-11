@@ -15,34 +15,41 @@ Observer::~Observer() {
 	// TODO Auto-generated destructor stub
 }
 
-//Setter
-void Observer::SetIAlphaBeta(float pIalpha, float pIbeta){
-	mIalpha = pIalpha;
-	mIbeta = pIbeta;
-}
-void Observer::SetVAlphaBeta(float pValpha, float pVbeta){
-	mValpha = pValpha;
-	mVbeta = pVbeta;
-}
-void Observer::SetCycleTime(float pCycleTime) {
-	mCycleTime = pCycleTime;
+//Initializer
+void Observer::InitEMFObs(float pCycleTime, float pR, float pLd, float pLq, float pG1, float pGainAlpha) {
+	mEMFObserver.InitCycleTime(pCycleTime);
+	mEMFObserver.InitMotorParam(pR, pLd, pLq);
+	mEMFObserver.InitModelGain(pG1);
+	mEMFObserver.InitObsGain(pGainAlpha);
 }
 
-//Initializer
-void Observer::AdaptVelEstInit(float pR, float pLd, float pLq, float pCycleTime, float pG1, float pG2, float pKp, float pKi) {
-	//サイクルタイムの設定
-	mVelocityEst.SetCycleTime(pCycleTime);
-	mVelocityEst.MotorParamInit(pR, pLd, pLq);
-	mVelocityEst.obsBiasInit(pG1, pG2, pKp, pKi);
+void Observer::InitPII2(float pCycleTime, float pK1, float pK2, float pK3) {
+	mEstThetaPII2.InitCycleTime(pCycleTime);
+	mEstThetaPII2.InitGainK1(pK1);
+	mEstThetaPII2.InitGainK2(pK2);
+	mEstThetaPII2.InitGainK3(pK3);
+}
+
+//Setter
+void Observer::SetIGanmaDelta(std::array<float, 2> pIGanmaDelta) {
+	mIGanmaDelta = pIGanmaDelta;
+}
+void Observer::SetVGanmaDelta(std::array<float, 2> pVGanmaDelta) {
+	mVGanmaDelta = pVGanmaDelta;
 }
 
 //Calculator
-void Observer::Calc() {
-
-	mVelocityEst.SetIAlphaBeta(mIalpha, mIbeta);
-	mVelocityEst.SetVAlphaBeta(mValpha, mVbeta);
-	mVelocityEst.AdaptiveVelocityEstimator();
-	mEstOmegaE = mVelocityEst.GetEstOmegaE();
+void Observer::Calculate() {
+	mEMFObserver.SetIgd(mIGanmaDelta);
+	mEMFObserver.SetVgd(mVGanmaDelta);
+	mEMFObserver.EMFObserver();
+	std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
+	float EstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
+	mEstThetaPII2.SetValue(EstAxiErr);
+	mEstThetaPII2.Calculate();
+	float EstOmegaE = mEstThetaPII2.GetPIVal();
+	mEMFObserver.SetEstOmegaE(EstOmegaE);
+	mEstTheta = mEstThetaPII2.GetValue();
 }
 
 //Getter

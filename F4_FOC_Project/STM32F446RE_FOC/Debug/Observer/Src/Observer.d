@@ -7,7 +7,8 @@ Observer/Src/Observer.o: ../Observer/Src/Observer.cpp \
  ../Drivers/CMSIS/Include/cmsis_gcc.h ../CMSIS_DSP/arm_const_structs.h \
  ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_common_tables.h \
  ../MathLib/Inc/ZIntegrate.hpp ../MathLib/Inc/Trigonometric.hpp \
- ../Observer/Inc/EMFObs.hpp
+ ../Observer/Inc/EMFObs.hpp ../Observer/Inc/EstimatedAxisError.hpp \
+ ../Observer/Inc/PII2.hpp
 
 ../Observer/Inc/Observer.hpp:
 
@@ -38,3 +39,7 @@ Observer/Src/Observer.o: ../Observer/Src/Observer.cpp \
 ../MathLib/Inc/Trigonometric.hpp:
 
 ../Observer/Inc/EMFObs.hpp:
+
+../Observer/Inc/EstimatedAxisError.hpp:
+
+../Observer/Inc/PII2.hpp:

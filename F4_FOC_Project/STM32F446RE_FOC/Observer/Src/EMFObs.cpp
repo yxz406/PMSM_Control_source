@@ -5,7 +5,7 @@
  *      Author: watashi
  */
 
-#include <EMFObs.hpp>
+#include "EMFObs.hpp"
 
 EMFObs::EMFObs() {
 	// TODO Auto-generated constructor stub
@@ -16,36 +16,63 @@ EMFObs::~EMFObs() {
 	// TODO Auto-generated destructor stub
 }
 
-////拡張誘起電圧オブザーバ
-//mv15 = VectorMultiple2n(mAlpha, mVganma_delta);
-//
-//mv16 = MatrixMultiple2n(       -1 * mR / mLd * mG1, -1 * (1 - mLq/mLd) * mEstOmegaE,
-//				        (1 - mLq/mLd) * mEstOmegaE, -1 * mR / mLd * mG1,
-//						mIganma_delta);
-////このA11が正しいか検証すること.
-//
-//mv17 = VectorMultiple2n(mAlpha * mLd, mIganma_delta);
-//
-//mv18 = VectorMultiple2n(-1 * mAlpha, mIganma_delta);
-//
-//mv19 = VectorAdd2n(mv16, VectorMultiple2n(-1, mv18));
-//
-//mv20 = VectorAdd2n( VectorMultiple2n(mAlpha * mLd, mv19), VectorAdd2n(mv15, mv22) );
-//
-//mEta = mEtaIntegrate.integrate(pTime, mv20);
-//
-//mv22 = VectorMultiple2n(-1 * mAlpha, mEta);
-//
-//mv23 = VectorAdd2n( mEta, VectorMultiple2n(-1, mv17) );
-//
-//float Numerator = mv23.at(0);
-//float Denominator = mv23.at(1);
-//
-//mVal24 = atan2(Numerator, Denominator);
-//
-//mVal26 = mVal26Integrate.integrate( pTime, mK2 * mVal24 );
-//
-//mVal28 = mVal28Integrate.integrate( pTime, mK3 * mVal24 );
-//mVal29 = mVal29Integrate.integrate( pTime, mVal28 );
-//
-//mEstTheta = (mK1 * mVal24) + mVal26 + mVal29;
+//Initializer
+void EMFObs::InitMotorParam(float pR,float pLd, float pLq) {
+	mR = pR;
+	mLd = pLd;
+	mLq = pLq;
+}
+
+void EMFObs::InitCycleTime(float pCycleTime) {
+	mCycleTime = pCycleTime;
+}
+
+void EMFObs::InitObsGain(float pGainAlpha) {
+	mGainAlpha = pGainAlpha;
+}
+
+void EMFObs::InitModelGain(float pG1) {
+	mG1 = pG1;
+}
+
+//Setter
+void EMFObs::SetIgd(std::array<float, 2> pIGanmaDelta) {
+	mIGanmaDelta = pIGanmaDelta;
+}
+void EMFObs::SetVgd(std::array<float, 2> pVGanmaDelta) {
+	mVGanmaDelta = pVGanmaDelta;
+}
+void EMFObs::SetEstOmegaE(float pEstOmegaE) {
+	mEstOmegaE = pEstOmegaE;
+}
+
+//Calculator
+void EMFObs::EMFObserver() {
+	//拡張誘起電圧オブザーバ
+	mBufVec1 = Matrix::MatrixMultiple2x2(       -1 * mR / mLd * mG1, -1 * (1 - mLq/mLd) * mEstOmegaE,
+										 (1 - mLq/mLd) * mEstOmegaE, -1 * mR / mLd * mG1,
+										 mIGanmaDelta);
+	//このA11が正しいか検証すること.
+
+	mBufVec2 = Matrix::VectorMultiple2x1(mGainAlpha, mIGanmaDelta);
+
+	mBufVec3 = Matrix::VectorAdd2x1(mBufVec1, mBufVec2);
+
+	mBufVec4 = Matrix::VectorMultiple2x1(mGainAlpha * mLd, mBufVec3);
+
+	mBufVec5 = Matrix::VectorMultiple2x1(mGainAlpha, mVGanmaDelta);
+
+	mBufVec6 = Matrix::VectorAdd2x1(mBufVec4, mBufVec5, mBufVec8);
+
+	mBufVec7 = mBufVec7ITG.integrate(mCycleTime, mBufVec6);
+
+	mBufVec8 = Matrix::VectorMultiple2x1(-1.0f * mGainAlpha, mBufVec7);
+
+	mEstEMFgd = Matrix::VectorAdd2x1(mBufVec2, mBufVec7);
+}
+
+//Getter
+std::array<float, 2> EMFObs::GetEstEMFgd(void) {
+	return mEstEMFgd;
+}
+

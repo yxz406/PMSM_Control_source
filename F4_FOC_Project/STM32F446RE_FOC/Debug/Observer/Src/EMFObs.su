@@ -1,3 +1,13 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 EMFObs.cpp:10:1:EMFObs::EMFObs()	16	static
 EMFObs.cpp:15:1:EMFObs::~EMFObs()	16	static
 EMFObs.cpp:15:1:virtual EMFObs::~EMFObs()	16	static
+EMFObs.cpp:20:6:void EMFObs::InitMotorParam(float, float, float)	24	static
+EMFObs.cpp:26:6:void EMFObs::InitCycleTime(float)	16	static
+EMFObs.cpp:30:6:void EMFObs::InitObsGain(float)	16	static
+EMFObs.cpp:34:6:void EMFObs::InitModelGain(float)	16	static
+EMFObs.cpp:39:6:void EMFObs::SetIgd(std::array<float, 2>)	24	static
+EMFObs.cpp:42:6:void EMFObs::SetVgd(std::array<float, 2>)	24	static
+EMFObs.cpp:45:6:void EMFObs::SetEstOmegaE(float)	16	static
+EMFObs.cpp:50:6:void EMFObs::EMFObserver()	24	static
+EMFObs.cpp:75:22:std::array<float, 2> EMFObs::GetEstEMFgd()	32	static
