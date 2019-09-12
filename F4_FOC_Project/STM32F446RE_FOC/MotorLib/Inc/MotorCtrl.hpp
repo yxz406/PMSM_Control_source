@@ -23,6 +23,7 @@
 #include "ArgCtrl.hpp"
 #include "MotorMath.hpp"
 #include "PID.hpp"
+#include "Observer.hpp"
 #include <array>
 
 #include "PWM.hpp"
@@ -62,7 +63,7 @@ public:
 
 private:
 	MotorInfo mMotorInfo;
-
+	Observer mObserver;
 
 	PWM mPWMch1;
 	PWM mPWMch2;
@@ -90,6 +91,7 @@ public:
 	void InitSystem(void);
 	void InitPWM(void);
 	void InitMotorInfo(void);
+	void InitObserver(void);
 
 	void HighFreqTask(void);
 	void MotorOutputTask(void);

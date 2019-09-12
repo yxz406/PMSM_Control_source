@@ -19,12 +19,13 @@
 #include "DSPInc.hpp"
 
 class Trigonometric {
+private:
 public:
 	Trigonometric();
 	virtual ~Trigonometric();
 
-	static float sin(float pval);
-	static float cos(float pval);
+	static float sin(float pVal);
+	static float cos(float pVal);
 	static float atan2(float pNumerator, float pDenominator);
 };
 

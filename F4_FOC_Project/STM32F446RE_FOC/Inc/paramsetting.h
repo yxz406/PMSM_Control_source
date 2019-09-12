@@ -33,6 +33,16 @@
 #define M_PARAM_LQ 0.5
 #define M_PARAM_PHY 1
 
+
+#define M_PARAM_R 0.02
+
+#define OBSERVER_CYCLE_TIME 0.00001
+#define OBSERVER_GAIN_G1 1
+#define OBSERVER_GAIN_ALPHA 1
+#define OBSERVER_GAIN_K1 1
+#define OBSERVER_GAIN_K2 1
+#define OBSERVER_GAIN_K3 1
+
 //PWMの設定
 //#define PWM_COUNT 4000 //PWMの一周期カウント数
 //本当は周期で調整したい。#define PWM_HZ 20000

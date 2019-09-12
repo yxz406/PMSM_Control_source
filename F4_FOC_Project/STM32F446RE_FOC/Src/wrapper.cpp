@@ -33,6 +33,7 @@ void cppwrapper(void){
 //	M_Ctrl.DbgUart(DbgStr);
 
 	M_Ctrl.InitMotorInfo();
+	M_Ctrl.InitObserver();
 	M_Ctrl.InitPWM();
 
 	while(1){}

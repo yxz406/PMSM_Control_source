@@ -99,6 +99,18 @@ void MotorCtrl::InitMotorInfo(void) {
 	}
 }
 
+void MotorCtrl::InitObserver(void) {
+
+	{
+		Observer Observer; //オブザーバのInit
+		Observer.InitEMFObs(OBSERVER_CYCLE_TIME, M_PARAM_R, M_PARAM_LD, M_PARAM_LQ, OBSERVER_GAIN_G1, OBSERVER_GAIN_ALPHA);
+		Observer.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
+		mObserver = Observer;
+	}
+}
+
+
+
 void MotorCtrl::HighFreqTask(void) {
 	LL_GPIO_SetOutputPin(GPIOA, GPIO_PIN_5);
 
@@ -128,6 +140,11 @@ void MotorCtrl::HighFreqTask(void) {
 	//Idq -> Igd
 	parkGanmaDelta();
 
+	//オブザーバセット・計算・値取得
+	mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
+	mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
+	mObserver.Calculate();
+	float EstArgE = mObserver.GetEstTheta();
 
 	std::array<float, 2> Idq = getIdq();
 	float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
@@ -229,23 +246,32 @@ void MotorCtrl::ForceCommutation(void) {
 
 void MotorCtrl::clarkTransform(void) {
 	std::array<float, 3> Iuvw = mMotorInfo.mIuvw;
+	std::array<float, 3> Vuvw = mMotorInfo.mVuvw;
 	std::array<float, 2> Iab = MotorMath::clarkTransform(Iuvw);
+	std::array<float, 2> Vab = MotorMath::clarkTransform(Vuvw);
 	mMotorInfo.mIab = Iab;
+	mMotorInfo.mVab = Vab;
 }
 
 void MotorCtrl::parkTransform(void) {
 	fp_rad Arg = mMotorInfo.mArg;
 	std::array<float, 2> Iab = mMotorInfo.mIab;
+	std::array<float, 2> Vab = mMotorInfo.mVab;
 	std::array<float, 2> Idq = MotorMath::parkTransform(Arg, Iab);
+	std::array<float, 2> Vdq = MotorMath::parkTransform(Arg, Vab);
 	mMotorInfo.mIdq = Idq;
+	mMotorInfo.mVdq = Vdq;
 }
 
 void MotorCtrl::parkGanmaDelta(void) {
 	fp_rad ArgErr = mMotorInfo.mArgErr;
 	std::array<float, 2> Idq = mMotorInfo.mIdq;
+	std::array<float, 2> Vdq = mMotorInfo.mVdq;
 	fp_rad InvArgErr = -1.0f * ArgErr;
 	std::array<float, 2> Igd = MotorMath::parkTransform(InvArgErr, Idq);
+	std::array<float, 2> Vgd = MotorMath::parkTransform(InvArgErr, Vdq);
 	mMotorInfo.mIgd = Igd;
+	mMotorInfo.mVgd = Vgd;
 }
 
 std::array<float, 2> MotorCtrl::getIdq() {
