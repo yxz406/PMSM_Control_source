@@ -56,7 +56,8 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-
+extern ADC_HandleTypeDef hadc3;
+extern TIM_HandleTypeDef htim1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -197,7 +198,70 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32h7xx.s).                    */
 /******************************************************************************/
 
+/**
+  * @brief This function handles TIM1 break interrupt.
+  */
+void TIM1_BRK_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_BRK_IRQn 0 */
+
+  /* USER CODE END TIM1_BRK_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_BRK_IRQn 1 */
+
+  /* USER CODE END TIM1_BRK_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM1 update interrupt.
+  */
+void TIM1_UP_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_UP_IRQn 0 */
+	if (__HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_CC4) != RESET) {
+
+		int c1b1 = __HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_CC1);
+		int c1b2 = __HAL_TIM_GET_IT_SOURCE(&htim1, TIM_IT_CC1);
+		int c1b3 = (htim1.Instance->CCMR1 & TIM_CCMR1_CC1S);
+		int c4b1 = __HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_CC4);
+		int c4b2 = __HAL_TIM_GET_IT_SOURCE(&htim1, TIM_IT_CC4);
+		int c4b3 = (htim1.Instance->CCMR2 & TIM_CCMR2_CC4S);
+
+		HighFreqTask();
+	}
+  /* USER CODE END TIM1_UP_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_UP_IRQn 1 */
+
+  /* USER CODE END TIM1_UP_IRQn 1 */
+}
+
+/**
+  * @brief This function handles ADC3 global interrupt.
+  */
+void ADC3_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC3_IRQn 0 */
+
+  /* USER CODE END ADC3_IRQn 0 */
+  HAL_ADC_IRQHandler(&hadc3);
+  /* USER CODE BEGIN ADC3_IRQn 1 */
+
+  /* USER CODE END ADC3_IRQn 1 */
+}
+
 /* USER CODE BEGIN 1 */
+
+//void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef *htim)
+//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+//
+//	if((htim->Instance == TIM1) ){// && (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_4)) {
+//	    // TIM1 ch4 „Çø„Ç§„É?„Ç¢„Ç¶„ÉàÂ?¶Áê?
+//		HighFreqTask();
+//	}
+//
+//}
+
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

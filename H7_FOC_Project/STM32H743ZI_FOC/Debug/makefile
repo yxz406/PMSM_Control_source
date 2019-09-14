@@ -8,8 +8,13 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include SystemLib/Src/subdir.mk
 -include Startup/subdir.mk
 -include Src/subdir.mk
+-include SEGGER/Src/subdir.mk
+-include Observer/Src/subdir.mk
+-include MotorLib/Src/subdir.mk
+-include MathLib/Src/subdir.mk
 -include Drivers/STM32H7xx_HAL_Driver/Src/subdir.mk
 -include subdir.mk
 -include objects.mk
@@ -52,8 +57,8 @@ STM32H743ZI_FOC.list \
 all: STM32H743ZI_FOC.elf secondary-outputs
 
 # Tool invocations
-STM32H743ZI_FOC.elf: $(OBJS) $(USER_OBJS) /Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32H743ZI_FOC/STM32H743ZITX_FLASH.ld
-	arm-none-eabi-g++ -o "STM32H743ZI_FOC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/Users/watashi/STM32CubeIDE/workspace_1.0.0/STM32H743ZI_FOC/STM32H743ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32H743ZI_FOC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+STM32H743ZI_FOC.elf: $(OBJS) $(USER_OBJS) C:\Users\watashi\STM32CubeIDE\workspace_1.0.0\STM32H743ZI_FOC\STM32H743ZITX_FLASH.ld
+	arm-none-eabi-g++ -o "STM32H743ZI_FOC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\watashi\STM32CubeIDE\workspace_1.0.0\STM32H743ZI_FOC\STM32H743ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32H743ZI_FOC.map" -Wl,--gc-sections -static -L"C:\Users\watashi\STM32CubeIDE\workspace_1.0.0\STM32H743ZI_FOC\CMSIS_DSP" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

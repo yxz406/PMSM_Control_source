@@ -16,7 +16,7 @@ class TIMInit {
 public:
 	TIMInit();
 	virtual ~TIMInit();
-	static void Init();
+	static void Init(TIM_HandleTypeDef *phtim);
 };
 
 #endif /* TIMINIT_HPP_ */

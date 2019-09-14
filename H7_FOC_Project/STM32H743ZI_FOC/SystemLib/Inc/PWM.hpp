@@ -13,17 +13,27 @@
 
 #include "STM32SystemPack.h"
 #include "paramsetting.h"
-//#include "stm32f4xx_ll_tim.h"//need
+
 
 class PWM {
-private:
-	TIM_TypeDef *mTIMx;
-	int mCH = 0;
-	int mTimReload = 0;
-	__IO uint32_t *mREG;
 public:
-	void setTIM(TIM_TypeDef* pTIMx);
-	void setCH(int pCH);
+	enum PWMch {
+		ch1		=	0x00000000U,
+		ch2  		=	0x00000004U,
+		ch3  		=	0x00000008U,
+		ch4  		=	0x0000000CU,
+		ch5 		=	0x00000010U,
+		ch6  		=	0x00000014U,
+		chALL	=	0x0000003CU,
+	};
+private:
+	TIM_HandleTypeDef *mhtim;
+	PWMch mCH;
+	int mTimReload = 0;
+
+public:
+	void setTIM(TIM_HandleTypeDef* phtim);
+	void setCH(PWMch pCH);
 	void Init();
 	void fInit(int pTimReload);
 	void Duty(int pDuty);

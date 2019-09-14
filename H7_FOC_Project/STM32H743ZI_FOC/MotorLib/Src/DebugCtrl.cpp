@@ -84,7 +84,7 @@ void DebugCtrl::PrintStatus() {
 		strbuf.append(std::to_string(num.mIq));
 
 		strbuf.append("\r\n");
-		UART::Transmit(strbuf);
+		//UART::Transmit(strbuf);
 	}
 }
 
@@ -112,7 +112,7 @@ void DebugCtrl::PrintStatusTiny() {
 		strbuf.append(std::to_string(mDebugInfoTiny.mVq[CNT]));
 
 		strbuf.append("\r\n");
-		UART::Transmit(strbuf);
+		//UART::Transmit(strbuf);
 		CNT++;
 	}
 }

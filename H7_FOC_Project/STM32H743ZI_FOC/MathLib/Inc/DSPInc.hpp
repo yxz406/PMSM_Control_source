@@ -10,7 +10,8 @@
 
 
 
-#define ARM_MATH_CM4
+//#define ARM_MATH_CM4
+#define ARM_MATH_CM7
 #include "arm_math.h"
 #include "arm_const_structs.h"
 

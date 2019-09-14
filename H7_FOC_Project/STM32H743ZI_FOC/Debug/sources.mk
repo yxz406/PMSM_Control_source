@@ -27,6 +27,11 @@ CPP_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Drivers/STM32H7xx_HAL_Driver/Src \
+MathLib/Src \
+MotorLib/Src \
+Observer/Src \
+SEGGER/Src \
 Src \
 Startup \
+SystemLib/Src \
 

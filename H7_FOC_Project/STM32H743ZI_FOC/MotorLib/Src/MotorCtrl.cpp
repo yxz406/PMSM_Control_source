@@ -7,6 +7,8 @@
 
 #include "MotorCtrl.hpp"
 
+extern TIM_HandleTypeDef htim1;
+
 MotorCtrl::MotorCtrl() {
 	// TODO Auto-generated constructor stub
 
@@ -19,13 +21,14 @@ MotorCtrl::~MotorCtrl() {
 void MotorCtrl::InitSystem(void) {
 	//以下CubeMXに頼らない定義たち
 	//mainで既に定義されているとうまく動かないから、Mainで定義する前に呼び出すこと。
-	GPIOInit::Init();
-	USARTInit::Init();
-	ADCInit::Init();
-	TIMInit::Init();
+//	GPIOInit::Init();
+//	USARTInit::Init();
+//	ADCInit::Init();
+//	TIMInit::Init();//あとでつくる
 }
 
 void MotorCtrl::InitPWM(void) {
+
 	PWM PWM_Object1; //PWMのHWを叩くClass
 	PWM PWM_Object2;
 	PWM PWM_Object3;
@@ -34,15 +37,20 @@ void MotorCtrl::InitPWM(void) {
 	//LL_TIM_DisableBRK(TIM1);//こっちは未検証
 	//LL_TIM_DisableIT_BRK(TIM1);//効かない
 
-	PWM_Object1.setTIM(TIM1);
-	PWM_Object2.setTIM(TIM1);
-	PWM_Object3.setTIM(TIM1);
-	PWM_Object4.setTIM(TIM1);
+//	 TIM_HandleTypeDef *htim1;
+//	 PWM PWM_Object;
+//	 PWM_Object.setTIM(htim1);
+//	 PWM_Object.setCH(ch1);
 
-	PWM_Object1.setCH(1);
-	PWM_Object2.setCH(2);
-	PWM_Object3.setCH(3);
-	PWM_Object4.setCH(4);
+	PWM_Object1.setTIM(&htim1);
+	PWM_Object2.setTIM(&htim1);
+	PWM_Object3.setTIM(&htim1);
+	PWM_Object4.setTIM(&htim1);
+
+	PWM_Object1.setCH(PWM::PWMch::ch1);
+	PWM_Object2.setCH(PWM::PWMch::ch2);
+	PWM_Object3.setCH(PWM::PWMch::ch3);
+	PWM_Object4.setCH(PWM::PWMch::ch4);
 
 	PWM_Object1.fInit(PWM_PERIOD_COUNT);
 	PWM_Object2.fInit(PWM_PERIOD_COUNT);
@@ -54,10 +62,6 @@ void MotorCtrl::InitPWM(void) {
 	PWM_Object3.f2Duty(0);
 	PWM_Object4.f2Duty(0);
 
-	LL_GPIO_SetOutputPin(GPIOC, GPIO_PIN_10);
-	LL_GPIO_SetOutputPin(GPIOC, GPIO_PIN_11);
-	LL_GPIO_SetOutputPin(GPIOC, GPIO_PIN_12);
-
 	mPWMch1 = PWM_Object1;
 	mPWMch2 = PWM_Object2;
 	mPWMch3 = PWM_Object3;
@@ -65,13 +69,13 @@ void MotorCtrl::InitPWM(void) {
 
     PWM_Object4.f2Duty(0.9);
 
-    //ADC Start
-    LL_ADC_Enable( ADC1 );
-    LL_ADC_Enable( ADC2 );
-    LL_ADC_Enable( ADC3 );
-    /* ADC1 Injected conversions end interrupt enabling */
-    LL_ADC_ClearFlag_JEOS( ADC1 );
-    LL_ADC_EnableIT_JEOS( ADC1 );
+//    //ADC Start
+//    LL_ADC_Enable( ADC1 );
+//    LL_ADC_Enable( ADC2 );
+//    LL_ADC_Enable( ADC3 );
+//    /* ADC1 Injected conversions end interrupt enabling */
+//    LL_ADC_ClearFlag_JEOS( ADC1 );
+//    LL_ADC_EnableIT_JEOS( ADC1 );
 
 }
 
@@ -112,15 +116,16 @@ void MotorCtrl::InitObserver(void) {
 
 
 void MotorCtrl::HighFreqTask(void) {
-	LL_GPIO_SetOutputPin(GPIOA, GPIO_PIN_5);
+	//LL_GPIO_SetOutputPin(GPIOA, GPIO_PIN_5);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
 
 
 	//エンコーダ読み取り
 	float Iu,Iv,Iw;
 	//増幅率のバイアス考慮してない。あとで計算すること。
-	Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
-	Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
-	Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
+//	Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
+//	Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
+//	Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
 //		Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1)/4095;
 //		Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2)/4095;
 //		Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3)/4095;
@@ -139,6 +144,11 @@ void MotorCtrl::HighFreqTask(void) {
 	parkTransform();
 	//Idq -> Igd
 	parkGanmaDelta();
+
+
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+	asm("NOP");
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
 
 	//オブザーバセット・計算・値取得
 	mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
@@ -179,7 +189,7 @@ void MotorCtrl::HighFreqTask(void) {
 	PIDdq_control(IdqErr, 0.1);
 
 	//IO入力?
-	LL_ADC_REG_StartConversionSWStart(ADC2);
+	//LL_ADC_REG_StartConversionSWStart(ADC2);
 	float adc2_input = (float)LL_ADC_REG_ReadConversionData12(ADC2)/4095;
 
 	//Vq_input = 0;
@@ -190,6 +200,11 @@ void MotorCtrl::HighFreqTask(void) {
 
 	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
 	setVgd(inputVgd);
+
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+	asm("NOP");
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+
 
 	//Vgd -> Vdq
 	invParkGanmaDelta();
@@ -213,12 +228,16 @@ void MotorCtrl::HighFreqTask(void) {
 		//SEGGER_RTT_printf(0, "val = %s\n", str);
 
 		char* str2 = "2.334563";
-		SEGGER_RTT_printf(0, "adcVal:%d,%d,%d,%s\n" ,adc_u, adc_v, adc_w, str2);
+		//SEGGER_RTT_printf(0, "adcVal:%d,%d,%d,%s\n" ,adc_u, adc_v, adc_w, str2);
+
 	}
 	if(DEBUG_MODE){//デバッグモードで入る処理
 		//DebugTask(mMotorInfo.mArg, mMotorInfo.mArgErr, mMotorInfo.mIuvw, mMotorInfo.mIab, mMotorInfo.mIdq, mMotorInfo.mIgd);
 	}
-	LL_GPIO_ResetOutputPin(GPIOA, GPIO_PIN_5);
+
+
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+	//LL_GPIO_ResetOutputPin(GPIOA, GPIO_PIN_5);
 }
 
 void MotorCtrl::MotorOutputTask(void){
@@ -397,8 +416,12 @@ void MotorCtrl::BtnActON(void){//強制転流開始へのトリガON
 
 ////////////////func of debug ///////////////////
 void MotorCtrl::DbgUart(std::string pStr) {
-	UART::Transmit(pStr);
+	//UART::Transmit(pStr);
 }
 
-
+void MotorCtrl::pwmDbg(float pduty, int ch) {
+	mPWMch1.f2Duty(pduty);
+	mPWMch2.f2Duty(pduty);
+	mPWMch3.f2Duty(pduty);
+}
 

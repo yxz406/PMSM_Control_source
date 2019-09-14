@@ -31,7 +31,8 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h ../Inc/adc.h \
- ../Inc/main.h ../Inc/tim.h ../Inc/usart.h ../Inc/gpio.h
+ ../Inc/main.h ../Inc/tim.h ../Inc/usart.h ../Inc/gpio.h \
+ ../Inc/Wrapper.hpp
 
 ../Inc/main.h:
 
@@ -108,3 +109,5 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
 ../Inc/usart.h:
 
 ../Inc/gpio.h:
+
+../Inc/Wrapper.hpp:

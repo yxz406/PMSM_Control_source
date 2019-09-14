@@ -27,7 +27,7 @@
 #include <array>
 
 #include "PWM.hpp"
-#include "UART.hpp"
+//#include "UART.hpp"
 
 #include "DebugCtrl.hpp"
 
@@ -129,6 +129,8 @@ public:
 
 	//debug
 	void DbgUart(std::string pStr);
+
+	void pwmDbg(float pduty, int ch);
 };
 
 #endif /* MOTORCTRL_HPP_ */

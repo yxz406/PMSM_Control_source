@@ -10,7 +10,7 @@
 
 #include "paramsetting.h"
 
-#include "UART.hpp"
+//#include "UART.hpp"
 //#include <vector>
 #include "DebugInfo.hpp"
 #include "DebugInfoTiny.hpp"
