@@ -7,4 +7,7 @@ Deus.cpp:62:1:Deus::Deus()	16	static
 Deus.cpp:73:1:Deus::~Deus()	16	static
 Deus.cpp:73:1:virtual Deus::~Deus()	16	static
 Deus.cpp:78:6:void Deus::HFTask()	16	static
-Deus.cpp:86:6:void Deus::Ctrl()	16	static
+Deus.cpp:86:6:void Deus::Ctrl()	40	static
+Deus.cpp:146:1:void __static_initialization_and_destruction_0(int, int)	16	static
+Deus.cpp:146:1:cpp)	8	static
+Deus.cpp:146:1:cpp)	8	static

@@ -28,6 +28,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "Wrapper.hpp"
+#include "stm32h7xx.h"
+#include "paramsetting.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,6 +68,74 @@ void SystemClock_Config(void);
   * @brief  The application entry point.
   * @retval int
   */
+
+#include "stm32h7xx_hal_def.h"
+#include "stm32h7xx_ll_adc.h"
+
+void ADCInit(void) {
+	RCC->AHB4ENR |= ( 0x1UL << 24UL );	//ADC3RST
+
+	RCC->AHB4ENR |= ( 0x1UL << 5UL ); //GPIOFEN //RCC_AHB4ENR_GPIOFEN);
+	RCC->AHB4ENR |= ( 0x1UL << 2UL ); //GPIOFEN
+
+	ADC3 -> CR &= ~( 0x1UL << 29UL );//DEEPPWD
+
+	ADC3 -> CR |= ( 0x1UL << 28UL ); //ADVREGEN
+	ADC3 -> CR |= ( 0x1UL << 8UL ); //BOOST
+
+	ADC3 -> CFGR |= ( 0x1UL << 31UL ); //JQDIS
+
+	ADC3 -> JSQR |= ( 0x0UL << 27UL ); //JSQ4
+	ADC3 -> JSQR |= ( 0x6UL << 21UL ); //JSQ3
+	ADC3 -> JSQR |= ( 0x0UL << 15UL ); //JSQ2
+	ADC3 -> JSQR |= ( 0x1UL << 9UL ); 	//JSQ1
+	ADC3 -> JSQR |= ( 0x1UL << 7UL ); 	//JEXTEN
+	ADC3 -> JSQR |= ( 0x1UL << 2UL ); 	//JEXTSEL
+	ADC3 -> JSQR |= ( 0x2UL ); 				//JL
+
+	ADC3 -> PCSEL |= 0x43; //プリチャネル選択レジスタ（ADCx_PCSEL）
+
+	//以下はRCCの設定で勝手になる
+	//ADC3 -> LHTR1 |= 0x3ffffff; //ADCウォッチドッグ閾値レジスタ 1
+	//ADC3 -> LHTR2 |= 0x3ffffff; //ADCウォッチドッグ閾値レジスタ 2
+	//ADC3 -> LHTR3 |= 0x3ffffff; //ADCウォッチドッグ閾値レジスタ 3
+	//0915 HAL_ADC_MspInit 107まで再現
+}
+
+void ADCStart() {
+	ADC3 -> CR |= ( 0x1UL ); //ADEN
+
+	int i=0;
+	while(	!( (ADC3 -> ISR) && 0x1 ) ){
+		//ADRDYの立ち上がりを確認する
+		asm("NOP");
+		i++; //ADC立ち上がりタイミングデバッグ用
+	}
+	asm("NOP");
+
+	ADC3 -> CR |= ( 0x1UL << 3UL ); //JADSTART
+
+}
+
+void ADCOFF() {
+	while( ADC3 -> ISR && 0b100 ) {
+		//ADSTART=1のとき待つ
+		asm("NOP");
+	}
+
+	while( ADC3 -> ISR && 0b1000 ) {
+		//JADSTART=1のとき待つ
+		asm("NOP");
+	}
+
+	ADC3 -> CR |= ( 0x1UL << 1UL ); //ADDIS
+
+	while( ADC3 -> CR && 0b1 ) {
+		//ADEN=1のとき待つ
+		asm("NOP");
+	}
+}
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -93,15 +163,87 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
+
+
+//enum ADC_REG ADCREG;
+//static int ADC_REG;
+
+//
+//  {
+//	  //ADCInit();
+//	  asm("NOP");
+//
+//	  MX_ADC3_Init();
+//	  asm("NOP");
+//	  ADCStart();
+//
+//	  HAL_ADC_Start_IT(&hadc3);
+//	  asm("NOP");
+//	  //ADC3 -> CFGR |= 0b100000000000000000000;//JDISCEN
+//	  //ADC3 -> CFGR |= ADC_REG_CFGR_JDISCEN; // ADC Inject Group Enable
+//	  asm("NOP");
+//
+//	  asm("NOP");
+//	  //__HAL_ADC_ENABLE_IT(ADC3, ADC_IT_JEOS);
+//      ((ADC3->IER) |= ADC_IT_JEOS);
+//	  asm("NOP");
+//	  ADC3 -> IER |= 0b01;
+//	  asm("NOP");
+//	  ADC3 -> IER |= 0b10;
+//	  asm("NOP");
+//	  ADC3 -> IER |= 0b1000;
+//	  asm("NOP");
+//      ((ADC3->ISR) |= ADC_IT_JEOS);
+//	  WRITE_REG((ADC3 -> ISR), (((ADC3 -> ISR) & (~(LL_ADC_FLAG_EOC))) | (LL_ADC_FLAG_EOS)));
+//	  asm("NOP");
+//	  //HAL_ADC_Start_IT(&hadc3);
+//	  asm("NOP");
+//	  ADC3 -> ISR = 0x7FF;
+//	  asm("NOP");
+//	  asm("NOP");
+//	  ADC3 -> ISR = ADC3 -> ISR & ~LL_ADC_FLAG_EOS;
+//	  asm("NOP");
+//	  ADC3 -> ISR = ADC3 -> ISR | LL_ADC_FLAG_EOS;
+//	  asm("NOP");
+//  }
+//  {
+//
+//	  //GPIO REG TEST
+//	  //MX_GPIO_Init();
+//	  RCC->AHB4ENR |= RCC_AHB4ENR_GPIOBEN; // IO portB clock enable
+//	  GPIOB->MODER &= ~GPIO_MODER_MODE7_Msk; // initialize pin function
+//	  GPIOB->MODER |= (GPIO_MODE_OUTPUT_PP << GPIO_MODER_MODE7_Pos); // set PB7 as GPIO for output
+//		for(;;) {
+////			asm("NOP");
+////			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+////			asm("NOP");
+////			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+////			for(volatile uint32_t i=0; i<100000; i++); // wait
+//			asm("NOP");
+//			GPIOB->ODR ^= GPIO_ODR_OD7; // toggle output data
+//			asm("NOP");
+//			GPIOB->ODR = GPIOB->ODR ^ GPIO_ODR_OD7; // toggle output data
+//			asm("NOP");
+//			GPIOB->ODR = GPIOB->ODR | GPIO_ODR_OD7; // ON PIN7
+//			asm("NOP");
+//			GPIOB->ODR = GPIOB->ODR & ~GPIO_ODR_OD7; // OFF PIN7
+//
+//		}
+//  }
+
+
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
+ // MX_ADC3_Init();
+  ADCInit();
   MX_TIM1_Init();
-  MX_ADC3_Init();
+  ADCStart();
   /* USER CODE BEGIN 2 */
-  cppWrapper();
+cppWrapper();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -135,15 +277,16 @@ void SystemClock_Config(void)
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
   /** Macro to configure the PLL clock source 
   */
-  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
+  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSI);
   /** Initializes the CPU, AHB and APB busses clocks 
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 100;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = 4;
+  RCC_OscInitStruct.PLL.PLLN = 50;
   RCC_OscInitStruct.PLL.PLLP = 2;
   RCC_OscInitStruct.PLL.PLLQ = 4;
   RCC_OscInitStruct.PLL.PLLR = 2;
@@ -172,14 +315,14 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_ADC;
-  PeriphClkInitStruct.PLL2.PLL2M = 1;
-  PeriphClkInitStruct.PLL2.PLL2N = 19;
-  PeriphClkInitStruct.PLL2.PLL2P = 2;
+  PeriphClkInitStruct.PLL2.PLL2M = 4;
+  PeriphClkInitStruct.PLL2.PLL2N = 9;
+  PeriphClkInitStruct.PLL2.PLL2P = 1;
   PeriphClkInitStruct.PLL2.PLL2Q = 2;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_3;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOMEDIUM;
-  PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
+  PeriphClkInitStruct.PLL2.PLL2FRACN = 3072;
   PeriphClkInitStruct.Usart234578ClockSelection = RCC_USART234578CLKSOURCE_D2PCLK1;
   PeriphClkInitStruct.AdcClockSelection = RCC_ADCCLKSOURCE_PLL2;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)

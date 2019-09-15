@@ -51,6 +51,8 @@ public:
 		fp_rad mArgErr;
 	};
 
+	int mDebugC=0; //SEGGERおためしでつくった
+
 	enum MotorStartStopStatus {
 			MotorStop = 0,
 			MotorStart = 1,

@@ -7,9 +7,9 @@
 
 #include "Deus.hpp"
 
-//	GPIOCtrl myGPIO0(GPIOB, GPIO_PIN_7);
-//	GPIOCtrl myGPIO1(GPIOB, GPIO_PIN_0);
-//	GPIOCtrl myGPIO2(GPIOB, GPIO_PIN_14);
+	//GPIOCtrl myGPIO0(GPIOB, GPIO_PIN_7);
+	//GPIOCtrl myGPIO1(GPIOB, GPIO_PIN_0);
+	GPIOCtrl myGPIO2(GPIOB, GPIO_PIN_14);
 
 void multipleBench(int roop) {
 	int i=0;
@@ -77,10 +77,10 @@ Deus::~Deus() {
 
 void Deus::HFTask() {
 	//M_Ctrl.HighFreqTask();
-	Bench();
+	//Bench();
 //	myGPIO0.Toggle();
 //	myGPIO1.Toggle();
-//	myGPIO2.Toggle();
+	myGPIO2.Toggle();
 }
 
 void Deus::Ctrl() {
@@ -90,8 +90,13 @@ void Deus::Ctrl() {
 	M_Ctrl.InitMotorInfo();
 	M_Ctrl.InitObserver();
 	M_Ctrl.InitPWM();
-
-	while(1){}
+	while(1){
+		HAL_Delay(100);
+		int adc_u = ADC3 -> JDR1;
+		int adc_v = ADC3 -> JDR2;
+		int adc_w = ADC3 -> JDR3;
+		SEGGER_RTT_printf(0, "adcVal:%d,%d,%d\n" ,adc_u, adc_v, adc_w);
+	}
 
 
 

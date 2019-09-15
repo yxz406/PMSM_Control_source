@@ -31,7 +31,7 @@ Src/stm32h7xx_it.o: ../Src/stm32h7xx_it.c ../Inc/main.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h \
- ../Inc/stm32h7xx_it.h
+ ../Inc/stm32h7xx_it.h ../Inc/Wrapper.hpp ../SystemLib/Inc/paramsetting.h
 
 ../Inc/main.h:
 
@@ -100,3 +100,7 @@ Src/stm32h7xx_it.o: ../Src/stm32h7xx_it.c ../Inc/main.h \
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h:
 
 ../Inc/stm32h7xx_it.h:
+
+../Inc/Wrapper.hpp:
+
+../SystemLib/Inc/paramsetting.h:

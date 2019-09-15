@@ -23,6 +23,8 @@
 #include "stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "Wrapper.hpp"
+#include "paramsetting.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -218,17 +220,7 @@ void TIM1_BRK_IRQHandler(void)
 void TIM1_UP_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_UP_IRQn 0 */
-	if (__HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_CC4) != RESET) {
-
-		int c1b1 = __HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_CC1);
-		int c1b2 = __HAL_TIM_GET_IT_SOURCE(&htim1, TIM_IT_CC1);
-		int c1b3 = (htim1.Instance->CCMR1 & TIM_CCMR1_CC1S);
-		int c4b1 = __HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_CC4);
-		int c4b2 = __HAL_TIM_GET_IT_SOURCE(&htim1, TIM_IT_CC4);
-		int c4b3 = (htim1.Instance->CCMR2 & TIM_CCMR2_CC4S);
-
-		HighFreqTask();
-	}
+	HighFreqTask();
   /* USER CODE END TIM1_UP_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
   /* USER CODE BEGIN TIM1_UP_IRQn 1 */
@@ -237,31 +229,64 @@ void TIM1_UP_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles TIM1 trigger and commutation interrupts.
+  */
+void TIM1_TRG_COM_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_TRG_COM_IRQn 0 */
+
+  /* USER CODE END TIM1_TRG_COM_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_TRG_COM_IRQn 1 */
+
+  /* USER CODE END TIM1_TRG_COM_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM1 capture compare interrupt.
+  */
+void TIM1_CC_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_CC_IRQn 0 */
+
+  /* USER CODE END TIM1_CC_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_CC_IRQn 1 */
+
+  /* USER CODE END TIM1_CC_IRQn 1 */
+}
+
+/**
   * @brief This function handles ADC3 global interrupt.
   */
 void ADC3_IRQHandler(void)
 {
   /* USER CODE BEGIN ADC3_IRQn 0 */
+	//HighFreqTask();
+//	uint32_t reg_status = ADC3 -> ISR;
+//	uint32_t new_reg = ( ADC3 -> ISR | 0b00000000100 ) ;
 
+	//ADC3 -> ISR = ADC3 -> ISR | LL_ADC_FLAG_EOS;
+
+//	if(LL_ADC_IsActiveFlag_JEOS(ADC3)) {
+//		ADC3 -> ISR &= ~(uint32_t)( LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JQOVF );
+//		HighFreqTask();
+//		//HAL_ADC_IRQHandler(&hadc3);
+//	} else {
+//	}
+	//HAL_ADC
   /* USER CODE END ADC3_IRQn 0 */
   HAL_ADC_IRQHandler(&hadc3);
-  /* USER CODE BEGIN ADC3_IRQn 1 */
+	//ADC3 -> CFGR  |= ADC_REG_CFGR_JDISCEN; // ADC Inject Group Enable
 
+  //ADC3 -> ISR |= 0x4;
+
+  /* USER CODE BEGIN ADC3_IRQn 1 */
+  asm("NOP");
   /* USER CODE END ADC3_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
-
-//void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef *htim)
-//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-//
-//	if((htim->Instance == TIM1) ){// && (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_4)) {
-//	    // TIM1 ch4 „Çø„Ç§„É?„Ç¢„Ç¶„ÉàÂ?¶Áê?
-//		HighFreqTask();
-//	}
-//
-//}
-
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

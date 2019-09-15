@@ -8,6 +8,7 @@
 #include "MotorCtrl.hpp"
 
 extern TIM_HandleTypeDef htim1;
+extern ADC_HandleTypeDef hadc3;
 
 MotorCtrl::MotorCtrl() {
 	// TODO Auto-generated constructor stub
@@ -72,10 +73,16 @@ void MotorCtrl::InitPWM(void) {
 //    //ADC Start
 //    LL_ADC_Enable( ADC1 );
 //    LL_ADC_Enable( ADC2 );
-//    LL_ADC_Enable( ADC3 );
-//    /* ADC1 Injected conversions end interrupt enabling */
-//    LL_ADC_ClearFlag_JEOS( ADC1 );
-//    LL_ADC_EnableIT_JEOS( ADC1 );
+
+   //	LL_ADC_Enable( ADC3 );
+////    /* ADC1 Injected conversions end interrupt enabling */
+//    LL_ADC_ClearFlag_JEOS( ADC3 );
+//    LL_ADC_EnableIT_JEOS( ADC3 );
+
+    //HAL_ADC_Start_IT(&hadc3);
+    //HAL_ADC_Start(&hadc3);
+    //HAL_ADCEx_InjectedStart(&hadc3);
+    //HAL_ADCEx_InjectedStart_IT(&hadc3);
 
 }
 
@@ -123,6 +130,9 @@ void MotorCtrl::HighFreqTask(void) {
 	//エンコーダ読み取り
 	float Iu,Iv,Iw;
 	//増幅率のバイアス考慮してない。あとで計算すること。
+	Iu = LL_ADC_INJ_ReadConversionData32(ADC3, LL_ADC_INJ_RANK_1);
+	Iv = LL_ADC_INJ_ReadConversionData32(ADC3, LL_ADC_INJ_RANK_2);
+	Iw = LL_ADC_INJ_ReadConversionData32(ADC3, LL_ADC_INJ_RANK_3);
 //	Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
 //	Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
 //	Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
@@ -213,23 +223,44 @@ void MotorCtrl::HighFreqTask(void) {
 	//Vab -> Vuvw
 	invClarkTransform();
 	//PWM出力
-	MotorOutputTask();
+
+	//MotorOutputTask();
 
 	{
 		//SEGGER RTT DEBUG
-		int adc_u = (int)Iu;
-		int adc_v = (int)Iv;
-		int adc_w = (int)Iw;
+		int adc_u = ADC3 -> JDR1;
+		int adc_v = ADC3 -> JDR2;
+		int adc_w = ADC3 -> JDR3;
 
-		//
-//		char str[8];
-//		float val = 2.334563;
-//		sprintf(str, "%f", val);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+//		asm("NOP");
+//		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+
+
+		char str1[10];
+		char str2[10];
+		char str3[10];
+		float val1 = 2.334563f;
+		float val2 = 65.363f;
+		float val3 = 125.33;
+		sprintf(str1, "%f", val1);
+		sprintf(str2, "%f", val2);
+		sprintf(str3, "%f", val3);
 		//SEGGER_RTT_printf(0, "val = %s\n", str);
 
-		char* str2 = "2.334563";
-		//SEGGER_RTT_printf(0, "adcVal:%d,%d,%d,%s\n" ,adc_u, adc_v, adc_w, str2);
+		//char* str2 = "2.334563";
+		//SEGGER_RTT_printf(0, "adcVal:%d,%d,%d,%s\n" ,adc_u, adc_v, adc_w, str1);
+		//		SEGGER_RTT_printf(0, "adcVal:%d,%d,%d\n" ,adc_u, adc_v, adc_w);
 
+		if(mDebugC > 100) {
+		SEGGER_RTT_printf(0, "adcVal:%d,%d,%d\n" ,adc_u, adc_v, adc_w);
+		mDebugC =0;
+		}
+		mDebugC++;
+
+
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+		asm("NOP");
 	}
 	if(DEBUG_MODE){//デバッグモードで入る処理
 		//DebugTask(mMotorInfo.mArg, mMotorInfo.mArgErr, mMotorInfo.mIuvw, mMotorInfo.mIab, mMotorInfo.mIdq, mMotorInfo.mIgd);
