@@ -220,7 +220,7 @@ void TIM1_BRK_IRQHandler(void)
 void TIM1_UP_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_UP_IRQn 0 */
-	HighFreqTask();
+//	HighFreqTask();
   /* USER CODE END TIM1_UP_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
   /* USER CODE BEGIN TIM1_UP_IRQn 1 */
@@ -277,10 +277,6 @@ void ADC3_IRQHandler(void)
 	//HAL_ADC
   /* USER CODE END ADC3_IRQn 0 */
   HAL_ADC_IRQHandler(&hadc3);
-	//ADC3 -> CFGR  |= ADC_REG_CFGR_JDISCEN; // ADC Inject Group Enable
-
-  //ADC3 -> ISR |= 0x4;
-
   /* USER CODE BEGIN ADC3_IRQn 1 */
   asm("NOP");
   /* USER CODE END ADC3_IRQn 1 */

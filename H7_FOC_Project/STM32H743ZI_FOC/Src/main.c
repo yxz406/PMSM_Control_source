@@ -61,14 +61,6 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
-
 #include "stm32h7xx_hal_def.h"
 #include "stm32h7xx_ll_adc.h"
 
@@ -93,12 +85,12 @@ void ADCInit(void) {
 	ADC3 -> JSQR |= ( 0x1UL << 2UL ); 	//JEXTSEL
 	ADC3 -> JSQR |= ( 0x2UL ); 				//JL
 
-	ADC3 -> PCSEL |= 0x43; //プリチャネル選択レジスタ（ADCx_PCSEL）
+	ADC3 -> PCSEL |= 0x43; //プリチャネル選択レジスタ??��?ADCx_PCSEL??��?
 
-	//以下はRCCの設定で勝手になる
-	//ADC3 -> LHTR1 |= 0x3ffffff; //ADCウォッチドッグ閾値レジスタ 1
-	//ADC3 -> LHTR2 |= 0x3ffffff; //ADCウォッチドッグ閾値レジスタ 2
-	//ADC3 -> LHTR3 |= 0x3ffffff; //ADCウォッチドッグ閾値レジスタ 3
+	//以下�??��RCCの設定で勝手にな?��?
+	//ADC3 -> LHTR1 |= 0x3ffffff; //ADCウォ?��?チド?��?グ閾値レジスタ 1
+	//ADC3 -> LHTR2 |= 0x3ffffff; //ADCウォ?��?チド?��?グ閾値レジスタ 2
+	//ADC3 -> LHTR3 |= 0x3ffffff; //ADCウォ?��?チド?��?グ閾値レジスタ 3
 	//0915 HAL_ADC_MspInit 107まで再現
 }
 
@@ -107,9 +99,9 @@ void ADCStart() {
 
 	int i=0;
 	while(	!( (ADC3 -> ISR) && 0x1 ) ){
-		//ADRDYの立ち上がりを確認する
+		//ADRDYの立ち上がりを確認す?��?
 		asm("NOP");
-		i++; //ADC立ち上がりタイミングデバッグ用
+		i++; //ADC立ち上がりタイミング?��?バッグ用
 	}
 	asm("NOP");
 
@@ -119,23 +111,28 @@ void ADCStart() {
 
 void ADCOFF() {
 	while( ADC3 -> ISR && 0b100 ) {
-		//ADSTART=1のとき待つ
+		//ADSTART=1のとき�?つ
 		asm("NOP");
 	}
 
 	while( ADC3 -> ISR && 0b1000 ) {
-		//JADSTART=1のとき待つ
+		//JADSTART=1のとき�?つ
 		asm("NOP");
 	}
 
 	ADC3 -> CR |= ( 0x1UL << 1UL ); //ADDIS
 
 	while( ADC3 -> CR && 0b1 ) {
-		//ADEN=1のとき待つ
+		//ADEN=1のとき�?つ
 		asm("NOP");
 	}
 }
+/* USER CODE END 0 */
 
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -238,11 +235,54 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
- // MX_ADC3_Init();
-  ADCInit();
+  MX_ADC3_Init();
   MX_TIM1_Init();
-  ADCStart();
   /* USER CODE BEGIN 2 */
+
+  //debug code
+  extern ADC_HandleTypeDef hadc3;
+  extern TIM_HandleTypeDef htim1;
+  //extern TIM_OC_InitTypeDef sConfigOC;
+
+ // HAL_ADC_Start_IT(&hadc3);
+
+  //HAL_ADC_Start(&hadc3);
+  ADCStart();
+
+  asm("NOP");
+
+	 __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 5000);
+	 __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 2500);
+	 __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1250);
+	// __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 5000);
+
+	 asm("NOP");
+	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
+
+
+		while(1){
+			HAL_Delay(100);
+			int adc_u = ADC3 -> JDR1;
+			int adc_v = ADC3 -> JDR2;
+			int adc_w = ADC3 -> JDR3;
+			SEGGER_RTT_printf(0, "adcVal:%d,%d,%d\n" ,adc_u, adc_v, adc_w);
+		}
+//	  asm("NOP");
+//  while(1) {
+//
+//
+////		 HAL_Delay(1000);
+////		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 2000);
+////		 HAL_Delay(1000);
+//
+//		  asm("NOP");
+//
+//	  asm("NOP");
+//  }
+
 cppWrapper();
   /* USER CODE END 2 */
 
