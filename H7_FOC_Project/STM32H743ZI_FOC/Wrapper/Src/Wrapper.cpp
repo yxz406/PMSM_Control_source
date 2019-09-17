@@ -10,15 +10,15 @@
 
 #include "Wrapper.hpp"
 #include "Deus.hpp"
-
+#include "SystemTest.hpp"
 
 
 Deus Bosatsu;
 
 
 void cppWrapper(void){
-
-	Bosatsu.Ctrl();
+	SystemTest::StartTest();
+	//Bosatsu.Ctrl();
 
 }
 

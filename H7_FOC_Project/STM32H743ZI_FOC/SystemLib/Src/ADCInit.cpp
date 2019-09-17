@@ -8,6 +8,72 @@
 
 #include "ADCInit.hpp"
 
+void ADCInit::ADC3Init() {
+	RCC->AHB4ENR |= ( 0x1UL << 24UL );	//ADC3RST
+
+	RCC->AHB4ENR |= ( 0x1UL << 5UL ); //GPIOFEN //RCC_AHB4ENR_GPIOFEN);
+	RCC->AHB4ENR |= ( 0x1UL << 2UL ); //GPIOFEN
+
+	ADC3 -> CR &= ~( 0x1UL << 29UL );//DEEPPWD
+
+	ADC3 -> CR |= ( 0x1UL << 28UL ); //ADVREGEN
+	ADC3 -> CR |= ( 0x1UL << 8UL ); //BOOST
+
+	ADC3 -> CFGR |= ( 0x1UL << 31UL ); //JQDIS
+
+	ADC3 -> JSQR |= ( 0x0UL << 27UL ); //JSQ4
+	ADC3 -> JSQR |= ( 0x6UL << 21UL ); //JSQ3
+	ADC3 -> JSQR |= ( 0x0UL << 15UL ); //JSQ2
+	ADC3 -> JSQR |= ( 0x1UL << 9UL ); 	//JSQ1
+	ADC3 -> JSQR |= ( 0x1UL << 7UL ); 	//JEXTEN
+	ADC3 -> JSQR |= ( 0x1UL << 2UL ); 	//JEXTSEL
+	ADC3 -> JSQR |= ( 0x2UL ); 				//JL
+
+	ADC3 -> PCSEL |= 0x43; //プリチャネル選択レジスタ
+
+	//以下RCCの設定で勝手になる。
+	//ADC3 -> LHTR1 |= 0x3ffffff; //ADCウォッチドッグ閾値レジスタ 1
+	//ADC3 -> LHTR2 |= 0x3ffffff; //ADCウォッチドッグ閾値レジスタ 2
+	//ADC3 -> LHTR3 |= 0x3ffffff; //ADCウォッチドッグ閾値レジスタ 3
+	//0915 HAL_ADC_MspInit 107まで再現
+}
+
+void ADCInit::ADC3Enable() {
+	ADC3 -> CR |= ( 0x1UL ); //ADEN
+
+	int i=0;
+	while(	!( (ADC3 -> ISR) && 0x1 ) ){
+		//ADRDYの立ち上がりを確認する
+		asm("NOP");
+		i++; //ADC立ち上がりタイミングのデバッグ用カウンタ
+	}
+	asm("NOP");
+
+	ADC3 -> CR |= ( 0x1UL << 3UL ); //JADSTART
+}
+
+void ADCInit::ADC3Disable() {
+	while( ADC3 -> ISR && 0b100 ) {
+		//ADSTART=1のとき待つ
+		asm("NOP");
+	}
+
+	while( ADC3 -> ISR && 0b1000 ) {
+		//JADSTART=1のとき待つ
+		asm("NOP");
+	}
+
+	ADC3 -> CR |= ( 0x1UL << 1UL ); //ADDIS
+
+	while( ADC3 -> CR && 0b1 ) {
+		//ADEN=1のとき待つ
+		asm("NOP");
+	}
+}
+
+
+
+
 //ADCInit::ADCInit() {
 //	// TODO Auto-generated constructor stub
 //

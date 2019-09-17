@@ -32,7 +32,7 @@ SystemLib/Src/Interrupt.o: ../SystemLib/Src/Interrupt.cpp \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h \
- ../Inc/stm32h7xx_it.h ../Inc/wrapper.hpp
+ ../Inc/stm32h7xx_it.h ../Wrapper/Inc/wrapper.hpp
 
 ../SystemLib/Inc/Interrupt.hpp:
 
@@ -104,4 +104,4 @@ SystemLib/Src/Interrupt.o: ../SystemLib/Src/Interrupt.cpp \
 
 ../Inc/stm32h7xx_it.h:
 
-../Inc/wrapper.hpp:
+../Wrapper/Inc/wrapper.hpp:

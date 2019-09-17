@@ -14,7 +14,9 @@ class ADCInit {
 public:
 	ADCInit();
 	virtual ~ADCInit();
-	static void Init();
+	static void ADC3Init();
+	static void ADC3Enable();
+	static void ADC3Disable();
 };
 
 #endif /* ADCINIT_HPP_ */

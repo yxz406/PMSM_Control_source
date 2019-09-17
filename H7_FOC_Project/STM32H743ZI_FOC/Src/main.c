@@ -28,8 +28,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "Wrapper.hpp"
-#include "stm32h7xx.h"
-#include "paramsetting.h"
+//#include "ADCInit.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,72 +60,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#include "stm32h7xx_hal_def.h"
-#include "stm32h7xx_ll_adc.h"
 
-void ADCInit(void) {
-	RCC->AHB4ENR |= ( 0x1UL << 24UL );	//ADC3RST
-
-	RCC->AHB4ENR |= ( 0x1UL << 5UL ); //GPIOFEN //RCC_AHB4ENR_GPIOFEN);
-	RCC->AHB4ENR |= ( 0x1UL << 2UL ); //GPIOFEN
-
-	ADC3 -> CR &= ~( 0x1UL << 29UL );//DEEPPWD
-
-	ADC3 -> CR |= ( 0x1UL << 28UL ); //ADVREGEN
-	ADC3 -> CR |= ( 0x1UL << 8UL ); //BOOST
-
-	ADC3 -> CFGR |= ( 0x1UL << 31UL ); //JQDIS
-
-	ADC3 -> JSQR |= ( 0x0UL << 27UL ); //JSQ4
-	ADC3 -> JSQR |= ( 0x6UL << 21UL ); //JSQ3
-	ADC3 -> JSQR |= ( 0x0UL << 15UL ); //JSQ2
-	ADC3 -> JSQR |= ( 0x1UL << 9UL ); 	//JSQ1
-	ADC3 -> JSQR |= ( 0x1UL << 7UL ); 	//JEXTEN
-	ADC3 -> JSQR |= ( 0x1UL << 2UL ); 	//JEXTSEL
-	ADC3 -> JSQR |= ( 0x2UL ); 				//JL
-
-	ADC3 -> PCSEL |= 0x43; //プリチャネル選択レジスタ??��?ADCx_PCSEL??��?
-
-	//以下�??��RCCの設定で勝手にな?��?
-	//ADC3 -> LHTR1 |= 0x3ffffff; //ADCウォ?��?チド?��?グ閾値レジスタ 1
-	//ADC3 -> LHTR2 |= 0x3ffffff; //ADCウォ?��?チド?��?グ閾値レジスタ 2
-	//ADC3 -> LHTR3 |= 0x3ffffff; //ADCウォ?��?チド?��?グ閾値レジスタ 3
-	//0915 HAL_ADC_MspInit 107まで再現
-}
-
-void ADCStart() {
-	ADC3 -> CR |= ( 0x1UL ); //ADEN
-
-	int i=0;
-	while(	!( (ADC3 -> ISR) && 0x1 ) ){
-		//ADRDYの立ち上がりを確認す?��?
-		asm("NOP");
-		i++; //ADC立ち上がりタイミング?��?バッグ用
-	}
-	asm("NOP");
-
-	ADC3 -> CR |= ( 0x1UL << 3UL ); //JADSTART
-
-}
-
-void ADCOFF() {
-	while( ADC3 -> ISR && 0b100 ) {
-		//ADSTART=1のとき�?つ
-		asm("NOP");
-	}
-
-	while( ADC3 -> ISR && 0b1000 ) {
-		//JADSTART=1のとき�?つ
-		asm("NOP");
-	}
-
-	ADC3 -> CR |= ( 0x1UL << 1UL ); //ADDIS
-
-	while( ADC3 -> CR && 0b1 ) {
-		//ADEN=1のとき�?つ
-		asm("NOP");
-	}
-}
 /* USER CODE END 0 */
 
 /**
@@ -160,76 +94,6 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
-
-
-//enum ADC_REG ADCREG;
-//static int ADC_REG;
-
-//
-//  {
-//	  //ADCInit();
-//	  asm("NOP");
-//
-//	  MX_ADC3_Init();
-//	  asm("NOP");
-//	  ADCStart();
-//
-//	  HAL_ADC_Start_IT(&hadc3);
-//	  asm("NOP");
-//	  //ADC3 -> CFGR |= 0b100000000000000000000;//JDISCEN
-//	  //ADC3 -> CFGR |= ADC_REG_CFGR_JDISCEN; // ADC Inject Group Enable
-//	  asm("NOP");
-//
-//	  asm("NOP");
-//	  //__HAL_ADC_ENABLE_IT(ADC3, ADC_IT_JEOS);
-//      ((ADC3->IER) |= ADC_IT_JEOS);
-//	  asm("NOP");
-//	  ADC3 -> IER |= 0b01;
-//	  asm("NOP");
-//	  ADC3 -> IER |= 0b10;
-//	  asm("NOP");
-//	  ADC3 -> IER |= 0b1000;
-//	  asm("NOP");
-//      ((ADC3->ISR) |= ADC_IT_JEOS);
-//	  WRITE_REG((ADC3 -> ISR), (((ADC3 -> ISR) & (~(LL_ADC_FLAG_EOC))) | (LL_ADC_FLAG_EOS)));
-//	  asm("NOP");
-//	  //HAL_ADC_Start_IT(&hadc3);
-//	  asm("NOP");
-//	  ADC3 -> ISR = 0x7FF;
-//	  asm("NOP");
-//	  asm("NOP");
-//	  ADC3 -> ISR = ADC3 -> ISR & ~LL_ADC_FLAG_EOS;
-//	  asm("NOP");
-//	  ADC3 -> ISR = ADC3 -> ISR | LL_ADC_FLAG_EOS;
-//	  asm("NOP");
-//  }
-//  {
-//
-//	  //GPIO REG TEST
-//	  //MX_GPIO_Init();
-//	  RCC->AHB4ENR |= RCC_AHB4ENR_GPIOBEN; // IO portB clock enable
-//	  GPIOB->MODER &= ~GPIO_MODER_MODE7_Msk; // initialize pin function
-//	  GPIOB->MODER |= (GPIO_MODE_OUTPUT_PP << GPIO_MODER_MODE7_Pos); // set PB7 as GPIO for output
-//		for(;;) {
-////			asm("NOP");
-////			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
-////			asm("NOP");
-////			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
-////			for(volatile uint32_t i=0; i<100000; i++); // wait
-//			asm("NOP");
-//			GPIOB->ODR ^= GPIO_ODR_OD7; // toggle output data
-//			asm("NOP");
-//			GPIOB->ODR = GPIOB->ODR ^ GPIO_ODR_OD7; // toggle output data
-//			asm("NOP");
-//			GPIOB->ODR = GPIOB->ODR | GPIO_ODR_OD7; // ON PIN7
-//			asm("NOP");
-//			GPIOB->ODR = GPIOB->ODR & ~GPIO_ODR_OD7; // OFF PIN7
-//
-//		}
-//  }
-
-
-
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -238,51 +102,6 @@ int main(void)
   MX_ADC3_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-
-  //debug code
-  extern ADC_HandleTypeDef hadc3;
-  extern TIM_HandleTypeDef htim1;
-  //extern TIM_OC_InitTypeDef sConfigOC;
-
- // HAL_ADC_Start_IT(&hadc3);
-
-  //HAL_ADC_Start(&hadc3);
-  ADCStart();
-
-  asm("NOP");
-
-	 __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 5000);
-	 __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 2500);
-	 __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1250);
-	// __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 5000);
-
-	 asm("NOP");
-	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
-
-
-		while(1){
-			HAL_Delay(100);
-			int adc_u = ADC3 -> JDR1;
-			int adc_v = ADC3 -> JDR2;
-			int adc_w = ADC3 -> JDR3;
-			SEGGER_RTT_printf(0, "adcVal:%d,%d,%d\n" ,adc_u, adc_v, adc_w);
-		}
-//	  asm("NOP");
-//  while(1) {
-//
-//
-////		 HAL_Delay(1000);
-////		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 2000);
-////		 HAL_Delay(1000);
-//
-//		  asm("NOP");
-//
-//	  asm("NOP");
-//  }
-
 cppWrapper();
   /* USER CODE END 2 */
 

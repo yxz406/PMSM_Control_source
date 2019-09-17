@@ -1,6 +1,0 @@
-gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-Wrapper.cpp:19:6:void cppWrapper()	8	static
-Wrapper.cpp:25:6:void HighFreqTask()	8	static
-Wrapper.cpp:28:1:void __static_initialization_and_destruction_0(int, int)	16	static
-Wrapper.cpp:28:1:cpp)	8	static
-Wrapper.cpp:28:1:cpp)	8	static
