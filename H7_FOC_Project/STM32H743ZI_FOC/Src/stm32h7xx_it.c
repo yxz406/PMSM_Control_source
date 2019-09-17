@@ -268,12 +268,34 @@ void ADC3_IRQHandler(void)
 
 	//ADC3 -> ISR = ADC3 -> ISR | LL_ADC_FLAG_EOS;
 
-//	if(LL_ADC_IsActiveFlag_JEOS(ADC3)) {
-//		ADC3 -> ISR &= ~(uint32_t)( LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JQOVF );
-//		HighFreqTask();
-//		//HAL_ADC_IRQHandler(&hadc3);
-//	} else {
-//	}
+	if(ADC3 -> ISR && LL_ADC_FLAG_JEOC ) {
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+		for(int i=0; i<250000; i++)asm("NOP");
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+
+		ADC3 -> ISR &= ~(LL_ADC_FLAG_JEOC);
+
+	}
+
+
+	if(LL_ADC_IsActiveFlag_JEOS(ADC3)) {
+		ADC3 -> ISR &= ~(uint32_t)( LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JQOVF );
+		//各インジェクトシーケンスの終了（JEOC）
+
+		//キューのオーバーフローは、キューがフル状態のときにJSQR レジスタに書き込むと発生しま
+		//す。このオーバーフローは、フラグ JQOVF のアサーションによって示されます。オーバーフ
+		//ローが発生すると、オーバーフローを作成した JSQR レジスタの書き込みアクセスは無視され、
+		//コンテキストのキューは変更されません。J
+
+
+		//HighFreqTask();
+		//HAL_ADC_IRQHandler(&hadc3);
+
+	} else {
+
+		//各インジェクト変換の終了（JEOC）
+
+	}
 	//HAL_ADC
   /* USER CODE END ADC3_IRQn 0 */
   HAL_ADC_IRQHandler(&hadc3);

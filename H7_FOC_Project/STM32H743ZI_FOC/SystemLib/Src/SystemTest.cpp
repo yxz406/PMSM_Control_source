@@ -38,7 +38,8 @@ void SystemTest::StartTest() {
 	 // HAL_ADC_Start_IT(&hadc3);
 
 	  //HAL_ADC_Start(&hadc3);
-	  ADCInit::ADC3Enable();
+	  //ADCInit::ADC3Enable();
+	  HAL_ADCEx_InjectedStart_IT(&hadc3);
 
 	  asm("NOP");
 

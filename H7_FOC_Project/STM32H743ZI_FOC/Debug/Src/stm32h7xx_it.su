@@ -1,3 +1,4 @@
+stm32h7xx_ll_adc.h:6294:26:LL_ADC_IsActiveFlag_JEOS	16	static
 stm32h7xx_it.c:73:6:NMI_Handler	4	static
 stm32h7xx_it.c:86:6:HardFault_Handler	4	static
 stm32h7xx_it.c:101:6:MemManage_Handler	4	static
@@ -11,4 +12,4 @@ stm32h7xx_it.c:206:6:TIM1_BRK_IRQHandler	8	static
 stm32h7xx_it.c:220:6:TIM1_UP_IRQHandler	8	static
 stm32h7xx_it.c:234:6:TIM1_TRG_COM_IRQHandler	8	static
 stm32h7xx_it.c:248:6:TIM1_CC_IRQHandler	8	static
-stm32h7xx_it.c:262:6:ADC3_IRQHandler	8	static,ignoring_inline_asm
+stm32h7xx_it.c:262:6:ADC3_IRQHandler	16	static,ignoring_inline_asm
