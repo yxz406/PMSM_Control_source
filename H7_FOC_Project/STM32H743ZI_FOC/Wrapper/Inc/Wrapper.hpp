@@ -14,6 +14,9 @@ extern "C" {
 
 void cppWrapper(void);
 void HighFreqTask(void);
+
+void EXTI15_10_IRQHandler(void);
+void ADC3_IRQHandler(void);
 #ifdef __cplusplus
 };
 #endif

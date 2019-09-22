@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "Wrapper.hpp"
 #include "paramsetting.h"
+//#include "ADCCtrl.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -257,52 +258,70 @@ void TIM1_CC_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+//void EXTI15_10_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+//
+//  /* USER CODE END EXTI15_10_IRQn 0 */
+//  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+//  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+//
+//  /* USER CODE END EXTI15_10_IRQn 1 */
+//}
+
+/**
   * @brief This function handles ADC3 global interrupt.
   */
-void ADC3_IRQHandler(void)
-{
-  /* USER CODE BEGIN ADC3_IRQn 0 */
-	//HighFreqTask();
-//	uint32_t reg_status = ADC3 -> ISR;
-//	uint32_t new_reg = ( ADC3 -> ISR | 0b00000000100 ) ;
-
-	//ADC3 -> ISR = ADC3 -> ISR | LL_ADC_FLAG_EOS;
-
-	if(ADC3 -> ISR && LL_ADC_FLAG_JEOC ) {
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
-		for(int i=0; i<250000; i++)asm("NOP");
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
-
-		ADC3 -> ISR &= ~(LL_ADC_FLAG_JEOC);
-
-	}
-
-
-	if(LL_ADC_IsActiveFlag_JEOS(ADC3)) {
-		ADC3 -> ISR &= ~(uint32_t)( LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JQOVF );
-		//各インジェクトシーケンスの終了（JEOC）
-
-		//キューのオーバーフローは、キューがフル状態のときにJSQR レジスタに書き込むと発生しま
-		//す。このオーバーフローは、フラグ JQOVF のアサーションによって示されます。オーバーフ
-		//ローが発生すると、オーバーフローを作成した JSQR レジスタの書き込みアクセスは無視され、
-		//コンテキストのキューは変更されません。J
-
-
-		//HighFreqTask();
-		//HAL_ADC_IRQHandler(&hadc3);
-
-	} else {
-
-		//各インジェクト変換の終了（JEOC）
-
-	}
-	//HAL_ADC
-  /* USER CODE END ADC3_IRQn 0 */
-  HAL_ADC_IRQHandler(&hadc3);
-  /* USER CODE BEGIN ADC3_IRQn 1 */
-  asm("NOP");
-  /* USER CODE END ADC3_IRQn 1 */
-}
+//void ADC3_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN ADC3_IRQn 0 */
+////	//HighFreqTask();
+//////	uint32_t reg_status = ADC3 -> ISR;
+//////	uint32_t new_reg = ( ADC3 -> ISR | 0b00000000100 ) ;
+////
+////	//ADC3 -> ISR = ADC3 -> ISR | LL_ADC_FLAG_EOS;
+////
+////	if(ADC3 -> ISR && LL_ADC_FLAG_JEOC ) {
+////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+////		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_SET);
+////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
+////		for(int i=0; i<25000000; i++)asm("NOP");
+////		//asm("NOP");
+////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
+////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+////		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_RESET);
+////		ADC3 -> ISR &= ~(LL_ADC_FLAG_JEOC);
+////
+////	}
+////
+////
+////	if(LL_ADC_IsActiveFlag_JEOS(ADC3)) {
+////		ADC3 -> ISR &= ~(uint32_t)( LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JQOVF );
+////		//�?インジェクトシーケンスの終�??�?JEOC?�?
+////
+////		//キューのオーバ�?�フローは、キューがフル状態�?�ときにJSQR レジスタに書き込�?と発生しま
+////		//す�?�このオーバ�?�フローは、フラグ JQOVF のアサーションによって示されます�?�オーバ�?��?
+////		//ローが発生すると、オーバ�?�フローを作�?�し�? JSQR レジスタの書き込みアクセスは無視され�??
+////		//コン�?キスト�?�キューは変更されません�?J
+////
+////
+////		//HighFreqTask();
+////		//HAL_ADC_IRQHandler(&hadc3);
+////
+////	} else {
+////
+////		//�?インジェクト変換の終�??�?JEOC?�?
+////
+////	}
+////	//HAL_ADC
+//  /* USER CODE END ADC3_IRQn 0 */
+//  HAL_ADC_IRQHandler(&hadc3);
+//  /* USER CODE BEGIN ADC3_IRQn 1 */
+////  //asm("NOP");
+//  /* USER CODE END ADC3_IRQn 1 */
+//}
 
 /* USER CODE BEGIN 1 */
 

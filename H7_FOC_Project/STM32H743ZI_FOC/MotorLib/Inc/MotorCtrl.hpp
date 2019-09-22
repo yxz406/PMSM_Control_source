@@ -14,10 +14,11 @@
 // ../SystemLib/Inc/
 #include "STM32SystemPack.h"
 
-#include "ADCInit.hpp"
-#include "GPIOInit.hpp"
-#include "TIMInit.hpp"
-#include "USARTInit.hpp"
+#include "ADCCtrl.hpp"
+#include "TIMCtrl.hpp"
+
+//#include "GPIOInit.hpp"
+//#include "USARTInit.hpp"
 
 
 #include "ArgCtrl.hpp"
@@ -67,11 +68,6 @@ private:
 	MotorInfo mMotorInfo;
 	Observer mObserver;
 
-	PWM mPWMch1;
-	PWM mPWMch2;
-	PWM mPWMch3;
-	PWM mPWMch4;
-
 	PID mIdPID, mIqPID;
 	PID mIganmaPID, mIdeltaPID;
 
@@ -85,13 +81,8 @@ public:
 	MotorCtrl();
 	virtual ~MotorCtrl();
 	void SetMotorInfo(MotorInfo pMotorInfo);
-	void SetPWMch1(PWM pPWM);
-	void SetPWMch2(PWM pPWM);
-	void SetPWMch3(PWM pPWM);
-	void SetPWMch4(PWM pPWM);
 
 	void InitSystem(void);
-	void InitPWM(void);
 	void InitMotorInfo(void);
 	void InitObserver(void);
 
@@ -131,8 +122,6 @@ public:
 
 	//debug
 	void DbgUart(std::string pStr);
-
-	void pwmDbg(float pduty, int ch);
 };
 
 #endif /* MOTORCTRL_HPP_ */

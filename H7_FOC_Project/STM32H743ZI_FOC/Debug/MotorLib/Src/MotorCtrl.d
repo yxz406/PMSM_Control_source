@@ -33,23 +33,21 @@ MotorLib/Src/MotorCtrl.o: ../MotorLib/Src/MotorCtrl.cpp \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h \
- ../SystemLib/Inc/ErrorHandler.hpp ../SystemLib/Inc/ADCInit.hpp \
- ../SystemLib/Inc/STM32SystemPack.h ../SystemLib/Inc/GPIOInit.hpp \
- ../SystemLib/Inc/PinDef.h ../SystemLib/Inc/TIMInit.hpp \
- ../SystemLib/Inc/paramsetting.h ../SystemLib/Inc/USARTInit.hpp \
- ../MotorLib/Inc/ArgCtrl.hpp ../Observer/Inc/Observer.hpp \
- ../Observer/Inc/AdaptVelEst.hpp ../MathLib/Inc/Matrix.hpp \
- ../MathLib/Inc/DSPInc.hpp ../CMSIS_DSP/arm_math.h \
- ../CMSIS_DSP/arm_const_structs.h ../CMSIS_DSP/arm_math.h \
- ../CMSIS_DSP/arm_common_tables.h ../MathLib/Inc/ZIntegrate.hpp \
- ../MathLib/Inc/Trigonometric.hpp ../Observer/Inc/EMFObs.hpp \
- ../Observer/Inc/EstimatedAxisError.hpp ../Observer/Inc/PII2.hpp \
- ../MathLib/Inc/MotorMath.hpp ../MotorLib/Inc/MotorLibDefPack.hpp \
- ../MathLib/Inc/Matrix.hpp ../MathLib/Inc/Trigonometric.hpp \
- ../MathLib/Inc/PID.hpp ../SystemLib/Inc/PWM.hpp \
- ../MotorLib/Inc/DebugCtrl.hpp ../MotorLib/Inc/DebugInfo.hpp \
- ../MotorLib/Inc/DebugInfoTiny.hpp ../SEGGER/Inc/SEGGER_RTT.h \
- ../SEGGER/Inc/SEGGER_RTT_Conf.h
+ ../SystemLib/Inc/ErrorHandler.hpp ../SystemLib/Inc/ADCCtrl.hpp \
+ ../SystemLib/Inc/STM32SystemPack.h ../SystemLib/Inc/TIMCtrl.hpp \
+ ../SystemLib/Inc/paramsetting.h ../MotorLib/Inc/ArgCtrl.hpp \
+ ../Observer/Inc/Observer.hpp ../Observer/Inc/AdaptVelEst.hpp \
+ ../MathLib/Inc/Matrix.hpp ../MathLib/Inc/DSPInc.hpp \
+ ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_const_structs.h \
+ ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_common_tables.h \
+ ../MathLib/Inc/ZIntegrate.hpp ../MathLib/Inc/Trigonometric.hpp \
+ ../Observer/Inc/EMFObs.hpp ../Observer/Inc/EstimatedAxisError.hpp \
+ ../Observer/Inc/PII2.hpp ../MathLib/Inc/MotorMath.hpp \
+ ../MotorLib/Inc/MotorLibDefPack.hpp ../MathLib/Inc/Matrix.hpp \
+ ../MathLib/Inc/Trigonometric.hpp ../MathLib/Inc/PID.hpp \
+ ../SystemLib/Inc/PWM.hpp ../MotorLib/Inc/DebugCtrl.hpp \
+ ../MotorLib/Inc/DebugInfo.hpp ../MotorLib/Inc/DebugInfoTiny.hpp \
+ ../SEGGER/Inc/SEGGER_RTT.h ../SEGGER/Inc/SEGGER_RTT_Conf.h
 
 ../MotorLib/Inc/MotorCtrl.hpp:
 
@@ -127,19 +125,13 @@ MotorLib/Src/MotorCtrl.o: ../MotorLib/Src/MotorCtrl.cpp \
 
 ../SystemLib/Inc/ErrorHandler.hpp:
 
-../SystemLib/Inc/ADCInit.hpp:
+../SystemLib/Inc/ADCCtrl.hpp:
 
 ../SystemLib/Inc/STM32SystemPack.h:
 
-../SystemLib/Inc/GPIOInit.hpp:
-
-../SystemLib/Inc/PinDef.h:
-
-../SystemLib/Inc/TIMInit.hpp:
+../SystemLib/Inc/TIMCtrl.hpp:
 
 ../SystemLib/Inc/paramsetting.h:
-
-../SystemLib/Inc/USARTInit.hpp:
 
 ../MotorLib/Inc/ArgCtrl.hpp:
 

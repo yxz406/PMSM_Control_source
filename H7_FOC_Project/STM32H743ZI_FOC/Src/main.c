@@ -29,6 +29,16 @@
 /* USER CODE BEGIN Includes */
 #include "Wrapper.hpp"
 //#include "ADCInit.hpp"
+
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
+void __io_putchar(uint8_t ch) {
+HAL_UART_Transmit(&huart3, &ch, 1, 1);
+}
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -99,8 +109,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
-  MX_ADC3_Init();
-  MX_TIM1_Init();
+//  MX_ADC3_Init();
+//  MX_TIM1_Init();
+//  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
 cppWrapper();
   /* USER CODE END 2 */

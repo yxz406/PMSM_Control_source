@@ -1,14 +1,16 @@
 SystemLib/Src/SystemTest.o: ../SystemLib/Src/SystemTest.cpp \
- ../SystemLib/Inc/SystemTest.hpp ../Inc/adc.h ../Inc/main.h \
- ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
+ ../SystemLib/Inc/SystemTest.hpp ../MathLib/Inc/DSPInc.hpp \
+ ../CMSIS_DSP/arm_math.h ../Drivers/CMSIS/Include/core_cm7.h \
+ ../Drivers/CMSIS/Include/cmsis_compiler.h \
+ ../Drivers/CMSIS/Include/cmsis_gcc.h ../CMSIS_DSP/arm_const_structs.h \
+ ../CMSIS_DSP/arm_math.h ../CMSIS_DSP/arm_common_tables.h \
+ ../SystemLib/Inc/ADCInit.hpp ../SystemLib/Inc/STM32SystemPack.h \
+ ../Inc/main.h ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Inc/stm32h7xx_hal_conf.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h \
  ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h \
  ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h \
- ../Drivers/CMSIS/Include/core_cm7.h \
- ../Drivers/CMSIS/Include/cmsis_compiler.h \
- ../Drivers/CMSIS/Include/cmsis_gcc.h \
  ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h \
@@ -31,14 +33,32 @@ SystemLib/Src/SystemTest.o: ../SystemLib/Src/SystemTest.cpp \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h \
- ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h ../Inc/tim.h \
- ../SystemLib/Inc/ADCInit.hpp ../SystemLib/Inc/STM32SystemPack.h \
- ../Inc/main.h ../SystemLib/Inc/ErrorHandler.hpp \
+ ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h \
+ ../SystemLib/Inc/ErrorHandler.hpp ../SystemLib/Inc/TIMCtrl.hpp \
+ ../SystemLib/Inc/paramsetting.h ../SystemLib/Inc/ADCCtrl.hpp \
  ../SEGGER/Inc/SEGGER_RTT.h ../SEGGER/Inc/SEGGER_RTT_Conf.h
 
 ../SystemLib/Inc/SystemTest.hpp:
 
-../Inc/adc.h:
+../MathLib/Inc/DSPInc.hpp:
+
+../CMSIS_DSP/arm_math.h:
+
+../Drivers/CMSIS/Include/core_cm7.h:
+
+../Drivers/CMSIS/Include/cmsis_compiler.h:
+
+../Drivers/CMSIS/Include/cmsis_gcc.h:
+
+../CMSIS_DSP/arm_const_structs.h:
+
+../CMSIS_DSP/arm_math.h:
+
+../CMSIS_DSP/arm_common_tables.h:
+
+../SystemLib/Inc/ADCInit.hpp:
+
+../SystemLib/Inc/STM32SystemPack.h:
 
 ../Inc/main.h:
 
@@ -53,12 +73,6 @@ SystemLib/Src/SystemTest.o: ../SystemLib/Src/SystemTest.cpp \
 ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h:
 
 ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h:
-
-../Drivers/CMSIS/Include/core_cm7.h:
-
-../Drivers/CMSIS/Include/cmsis_compiler.h:
-
-../Drivers/CMSIS/Include/cmsis_gcc.h:
 
 ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h:
 
@@ -106,15 +120,13 @@ SystemLib/Src/SystemTest.o: ../SystemLib/Src/SystemTest.cpp \
 
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h:
 
-../Inc/tim.h:
-
-../SystemLib/Inc/ADCInit.hpp:
-
-../SystemLib/Inc/STM32SystemPack.h:
-
-../Inc/main.h:
-
 ../SystemLib/Inc/ErrorHandler.hpp:
+
+../SystemLib/Inc/TIMCtrl.hpp:
+
+../SystemLib/Inc/paramsetting.h:
+
+../SystemLib/Inc/ADCCtrl.hpp:
 
 ../SEGGER/Inc/SEGGER_RTT.h:
 

@@ -27,13 +27,11 @@ private:
 
 
 public:
-
-	//static TIM_HandleTypeDef *mhtim1;
-	//static ADC_HandleTypeDef *madc3;
 	Deus();
 	virtual ~Deus();
 	void Ctrl();
 	void HFTask();
+	void BtnAct();
 };
 
 #endif /* INC_DEUS_HPP_ */

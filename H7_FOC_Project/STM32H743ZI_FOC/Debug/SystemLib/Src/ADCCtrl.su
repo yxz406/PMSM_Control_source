@@ -1,0 +1,19 @@
+ADCCtrl.cpp:15:1:ADCCtrl::ADCCtrl()	16	static
+ADCCtrl.cpp:20:1:ADCCtrl::~ADCCtrl()	16	static
+ADCCtrl.cpp:20:1:virtual ADCCtrl::~ADCCtrl()	16	static
+ADCCtrl.cpp:26:6:static void ADCCtrl::ADC2Init_HAL()	8	static
+ADCCtrl.cpp:30:6:static void ADCCtrl::ADC2Calibration()	8	static
+ADCCtrl.cpp:34:6:static void ADCCtrl::ADC2Start_Conversion()	8	static
+ADCCtrl.cpp:38:6:static void ADCCtrl::ADC2Conversion_wait(int)	16	static
+ADCCtrl.cpp:42:5:static int ADCCtrl::ADC2_Read()	8	static
+ADCCtrl.cpp:48:6:static void ADCCtrl::ADC3Init_HAL()	8	static
+ADCCtrl.cpp:52:6:static void ADCCtrl::ADC3Calibration()	8	static
+ADCCtrl.cpp:56:6:static void ADCCtrl::ADC3InjectedStart_IT()	8	static
+ADCCtrl.cpp:60:5:static int ADCCtrl::ADC3_INJ_Read_ch1()	4	static
+ADCCtrl.cpp:64:5:static int ADCCtrl::ADC3_INJ_Read_ch2()	4	static
+ADCCtrl.cpp:68:5:static int ADCCtrl::ADC3_INJ_Read_ch3()	4	static
+ADCCtrl.cpp:73:6:static void ADCCtrl::ADC3IRQHandler()	8	static
+ADCCtrl.cpp:80:6:static void ADCCtrl::MX_ADC2_Init()	40	static
+ADCCtrl.cpp:119:6:static void ADCCtrl::MX_ADC3_Init()	72	static
+ADCCtrl.cpp:183:6:static void ADCCtrl::HAL_ADC_MspInit(ADC_HandleTypeDef*)	48	static
+ADCCtrl.cpp:222:6:static void ADCCtrl::HAL_ADC_MspDeInit(ADC_HandleTypeDef*)	16	static
