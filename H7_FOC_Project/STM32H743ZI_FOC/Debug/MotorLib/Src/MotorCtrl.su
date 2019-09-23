@@ -9,32 +9,32 @@ MotorCtrl.cpp:16:1:virtual MotorCtrl::~MotorCtrl()	16	static
 MotorCtrl.cpp:20:6:void MotorCtrl::InitSystem()	16	static
 ArgCtrl.hpp:16:7:constexpr ArgCtrl& ArgCtrl::operator=(const ArgCtrl&)	16	static
 PID.hpp:13:7:constexpr PID& PID::operator=(const PID&)	16	static
-MotorCtrl.cpp:46:6:void MotorCtrl::InitMotorInfo()	128	static
+MotorCtrl.cpp:52:6:void MotorCtrl::InitMotorInfo()	128	static
 EMFObs.hpp:15:7:constexpr EMFObs& EMFObs::operator=(const EMFObs&)	24	static
 PII2.hpp:13:7:constexpr PII2& PII2::operator=(const PII2&)	16	static
 Observer.hpp:16:7:constexpr Observer& Observer::operator=(const Observer&)	16	static
-MotorCtrl.cpp:68:6:void MotorCtrl::InitObserver()	264	static
-MotorCtrl.cpp:80:6:void MotorCtrl::HighFreqTask()	160	static,ignoring_inline_asm
-MotorCtrl.cpp:235:6:void MotorCtrl::MotorOutputTask()	16	static
-MotorCtrl.cpp:242:6:void MotorCtrl::setIuvw(float, float, float)	24	static
-MotorCtrl.cpp:248:6:void MotorCtrl::ForceCommutation()	16	static
-MotorCtrl.cpp:258:6:void MotorCtrl::clarkTransform()	56	static
-MotorCtrl.cpp:267:6:void MotorCtrl::parkTransform()	56	static
-MotorCtrl.cpp:277:6:void MotorCtrl::parkGanmaDelta()	56	static
-MotorCtrl.cpp:288:22:std::array<float, 2> MotorCtrl::getIdq()	32	static
-MotorCtrl.cpp:292:22:std::array<float, 2> MotorCtrl::getIgd()	32	static
-MotorCtrl.cpp:296:6:void MotorCtrl::PIDdq_control(std::array<float, 2>, float)	40	static
-MotorCtrl.cpp:310:6:void MotorCtrl::PIDgd_control(std::array<float, 2>, float)	40	static
-MotorCtrl.cpp:326:6:void MotorCtrl::setVdq(std::array<float, 2>)	24	static
-MotorCtrl.cpp:331:6:void MotorCtrl::setVgd(std::array<float, 2>)	24	static
-MotorCtrl.cpp:335:6:void MotorCtrl::invParkGanmaDelta()	40	static
-MotorCtrl.cpp:342:6:void MotorCtrl::invParkTransform()	40	static
-MotorCtrl.cpp:349:6:void MotorCtrl::invClarkTransform()	40	static
-MotorCtrl.cpp:357:6:void MotorCtrl::DebugTask(float, float, float, float)	40	static
-MotorCtrl.cpp:392:6:void MotorCtrl::BtnAct()	16	static
-MotorCtrl.cpp:400:6:void MotorCtrl::BtnActOFF()	16	static
-MotorCtrl.cpp:404:6:void MotorCtrl::BtnActON()	16	static
-MotorCtrl.cpp:410:6:void MotorCtrl::DbgUart(std::__cxx11::string)	16	static
+MotorCtrl.cpp:74:6:void MotorCtrl::InitObserver()	264	static
+MotorCtrl.cpp:86:6:void MotorCtrl::HighFreqTask()	160	static,ignoring_inline_asm
+MotorCtrl.cpp:241:6:void MotorCtrl::MotorOutputTask()	16	static
+MotorCtrl.cpp:248:6:void MotorCtrl::setIuvw(float, float, float)	24	static
+MotorCtrl.cpp:254:6:void MotorCtrl::ForceCommutation()	16	static
+MotorCtrl.cpp:264:6:void MotorCtrl::clarkTransform()	56	static
+MotorCtrl.cpp:273:6:void MotorCtrl::parkTransform()	56	static
+MotorCtrl.cpp:283:6:void MotorCtrl::parkGanmaDelta()	56	static
+MotorCtrl.cpp:294:22:std::array<float, 2> MotorCtrl::getIdq()	32	static
+MotorCtrl.cpp:298:22:std::array<float, 2> MotorCtrl::getIgd()	32	static
+MotorCtrl.cpp:302:6:void MotorCtrl::PIDdq_control(std::array<float, 2>, float)	40	static
+MotorCtrl.cpp:316:6:void MotorCtrl::PIDgd_control(std::array<float, 2>, float)	40	static
+MotorCtrl.cpp:332:6:void MotorCtrl::setVdq(std::array<float, 2>)	24	static
+MotorCtrl.cpp:337:6:void MotorCtrl::setVgd(std::array<float, 2>)	24	static
+MotorCtrl.cpp:341:6:void MotorCtrl::invParkGanmaDelta()	40	static
+MotorCtrl.cpp:348:6:void MotorCtrl::invParkTransform()	40	static
+MotorCtrl.cpp:355:6:void MotorCtrl::invClarkTransform()	40	static
+MotorCtrl.cpp:363:6:void MotorCtrl::DebugTask(float, float, float, float)	40	static
+MotorCtrl.cpp:398:6:void MotorCtrl::BtnAct()	16	static
+MotorCtrl.cpp:406:6:void MotorCtrl::BtnActOFF()	16	static
+MotorCtrl.cpp:410:6:void MotorCtrl::BtnActON()	16	static
+MotorCtrl.cpp:416:6:void MotorCtrl::DbgUart(std::__cxx11::string)	16	static
 array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 2]	16	static
 array:193:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::at(std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 3]	16	static
 array:55:7:static constexpr _Tp& std::__array_traits<_Tp, _Nm>::_S_ref(const _Tp (&)[_Nm], std::size_t) [with _Tp = float; unsigned int _Nm = 2]	16	static

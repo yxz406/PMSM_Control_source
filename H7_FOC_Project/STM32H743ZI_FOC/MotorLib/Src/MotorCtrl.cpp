@@ -30,7 +30,13 @@ void MotorCtrl::InitSystem(void) {
 	TIMCtrl::MotorDuty_ch1(0);//50%duty
 	TIMCtrl::MotorDuty_ch2(0);
 	TIMCtrl::MotorDuty_ch3(0);
-	TIMCtrl::MotorDuty_ch3(0.9);//9割タイミングで打つ
+	TIMCtrl::MotorDuty_ch4(0.9);//9割タイミングで打つ
+
+	//ENABLE信号
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_SET);
+
 	TIMCtrl::TIM1PWMStart();
 
 	//ADC Initialize

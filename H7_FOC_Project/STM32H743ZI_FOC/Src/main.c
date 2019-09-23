@@ -114,6 +114,12 @@ int main(void)
 //  MX_TIM1_Init();
 //  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
+
+  //以下を無効化すること
+  //  MX_ADC3_Init();
+  //  MX_TIM1_Init();
+  //  MX_ADC2_Init();
+
 cppWrapper();
   /* USER CODE END 2 */
 
