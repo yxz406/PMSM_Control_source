@@ -28,6 +28,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "Wrapper.hpp"
+#include "paramsetting.h"
 //#include "ADCInit.hpp"
 
 #ifdef __GNUC__

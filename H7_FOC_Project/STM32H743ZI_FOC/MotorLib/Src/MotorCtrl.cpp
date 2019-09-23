@@ -88,9 +88,9 @@ void MotorCtrl::HighFreqTask(void) {
 	//エンコーダ読み取り
 	float Iu,Iv,Iw;
 	//増幅率のバイアス考慮してない。あとで計算すること。
-	Iu = (float)ADCCtrl::ADC3_INJ_Read_ch1();
-	Iv = (float)ADCCtrl::ADC3_INJ_Read_ch2();
-	Iw = (float)ADCCtrl::ADC3_INJ_Read_ch3();
+	Iu = (float)ADCCtrl::ADC3_INJ_Read_ch1() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iv = (float)ADCCtrl::ADC3_INJ_Read_ch2() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iw = (float)ADCCtrl::ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
 
 //	Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
 //	Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);

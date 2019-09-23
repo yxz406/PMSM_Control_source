@@ -24,9 +24,20 @@
 
 
 //ボードの I -> V 倍率
+//(Rの配置及び計算式についてはPDF参照)
+#define BOARD_OFFSET_VCC_VOLTAGE 3.3
 #define BOARD_OPAMP_R1 2200
-#define BOARD_OPAMP_R2 6800
-#define BOARD_CURRENT_R 0.1
+#define BOARD_OPAMP_R2 2200
+#define BOARD_OPAMP_R3 680
+#define BOARD_OPAMP_R4 2200
+#define BOARD_SHUNT_R 0.33
+
+#define BOARD_IV_RATIO ( ( 1.0f / (float)BOARD_SHUNT_R ) * ( (float)BOARD_OPAMP_R1 / ( (float)BOARD_OPAMP_R1 + (float)BOARD_OPAMP_R2 ) ) * ( ( (float)BOARD_OPAMP_R3 + (float)BOARD_OPAMP_R4 ) / (float)BOARD_OPAMP_R4 ) )
+#define BOARD_IV_OFFSET ( -1.0f * ( 1.0f / (float)BOARD_SHUNT_R ) * ( (float)BOARD_OPAMP_R3 / (float)BOARD_OPAMP_R4 ) * (float)BOARD_OFFSET_VCC_VOLTAGE )
+
+
+//ADC Value -> Voltage倍率
+#define ADC_VOLTAGE_RATIO ( 3.3f / (float)65535 )
 
 //モータのパラメータ設定
 #define M_PARAM_LD 0.5
