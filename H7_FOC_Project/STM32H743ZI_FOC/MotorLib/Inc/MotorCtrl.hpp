@@ -100,8 +100,8 @@ public:
 	std::array<float, 2> getIdq(void);
 	std::array<float, 2> getIgd(void);
 
-	void PIDdq_control(std::array<float, 2> pErrIdq, float pTime);//ここでPID使う？？ライブラリインクルード必要だよね？
-	void PIDgd_control(std::array<float, 2> pErrIgd, float pTime);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
+	void PIDdq_control(std::array<float, 2> pErrIdq);//ここでPID使う？？ライブラリインクルード必要だよね？
+	void PIDgd_control(std::array<float, 2> pErrIgd);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
 
 	void setVdq(std::array<float, 2> pVdq);//強制転流用
 	void setVgd(std::array<float, 2> pVgd);

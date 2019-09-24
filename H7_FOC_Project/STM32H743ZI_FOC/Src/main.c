@@ -30,7 +30,20 @@
 #include "Wrapper.hpp"
 #include "paramsetting.h"
 //#include "ADCInit.hpp"
+#include <stdio.h>
 
+#define DEBUG_MODE_SWV 1
+
+#ifdef DEBUG_MODE_SWV
+int _write(int file, char *ptr, int len) {
+	int DataIdx;
+	for(DataIdx=0; DataIdx<len; DataIdx++) {
+		ITM_SendChar(*ptr++);
+	}
+}
+#endif
+
+#ifdef DEBUG_MODE_USART
 #ifdef __GNUC__
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #else
@@ -39,7 +52,7 @@
 void __io_putchar(uint8_t ch) {
 HAL_UART_Transmit(&huart3, &ch, 1, 1);
 }
-
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

@@ -57,6 +57,7 @@
 "SystemLib/Src/SystemTest.o"
 "SystemLib/Src/TIMCtrl.o"
 "SystemLib/Src/TIMInit.o"
+"SystemLib/Src/UART.o"
 "SystemLib/Src/USARTCtrl.o"
 "SystemLib/Src/USARTInit.o"
 "Wrapper/Src/Deus.o"

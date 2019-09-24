@@ -47,7 +47,7 @@
 
 #define M_PARAM_R 0.02
 
-#define OBSERVER_CYCLE_TIME 0.00001
+#define OBSERVER_CYCLE_TIME PWM_PERIOD_SEC
 #define OBSERVER_GAIN_G1 1
 #define OBSERVER_GAIN_ALPHA 1
 #define OBSERVER_GAIN_K1 1
@@ -55,15 +55,15 @@
 #define OBSERVER_GAIN_K3 1
 
 //PWMの設定
-//#define PWM_COUNT 4000 //PWMの一周期カウント数
-//本当は周期で調整したい。#define PWM_HZ 20000
-
 #define PWM_FREQ_HZ 20000
 #define TIM_CLOCK_DIVIDER 1
 #define TIM_CLK_MHz 400/TIM_CLOCK_DIVIDER
 #define PWM_PERIOD_CYCLES (uint16_t)(TIM_CLK_MHz*(unsigned long long)1000000u/(uint16_t)(PWM_FREQ_HZ))
 //#define PWM_PERIOD_COUNT PWM_PERIOD_CYCLES/2　//よくわからないバグ？
 #define PWM_PERIOD_COUNT PWM_PERIOD_CYCLES/4
+
+//制御用周期
+#define PWM_PERIOD_SEC 1.0f/(float)PWM_FREQ_HZ
 
 //PIDパラメータ設定
 #define PID_GAIN_ID_P 0.1
@@ -74,7 +74,7 @@
 #define PID_GAIN_IQ_I 0.1
 #define PID_GAIN_IQ_D 0.1
 
-
+#define PID_CONTROL_CYCLE PWM_PERIOD_SEC
 
 //ADCレジスタ定義
 

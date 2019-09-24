@@ -66,6 +66,8 @@ void MotorCtrl::InitMotorInfo(void) {
 		PID IqPID;
 		IdPID.SetParam(PID_GAIN_ID_P, PID_GAIN_ID_I, PID_GAIN_ID_D);
 		IqPID.SetParam(PID_GAIN_IQ_P, PID_GAIN_IQ_I, PID_GAIN_IQ_D);
+		IdPID.SetSampleTime(PID_CONTROL_CYCLE);
+		IqPID.SetSampleTime(PID_CONTROL_CYCLE);
 		mIdPID = IdPID;
 		mIqPID = IqPID;
 	}
@@ -75,6 +77,7 @@ void MotorCtrl::InitObserver(void) {
 
 	{
 		Observer Observer; //オブザーバのInit
+		float controlCycle = PWM_PERIOD_SEC;
 		Observer.InitEMFObs(OBSERVER_CYCLE_TIME, M_PARAM_R, M_PARAM_LD, M_PARAM_LQ, OBSERVER_GAIN_G1, OBSERVER_GAIN_ALPHA);
 		Observer.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
 		mObserver = Observer;
@@ -161,7 +164,7 @@ void MotorCtrl::HighFreqTask(void) {
 	//Id,IqのPID制御
 
 	//第二引数に制御周期を入力する。これも計算で出すか、パラメタとして入力すること
-	PIDdq_control(IdqErr, 0.1);
+	PIDdq_control(IdqErr);
 
 	//IO入力
 	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
@@ -194,6 +197,9 @@ void MotorCtrl::HighFreqTask(void) {
 	MotorOutputTask();
 
 	{
+		//DEBUG
+		printf("Current:%f, %f, %f, Theta:¥r¥n", Iu, Iv, Iw);
+
 		//SEGGER RTT DEBUG
 		int adc_u = ADC3 -> JDR1;
 		int adc_v = ADC3 -> JDR2;
@@ -299,11 +305,11 @@ std::array<float, 2> MotorCtrl::getIgd() {
 	return mMotorInfo.mIgd;
 }
 
-void MotorCtrl::PIDdq_control(std::array<float, 2> pErrIdq, float pTime) {
+void MotorCtrl::PIDdq_control(std::array<float, 2> pErrIdq) {
 	float ErrId = pErrIdq.at(0);
 	float ErrIq = pErrIdq.at(1);
-	mIdPID.ErrorAndTimeUpdate(ErrId, pTime);
-	mIqPID.ErrorAndTimeUpdate(ErrIq, pTime);
+	mIdPID.ErrorUpdate(ErrId);
+	mIqPID.ErrorUpdate(ErrIq);
 
 	float Vd = mMotorInfo.mVdq.at(0);
 	float Vq = mMotorInfo.mVdq.at(1);
@@ -313,12 +319,12 @@ void MotorCtrl::PIDdq_control(std::array<float, 2> pErrIdq, float pTime) {
 	mMotorInfo.mVdq = {Vd, Vq};
 }
 
-void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd, float pTime) {
+void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
 	{
 		float ErrIganma = pErrIgd.at(0);
 		float ErrIdelta = pErrIgd.at(1);
-		mIganmaPID.ErrorAndTimeUpdate(ErrIganma, pTime);
-		mIdeltaPID.ErrorAndTimeUpdate(ErrIdelta, pTime);
+		mIganmaPID.ErrorUpdate(ErrIganma);
+		mIdeltaPID.ErrorUpdate(ErrIdelta);
 
 		float Vganma = mMotorInfo.mVgd.at(0);
 		float Vdelta = mMotorInfo.mVgd.at(1);

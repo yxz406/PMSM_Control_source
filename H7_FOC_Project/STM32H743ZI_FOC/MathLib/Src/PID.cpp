@@ -32,19 +32,20 @@ PID::~PID() {
 	// TODO Auto-generated destructor stub
 }
 
-void PID::SetParam(float pGain_p, float pGain_i, float pGain_d){
+void PID::SetParam(float pGain_p, float pGain_i, float pGain_d) {
 	mGain_p = pGain_p;
 	mGain_i = pGain_i;
 	mGain_d = pGain_d;
 }
 
-void PID::ErrorUpdate(float pError){
-	mError[1] = pError;
-	mError[2] = mError[1];
-	mError[3] = mError[2];
+void PID::ErrorUpdate(float pError) {
+//	mError[1] = pError;
+//	mError[2] = mError[1];
+//	mError[3] = mError[2];
+	mError = {pError,mError[1],mError[2]};
 }
 
-void PID::ErrorAndTimeUpdate(float pError, float pSampleTime){
+void PID::ErrorAndTimeUpdate(float pError, float pSampleTime) {
 //	mError[1] = pError;
 //	mError[2] = mError[1];
 //	mError[3] = mError[2];//下のがはやそうだから。
@@ -52,7 +53,7 @@ void PID::ErrorAndTimeUpdate(float pError, float pSampleTime){
 	mSampleTime = pSampleTime;
 }
 
-void PID::SetSampleTime(float pSampleTime){
+void PID::SetSampleTime(float pSampleTime) {
 	mSampleTime = pSampleTime;
 }
 
