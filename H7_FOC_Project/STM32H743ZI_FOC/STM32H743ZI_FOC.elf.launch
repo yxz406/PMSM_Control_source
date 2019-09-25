@@ -41,8 +41,8 @@
 <stringAttribute key="com.st.stm32cube.ide.mcu.debug.stlink.external_loader" value=""/>
 <stringAttribute key="com.st.stm32cube.ide.mcu.debug.stlink.log_file" value="C:\Users\watashi\STM32CubeIDE\workspace_1.0.0\STM32H743ZI_FOC\Debug\st-link_gdbserver_log.txt"/>
 <stringAttribute key="com.st.stm32cube.ide.mcu.debug.stlink.stlink_ap_id" value="0"/>
-<booleanAttribute key="com.st.stm32cube.ide.mcu.debug.stlink.stlink_check_serial_number" value="false"/>
-<stringAttribute key="com.st.stm32cube.ide.mcu.debug.stlink.stlink_txt_serial_number" value=""/>
+<booleanAttribute key="com.st.stm32cube.ide.mcu.debug.stlink.stlink_check_serial_number" value="true"/>
+<stringAttribute key="com.st.stm32cube.ide.mcu.debug.stlink.stlink_txt_serial_number" value="003200193137510B39383538"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doHalt" value="false"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doReset" value="false"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value=""/>
