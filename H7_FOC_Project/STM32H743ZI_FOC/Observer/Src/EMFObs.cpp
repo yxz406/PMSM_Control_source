@@ -31,10 +31,6 @@ void EMFObs::InitObsGain(float pGainAlpha) {
 	mGainAlpha = pGainAlpha;
 }
 
-void EMFObs::InitModelGain(float pG1) {
-	mG1 = pG1;
-}
-
 //Setter
 void EMFObs::SetIgd(std::array<float, 2> pIGanmaDelta) {
 	mIGanmaDelta = pIGanmaDelta;

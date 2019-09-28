@@ -75,7 +75,7 @@ ForceCom_Status ArgCtrl::FCacceleration(void) {
 }
 
 ForceCom_Status ArgCtrl::FCdeceleration(void) {
-	if(ForceCom.mAccelSPD >= 0){
+	if(ForceCom.mAccelSPD > 0){
 		ForceCom.mAccelSPD = ForceCom.mAccelSPD - 1;//ここ加速度を制御してる
 		float arg_add;
 		arg_add = ForceCom.mAccelSPD*0.00000125f*M_PI;//進む差分角

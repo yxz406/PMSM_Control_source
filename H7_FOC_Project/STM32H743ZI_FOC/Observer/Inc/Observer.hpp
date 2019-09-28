@@ -31,7 +31,7 @@ public:
 	virtual ~Observer();
 
 	//Initializer
-	void InitEMFObs(float pCycleTime, float pR, float pLd, float pLq, float pG1, float pGainAlpha);
+	void InitEMFObs(float pCycleTime, float pR, float pLd, float pLq, float pGainAlpha);
 	void InitPII2(float pCycleTime, float pK1, float pK2, float pK3);
 
 	//Setter
@@ -43,6 +43,7 @@ public:
 
 	//Getter
 	float GetEstTheta(void);
+	float GetEstOmegaE(void);
 };
 
 #endif /* OBSERVER_HPP_ */

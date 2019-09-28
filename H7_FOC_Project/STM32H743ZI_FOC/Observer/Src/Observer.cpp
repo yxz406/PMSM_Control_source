@@ -16,10 +16,9 @@ Observer::~Observer() {
 }
 
 //Initializer
-void Observer::InitEMFObs(float pCycleTime, float pR, float pLd, float pLq, float pG1, float pGainAlpha) {
+void Observer::InitEMFObs(float pCycleTime, float pR, float pLd, float pLq, float pGainAlpha) {
 	mEMFObserver.InitCycleTime(pCycleTime);
 	mEMFObserver.InitMotorParam(pR, pLd, pLq);
-	mEMFObserver.InitModelGain(pG1);
 	mEMFObserver.InitObsGain(pGainAlpha);
 }
 
@@ -49,10 +48,14 @@ void Observer::Calculate() {
 	mEstThetaPII2.Calculate();
 	float EstOmegaE = mEstThetaPII2.GetPIVal();
 	mEMFObserver.SetEstOmegaE(EstOmegaE);
-	mEstTheta = mEstThetaPII2.GetValue();
+	mEstTheta = fmod( ( mEstThetaPII2.GetValue() + 2 * M_PI ) , ( 2 * M_PI ) ); //theta % 2pi
 }
 
 //Getter
 float Observer::GetEstTheta(void) {
 	return mEstTheta;
+}
+
+float Observer::GetEstOmegaE(void) {
+	return mEstOmegaE;
 }

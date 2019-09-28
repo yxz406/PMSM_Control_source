@@ -50,7 +50,8 @@ void ADCCtrl::ADC3Init_HAL() {
 }
 
 void ADCCtrl::ADC3Calibration() {
-	HAL_ADCEx_Calibration_Start(&mHandleADC3, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED);
+	//HAL_ADCEx_Calibration_Start(&mHandleADC3, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED);
+	HAL_ADCEx_Calibration_Start(&mHandleADC3, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED);//線形キャリブレーション
 }
 
 void ADCCtrl::ADC3InjectedStart_IT() {

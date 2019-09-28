@@ -120,8 +120,9 @@ public:
 	void BtnActOFF(void);
 	void BtnActON(void);
 
-	//debug
+	//for debug
 	void DbgUart(std::string pStr);
+
 };
 
 #endif /* MOTORCTRL_HPP_ */

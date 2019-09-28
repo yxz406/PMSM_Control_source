@@ -29,9 +29,6 @@ private:
 	//Integrate Block Param
 	float mCycleTime;
 
-	//A11Matrix's Gain
-	float mG1;
-
 	//Gain
 	float mGainAlpha;
 

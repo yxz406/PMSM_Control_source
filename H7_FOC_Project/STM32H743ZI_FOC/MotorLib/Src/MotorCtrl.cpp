@@ -7,6 +7,7 @@
 
 #include "MotorCtrl.hpp"
 
+#define DEBUG_CUT
 
 MotorCtrl::MotorCtrl() {
 	// TODO Auto-generated constructor stub
@@ -30,7 +31,8 @@ void MotorCtrl::InitSystem(void) {
 	TIMCtrl::MotorDuty_ch1(0);//50%duty
 	TIMCtrl::MotorDuty_ch2(0);
 	TIMCtrl::MotorDuty_ch3(0);
-	TIMCtrl::MotorDuty_ch4(0.9);//9割タイミングで打つ
+	//TIMCtrl::MotorDuty_ch4(0.9);//9割タイミングで打つ
+	TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
 
 	//ENABLE信号
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
@@ -78,7 +80,7 @@ void MotorCtrl::InitObserver(void) {
 	{
 		Observer Observer; //オブザーバのInit
 		float controlCycle = PWM_PERIOD_SEC;
-		Observer.InitEMFObs(OBSERVER_CYCLE_TIME, M_PARAM_R, M_PARAM_LD, M_PARAM_LQ, OBSERVER_GAIN_G1, OBSERVER_GAIN_ALPHA);
+		Observer.InitEMFObs(OBSERVER_CYCLE_TIME, M_PARAM_R, M_PARAM_LD, M_PARAM_LQ, OBSERVER_GAIN_ALPHA);
 		Observer.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
 		mObserver = Observer;
 	}
@@ -125,6 +127,9 @@ void MotorCtrl::HighFreqTask(void) {
 	mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 	mObserver.Calculate();
 	float EstArgE = mObserver.GetEstTheta();
+
+	//デバッグ用推定加速度取得
+	float EstOmegaE = mObserver.GetEstTheta();
 
 	std::array<float, 2> Idq = getIdq();
 	float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
@@ -188,48 +193,48 @@ void MotorCtrl::HighFreqTask(void) {
 
 	MotorOutputTask();
 
-	{
-		//DEBUG
-		//printf("Current:%f, %f, %f, Theta:¥r¥n", Iu, Iv, Iw);
+	//DEBUG
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
 
-		//SEGGER RTT DEBUG
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-
-		char str1[10];
-		char str2[10];
-		char str3[10];
+//		char str1[10];
+//		char str2[10];
+//		char str3[10];
 
 //		sprintf(str1, "%f", val1);
 //		sprintf(str2, "%f", val2);
 //		sprintf(str3, "%f", val3);
 
-		sprintf(str1, "%f", Iu);
-		sprintf(str2, "%f", Iv);
-		sprintf(str3, "%f", Iw);
+	int milIu = (int)(Iu * 1000);
+	int milIv = (int)(Iv * 1000);
+	int milIw = (int)(Iw * 1000);
 
-		SEGGER_RTT_printf(0, "adcVal:%s,%s,%s\n" ,str1, str2, str3);
+	int DegArg = (int)(mMotorInfo.mArg/M_PI * 180 );//指令値の角度
 
-		//SEGGER_RTT_printf(0, "val = %s\n", str);
+	int DeggdArg = (int)(mMotorInfo.mArgErr/M_PI * 180 ); //現在使ってない
 
-		//char* str2 = "2.334563";
-		//SEGGER_RTT_printf(0, "adcVal:%d,%d,%d,%s\n" ,adc_u, adc_v, adc_w, str1);
-		//		SEGGER_RTT_printf(0, "adcVal:%d,%d,%d\n" ,adc_u, adc_v, adc_w);
+	int DegEstArg = (int)(EstArgE/M_PI * 180 );//オブザーバ
+	int DegEstOmega = (int)(EstOmegaE /M_PI * 180 );
 
-		//回数を絞る
-//		if(mDebugC > 100) {
-//		SEGGER_RTT_printf(0, "adcVal:%d,%d,%d\n" ,adc_u, adc_v, adc_w);
-//		mDebugC =0;
-//		}
-//		mDebugC++;
+	if(DEBUG_MODE){//デバッグモードで入る処理 DEBUG
 
+		if(mUIStatus.mStartStopTRG) {//加速してるときだけ入る ACCEL
 
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-		asm("NOP");
-	}
-	if(DEBUG_MODE){//デバッグモードで入る処理
-		//DebugTask(mMotorInfo.mArg, mMotorInfo.mArgErr, mMotorInfo.mIuvw, mMotorInfo.mIab, mMotorInfo.mIdq, mMotorInfo.mIgd);
-	}
+#ifdef DEBUG_CUT
+			//回数を絞る
+			if(mDebugC > 10) {
+				SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, DegArg, DegEstArg, DegEstOmega);
+				mDebugC =0;
+			}
+			mDebugC++;
+#else
+			SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, milArgdeg, milArggddeg, milIEstArg);
+#endif
 
+		} //ACCEL
+
+	}//DEBUGMODE
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);//ループ終了のアレ
+	asm("NOP");
 
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
 }
