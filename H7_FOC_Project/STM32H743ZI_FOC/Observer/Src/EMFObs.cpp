@@ -49,8 +49,8 @@ void EMFObs::SetEstOmegaE(float pEstOmegaE) {
 //Calculator
 void EMFObs::EMFObserver() {
 	//拡張誘起電圧オブザーバ
-	mBufVec1 = Matrix::MatrixMultiple2x2(       -1 * mR / mLd * mG1, -1 * (1 - mLq/mLd) * mEstOmegaE,
-										 (1 - mLq/mLd) * mEstOmegaE, -1 * mR / mLd * mG1,
+	mBufVec1 = Matrix::MatrixMultiple2x2(   	    -1.0f * mR / mLd, mLq/mLd * mEstOmegaE,
+										 -1.0f* mLq/mLd * mEstOmegaE, -1.0f * mR / mLd,
 										 mIGanmaDelta);
 	//このA11が正しいか検証すること.
 
@@ -68,7 +68,8 @@ void EMFObs::EMFObserver() {
 
 	mBufVec8 = Matrix::VectorMultiple2x1(-1.0f * mGainAlpha, mBufVec7);
 
-	mEstEMFgd = Matrix::VectorAdd2x1(mBufVec2, mBufVec7);
+	mEstEMFgd = Matrix::VectorSubtract2x1(mBufVec7, Matrix::VectorMultiple2x1(mLd, mBufVec2) );
+				
 }
 
 //Getter
