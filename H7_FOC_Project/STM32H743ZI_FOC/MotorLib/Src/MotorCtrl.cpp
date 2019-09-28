@@ -87,8 +87,6 @@ void MotorCtrl::InitObserver(void) {
 
 
 void MotorCtrl::HighFreqTask(void) {
-	//LL_GPIO_SetOutputPin(GPIOA, GPIO_PIN_5);
-	//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
 
 	//開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
@@ -101,13 +99,6 @@ void MotorCtrl::HighFreqTask(void) {
 	Iu = (float)ADCCtrl::ADC3_INJ_Read_ch1() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
 	Iv = (float)ADCCtrl::ADC3_INJ_Read_ch2() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
 	Iw = (float)ADCCtrl::ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
-
-//	Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1);
-//	Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2);
-//	Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3);
-//		Iu = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_1)/4095;
-//		Iv = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_2)/4095;
-//		Iw = LL_ADC_INJ_ReadConversionData12(ADC1, LL_ADC_INJ_RANK_3)/4095;
 	setIuvw(Iu, Iv, Iw);
 
 		//推定誤差計算
@@ -202,30 +193,29 @@ void MotorCtrl::HighFreqTask(void) {
 		//printf("Current:%f, %f, %f, Theta:¥r¥n", Iu, Iv, Iw);
 
 		//SEGGER RTT DEBUG
-		int adc_u = ADC3 -> JDR1;
-		int adc_v = ADC3 -> JDR2;
-		int adc_w = ADC3 -> JDR3;
-
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-//		asm("NOP");
-//		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-
 
 		char str1[10];
 		char str2[10];
 		char str3[10];
-		float val1 = 2.334563f;
-		float val2 = 65.363f;
-		float val3 = 125.33;
+
 //		sprintf(str1, "%f", val1);
 //		sprintf(str2, "%f", val2);
 //		sprintf(str3, "%f", val3);
+
+		sprintf(str1, "%f", Iu);
+		sprintf(str2, "%f", Iv);
+		sprintf(str3, "%f", Iw);
+
+		SEGGER_RTT_printf(0, "adcVal:%s,%s,%s\n" ,str1, str2, str3);
+
 		//SEGGER_RTT_printf(0, "val = %s\n", str);
 
 		//char* str2 = "2.334563";
 		//SEGGER_RTT_printf(0, "adcVal:%d,%d,%d,%s\n" ,adc_u, adc_v, adc_w, str1);
 		//		SEGGER_RTT_printf(0, "adcVal:%d,%d,%d\n" ,adc_u, adc_v, adc_w);
 
+		//回数を絞る
 //		if(mDebugC > 100) {
 //		SEGGER_RTT_printf(0, "adcVal:%d,%d,%d\n" ,adc_u, adc_v, adc_w);
 //		mDebugC =0;
@@ -242,7 +232,6 @@ void MotorCtrl::HighFreqTask(void) {
 
 
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-	//LL_GPIO_ResetOutputPin(GPIOA, GPIO_PIN_5);
 }
 
 void MotorCtrl::MotorOutputTask(void){

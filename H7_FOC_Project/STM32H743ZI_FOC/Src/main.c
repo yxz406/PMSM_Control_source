@@ -29,10 +29,10 @@
 /* USER CODE BEGIN Includes */
 #include "Wrapper.hpp"
 #include "paramsetting.h"
-//#include "ADCInit.hpp"
+
 #include <stdio.h>
 
-#define DEBUG_MODE_SWV 1
+#define DEBUG_MODE_SWV 0
 
 #ifdef DEBUG_MODE_SWV
 int _write(int file, char *ptr, int len) {

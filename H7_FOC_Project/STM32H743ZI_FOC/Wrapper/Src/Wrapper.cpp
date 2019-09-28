@@ -14,27 +14,9 @@
 
 #include "ADCCtrl.hpp"
 
-extern ADC_HandleTypeDef hadc3;
+extern ADC_HandleTypeDef hadc3;//動作切り替えの都合で一応入れている
 
 Deus Bosatsu;
-
-void SystemTest(void) {
-	//開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
-	ADCCtrl::ADC2Start_Conversion();
-	ADCCtrl::ADC2Conversion_wait(100);
-	int adc2 = ADCCtrl::ADC2_Read();
-			const float multiple_val = (3.3/65535);
-			int adc_u = ADCCtrl::ADC3_INJ_Read_ch1();
-			int adc_v = ADCCtrl::ADC3_INJ_Read_ch2();
-			int adc_w = ADCCtrl::ADC3_INJ_Read_ch3();
-			float voltage_u = (float)adc_u * multiple_val;
-			float voltage_v = (float)adc_v * multiple_val;
-			float voltage_w = (float)adc_w * multiple_val;
-			float voltage_adc2 = (float)adc2 * multiple_val;
-			printf("adcVal:%+6.5f, %+6.5f, %+6.5f \r\n", voltage_u, voltage_v, voltage_w);
-			printf("adcVal:%+6.5f, %+6.5f, %+6.5f, %+6.5f \r\n", voltage_u, voltage_v, voltage_w, voltage_adc2);
-}
-
 
 void cppWrapper(void){
 	//SystemTest::StartTest();
@@ -42,24 +24,10 @@ void cppWrapper(void){
 
 }
 
-void ADCIRQ(void){
-	Bosatsu.HFTask();
-
-}
-
-void GPIOIRQ(void) { //割り込みラッパ
-	Bosatsu.BtnAct();
-}
-
 void EXTI15_10_IRQHandler(void)
 {
-  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
-	GPIOIRQ();
-  /* USER CODE END EXTI15_10_IRQn 0 */
+	Bosatsu.BtnAct();
 	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
-  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
-
-  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 void ADC3_IRQHandler(void)
@@ -79,9 +47,7 @@ void ADC3_IRQHandler(void)
 
 		//ここで動作切り替えてる　Debug/Run
 		//SystemTest();
-		ADCIRQ();
-
-
+		Bosatsu.HFTask();
 
 
 		int inittype = 2;
@@ -109,6 +75,7 @@ void ADC3_IRQHandler(void)
 	}
 
 
+
 //	if(LL_ADC_IsActiveFlag_JEOS(ADC3)) {
 //		ADC3 -> ISR &= ~(uint32_t)( LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JQOVF );
 //		//各インジェクトシーケンスの終了（JEOC）
@@ -130,4 +97,21 @@ void ADC3_IRQHandler(void)
 
 
 
+}
+
+void SystemTest(void) {
+	//開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
+	ADCCtrl::ADC2Start_Conversion();
+	ADCCtrl::ADC2Conversion_wait(100);
+	int adc2 = ADCCtrl::ADC2_Read();
+			const float multiple_val = (3.3/65535);
+			int adc_u = ADCCtrl::ADC3_INJ_Read_ch1();
+			int adc_v = ADCCtrl::ADC3_INJ_Read_ch2();
+			int adc_w = ADCCtrl::ADC3_INJ_Read_ch3();
+			float voltage_u = (float)adc_u * multiple_val;
+			float voltage_v = (float)adc_v * multiple_val;
+			float voltage_w = (float)adc_w * multiple_val;
+			float voltage_adc2 = (float)adc2 * multiple_val;
+			printf("adcVal:%+6.5f, %+6.5f, %+6.5f \r\n", voltage_u, voltage_v, voltage_w);
+			printf("adcVal:%+6.5f, %+6.5f, %+6.5f, %+6.5f \r\n", voltage_u, voltage_v, voltage_w, voltage_adc2);
 }
