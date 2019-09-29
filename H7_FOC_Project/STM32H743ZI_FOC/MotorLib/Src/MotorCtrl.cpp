@@ -124,7 +124,8 @@ void MotorCtrl::HighFreqTask(void) {
 	//オブザーバセット・計算・値取得
 	mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 	mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
-	mObserver.Calculate();
+	//mObserver.Calculate();
+	mObserver.Calculate();//強制転流中はこっち。
 	float EstArgE = mObserver.GetEstTheta();
 
 	//デバッグ用推定加速度取得

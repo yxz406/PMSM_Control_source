@@ -51,6 +51,21 @@ void Observer::Calculate() {
 	mEstTheta = fmod( ( mEstThetaPII2.GetValue() + 2 * M_PI ) , ( 2 * M_PI ) ); //theta % 2pi
 }
 
+void Observer::CalculateForceCom(float pOmegaE) {
+	mEMFObserver.SetIgd(mIGanmaDelta);
+	mEMFObserver.SetVgd(mVGanmaDelta);
+	mEMFObserver.EMFObserver();
+	std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
+	float EstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
+	//mEstThetaPII2.SetValue(EstAxiErr);
+	//mEstThetaPII2.Calculate();
+
+	mEstOmegaE = mEstThetaPII2.GetPIVal();
+	mEMFObserver.SetEstOmegaE( pOmegaE );
+	//デバッグはEstAxiErrを見れば良い。
+}
+
+
 //Getter
 float Observer::GetEstTheta(void) {
 	return mEstTheta;
