@@ -114,6 +114,7 @@ public:
 
 	//Debug
 	void DebugTask(float pIu, float pIv, float pIw, float pArg);
+	void JLinkDebug();
 
 	//UI
 	void BtnAct(void);

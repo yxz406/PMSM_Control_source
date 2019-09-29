@@ -46,8 +46,8 @@ void Observer::Calculate() {
 	float EstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
 	mEstThetaPII2.SetValue(EstAxiErr);
 	mEstThetaPII2.Calculate();
-	float EstOmegaE = mEstThetaPII2.GetPIVal();
-	mEMFObserver.SetEstOmegaE(EstOmegaE);
+	mEstOmegaE = mEstThetaPII2.GetPIVal();
+	mEMFObserver.SetEstOmegaE(mEstOmegaE);
 	mEstTheta = fmod( ( mEstThetaPII2.GetValue() + 2 * M_PI ) , ( 2 * M_PI ) ); //theta % 2pi
 }
 

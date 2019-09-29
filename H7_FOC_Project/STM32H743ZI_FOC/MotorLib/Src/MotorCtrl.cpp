@@ -79,7 +79,6 @@ void MotorCtrl::InitObserver(void) {
 
 	{
 		Observer Observer; //オブザーバのInit
-		float controlCycle = PWM_PERIOD_SEC;
 		Observer.InitEMFObs(OBSERVER_CYCLE_TIME, M_PARAM_R, M_PARAM_LD, M_PARAM_LQ, OBSERVER_GAIN_ALPHA);
 		Observer.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
 		mObserver = Observer;
@@ -129,7 +128,7 @@ void MotorCtrl::HighFreqTask(void) {
 	float EstArgE = mObserver.GetEstTheta();
 
 	//デバッグ用推定加速度取得
-	float EstOmegaE = mObserver.GetEstTheta();
+	float EstOmegaE = mObserver.GetEstOmegaE();
 
 	std::array<float, 2> Idq = getIdq();
 	float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
@@ -196,43 +195,10 @@ void MotorCtrl::HighFreqTask(void) {
 	//DEBUG
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
 
-//		char str1[10];
-//		char str2[10];
-//		char str3[10];
+	if(DEBUG_MODE){//デバッグモードで入る処理
+		JLinkDebug();
+	}
 
-//		sprintf(str1, "%f", val1);
-//		sprintf(str2, "%f", val2);
-//		sprintf(str3, "%f", val3);
-
-	int milIu = (int)(Iu * 1000);
-	int milIv = (int)(Iv * 1000);
-	int milIw = (int)(Iw * 1000);
-
-	int DegArg = (int)(mMotorInfo.mArg/M_PI * 180 );//指令値の角度
-
-	int DeggdArg = (int)(mMotorInfo.mArgErr/M_PI * 180 ); //現在使ってない
-
-	int DegEstArg = (int)(EstArgE/M_PI * 180 );//オブザーバ
-	int DegEstOmega = (int)(EstOmegaE /M_PI * 180 );
-
-	if(DEBUG_MODE){//デバッグモードで入る処理 DEBUG
-
-		if(mUIStatus.mStartStopTRG) {//加速してるときだけ入る ACCEL
-
-#ifdef DEBUG_CUT
-			//回数を絞る
-			if(mDebugC > 10) {
-				SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, DegArg, DegEstArg, DegEstOmega);
-				mDebugC =0;
-			}
-			mDebugC++;
-#else
-			SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, milArgdeg, milArggddeg, milIEstArg);
-#endif
-
-		} //ACCEL
-
-	}//DEBUGMODE
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);//ループ終了のアレ
 	asm("NOP");
 
@@ -357,6 +323,46 @@ void MotorCtrl::invClarkTransform(void) {
 	std::array<float, 2> Vab = mMotorInfo.mVab;
 	std::array<float, 3> Vuvw = MotorMath::InvclarkTransform(Vab);
 	mMotorInfo.mVuvw = Vuvw;
+}
+
+
+void MotorCtrl::JLinkDebug() {
+
+//		char str1[10];
+//		char str2[10];
+//		char str3[10];
+
+//		sprintf(str1, "%f", val1);
+//		sprintf(str2, "%f", val2);
+//		sprintf(str3, "%f", val3);
+
+	int milIu = (int)( mMotorInfo.mIuvw.at(0) * 1000 );
+	int milIv = (int)( mMotorInfo.mIuvw.at(1) * 1000 );
+	int milIw = (int)( mMotorInfo.mIuvw.at(2) * 1000 );
+
+	int DegArg = (int)(mMotorInfo.mArg/M_PI * 180 );//指令値の角度
+
+	int DeggdArg = (int)(mMotorInfo.mArgErr/M_PI * 180 ); //現在使ってない
+
+	int DegEstArg = (int)(mObserver.GetEstTheta() /M_PI * 180 );//オブザーバ
+	int DegEstOmega = (int)( mObserver.GetEstOmegaE() /M_PI * 180 );
+
+
+	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る ACCEL
+		return;
+	}
+
+#ifdef DEBUG_CUT
+		//回数を絞る
+		if(mDebugC > 10) {
+			SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, DegArg, DegEstArg, DegEstOmega);
+			mDebugC =0;
+		}
+		mDebugC++;
+#else
+		SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, milArgdeg, milArggddeg, milIEstArg);
+#endif
+
 }
 
 
