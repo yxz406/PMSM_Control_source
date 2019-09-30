@@ -30,7 +30,7 @@ void ArgCtrl::Init(void) {
 	mArgErr = 0;
 
 	//強制転流Init
-	ForceCom.mFCtargetRPM = FC_TARGET_RPM;
+	ForceCom.mFCtargetRPS = FC_TARGET_RPS;
 	ForceCom.mFCtargetAcc = FC_TARGET_ACCEL;
 }
 
@@ -64,7 +64,7 @@ fp_rad ArgCtrl::getArgOmega(void) {
 
 ForceCom_Status ArgCtrl::FCacceleration(void) {
 	//基本設計がおかしい。作り直してる。
-	int TargetSPD = (int)(ForceCom.mFCtargetRPM/(float)CONTROL_FREQ_HZ * 2.0f * M_PI);
+	float TargetSPD = (ForceCom.mFCtargetRPS/(float)CONTROL_FREQ_HZ * 2.0f * M_PI);
 	if( ForceCom.mAccelSPD < TargetSPD ) { // [rpm]/20000 * 2*M_PI = [arg]
 		ForceCom.mAccelSPD += ForceCom.mFCtargetAcc;//進む差分角
 		increment(ForceCom.mAccelSPD);

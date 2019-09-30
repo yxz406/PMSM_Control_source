@@ -19,7 +19,7 @@ public://struct
 	class ForceCommutation {
 		private:
 		public:
-		fp_rad mFCtargetRPM;
+		fp_rad mFCtargetRPS;
 		fp_rad mFCtargetAcc;
 		fp_rad mAccelSPD;
 	};

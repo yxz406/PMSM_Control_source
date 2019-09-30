@@ -23,6 +23,7 @@ private:
 
 	float mCycleTime;
 
+	float mEstAxiErr;
 	float mEstOmegaE;
 	float mEstTheta;
 
@@ -45,6 +46,7 @@ public:
 	//Getter
 	float GetEstTheta(void);
 	float GetEstOmegaE(void);
+	float GetEstAxiErr(void);
 };
 
 #endif /* OBSERVER_HPP_ */

@@ -350,7 +350,9 @@ void MotorCtrl::JLinkDebug() {
 	int DegEstArg = (int)(mObserver.GetEstTheta() /M_PI * 180 );//オブザーバ
 	int DegEstOmega = (int)( mObserver.GetEstOmegaE() /M_PI * 180 );
 
-	int DegOmega = (int)( mArgCtrl.getArgOmega() /M_PI *180 );
+	int DegOmega = (int)( mArgCtrl.getArgOmega() /M_PI *180 );//デバッグ済み。正しい値のときは正しいと思う。Floatのバグとかはしらない。
+
+	int DegAxiErr =(int)( mObserver.GetEstAxiErr() / M_PI *180 );
 
 	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る ACCEL
 		return;
@@ -358,8 +360,8 @@ void MotorCtrl::JLinkDebug() {
 
 #ifdef DEBUG_CUT
 		//回数を絞る
-		if(mDebugC > 10) {
-			SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, DegArg, DegEstArg, DegEstOmega, DegOmega);
+		if(mDebugC > -1) {
+			SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, DegArg, DegEstArg, DegEstOmega, DegOmega ,DegAxiErr);
 			mDebugC =0;
 		}
 		mDebugC++;

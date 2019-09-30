@@ -43,8 +43,8 @@ void Observer::Calculate() {
 	mEMFObserver.SetVgd(mVGanmaDelta);
 	mEMFObserver.EMFObserver();
 	std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
-	float EstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
-	mEstThetaPII2.SetValue(EstAxiErr);
+	mEstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
+	mEstThetaPII2.SetValue(mEstAxiErr);
 	mEstThetaPII2.Calculate();
 	mEstOmegaE = mEstThetaPII2.GetPIVal();
 	mEMFObserver.SetEstOmegaE(mEstOmegaE);
@@ -56,7 +56,7 @@ void Observer::CalculateForceCom(float pOmegaE) {
 	mEMFObserver.SetVgd(mVGanmaDelta);
 	mEMFObserver.EMFObserver();
 	std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
-	float EstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
+	mEstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
 	//mEstThetaPII2.SetValue(EstAxiErr);
 	//mEstThetaPII2.Calculate();
 
@@ -67,6 +67,10 @@ void Observer::CalculateForceCom(float pOmegaE) {
 
 
 //Getter
+float Observer::GetEstAxiErr(void) {
+	return mEstAxiErr;
+}
+
 float Observer::GetEstTheta(void) {
 	return mEstTheta;
 }
@@ -74,3 +78,4 @@ float Observer::GetEstTheta(void) {
 float Observer::GetEstOmegaE(void) {
 	return mEstOmegaE;
 }
+
