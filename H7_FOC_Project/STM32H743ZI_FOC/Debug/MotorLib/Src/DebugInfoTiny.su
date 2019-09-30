@@ -1,8 +1,0 @@
-gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-DebugInfoTiny.cpp:24:1:DebugInfoTiny::DebugInfoTiny()	16	static
-DebugInfoTiny.cpp:29:1:DebugInfoTiny::~DebugInfoTiny()	16	static
-DebugInfoTiny.cpp:29:1:virtual DebugInfoTiny::~DebugInfoTiny()	16	static
-DebugInfoTiny.cpp:34:6:void DebugInfoTiny::SetMotorData(float, float, float, float, float, float, float, float)	48	static
-DebugInfoTiny.cpp:50:5:int DebugInfoTiny::GetCNT()	16	static
-array:185:7:std::array<_Tp, _Nm>::value_type& std::array<_Tp, _Nm>::operator[](std::array<_Tp, _Nm>::size_type) [with _Tp = float; unsigned int _Nm = 360]	16	static
-array:55:7:static constexpr _Tp& std::__array_traits<_Tp, _Nm>::_S_ref(const _Tp (&)[_Nm], std::size_t) [with _Tp = float; unsigned int _Nm = 360]	16	static

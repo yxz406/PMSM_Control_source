@@ -28,6 +28,10 @@ void ArgCtrl::Init(void) {
 	mArgOld = 0;
 	mOmega = 0;
 	mArgErr = 0;
+
+	//強制転流Init
+	ForceCom.mFCtargetRPM = FC_TARGET_RPM;
+	ForceCom.mFCtargetAcc = FC_TARGET_ACCEL;
 }
 
 void ArgCtrl::increment(fp_rad pArg) {
@@ -54,38 +58,30 @@ fp_rad ArgCtrl::getArgOld(void) {
 	return mArgOld;
 }
 
-void ArgCtrl::FCInit(fp_rad pFCtargetSPD){
-	ForceCom.mFCtargetSPD = pFCtargetSPD;
+fp_rad ArgCtrl::getArgOmega(void) {
+	return (mArg - mArgOld) * CONTROL_FREQ_HZ;
 }
 
 ForceCom_Status ArgCtrl::FCacceleration(void) {
-	//if(ForceCom.mAccelSPD < ForceCom.mFCtargetSPD){
-	if(ForceCom.mAccelSPD < 30000){
-		ForceCom.mAccelSPD = ForceCom.mAccelSPD + 0.5;//ここ加速度を制御してる
-		fp_rad arg_add;
-		arg_add = ForceCom.mAccelSPD*0.00000125f*M_PI;//進む差分角
-		increment(arg_add);
+	//基本設計がおかしい。作り直してる。
+	int TargetSPD = (int)(ForceCom.mFCtargetRPM/(float)CONTROL_FREQ_HZ * 2.0f * M_PI);
+	if( ForceCom.mAccelSPD < TargetSPD ) { // [rpm]/20000 * 2*M_PI = [arg]
+		ForceCom.mAccelSPD += ForceCom.mFCtargetAcc;//進む差分角
+		increment(ForceCom.mAccelSPD);
 		return 0;
 	} else {
-		fp_rad arg_add;
-		arg_add = ForceCom.mAccelSPD*0.00000125f*M_PI;//進む差分角
-		increment(arg_add);
+		increment(ForceCom.mAccelSPD);
 		return 1;
 	}
 }
 
 ForceCom_Status ArgCtrl::FCdeceleration(void) {
 	if(ForceCom.mAccelSPD > 0){
-		ForceCom.mAccelSPD = ForceCom.mAccelSPD - 1;//ここ加速度を制御してる
-		float arg_add;
-		arg_add = ForceCom.mAccelSPD*0.00000125f*M_PI;//進む差分角
-		increment(arg_add);
+		ForceCom.mAccelSPD -= ForceCom.mFCtargetAcc;
+		increment(ForceCom.mAccelSPD);
 		return 0;
 	} else {
-		ForceCom.mAccelSPD = 0;
-		float arg_add;
-		arg_add = ForceCom.mAccelSPD*0.00000125f*M_PI;//進む差分角
-		increment(arg_add);
+		increment(0);
 		return 1;
 	}
 }

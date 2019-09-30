@@ -70,7 +70,7 @@
 
 //制御用周期
 #define PWM_PERIOD_SEC 1.0f/(float)PWM_FREQ_HZ
-
+#define CONTROL_FREQ_HZ PWM_FREQ_HZ
 
 //PIDパラメータ設定
 #define PID_GAIN_ID_P 0.1
@@ -82,6 +82,14 @@
 #define PID_GAIN_IQ_D 0.1
 
 #define PID_CONTROL_CYCLE PWM_PERIOD_SEC
+
+//強制転流の設定
+//#define FC_TARGET_RPM 1000
+//#define FC_TARGET_ACCEL_OMEGA 0.3f
+//#define FC_TARGET_ACCEL (float)FC_TARGET_ACCEL_OMEGA/CONTROL_FREQ_HZ
+
+#define FC_TARGET_RPM 14 //秒間2週
+#define FC_TARGET_ACCEL 0.3f/20000
 
 
 #endif /* PARAMSETTING_H_ */

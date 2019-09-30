@@ -10,6 +10,7 @@
 
 
 #include "MotorLibDefPack.hpp"
+#include "paramsetting.h"
 #include "math.h"
 #include "Observer.hpp"
 
@@ -18,7 +19,8 @@ public://struct
 	class ForceCommutation {
 		private:
 		public:
-		fp_rad mFCtargetSPD;
+		fp_rad mFCtargetRPM;
+		fp_rad mFCtargetAcc;
 		fp_rad mAccelSPD;
 	};
 private:
@@ -34,12 +36,12 @@ public:
 	ArgCtrl();
 	virtual ~ArgCtrl();
 	void Init(void);
-	void FCInit(fp_rad pFCtargetSPD);
 	void increment(fp_rad pArg);
 	void decrement(fp_rad pArg);
 	fp_rad getArg(void);
 	fp_rad getArgErr(void);
 	fp_rad getArgOld(void);
+	fp_rad getArgOmega(void);
 
 	ForceCom_Status FCacceleration(void);
 	ForceCom_Status FCdeceleration(void);

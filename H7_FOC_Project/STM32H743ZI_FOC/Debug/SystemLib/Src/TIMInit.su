@@ -1,7 +1,0 @@
-TIMInit.cpp:15:1:TIMInit::TIMInit()	16	static
-TIMInit.cpp:20:1:TIMInit::~TIMInit()	16	static
-TIMInit.cpp:20:1:virtual TIMInit::~TIMInit()	16	static
-TIMInit.cpp:26:6:static void TIMInit::Init(TIM_HandleTypeDef*)	16	static
-TIMInit.cpp:31:6:void MX_TIM1_Init(TIM_HandleTypeDef*)	120	static
-TIMInit.cpp:121:6:void HAL_TIM_MspPostInit(TIM_HandleTypeDef*)	40	static
-TIMInit.cpp:152:6:void HAL_TIM_Base_MspDeInit2(TIM_HandleTypeDef*)	16	static
