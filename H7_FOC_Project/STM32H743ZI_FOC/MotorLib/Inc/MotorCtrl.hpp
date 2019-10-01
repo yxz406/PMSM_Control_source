@@ -127,6 +127,9 @@ public:
 	//for debug
 	void DbgUart(std::string pStr);
 
+private:
+	int mlogcount = 0;
+
 };
 
 #endif /* MOTORCTRL_HPP_ */

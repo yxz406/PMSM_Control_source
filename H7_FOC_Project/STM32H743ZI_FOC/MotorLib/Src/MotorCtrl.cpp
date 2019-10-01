@@ -330,7 +330,7 @@ void MotorCtrl::invParkgdtoab(void) {
 	std::array<float, 2> Vgd = mMotorInfo.mVgd;
 	fp_rad gdArg = mMotorInfo.mgdArg;
 	std::array<float, 2> Vab = MotorMath::InvparkTransform(gdArg, Vgd);
-	mMotorInfo.mVdq = Vab;
+	mMotorInfo.mVab = Vab;
 }
 
 void MotorCtrl::invParkGanmaDelta(void) {
@@ -371,12 +371,14 @@ void MotorCtrl::JLinkDebug() {
 
 	int DegArg = (int)(mMotorInfo.mgdArg/M_PI * 180 );//指令値の角度
 
-	int DeggdArg = (int)(mMotorInfo.mArgErr/M_PI * 180 ); //現在使ってない
 
-	int DegEstArg = (int)(mObserver.GetEstTheta() /M_PI * 180 );//オブザーバ
-	int DegEstOmega = (int)( mObserver.GetEstOmegaE() /M_PI * 180 );
 
-	int DegOmega = (int)( mArgCtrl.getArgOmega() /M_PI *180 );//デバッグ済み。正しい値のときは正しいと思う。Floatのバグとかはしらない。
+	//int DeggdArg = (int)(mMotorInfo.mArgErr/M_PI * 180 ); //現在使ってない
+
+	//int DegEstArg = (int)(mObserver.GetEstTheta() /M_PI * 180 );//オブザーバ
+	//int DegEstOmega = (int)( mObserver.GetEstOmegaE() /M_PI * 180 );
+
+	//int DegOmega = (int)( mArgCtrl.getArgOmega() /M_PI *180 );//デバッグ済み。正しい値のときは正しいと思う。Floatのバグとかはしらない。
 
 	int DegAxiErr =(int)( mObserver.GetEstAxiErr() / M_PI *180 );
 
@@ -384,16 +386,12 @@ void MotorCtrl::JLinkDebug() {
 		return;
 	}
 
-#ifdef DEBUG_CUT
-		//回数を絞る
-		if(mDebugC > -1) {
-			SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, DegArg, DegEstArg, DegEstOmega, DegOmega ,DegAxiErr);
-			mDebugC =0;
+
+		SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,mlogcount,milIu, milIv, milIw, DegArg,DegAxiErr);
+		mlogcount++;
+		if(	mlogcount++ >65535){
+			mlogcount=0;
 		}
-		mDebugC++;
-#else
-		SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,milIu, milIv, milIw, milArgdeg, milArggddeg, milIEstArg);
-#endif
 
 }
 
