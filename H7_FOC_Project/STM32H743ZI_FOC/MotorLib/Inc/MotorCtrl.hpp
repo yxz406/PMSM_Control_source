@@ -48,7 +48,8 @@ public:
 		std::array<float, 2> mVab;
 		std::array<float, 2> mVdq;
 		std::array<float, 2> mVgd; //ganmadelta
-		fp_rad mArg;
+		fp_rad mdqArg;
+		fp_rad mgdArg;
 		fp_rad mArgErr;
 	};
 
@@ -96,6 +97,7 @@ public:
 	void clarkTransform(void);
 	void parkTransform(void);
 	void parkGanmaDelta(void);
+	void parkabtogd(void);
 
 	std::array<float, 2> getIdq(void);
 	std::array<float, 2> getIgd(void);
@@ -106,6 +108,7 @@ public:
 	void setVdq(std::array<float, 2> pVdq);//強制転流用
 	void setVgd(std::array<float, 2> pVgd);
 
+	void invParkgdtoab(void);
 	void invParkGanmaDelta(void);
 	void invParkTransform(void);
 	void invClarkTransform(void);

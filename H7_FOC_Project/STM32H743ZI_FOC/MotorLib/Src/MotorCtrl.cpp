@@ -111,10 +111,13 @@ void MotorCtrl::HighFreqTask(void) {
 
 	//Iuvw -> Iab
 	clarkTransform();
-	//Iab -> Idq
-	parkTransform();
-	//Idq -> Igd
-	parkGanmaDelta();
+	//Iab -> Igd
+	parkabtogd();
+
+//	//Iab -> Idq
+//	parkTransform();
+//	//Idq -> Igd
+//	parkGanmaDelta();
 
 
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
@@ -127,11 +130,9 @@ void MotorCtrl::HighFreqTask(void) {
 	//mObserver.Calculate();
 	mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
 
-
-	float EstArgE = mObserver.GetEstTheta();
-
-	//デバッグ用推定加速度取得
-	float EstOmegaE = mObserver.GetEstOmegaE();
+	float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
+	mMotorInfo.mArgErr = EstAxiErr;
+	mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
 
 	std::array<float, 2> Idq = getIdq();
 	float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
@@ -185,14 +186,17 @@ void MotorCtrl::HighFreqTask(void) {
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
 
 
-	//Vgd -> Vdq
-	invParkGanmaDelta();
-	//Vdq -> Vab
-	invParkTransform();
+//	//Vgd -> Vdq
+//	invParkGanmaDelta();
+//	//Vdq -> Vab
+//	invParkTransform();
+
+	//Vgd->Vab
+	invParkgdtoab();
 	//Vab -> Vuvw
 	invClarkTransform();
-	//PWM出力
 
+	//PWM出力
 	MotorOutputTask();
 
 	//DEBUG
@@ -222,13 +226,14 @@ void MotorCtrl::setIuvw(float pIu, float pIv, float pIw){
 }
 
 void MotorCtrl::ForceCommutation(void) {
+	//強制転流では、gd軸を回転させる。
 	if(mUIStatus.mStartStopTRG) {
 	mArgCtrl.FCacceleration();
 	} else {
 	mArgCtrl.FCdeceleration();
 	}
-	mMotorInfo.mArg = mArgCtrl.getArg();
-	mMotorInfo.mArgErr = mArgCtrl.getArgErr(); //回転方向より符号は反転する
+	mMotorInfo.mgdArg = mArgCtrl.getArg(); //gd軸のみ回す。
+	//mMotorInfo.mArgErr = mArgCtrl.getArgErr(); //回転方向より符号は反転する
 }
 
 void MotorCtrl::clarkTransform(void) {
@@ -241,11 +246,11 @@ void MotorCtrl::clarkTransform(void) {
 }
 
 void MotorCtrl::parkTransform(void) {
-	fp_rad Arg = mMotorInfo.mArg;
+	fp_rad dqArg = mMotorInfo.mdqArg;
 	std::array<float, 2> Iab = mMotorInfo.mIab;
 	std::array<float, 2> Vab = mMotorInfo.mVab;
-	std::array<float, 2> Idq = MotorMath::parkTransform(Arg, Iab);
-	std::array<float, 2> Vdq = MotorMath::parkTransform(Arg, Vab);
+	std::array<float, 2> Idq = MotorMath::parkTransform(dqArg, Iab);
+	std::array<float, 2> Vdq = MotorMath::parkTransform(dqArg, Vab);
 	mMotorInfo.mIdq = Idq;
 	mMotorInfo.mVdq = Vdq;
 }
@@ -260,6 +265,18 @@ void MotorCtrl::parkGanmaDelta(void) {
 	mMotorInfo.mIgd = Igd;
 	mMotorInfo.mVgd = Vgd;
 }
+
+//optional function
+void MotorCtrl::parkabtogd(void) {
+	fp_rad gdArg = mMotorInfo.mgdArg;
+	std::array<float, 2> Iab = mMotorInfo.mIab;
+	std::array<float, 2> Vab = mMotorInfo.mVab;
+	std::array<float, 2> Igd = MotorMath::parkTransform(gdArg, Iab);
+	std::array<float, 2> Vgd = MotorMath::parkTransform(gdArg, Vab);
+	mMotorInfo.mIgd = Igd;
+	mMotorInfo.mVgd = Vgd;
+}
+
 
 std::array<float, 2> MotorCtrl::getIdq() {
 	return mMotorInfo.mIdq;
@@ -308,6 +325,14 @@ void MotorCtrl::setVgd(std::array<float, 2> pVgd) {
 	mMotorInfo.mVgd = pVgd;
 }
 
+//optional function
+void MotorCtrl::invParkgdtoab(void) {
+	std::array<float, 2> Vgd = mMotorInfo.mVgd;
+	fp_rad gdArg = mMotorInfo.mgdArg;
+	std::array<float, 2> Vab = MotorMath::InvparkTransform(gdArg, Vgd);
+	mMotorInfo.mVdq = Vab;
+}
+
 void MotorCtrl::invParkGanmaDelta(void) {
 	std::array<float, 2> Vgd = mMotorInfo.mVgd;
 	fp_rad ArgErr = mMotorInfo.mArgErr;
@@ -315,10 +340,11 @@ void MotorCtrl::invParkGanmaDelta(void) {
 	std::array<float, 2> Vdq = MotorMath::InvparkTransform(InvArgErr, Vgd);
 	mMotorInfo.mVdq = Vdq;
 }
+
 void MotorCtrl::invParkTransform(void) {
-	fp_rad Arg = mMotorInfo.mArg;
+	fp_rad dqArg = mMotorInfo.mdqArg;
 	std::array<float, 2> Vdq= mMotorInfo.mVdq;
-	std::array<float, 2> Vab = MotorMath::InvparkTransform(Arg, Vdq);
+	std::array<float, 2> Vab = MotorMath::InvparkTransform(dqArg, Vdq);
 	mMotorInfo.mVab = Vab;
 }
 
@@ -343,7 +369,7 @@ void MotorCtrl::JLinkDebug() {
 	int milIv = (int)( mMotorInfo.mIuvw.at(1) * 1000 );
 	int milIw = (int)( mMotorInfo.mIuvw.at(2) * 1000 );
 
-	int DegArg = (int)(mMotorInfo.mArg/M_PI * 180 );//指令値の角度
+	int DegArg = (int)(mMotorInfo.mgdArg/M_PI * 180 );//指令値の角度
 
 	int DeggdArg = (int)(mMotorInfo.mArgErr/M_PI * 180 ); //現在使ってない
 
