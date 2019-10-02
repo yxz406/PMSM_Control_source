@@ -127,7 +127,7 @@ void MotorCtrl::HighFreqTask(void) {
 	//オブザーバセット・計算・値取得
 	mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 	mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
-	//mObserver.Calculate();
+	//mObserver.Calculate();//ベクトル制御用
 	mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
 
 	float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
@@ -163,19 +163,14 @@ void MotorCtrl::HighFreqTask(void) {
 	std::array<float, 2> IdqErr = {Id_error, Iq_error};
 	//Id,IqのPID制御
 
-	//第二引数に制御周期を入力する。これも計算で出すか、パラメタとして入力すること
 	PIDdq_control(IdqErr);
 
 	//IO入力
 	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-	//Vq_input = 0;
-	//Vd_input = adc_speed;//連れ回し運転
 
+	//TODO:実際の目標電圧を入力すること
 	Vganma_input = adc2_input;//連れ回し運転
 	Vdelta_input = 0;
-
-	//ADC2つないでないから処置
-	//Vganma_input = 0.5;
 
 
 	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
@@ -193,7 +188,9 @@ void MotorCtrl::HighFreqTask(void) {
 
 	//Vgd->Vab
 	invParkgdtoab();
+
 	//Vab -> Vuvw
+	//TODO:空間ベクトル変調SVMを実装すること。
 	invClarkTransform();
 
 	//PWM出力
@@ -357,39 +354,28 @@ void MotorCtrl::invClarkTransform(void) {
 
 void MotorCtrl::JLinkDebug() {
 
-//		char str1[10];
-//		char str2[10];
-//		char str3[10];
-
-//		sprintf(str1, "%f", val1);
-//		sprintf(str2, "%f", val2);
-//		sprintf(str3, "%f", val3);
-
 	int milIu = (int)( mMotorInfo.mIuvw.at(0) * 1000 );
 	int milIv = (int)( mMotorInfo.mIuvw.at(1) * 1000 );
 	int milIw = (int)( mMotorInfo.mIuvw.at(2) * 1000 );
-
 	int DegArg = (int)(mMotorInfo.mgdArg/M_PI * 180 );//指令値の角度
-
-
-
-	//int DeggdArg = (int)(mMotorInfo.mArgErr/M_PI * 180 ); //現在使ってない
-
-	//int DegEstArg = (int)(mObserver.GetEstTheta() /M_PI * 180 );//オブザーバ
-	//int DegEstOmega = (int)( mObserver.GetEstOmegaE() /M_PI * 180 );
-
-	//int DegOmega = (int)( mArgCtrl.getArgOmega() /M_PI *180 );//デバッグ済み。正しい値のときは正しいと思う。Floatのバグとかはしらない。
-
 	int DegAxiErr =(int)( mObserver.GetEstAxiErr() / M_PI *180 );
+
+	int milIa = (int)( mMotorInfo.mIab.at(0) * 1000 );
+	int milIb = (int)( mMotorInfo.mIab.at(1) * 1000 );
+
+	int milIg = (int)( mMotorInfo.mIgd.at(0) * 1000 );
+	int milId = (int)( mMotorInfo.mIgd.at(1) * 1000 );
+
+	int milVg = (int)( mMotorInfo.mVgd.at(0) * 1000 );
+	int milVd = (int)( mMotorInfo.mVgd.at(1) * 1000 );
 
 	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る ACCEL
 		return;
 	}
-
-
-		SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,mlogcount,milIu, milIv, milIw, DegArg,DegAxiErr);
+		//SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,mlogcount,milIu, milIv, milIw, DegArg,DegAxiErr);　//uvwを観測するバージョン
+		SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIa, milIb, milIg, milId, milVg, milVd, DegArg, DegAxiErr);//gdなどを観測するバージョン
 		mlogcount++;
-		if(	mlogcount++ >65535){
+		if(	mlogcount > 65535){
 			mlogcount=0;
 		}
 
