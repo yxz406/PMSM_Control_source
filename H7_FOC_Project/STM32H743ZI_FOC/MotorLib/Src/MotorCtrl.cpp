@@ -171,9 +171,11 @@ void MotorCtrl::HighFreqTask(void) {
 	//IO入力
 	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
 
-	//TODO:実際の目標電圧を入力すること
-	Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
-	Vdelta_input = 0;
+
+//	Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
+//	Vdelta_input = 0;
+	Vganma_input = 0;
+	Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
 
 
 	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
@@ -193,7 +195,8 @@ void MotorCtrl::HighFreqTask(void) {
 	invParkgdtoab();
 
 	//Vab -> Vuvw
-	SVM();
+	invClarkTransform();
+	//SVM();
 
 	//PWM出力
 	MotorOutputTask();
@@ -236,7 +239,9 @@ void MotorCtrl::ForceCommutation(void) {
 }
 
 void MotorCtrl::clarkTransform(void) {
-	std::array<float, 3> Iuvw = mMotorInfo.mIuvw;
+	std::array<float, 3> Iuvw = {mMotorInfo.mIuvw.at(0),
+											   mMotorInfo.mIuvw.at(1),
+											   -mMotorInfo.mIuvw.at(0) - mMotorInfo.mIuvw.at(1)};
 	//std::array<float, 3> Vuvw = mMotorInfo.mVuvw;
 	std::array<float, 2> Iab = MotorMath::clarkTransform(Iuvw);
 	//std::array<float, 2> Vab = MotorMath::clarkTransform(Vuvw);
@@ -347,9 +352,10 @@ void MotorCtrl::invParkTransform(void) {
 }
 
 void MotorCtrl::invClarkTransform(void) {
-	std::array<float, 2> Vab = mMotorInfo.mVab;
+	std::array<float, 2> Vab = {mMotorInfo.mVab.at(0)/mMotorInfo.mVoltageVCC,
+											  mMotorInfo.mVab.at(1)/mMotorInfo.mVoltageVCC};
 	std::array<float, 3> Vuvw = MotorMath::InvclarkTransform(Vab);
-	mMotorInfo.mVuvw = Vuvw;
+	mMotorInfo.mDutyuvw = Vuvw;
 }
 
 void MotorCtrl::SVM(void) {
@@ -366,7 +372,7 @@ void MotorCtrl::SVM(void) {
 	bool sector5 = ( (Va >= 0) && (Vb <= 0) && (abs(Va) >= abs(cot60 * Vb)) );
 
 
-	float coefficient = sqrt(3/2);
+	float coefficient = sqrt(3.0f/2.0f);
 	float Du, Dv, Dw;
 	if(sector0) {
 		float D1 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;

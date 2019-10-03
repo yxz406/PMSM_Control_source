@@ -58,10 +58,14 @@
 
 
 //モータのパラメータ設定
-#define M_PARAM_LD 0.5
-#define M_PARAM_LQ 0.5
-#define M_PARAM_PHY 1
-#define M_PARAM_R 0.02
+//Ld=0.02[mH]
+//Lq=0.02[mH]
+//phi=0.8
+#define M_PARAM_LD 0.00002f
+//#define M_PARAM_LQ 0.00002f
+#define M_PARAM_LQ 0.00002f
+#define M_PARAM_PHY 0.0008f
+#define M_PARAM_R 0.26f
 
 #define OBSERVER_CYCLE_TIME PWM_PERIOD_SEC
 #define OBSERVER_GAIN_ALPHA 200
