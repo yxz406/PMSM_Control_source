@@ -49,6 +49,7 @@ public:
 		std::array<float, 2> mVdq;//単位[V]
 		std::array<float, 2> mVgd; //単位[V] ganmadelta
 
+		float mVoltageVCC;
 		std::array<float, 3> mDutyuvw;//単位[%]
 		fp_rad mdqArg;//単位[rad]
 		fp_rad mgdArg;//単位[rad]
@@ -114,7 +115,7 @@ public:
 	void invParkGanmaDelta(void);
 	void invParkTransform(void);
 	void invClarkTransform(void);
-
+	void SVM(void);
 
 
 	//Debug

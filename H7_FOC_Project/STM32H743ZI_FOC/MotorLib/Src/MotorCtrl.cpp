@@ -102,7 +102,10 @@ void MotorCtrl::HighFreqTask(void) {
 	Iw = (float)ADCCtrl::ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
 	setIuvw(Iu, Iv, Iw);
 
-		//推定誤差計算
+	//電圧測定(入力)
+	mMotorInfo.mVoltageVCC = VCC_VOLTAGE;
+
+			//推定誤差計算
 
 		//推定位置計算(センサを叩く)
 		//Motor.culcArg();
@@ -169,7 +172,7 @@ void MotorCtrl::HighFreqTask(void) {
 	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
 
 	//TODO:実際の目標電圧を入力すること
-	Vganma_input = adc2_input;//連れ回し運転
+	Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
 	Vdelta_input = 0;
 
 
@@ -190,8 +193,7 @@ void MotorCtrl::HighFreqTask(void) {
 	invParkgdtoab();
 
 	//Vab -> Vuvw
-	//TODO:空間ベクトル変調SVMを実装すること。
-	invClarkTransform();
+	SVM();
 
 	//PWM出力
 	MotorOutputTask();
@@ -210,9 +212,9 @@ void MotorCtrl::HighFreqTask(void) {
 }
 
 void MotorCtrl::MotorOutputTask(void){
-	TIMCtrl::MotorDuty_ch1(mMotorInfo.mVuvw.at(0));
-	TIMCtrl::MotorDuty_ch2(mMotorInfo.mVuvw.at(1));
-	TIMCtrl::MotorDuty_ch3(mMotorInfo.mVuvw.at(2));
+	TIMCtrl::MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
+	TIMCtrl::MotorDuty_ch2(mMotorInfo.mDutyuvw.at(1));
+	TIMCtrl::MotorDuty_ch3(mMotorInfo.mDutyuvw.at(2));
 }
 
 //Motor
@@ -235,45 +237,44 @@ void MotorCtrl::ForceCommutation(void) {
 
 void MotorCtrl::clarkTransform(void) {
 	std::array<float, 3> Iuvw = mMotorInfo.mIuvw;
-	std::array<float, 3> Vuvw = mMotorInfo.mVuvw;
+	//std::array<float, 3> Vuvw = mMotorInfo.mVuvw;
 	std::array<float, 2> Iab = MotorMath::clarkTransform(Iuvw);
-	std::array<float, 2> Vab = MotorMath::clarkTransform(Vuvw);
+	//std::array<float, 2> Vab = MotorMath::clarkTransform(Vuvw);
 	mMotorInfo.mIab = Iab;
-	mMotorInfo.mVab = Vab;
+	//mMotorInfo.mVab = Vab;
 }
 
 void MotorCtrl::parkTransform(void) {
 	fp_rad dqArg = mMotorInfo.mdqArg;
 	std::array<float, 2> Iab = mMotorInfo.mIab;
-	std::array<float, 2> Vab = mMotorInfo.mVab;
+	//std::array<float, 2> Vab = mMotorInfo.mVab;
 	std::array<float, 2> Idq = MotorMath::parkTransform(dqArg, Iab);
-	std::array<float, 2> Vdq = MotorMath::parkTransform(dqArg, Vab);
+	//std::array<float, 2> Vdq = MotorMath::parkTransform(dqArg, Vab);
 	mMotorInfo.mIdq = Idq;
-	mMotorInfo.mVdq = Vdq;
+	//mMotorInfo.mVdq = Vdq;
 }
 
 void MotorCtrl::parkGanmaDelta(void) {
 	fp_rad ArgErr = mMotorInfo.mArgErr;
 	std::array<float, 2> Idq = mMotorInfo.mIdq;
-	std::array<float, 2> Vdq = mMotorInfo.mVdq;
+	//std::array<float, 2> Vdq = mMotorInfo.mVdq;
 	fp_rad InvArgErr = -1.0f * ArgErr;
 	std::array<float, 2> Igd = MotorMath::parkTransform(InvArgErr, Idq);
-	std::array<float, 2> Vgd = MotorMath::parkTransform(InvArgErr, Vdq);
+	//std::array<float, 2> Vgd = MotorMath::parkTransform(InvArgErr, Vdq);
 	mMotorInfo.mIgd = Igd;
-	mMotorInfo.mVgd = Vgd;
+	//mMotorInfo.mVgd = Vgd;
 }
 
 //optional function
 void MotorCtrl::parkabtogd(void) {
 	fp_rad gdArg = mMotorInfo.mgdArg;
 	std::array<float, 2> Iab = mMotorInfo.mIab;
-	std::array<float, 2> Vab = mMotorInfo.mVab;
+	//std::array<float, 2> Vab = mMotorInfo.mVab;
 	std::array<float, 2> Igd = MotorMath::parkTransform(gdArg, Iab);
-	std::array<float, 2> Vgd = MotorMath::parkTransform(gdArg, Vab);
+	//std::array<float, 2> Vgd = MotorMath::parkTransform(gdArg, Vab);
 	mMotorInfo.mIgd = Igd;
-	mMotorInfo.mVgd = Vgd;
+	//mMotorInfo.mVgd = Vgd;
 }
-
 
 std::array<float, 2> MotorCtrl::getIdq() {
 	return mMotorInfo.mIdq;
@@ -349,6 +350,81 @@ void MotorCtrl::invClarkTransform(void) {
 	std::array<float, 2> Vab = mMotorInfo.mVab;
 	std::array<float, 3> Vuvw = MotorMath::InvclarkTransform(Vab);
 	mMotorInfo.mVuvw = Vuvw;
+}
+
+void MotorCtrl::SVM(void) {
+	float Va = mMotorInfo.mVab.at(0);
+	float Vb = mMotorInfo.mVab.at(1);
+	float cot60 = 1/sqrt(3);
+	float cosec60 = 2/sqrt(3);
+
+	bool sector0 = ( (Va >= 0) && (Vb >= 0) && (abs(Va) >= abs(cot60 * Vb)) );
+	bool sector1 = ( (Vb >= 0) && (abs(Va) <= abs(cot60 * Vb)) );
+	bool sector2 = ( (Va <= 0) && (Vb >= 0) && (abs(Va) >= abs(cot60 * Vb)) );
+	bool sector3 = ( (Va <= 0) && (Vb <= 0) && (abs(Va) >= abs(cot60 * Vb)) );
+	bool sector4 = ( (Vb <= 0) && (abs(Va) <= abs(cot60 * Vb)) );
+	bool sector5 = ( (Va >= 0) && (Vb <= 0) && (abs(Va) >= abs(cot60 * Vb)) );
+
+
+	float coefficient = sqrt(3/2);
+	float Du, Dv, Dw;
+	if(sector0) {
+		float D1 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		float D2 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		float D0 = (1-( D1 + D2 ))/2;
+		float D7 = (1-( D1 + D2 ))/2;
+		Du = D1 + D2 + D7;
+		Dv = D2 + D7;
+		Dw = D7;
+	}
+	if(sector1) {
+		float D3 = coefficient * (-Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		float D2 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		float D0 = (1-( D2 + D3 ))/2;
+		float D7 = (1-( D2 + D3 ))/2;
+		Du = D2 + D7;
+		Dv = D2 + D3 + D7;
+		Dw = D7;
+	}
+	if(sector2) {
+		float D3 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		float D4 = coefficient * (-Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		float D0 = (1-( D3 + D4 ))/2;
+		float D7 = (1-( D3 + D4 ))/2;
+		Du = D7;
+		Dv = D3 + D4 + D7;
+		Dw = D4 + D7;
+	}
+	if(sector3) {
+		float D5 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		float D4 = coefficient * (-Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		float D0 = (1-( D4 + D5 ))/2;
+		float D7 = (1-( D4 + D5 ))/2;
+		Du = D7;
+		Dv = D4 + D7;
+		Dw = D4 + D5 + D7;
+	}
+	if(sector4) {
+		float D5 = coefficient * (-Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		float D6 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		float D0 = (1-( D5 + D6 ))/2;
+		float D7 = (1-( D5 + D6 ))/2;
+		Du = D6 + D7;
+		Dv = D7;
+		Dw = D5 + D6 + D7;
+	}
+	if(sector5) {
+		float D1 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		float D6 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		float D0 = (1-( D1 + D6 ))/2;
+		float D7 = (1-( D1 + D6 ))/2;
+		Du = D1 + D6 + D7;
+		Dv = D7;
+		Dw = D6 + D7;
+	}
+	mMotorInfo.mDutyuvw.at(0) = Du;
+	mMotorInfo.mDutyuvw.at(1) = Dv;
+	mMotorInfo.mDutyuvw.at(2) = Dw;
 }
 
 

@@ -24,6 +24,6 @@ float Trigonometric::cos(float pVal) {
 	return arm_cos_f32(pVal);
 }
 
-float Trigonometric::atan2(float pNumerator, float pDenominator){
+float Trigonometric::atan2(float pNumerator, float pDenominator) {
 	return atan2f(pNumerator, pDenominator);
 }

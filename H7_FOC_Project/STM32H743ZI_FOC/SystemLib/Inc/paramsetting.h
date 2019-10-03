@@ -51,7 +51,7 @@
 #define BOARD_IV_OFFSET ( -1.0f * ( 1.0f / (float)BOARD_SHUNT_R ) * ( (float)BOARD_OPAMP_R3 / (float)BOARD_OPAMP_R4 ) * (float)BOARD_OFFSET_VCC_VOLTAGE )
 
 //VCC Voltage
-#define VCC_Voltage 12
+#define VCC_VOLTAGE 12
 
 //ADC Value -> Voltage倍率
 #define ADC_VOLTAGE_RATIO ( 3.3f / (float)65535 )
