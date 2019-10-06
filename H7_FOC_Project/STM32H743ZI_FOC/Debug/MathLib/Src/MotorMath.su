@@ -1,0 +1,4 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+MotorMath.cpp:10:1:MotorMath::MotorMath()	16	static
+MotorMath.cpp:15:1:MotorMath::~MotorMath()	16	static
+MotorMath.cpp:15:1:virtual MotorMath::~MotorMath()	16	static

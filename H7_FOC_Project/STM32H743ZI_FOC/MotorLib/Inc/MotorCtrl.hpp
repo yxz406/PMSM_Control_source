@@ -117,6 +117,14 @@ public:
 	void invClarkTransform(void);
 	void SVM(void);
 
+	//Task
+	void ReadCurrentTask();
+	void ReadVoltageTask();
+	void ForceCommutationTask();
+	void ObserverTask();
+	void PIDTask();
+
+	void GPIODebugTask();
 
 	//Debug
 	void DebugTask(float pIu, float pIv, float pIw, float pArg);

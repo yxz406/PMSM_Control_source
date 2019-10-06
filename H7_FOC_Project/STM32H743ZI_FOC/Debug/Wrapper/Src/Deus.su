@@ -1,0 +1,11 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+Deus.cpp:12:1:Deus::Deus()	16	static
+Deus.cpp:16:1:Deus::~Deus()	16	static
+Deus.cpp:16:1:virtual Deus::~Deus()	16	static
+Deus.cpp:21:6:void Deus::HFTask()	16	static
+Deus.cpp:25:6:void Deus::Ctrl()	16	static
+Deus.cpp:36:6:void Deus::BtnAct()	16	static
+Deus.cpp:40:6:void Deus::BtnAct2()	16	static
+Deus.cpp:42:1:void __static_initialization_and_destruction_0(int, int)	16	static
+Deus.cpp:42:1:cpp)	8	static
+Deus.cpp:42:1:cpp)	8	static

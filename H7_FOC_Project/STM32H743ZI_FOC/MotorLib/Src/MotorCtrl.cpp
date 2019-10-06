@@ -88,29 +88,17 @@ void MotorCtrl::InitObserver(void) {
 
 
 void MotorCtrl::HighFreqTask(void) {
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 	//開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
 	ADCCtrl::ADC2Start_Conversion();
 	//ADCCtrl::ADC2Conversion_wait(10);
 
-	//エンコーダ読み取り
-	float Iu,Iv,Iw;
-	//増幅率のバイアス考慮してない。あとで計算すること。
-	Iu = (float)ADCCtrl::ADC3_INJ_Read_ch1() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
-	Iv = (float)ADCCtrl::ADC3_INJ_Read_ch2() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
-	Iw = (float)ADCCtrl::ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
-	setIuvw(Iu, Iv, Iw);
+	ReadCurrentTask();
 
-	//電圧測定(入力)
-	mMotorInfo.mVoltageVCC = VCC_VOLTAGE;
+	ReadVoltageTask();
 
-			//推定誤差計算
-
-		//推定位置計算(センサを叩く)
-		//Motor.culcArg();
-
-	ForceCommutation();
+	ForceCommutationTask();
 
 	//Iuvw -> Iab
 	clarkTransform();
@@ -122,51 +110,11 @@ void MotorCtrl::HighFreqTask(void) {
 //	//Idq -> Igd
 //	parkGanmaDelta();
 
+	GPIODebugTask();//GPIOからオシロに波形を出力する
 
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-	asm("NOP");
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+	ObserverTask();
 
-	//オブザーバセット・計算・値取得
-	mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
-	mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
-	//mObserver.Calculate();//ベクトル制御用
-	mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
-
-	float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
-	mMotorInfo.mArgErr = EstAxiErr;
-	mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
-
-	std::array<float, 2> Idq = getIdq();
-	float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
-	Id = Idq.at(0);
-	Iq = Idq.at(1);
-
-
-	//指令値入力
-	//本当はここをpIdqTargetにして入力にする
-	//float Vd_input = 0;
-	//float Vq_input = 0.5f;
-
-	float Vganma_input = 0;
-	float Vdelta_input = 0;
-
-	float Id_error;
-	float Iq_error;
-
-	float Id_target;
-	float Iq_target;
-
-	Id_target = 0;
-	Iq_target = 0;//ここに目標値を入れる(外部から入れるからSetter必要かも)
-
-	Id_error = Id_target - Id;
-	Iq_error = Iq_target - Iq;
-
-	std::array<float, 2> IdqErr = {Id_error, Iq_error};
-	//Id,IqのPID制御
-
-	PIDdq_control(IdqErr);
+	//PIDTask();
 
 	//IO入力
 	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
@@ -174,16 +122,16 @@ void MotorCtrl::HighFreqTask(void) {
 
 //	Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
 //	Vdelta_input = 0;
+	float Vganma_input,Vdelta_input;
 	Vganma_input = 0;
+	Vdelta_input=0;
 	Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
 
 
 	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
 	setVgd(inputVgd);
 
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-	asm("NOP");
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 
 //	//Vgd -> Vdq
@@ -210,9 +158,27 @@ void MotorCtrl::HighFreqTask(void) {
 
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);//ループ終了のアレ
 	asm("NOP");
-
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
 }
+
+void MotorCtrl::ReadCurrentTask(void) {
+	//ReadCurrent
+	//エンコーダ読み取り
+	float Iu,Iv,Iw;
+	//増幅率のバイアス考慮してない。あとで計算すること。
+	Iu = (float)ADCCtrl::ADC3_INJ_Read_ch1() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iv = (float)ADCCtrl::ADC3_INJ_Read_ch2() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iw = (float)ADCCtrl::ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	setIuvw(Iu, Iv, Iw);
+}
+
+void MotorCtrl::ReadVoltageTask() {
+	//ReadVoltage
+	//電圧測定(入力)
+	mMotorInfo.mVoltageVCC = VCC_VOLTAGE;
+}
+
+
 
 void MotorCtrl::MotorOutputTask(void){
 	TIMCtrl::MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
@@ -227,7 +193,7 @@ void MotorCtrl::setIuvw(float pIu, float pIv, float pIw){
 	mMotorInfo.mIuvw.at(2) = pIw;
 }
 
-void MotorCtrl::ForceCommutation(void) {
+void MotorCtrl::ForceCommutationTask(void) {
 	//強制転流では、gd軸を回転させる。
 	if(mUIStatus.mStartStopTRG) {
 	mArgCtrl.FCacceleration();
@@ -288,6 +254,53 @@ std::array<float, 2> MotorCtrl::getIdq() {
 std::array<float, 2> MotorCtrl::getIgd() {
 	return mMotorInfo.mIgd;
 }
+
+void MotorCtrl::ObserverTask() {
+	//Observer
+	//オブザーバセット・計算・値取得
+	mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
+	mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
+	//mObserver.Calculate();//ベクトル制御用
+	mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
+
+	float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
+	mMotorInfo.mArgErr = EstAxiErr;
+	mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
+}
+
+void MotorCtrl::PIDTask() {
+	std::array<float, 2> Idq = getIdq();
+	float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
+	Id = Idq.at(0);
+	Iq = Idq.at(1);
+
+
+	//指令値入力
+	//本当はここをpIdqTargetにして入力にする
+	//float Vd_input = 0;
+	//float Vq_input = 0.5f;
+
+	float Vganma_input = 0;
+	float Vdelta_input = 0;
+
+	float Id_error;
+	float Iq_error;
+
+	float Id_target;
+	float Iq_target;
+
+	Id_target = 0;
+	Iq_target = 0;//ここに目標値を入れる(外部から入れるからSetter必要かも)
+
+	Id_error = Id_target - Id;
+	Iq_error = Iq_target - Iq;
+
+	std::array<float, 2> IdqErr = {Id_error, Iq_error};
+	//Id,IqのPID制御
+
+	PIDdq_control(IdqErr);
+}
+
 
 void MotorCtrl::PIDdq_control(std::array<float, 2> pErrIdq) {
 	float ErrId = pErrIdq.at(0);
@@ -361,78 +374,96 @@ void MotorCtrl::invClarkTransform(void) {
 void MotorCtrl::SVM(void) {
 	float Va = mMotorInfo.mVab.at(0);
 	float Vb = mMotorInfo.mVab.at(1);
+
+	bool sector0 = ( (Va*Va)>(Vb*Vb/3) ) && (Va>=0) && (Vb>=0);
+	bool sector5 = ( (Va*Va)>(Vb*Vb/3) ) && (Va<0) && (Vb>0);
+
+	bool sector1 = ( (Va*Va)<=(Vb*Vb/3) ) && (Vb>=0);//Va=Vb=0はここに入る
+	bool sector4 = ( (Va*Va)<=(Vb*Vb/3) ) && (Vb<0);
+
+	bool sector2 = ( (Va*Va)>(Vb*Vb/3) ) && (Va<0) && (Vb>0);
+	bool sector3 = ( (Va*Va)>(Vb*Vb/3) ) && (Va<=0) && (Vb<=0);
+
+	int svmflag = ( sector0 | sector1<<1 | sector2 <<2 | sector3 <<3 | sector4 <<4 | sector5 <<5 );
+
 	float cot60 = 1/sqrt(3);
 	float cosec60 = 2/sqrt(3);
-
-	bool sector0 = ( (Va >= 0) && (Vb >= 0) && (abs(Va) >= abs(cot60 * Vb)) );
-	bool sector1 = ( (Vb >= 0) && (abs(Va) <= abs(cot60 * Vb)) );
-	bool sector2 = ( (Va <= 0) && (Vb >= 0) && (abs(Va) >= abs(cot60 * Vb)) );
-	bool sector3 = ( (Va <= 0) && (Vb <= 0) && (abs(Va) >= abs(cot60 * Vb)) );
-	bool sector4 = ( (Vb <= 0) && (abs(Va) <= abs(cot60 * Vb)) );
-	bool sector5 = ( (Va >= 0) && (Vb <= 0) && (abs(Va) >= abs(cot60 * Vb)) );
-
-
 	float coefficient = sqrt(3.0f/2.0f);
 	float Du, Dv, Dw;
-	if(sector0) {
-		float D1 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		float D2 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
-		float D0 = (1-( D1 + D2 ))/2;
-		float D7 = (1-( D1 + D2 ))/2;
+	float D0, D1, D2, D3, D4, D5, D6, D7;
+	switch(svmflag) {
+	case 1://sector0
+		D1 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		D2 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		D0 = (1-( D1 + D2 ))/2;
+		D7 = (1-( D1 + D2 ))/2;
+
 		Du = D1 + D2 + D7;
 		Dv = D2 + D7;
 		Dw = D7;
-	}
-	if(sector1) {
-		float D3 = coefficient * (-Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		float D2 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		float D0 = (1-( D2 + D3 ))/2;
-		float D7 = (1-( D2 + D3 ))/2;
+		break;
+	case 2://sector1
+		D3 = coefficient * (-Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		D2 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		D0 = (1-( D2 + D3 ))/2;
+		D7 = (1-( D2 + D3 ))/2;
 		Du = D2 + D7;
 		Dv = D2 + D3 + D7;
 		Dw = D7;
-	}
-	if(sector2) {
-		float D3 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
-		float D4 = coefficient * (-Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		float D0 = (1-( D3 + D4 ))/2;
-		float D7 = (1-( D3 + D4 ))/2;
+		break;
+	case 4://sector2
+		D3 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		D4 = coefficient * (-Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		D0 = (1-( D3 + D4 ))/2;
+		D7 = (1-( D3 + D4 ))/2;
 		Du = D7;
 		Dv = D3 + D4 + D7;
 		Dw = D4 + D7;
-	}
-	if(sector3) {
-		float D5 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
-		float D4 = coefficient * (-Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		float D0 = (1-( D4 + D5 ))/2;
-		float D7 = (1-( D4 + D5 ))/2;
+		break;
+	case 8://sector3
+		D5 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		D4 = coefficient * (-Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		D0 = (1-( D4 + D5 ))/2;
+		D7 = (1-( D4 + D5 ))/2;
 		Du = D7;
 		Dv = D4 + D7;
 		Dw = D4 + D5 + D7;
-	}
-	if(sector4) {
-		float D5 = coefficient * (-Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		float D6 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		float D0 = (1-( D5 + D6 ))/2;
-		float D7 = (1-( D5 + D6 ))/2;
+		break;
+	case 16://sector4
+		D5 = coefficient * (-Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		D6 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		D0 = (1-( D5 + D6 ))/2;
+		D7 = (1-( D5 + D6 ))/2;
 		Du = D6 + D7;
 		Dv = D7;
 		Dw = D5 + D6 + D7;
-	}
-	if(sector5) {
-		float D1 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		float D6 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
-		float D0 = (1-( D1 + D6 ))/2;
-		float D7 = (1-( D1 + D6 ))/2;
+		break;
+	case 32://sector5
+		D1 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
+		D6 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		D0 = (1-( D1 + D6 ))/2;
+		D7 = (1-( D1 + D6 ))/2;
 		Du = D1 + D6 + D7;
 		Dv = D7;
 		Dw = D6 + D7;
+		break;
+	default:
+		Du = 0.5f;
+		Dv = 0.5f;
+		Dw = 0.5f;
+		break;
 	}
+
 	mMotorInfo.mDutyuvw.at(0) = Du;
 	mMotorInfo.mDutyuvw.at(1) = Dv;
 	mMotorInfo.mDutyuvw.at(2) = Dw;
 }
 
+void MotorCtrl::GPIODebugTask() {//Lチカでタイミングをオシロで見る
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+	asm("NOP");
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+}
 
 void MotorCtrl::JLinkDebug() {
 
