@@ -59,9 +59,11 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-/* USER CODE BEGIN EV */
 extern ADC_HandleTypeDef hadc3;
 extern TIM_HandleTypeDef htim1;
+/* USER CODE BEGIN EV */
+//extern ADC_HandleTypeDef hadc3;
+//extern TIM_HandleTypeDef htim1;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -262,11 +264,12 @@ void TIM1_CC_IRQHandler(void)
 //void EXTI15_10_IRQHandler(void)
 //{
 //  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
-//////
+////////
 //  /* USER CODE END EXTI15_10_IRQn 0 */
+//  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
 //  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
 //  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
-//////
+////////
 //  /* USER CODE END EXTI15_10_IRQn 1 */
 //}
 
@@ -276,49 +279,49 @@ void TIM1_CC_IRQHandler(void)
 //void ADC3_IRQHandler(void)
 //{
 //  /* USER CODE BEGIN ADC3_IRQn 0 */
-////////	//HighFreqTask();
-//////////	uint32_t reg_status = ADC3 -> ISR;
-//////////	uint32_t new_reg = ( ADC3 -> ISR | 0b00000000100 ) ;
-////////
-////////	//ADC3 -> ISR = ADC3 -> ISR | LL_ADC_FLAG_EOS;
-////////
-////////	if(ADC3 -> ISR && LL_ADC_FLAG_JEOC ) {
-////////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-////////		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_SET);
-////////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
-////////		for(int i=0; i<25000000; i++)asm("NOP");
-////////		//asm("NOP");
-////////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
-////////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-////////		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_RESET);
-////////		ADC3 -> ISR &= ~(LL_ADC_FLAG_JEOC);
-////////
-////////	}
-////////
-////////
-////////	if(LL_ADC_IsActiveFlag_JEOS(ADC3)) {
-////////		ADC3 -> ISR &= ~(uint32_t)( LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JQOVF );
-////////		//??��?��?インジェクトシーケンスの終�????��?��?JEOC???��?��?
-////////
-////////		//キューのオーバ�???��?��フローは、キューがフル状態�???��?��ときにJSQR レジスタに書き込??��?��?と発生しま
-////////		//す�???��?��こ�??��オーバ�???��?��フローは、フラグ JQOVF のアサーションによって示されます�???��?��オーバ�???��?��??��?��?
-////////		//ローが発生すると、オーバ�???��?��フローを作�???��?��し�? JSQR レジスタの書き込みアクセスは無視され�??
-////////		//コン??��?��?キスト�???��?��キューは変更されません??��?��?J
-////////
-////////
-////////		//HighFreqTask();
-////////		//HAL_ADC_IRQHandler(&hadc3);
-////////
-////////	} else {
-////////
-////////		//??��?��?インジェクト変換の終�????��?��?JEOC???��?��?
-////////
-////////	}
-////////	//HAL_ADC
+//////////	//HighFreqTask();
+////////////	uint32_t reg_status = ADC3 -> ISR;
+////////////	uint32_t new_reg = ( ADC3 -> ISR | 0b00000000100 ) ;
+//////////
+//////////	//ADC3 -> ISR = ADC3 -> ISR | LL_ADC_FLAG_EOS;
+//////////
+//////////	if(ADC3 -> ISR && LL_ADC_FLAG_JEOC ) {
+//////////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+//////////		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_SET);
+//////////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
+//////////		for(int i=0; i<25000000; i++)asm("NOP");
+//////////		//asm("NOP");
+//////////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
+//////////		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+//////////		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_RESET);
+//////////		ADC3 -> ISR &= ~(LL_ADC_FLAG_JEOC);
+//////////
+//////////	}
+//////////
+//////////
+//////////	if(LL_ADC_IsActiveFlag_JEOS(ADC3)) {
+//////////		ADC3 -> ISR &= ~(uint32_t)( LL_ADC_FLAG_JEOS | LL_ADC_FLAG_JQOVF );
+//////////		//???��?��??��?��?インジェクトシーケンスの終�?????��?��??��?��?JEOC????��?��??��?��?
+//////////
+//////////		//キューのオーバ�????��?��??��?��フローは、キューがフル状態�????��?��??��?��ときにJSQR レジスタに書き込???��?��??��?��?と発生しま
+//////////		//す�????��?��??��?��こ�???��?��オーバ�????��?��??��?��フローは、フラグ JQOVF のアサーションによって示されます�????��?��??��?��オーバ�????��?��??��?��???��?��??��?��?
+//////////		//ローが発生すると、オーバ�????��?��??��?��フローを作�????��?��??��?��し�? JSQR レジスタの書き込みアクセスは無視され�??
+//////////		//コン???��?��??��?��?キスト�????��?��??��?��キューは変更されません???��?��??��?��?J
+//////////
+//////////
+//////////		//HighFreqTask();
+//////////		//HAL_ADC_IRQHandler(&hadc3);
+//////////
+//////////	} else {
+//////////
+//////////		//???��?��??��?��?インジェクト変換の終�?????��?��??��?��?JEOC????��?��??��?��?
+//////////
+//////////	}
+//////////	//HAL_ADC
 //  /* USER CODE END ADC3_IRQn 0 */
 //  HAL_ADC_IRQHandler(&hadc3);
 //  /* USER CODE BEGIN ADC3_IRQn 1 */
-////////  //asm("NOP");
+//////////  //asm("NOP");
 //  /* USER CODE END ADC3_IRQn 1 */
 //}
 
