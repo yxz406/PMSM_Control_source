@@ -27,6 +27,7 @@ void cppWrapper(void){
 void EXTI15_10_IRQHandler(void)
 {
 	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_12) != 0x00U) {
+	Bosatsu.BtnAct2();
 	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
 	}
 	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_13) != 0x00U) {

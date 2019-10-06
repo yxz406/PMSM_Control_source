@@ -32,6 +32,7 @@ public:
 	void Ctrl();
 	void HFTask();
 	void BtnAct();
+	void BtnAct2();
 };
 
 #endif /* INC_DEUS_HPP_ */

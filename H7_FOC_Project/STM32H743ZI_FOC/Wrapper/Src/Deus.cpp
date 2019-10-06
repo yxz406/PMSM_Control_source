@@ -36,3 +36,7 @@ void Deus::Ctrl() {
 void Deus::BtnAct(){
 	M_Ctrl.BtnAct();
 }
+
+void Deus::BtnAct2(){
+	M_Ctrl.BtnActOFF();
+}
