@@ -1,6 +1,0 @@
-Trigonometric.cpp:10:1:Trigonometric::Trigonometric()	16	static
-Trigonometric.cpp:15:1:Trigonometric::~Trigonometric()	16	static
-Trigonometric.cpp:15:1:virtual Trigonometric::~Trigonometric()	16	static
-Trigonometric.cpp:19:7:static float Trigonometric::sin(float)	16	static
-Trigonometric.cpp:23:7:static float Trigonometric::cos(float)	16	static
-Trigonometric.cpp:27:7:static float Trigonometric::atan2(float, float)	16	static

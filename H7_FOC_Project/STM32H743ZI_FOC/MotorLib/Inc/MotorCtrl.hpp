@@ -61,7 +61,13 @@ public:
 	enum MotorStartStopStatus {
 			MotorStop = 0,
 			MotorStart = 1,
-		};
+	};
+
+	enum DriveMode {
+		Parammeasure = -1,
+		ForceCommutation = 1,
+		FOC = 2,
+	};
 
 	class UIStatus {
 	public:
@@ -77,6 +83,7 @@ private:
 
 	ArgCtrl mArgCtrl;
 
+	DriveMode mDriveMode;
 	UIStatus mUIStatus;
 
 	DebugCtrl mDebug;
@@ -91,10 +98,14 @@ public:
 	void InitObserver(void);
 
 	void HighFreqTask(void);
+
+	void ForceCommutationMode(void);
+	void FOCMode(void);
+
 	void MotorOutputTask(void);
 
 	//MotorControl
-	void ForceCommutation(void);
+	//void ForceCommutation(void);
 
 	void setIuvw(float pIu, float pIv, float pIw);
 	void clarkTransform(void);
@@ -121,7 +132,8 @@ public:
 	void ReadCurrentTask();
 	void ReadVoltageTask();
 	void ForceCommutationTask();
-	void ObserverTask();
+	void ObserverTaskforFC();
+	void ObserverTaskforFOC();
 	void PIDTask();
 
 	void GPIODebugTask();
