@@ -19,8 +19,13 @@ public:
 class Zintegrate1n{
 private:
 	float mK;
-	float mValue;
-	float mOldVal;
+	float mInput = 0;
+	float mInputOld = 0;
+
+	float mOutput = 0;
+	float mOutputOld = 0;
+
+
 public:
 	void ZintegrateInit(float pK);
 	float integrate(float pTime, float pValue);
