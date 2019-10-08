@@ -201,8 +201,8 @@ void MotorCtrl::FOCMode(void) {
 	invParkgdtoab();
 
 	//Vab -> Vuvw
-	invClarkTransform();
-	//SVM();
+	//invClarkTransform();
+	SVM();
 
 	//PWM出力
 	//MotorOutputTask();
