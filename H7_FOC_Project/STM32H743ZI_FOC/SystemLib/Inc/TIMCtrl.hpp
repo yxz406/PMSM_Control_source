@@ -29,8 +29,12 @@ public:
 	static void TIM1SetCOMP_ch5(int pCompare);
 	static void TIM1SetCOMP_ch6(int pCompare);
 
-	void floatDuty(float pfDuty);//隠し機能
-	static void MotorDuty_ch1(float pfDuty);
+	static void floatDuty_ch1(float pfDuty);//0~1
+	static void floatDuty_ch2(float pfDuty);//0~1
+	static void floatDuty_ch3(float pfDuty);//0~1
+	static void floatDuty_ch4(float pfDuty);//0~1
+
+	static void MotorDuty_ch1(float pfDuty);//-1~1
 	static void MotorDuty_ch2(float pfDuty);
 	static void MotorDuty_ch3(float pfDuty);
 	static void MotorDuty_ch4(float pfDuty);

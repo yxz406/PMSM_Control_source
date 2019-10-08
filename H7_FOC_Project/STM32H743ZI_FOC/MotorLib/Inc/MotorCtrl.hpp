@@ -103,6 +103,7 @@ public:
 	void FOCMode(void);
 
 	void MotorOutputTask(void);
+	void MotorOutputTaskSVM(void);
 
 	//MotorControl
 	//void ForceCommutation(void);

@@ -49,15 +49,13 @@ float Zintegrate1n::integrate(float pTime, float pInput) {
 
 
 void Zintegrate2n::ZintegrateInit(float pK){
-	mVector = {0};
-	mOldVec = {0};
-	mK = pK;
+	mIntegrate1.ZintegrateInit(pK);
+	mIntegrate2.ZintegrateInit(pK);
 }
 
-std::array<float, 2> Zintegrate2n::integrate(float pTime, std::array<float, 2> pVector) {
-	mOldVec.at(0) = mVector.at(0);
-	mOldVec.at(1) = mVector.at(1);
-	mVector.at(0) = mOldVec.at(0) + mK * pTime * pVector.at(0);
-	mVector.at(1) = mOldVec.at(1) + mK * pTime * pVector.at(1);
-	return mOldVec;
+std::array<float, 2> Zintegrate2n::integrate(float pTime, std::array<float, 2> pInput) {
+	std::array<float, 2> Output;
+	Output.at(0) = mIntegrate1.integrate(pTime, pInput.at(0));
+	Output.at(1) = mIntegrate2.integrate(pTime, pInput.at(1));
+	return Output;
 }

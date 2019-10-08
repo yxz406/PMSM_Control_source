@@ -205,7 +205,8 @@ void MotorCtrl::FOCMode(void) {
 	//SVM();
 
 	//PWM出力
-	MotorOutputTask();
+	//MotorOutputTask();
+	MotorOutputTaskSVM();
 
 	//DEBUG
 	GPIODebugTask();//GPIOからオシロに波形を出力する
@@ -240,6 +241,12 @@ void MotorCtrl::MotorOutputTask(void){
 	TIMCtrl::MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
 	TIMCtrl::MotorDuty_ch2(mMotorInfo.mDutyuvw.at(1));
 	TIMCtrl::MotorDuty_ch3(mMotorInfo.mDutyuvw.at(2));
+}
+
+void MotorCtrl::MotorOutputTaskSVM(void){
+	TIMCtrl::floatDuty_ch1(mMotorInfo.mDutyuvw.at(0));
+	TIMCtrl::floatDuty_ch2(mMotorInfo.mDutyuvw.at(1));
+	TIMCtrl::floatDuty_ch3(mMotorInfo.mDutyuvw.at(2));
 }
 
 //Motor
@@ -467,8 +474,8 @@ void MotorCtrl::SVM(void) {
 		D0 = (1-( D1 + D2 ))/2;
 		D7 = (1-( D1 + D2 ))/2;
 
-		Du = D1 + D2 + D0;
-		Dv = D2 + D0;
+		Du = D1 + D2 + D7;
+		Dv = D2 + D7;
 		Dw = D7;
 		break;
 	case 2://sector1
@@ -476,8 +483,8 @@ void MotorCtrl::SVM(void) {
 		D2 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
 		D0 = (1-( D2 + D3 ))/2;
 		D7 = (1-( D2 + D3 ))/2;
-		Du = D2 + D0;
-		Dv = D2 + D3 + D0;
+		Du = D2 + D7;
+		Dv = D2 + D3 + D7;
 		Dw = D7;
 		break;
 	case 4://sector2
@@ -486,8 +493,8 @@ void MotorCtrl::SVM(void) {
 		D0 = (1-( D3 + D4 ))/2;
 		D7 = (1-( D3 + D4 ))/2;
 		Du = D7;
-		Dv = D3 + D4 + D0;
-		Dw = D4 + D0;
+		Dv = D3 + D4 + D7;
+		Dw = D4 + D7;
 		break;
 	case 8://sector3
 		D5 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
@@ -495,26 +502,26 @@ void MotorCtrl::SVM(void) {
 		D0 = (1-( D4 + D5 ))/2;
 		D7 = (1-( D4 + D5 ))/2;
 		Du = D7;
-		Dv = D4 + D0;
-		Dw = D4 + D5 + D0;
+		Dv = D4 + D7;
+		Dw = D4 + D5 + D7;
 		break;
 	case 16://sector4
 		D5 = coefficient * (-Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
 		D6 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
 		D0 = (1-( D5 + D6 ))/2;
 		D7 = (1-( D5 + D6 ))/2;
-		Du = D6 + D0;
+		Du = D6 + D7;
 		Dv = D7;
-		Dw = D5 + D6 + D0;
+		Dw = D5 + D6 + D7;
 		break;
 	case 32://sector5
 		D1 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
 		D6 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
 		D0 = (1-( D1 + D6 ))/2;
 		D7 = (1-( D1 + D6 ))/2;
-		Du = D1 + D6 + D0;
+		Du = D1 + D6 + D7;
 		Dv = D7;
-		Dw = D6 + D0;
+		Dw = D6 + D7;
 		break;
 	default:
 		Du = 0.5f;

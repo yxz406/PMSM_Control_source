@@ -16,7 +16,7 @@ public:
 	virtual ~ZIntegrate();
 };
 
-class Zintegrate1n{
+class Zintegrate1n {
 private:
 	float mK;
 	float mInput = 0;
@@ -28,17 +28,16 @@ private:
 
 public:
 	void ZintegrateInit(float pK);
-	float integrate(float pTime, float pValue);
+	float integrate(float pTime, float pInput);
 };
 
-class Zintegrate2n{
+class Zintegrate2n {
 private:
-	float mK;
-	std::array<float, 2> mVector;
-	std::array<float, 2> mOldVec;
+	Zintegrate1n mIntegrate1;
+	Zintegrate1n mIntegrate2;
 public:
 	void ZintegrateInit(float pK);
-	std::array<float, 2> integrate(float pTime, std::array<float, 2> pVector);
+	std::array<float, 2> integrate(float pTime, std::array<float, 2> pInput);
 };
 
 

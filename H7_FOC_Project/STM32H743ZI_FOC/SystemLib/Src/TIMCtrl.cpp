@@ -55,9 +55,24 @@ void TIMCtrl::TIM1SetCOMP_ch6(int pCompare) {
 	TIM1 -> CCR6 = pCompare;
 }
 
-void TIMCtrl::floatDuty(float pfDuty) {
+void TIMCtrl::floatDuty_ch1(float pfDuty) {
 	int duty = pfDuty * (float)mHandleTIM1.Init.Period;
 	TIM1SetCOMP_ch1(duty);
+}
+
+void TIMCtrl::floatDuty_ch2(float pfDuty) {
+	int duty = pfDuty * (float)mHandleTIM1.Init.Period;
+	TIM1SetCOMP_ch2(duty);
+}
+
+void TIMCtrl::floatDuty_ch3(float pfDuty) {
+	int duty = pfDuty * (float)mHandleTIM1.Init.Period;
+	TIM1SetCOMP_ch3(duty);
+}
+
+void TIMCtrl::floatDuty_ch4(float pfDuty) {
+	int duty = pfDuty * (float)mHandleTIM1.Init.Period;
+	TIM1SetCOMP_ch4(duty);
 }
 
 void TIMCtrl::MotorDuty_ch1(float pfDuty) {
