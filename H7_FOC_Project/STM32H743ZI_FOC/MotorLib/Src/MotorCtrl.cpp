@@ -5,8 +5,6 @@
  *      Author: watashi
  */
 
-//TODO FOCモードの動作が未定義。そのまま回すと死ぬ。決める事。
-
 
 #include "MotorCtrl.hpp"
 
@@ -124,7 +122,8 @@ void MotorCtrl::ForceCommutationMode(void) {
 	float Vganma_input,Vdelta_input;
 	Vganma_input = 0;
 	Vdelta_input=0;
-	Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
+	//Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
+	Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
 	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
 	setVgd(inputVgd);
 
@@ -133,11 +132,12 @@ void MotorCtrl::ForceCommutationMode(void) {
 	//Vgd->Vab
 	invParkgdtoab();
 	//Vab -> Vuvw
-	invClarkTransform();
-	//SVM();
+	//invClarkTransform();
+	SVM();
 
 	//PWM出力
-	MotorOutputTask();
+	//MotorOutputTask();
+	MotorOutputTaskSVM();
 
 	//DEBUG
 	GPIODebugTask();//GPIOからオシロに波形を出力する
@@ -233,20 +233,6 @@ void MotorCtrl::ReadVoltageTask() {
 	//ReadVoltage
 	//電圧測定(入力)
 	mMotorInfo.mVoltageVCC = VCC_VOLTAGE;
-}
-
-
-
-void MotorCtrl::MotorOutputTask(void){
-	TIMCtrl::MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
-	TIMCtrl::MotorDuty_ch2(mMotorInfo.mDutyuvw.at(1));
-	TIMCtrl::MotorDuty_ch3(mMotorInfo.mDutyuvw.at(2));
-}
-
-void MotorCtrl::MotorOutputTaskSVM(void){
-	TIMCtrl::floatDuty_ch1(mMotorInfo.mDutyuvw.at(0));
-	TIMCtrl::floatDuty_ch2(mMotorInfo.mDutyuvw.at(1));
-	TIMCtrl::floatDuty_ch3(mMotorInfo.mDutyuvw.at(2));
 }
 
 //Motor
@@ -451,14 +437,14 @@ void MotorCtrl::SVM(void) {
 	float Va = mMotorInfo.mVab.at(0);
 	float Vb = mMotorInfo.mVab.at(1);
 
-	bool sector0 = ( (Va*Va)>(Vb*Vb/3) ) && (Va>=0) && (Vb>=0);
-	bool sector5 = ( (Va*Va)>(Vb*Vb/3) ) && (Va<0) && (Vb>0);
+	bool sector0 = ((Va*Va)>(Vb*Vb / 3)) && (Va >= 0) && (Vb >= 0);
+	bool sector5 = ((Va*Va)>(Vb*Vb / 3)) && (Va>0) && (Vb<0);
 
-	bool sector1 = ( (Va*Va)<=(Vb*Vb/3) ) && (Vb>=0);//Va=Vb=0はここに入る
-	bool sector4 = ( (Va*Va)<=(Vb*Vb/3) ) && (Vb<0);
+	bool sector1 = ((Va*Va) <= (Vb*Vb / 3)) && (Vb >= 0);//Va=Vb=0はここに入る
+	bool sector4 = ((Va*Va) <= (Vb*Vb / 3)) && (Vb<0);
 
-	bool sector2 = ( (Va*Va)>(Vb*Vb/3) ) && (Va<0) && (Vb>0);
-	bool sector3 = ( (Va*Va)>(Vb*Vb/3) ) && (Va<=0) && (Vb<=0);
+	bool sector2 = ((Va*Va)>(Vb*Vb / 3)) && (Va<0) && (Vb>0);
+	bool sector3 = ((Va*Va)>(Vb*Vb / 3)) && (Va <= 0) && (Vb <= 0);
 
 	int svmflag = ( sector0 | sector1<<1 | sector2 <<2 | sector3 <<3 | sector4 <<4 | sector5 <<5 );
 
@@ -467,58 +453,58 @@ void MotorCtrl::SVM(void) {
 	float coefficient = sqrt(3.0f/2.0f);
 	float Du, Dv, Dw;
 	float D0, D1, D2, D3, D4, D5, D6, D7;
-	switch(svmflag) {
+	switch (svmflag) {
 	case 1://sector0
-		D1 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		D2 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
-		D0 = (1-( D1 + D2 ))/2;
-		D7 = (1-( D1 + D2 ))/2;
+		D1 = coefficient * (Va - cot60 * Vb) / 12;
+		D2 = coefficient * (cosec60 * Vb) / 12;
+		D0 = (1 - (D1 + D2)) / 2;
+		D7 = (1 - (D1 + D2)) / 2;
 
 		Du = D1 + D2 + D7;
 		Dv = D2 + D7;
 		Dw = D7;
 		break;
 	case 2://sector1
-		D3 = coefficient * (-Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		D2 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		D0 = (1-( D2 + D3 ))/2;
-		D7 = (1-( D2 + D3 ))/2;
+		D3 = coefficient * (-Va + cot60 * Vb) / mMotorInfo.mVoltageVCC;
+		D2 = coefficient * (Va + cot60 * Vb) / mMotorInfo.mVoltageVCC;
+		D0 = (1 - (D2 + D3)) / 2;
+		D7 = (1 - (D2 + D3)) / 2;
 		Du = D2 + D7;
 		Dv = D2 + D3 + D7;
 		Dw = D7;
 		break;
 	case 4://sector2
 		D3 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
-		D4 = coefficient * (-Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		D0 = (1-( D3 + D4 ))/2;
-		D7 = (1-( D3 + D4 ))/2;
+		D4 = coefficient * (-Va - cot60 * Vb) / mMotorInfo.mVoltageVCC;
+		D0 = (1 - (D3 + D4)) / 2;
+		D7 = (1 - (D3 + D4)) / 2;
 		Du = D7;
 		Dv = D3 + D4 + D7;
 		Dw = D4 + D7;
 		break;
 	case 8://sector3
-		D5 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
-		D4 = coefficient * (-Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		D0 = (1-( D4 + D5 ))/2;
-		D7 = (1-( D4 + D5 ))/2;
+		D5 = coefficient * (-cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		D4 = coefficient * (-Va + cot60 * Vb) / mMotorInfo.mVoltageVCC;
+		D0 = (1 - (D4 + D5)) / 2;
+		D7 = (1 - (D4 + D5)) / 2;
 		Du = D7;
 		Dv = D4 + D7;
 		Dw = D4 + D5 + D7;
 		break;
 	case 16://sector4
-		D5 = coefficient * (-Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		D6 = coefficient * (Va - cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		D0 = (1-( D5 + D6 ))/2;
-		D7 = (1-( D5 + D6 ))/2;
+		D5 = coefficient * (-Va - cot60 * Vb) / mMotorInfo.mVoltageVCC;
+		D6 = coefficient * (Va - cot60 * Vb) / mMotorInfo.mVoltageVCC;
+		D0 = (1 - (D5 + D6)) / 2;
+		D7 = (1 - (D5 + D6)) / 2;
 		Du = D6 + D7;
 		Dv = D7;
 		Dw = D5 + D6 + D7;
 		break;
 	case 32://sector5
-		D1 = coefficient * (Va + cot60*Vb ) / mMotorInfo.mVoltageVCC;
-		D6 = coefficient * (cosec60 * Vb) / mMotorInfo.mVoltageVCC;
-		D0 = (1-( D1 + D6 ))/2;
-		D7 = (1-( D1 + D6 ))/2;
+		D1 = coefficient * (Va + cot60 * Vb) / mMotorInfo.mVoltageVCC;
+		D6 = coefficient * (-cosec60 * Vb) / mMotorInfo.mVoltageVCC;
+		D0 = (1 - (D1 + D6)) / 2;
+		D7 = (1 - (D1 + D6)) / 2;
 		Du = D1 + D6 + D7;
 		Dv = D7;
 		Dw = D6 + D7;
@@ -534,6 +520,20 @@ void MotorCtrl::SVM(void) {
 	mMotorInfo.mDutyuvw.at(1) = Dv;
 	mMotorInfo.mDutyuvw.at(2) = Dw;
 }
+
+void MotorCtrl::MotorOutputTask(void) {
+	TIMCtrl::MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
+	TIMCtrl::MotorDuty_ch2(mMotorInfo.mDutyuvw.at(1));
+	TIMCtrl::MotorDuty_ch3(mMotorInfo.mDutyuvw.at(2));
+}
+
+void MotorCtrl::MotorOutputTaskSVM(void) {
+	TIMCtrl::floatDuty_ch1(mMotorInfo.mDutyuvw.at(0));
+	TIMCtrl::floatDuty_ch2(mMotorInfo.mDutyuvw.at(1));
+	TIMCtrl::floatDuty_ch3(mMotorInfo.mDutyuvw.at(2));
+}
+
+
 
 void MotorCtrl::GPIODebugTask() {//Lチカでタイミングをオシロで見る
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
@@ -558,11 +558,19 @@ void MotorCtrl::JLinkDebug() {
 	int milVg = (int)( mMotorInfo.mVgd.at(0) * 1000 );
 	int milVd = (int)( mMotorInfo.mVgd.at(1) * 1000 );
 
-	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る ACCEL
-		return;
-	}
+	//SVMdebug
+	int milVu = (int)(mMotorInfo.mDutyuvw.at(0) * 1000 );
+	int milVv = (int)(mMotorInfo.mDutyuvw.at(1) * 1000 );
+	int milVw = (int)(mMotorInfo.mDutyuvw.at(2) * 1000 );
+
+//	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る ACCEL
+//		return;
+//	}
+		//printf("%d,%d,%d,%d\n" ,mlogcount, milVu, milVv, milVw);
+		printf("%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVg, milVd, milIg, milId, DegArg, DegAxiErr);
+		//SEGGER_RTT_printf(0, "%d,%d,%d,%d\n" ,mlogcount, milVu, milVv, milVw, mil);
 		//SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,mlogcount,milIu, milIv, milIw, DegArg,DegAxiErr);　//uvwを観測するバージョン
-		SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIa, milIb, milIg, milId, milVg, milVd, DegArg, DegAxiErr);//gdなどを観測するバージョン
+		//SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIa, milIb, milIg, milId, milVg, milVd, DegArg, DegAxiErr);//gdなどを観測するバージョン
 		mlogcount++;
 		if(	mlogcount > 65535){
 			mlogcount=0;
