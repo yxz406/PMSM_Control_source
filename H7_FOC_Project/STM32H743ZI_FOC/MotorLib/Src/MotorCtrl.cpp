@@ -226,6 +226,9 @@ void MotorCtrl::ReadCurrentTask(void) {
 	Iu = (float)ADCCtrl::ADC3_INJ_Read_ch1() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
 	Iv = (float)ADCCtrl::ADC3_INJ_Read_ch2() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
 	Iw = (float)ADCCtrl::ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iu = -Iu;//モータ「に」流す電流にするため、反転。
+	Iv = -Iv;
+	Iw = -Iw;
 	setIuvw(Iu, Iv, Iw);
 }
 
@@ -543,9 +546,9 @@ void MotorCtrl::GPIODebugTask() {//Lチカでタイミングをオシロで見�
 
 void MotorCtrl::JLinkDebug() {
 
-	//int milIu = (int)( mMotorInfo.mIuvw.at(0) * 1000 );
-	//int milIv = (int)( mMotorInfo.mIuvw.at(1) * 1000 );
-	//int milIw = (int)( mMotorInfo.mIuvw.at(2) * 1000 );
+	int milIu = (int)( mMotorInfo.mIuvw.at(0) * 1000 );
+	int milIv = (int)( mMotorInfo.mIuvw.at(1) * 1000 );
+	int milIw = (int)( mMotorInfo.mIuvw.at(2) * 1000 );
 	int DegArg = (int)(mMotorInfo.mgdArg/M_PI * 180 );//指令値の角度
 	int DegAxiErr =(int)( mObserver.GetEstAxiErr() / M_PI *180 );
 
@@ -563,11 +566,12 @@ void MotorCtrl::JLinkDebug() {
 	int milVv = (int)(mMotorInfo.mDutyuvw.at(1) * 1000 );
 	int milVw = (int)(mMotorInfo.mDutyuvw.at(2) * 1000 );
 
-//	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る ACCEL
-//		return;
-//	}
+	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る ACCEL
+		return;
+	}
+		//printf("%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVu, milVv, milVw, milIu, milIv, milIw);
 		//printf("%d,%d,%d,%d\n" ,mlogcount, milVu, milVv, milVw);
-		printf("%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVg, milVd, milIg, milId, DegArg, DegAxiErr);
+		printf("%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVg, milVd, milIg, milId, DegArg, DegAxiErr);//みやゆうさんご希望のデバッグ
 		//SEGGER_RTT_printf(0, "%d,%d,%d,%d\n" ,mlogcount, milVu, milVv, milVw, mil);
 		//SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,mlogcount,milIu, milIv, milIw, DegArg,DegAxiErr);　//uvwを観測するバージョン
 		//SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIa, milIb, milIg, milId, milVg, milVd, DegArg, DegAxiErr);//gdなどを観測するバージョン
