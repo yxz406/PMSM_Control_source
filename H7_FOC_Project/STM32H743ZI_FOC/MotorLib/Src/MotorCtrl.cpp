@@ -546,6 +546,13 @@ void MotorCtrl::GPIODebugTask() {//Lチカでタイミングをオシロで見�
 
 void MotorCtrl::JLinkDebug() {
 
+	mDebugC++;
+
+	if(mDebugC >= 2) {
+		mDebugC = 0;
+		return;
+	}
+
 	int milIu = (int)( mMotorInfo.mIuvw.at(0) * 1000 );
 	int milIv = (int)( mMotorInfo.mIuvw.at(1) * 1000 );
 	int milIw = (int)( mMotorInfo.mIuvw.at(2) * 1000 );
@@ -566,19 +573,20 @@ void MotorCtrl::JLinkDebug() {
 	int milVv = (int)(mMotorInfo.mDutyuvw.at(1) * 1000 );
 	int milVw = (int)(mMotorInfo.mDutyuvw.at(2) * 1000 );
 
+	char outputStr[100]={0};//100文字までとりあえず静的確保
+	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVg, milVd, milIg, milId, DegArg, DegAxiErr);//みやゆうさんご希望のデバッグ
+
 	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る ACCEL
 		return;
 	}
-		//printf("%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVu, milVv, milVw, milIu, milIv, milIw);
-		//printf("%d,%d,%d,%d\n" ,mlogcount, milVu, milVv, milVw);
-		printf("%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVg, milVd, milIg, milId, DegArg, DegAxiErr);//みやゆうさんご希望のデバッグ
-		//SEGGER_RTT_printf(0, "%d,%d,%d,%d\n" ,mlogcount, milVu, milVv, milVw, mil);
-		//SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d\n" ,mlogcount,milIu, milIv, milIw, DegArg,DegAxiErr);　//uvwを観測するバージョン
-		//SEGGER_RTT_printf(0, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIa, milIb, milIg, milId, milVg, milVd, DegArg, DegAxiErr);//gdなどを観測するバージョン
-		mlogcount++;
-		if(	mlogcount > 65535){
-			mlogcount=0;
-		}
+
+	SEGGER_RTT_WriteString(0,outputStr);
+	//printf("%s" ,outputStr);
+
+	mlogcount++;
+	if(	mlogcount > 65535){
+		mlogcount=0;
+	}
 
 }
 
