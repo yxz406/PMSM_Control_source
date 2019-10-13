@@ -13,6 +13,7 @@
 class PID {
 private:
 	std::array<float, 3> mError;
+	float mOutput;
 	float mOutValOfLast;
 	float mGain_p;
 	float mGain_i;
@@ -26,7 +27,6 @@ public:
 	virtual ~PID();
 	void SetParam(float pGain_p, float pGain_i, float pGain_d);
 	void ErrorUpdate(float pError);
-	void ErrorAndTimeUpdate(float pError, float pSampleTime);
 	void SetSampleTime(float pSampleTime);
 	float OutPut(void);
 };

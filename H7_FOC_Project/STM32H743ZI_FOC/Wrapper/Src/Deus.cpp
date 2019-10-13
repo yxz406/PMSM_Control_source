@@ -24,7 +24,7 @@ void Deus::HFTask() {
 
 void Deus::Ctrl() {
 
-	M_Ctrl.InitMotorInfo();
+	M_Ctrl.InitMotorControl();
 	M_Ctrl.InitObserver();
 
 	M_Ctrl.InitSystem();//ここでTIMとADC起動

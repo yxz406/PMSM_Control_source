@@ -78,16 +78,32 @@
 #define PWM_PERIOD_SEC 1.0f/(float)PWM_FREQ_HZ
 #define CONTROL_FREQ_HZ PWM_FREQ_HZ
 
-//PIDパラメータ設定
+//制御周期[s]
+#define PID_CYCLE_TIME PWM_PERIOD_SEC
+
+//PIdq制御器パラメータ設定
 #define PID_GAIN_ID_P 0.1
 #define PID_GAIN_ID_I 0.1
 #define PID_GAIN_ID_D 0.1
+#define PID_ID_MAX_VOLTAGE 10
 
 #define PID_GAIN_IQ_P 0.1
 #define PID_GAIN_IQ_I 0.1
 #define PID_GAIN_IQ_D 0.1
+#define PID_IQ_MAX_VOLTAGE 10
 
-#define PID_CONTROL_CYCLE PWM_PERIOD_SEC
+//PIgd制御器パラメータ設定
+#define PID_GAIN_IGANMA_P (M_PARAM_LD)/(PID_CYCLE_TIME)
+#define PID_GAIN_IGANMA_I (M_PARAM_R)/(PID_CYCLE_TIME)
+#define PID_GAIN_IGANMA_D 0
+#define PID_IGANMA_MAX_VOLTAGE 10
+
+#define PID_GAIN_IDELTA_P (M_PARAM_LQ)/(PID_CYCLE_TIME)
+#define PID_GAIN_IDELTA_I (M_PARAM_R)/(PID_CYCLE_TIME)
+#define PID_GAIN_IDELTA_D 0
+#define PID_IDELTA_MAX_VOLTAGE 10
+
+
 
 //強制転流の設定
 //#define FC_TARGET_RPM 1000

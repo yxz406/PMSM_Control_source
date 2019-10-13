@@ -100,7 +100,7 @@ public:
 	void SetMotorInfo(MotorInfo pMotorInfo);
 
 	void InitSystem(void);
-	void InitMotorInfo(void);
+	void InitMotorControl(void);
 	void InitObserver(void);
 
 	void HighFreqTask(void);
@@ -141,7 +141,7 @@ public:
 	void AngleTaskForOpenLoop();
 	void AngleTaskForFOC();
 	void ObserverTask();
-	void PIDTask();
+	void CurrentPITask();
 
 	void GPIODebugTask();
 

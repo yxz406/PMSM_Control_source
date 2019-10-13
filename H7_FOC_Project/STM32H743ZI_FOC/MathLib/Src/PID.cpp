@@ -24,7 +24,8 @@ PID::PID(float pGain_p, float pGain_i, float pGain_d)
 :mGain_p(pGain_p), mGain_i(pGain_i), mGain_d(pGain_d)
 {
 	// TODO Auto-generated constructor stub
-
+	mOutput = 0;
+	mOutValOfLast = 0;
 	mError.fill(0);
 }
 
@@ -42,15 +43,7 @@ void PID::ErrorUpdate(float pError) {
 //	mError[1] = pError;
 //	mError[2] = mError[1];
 //	mError[3] = mError[2];
-	mError = {pError,mError[1],mError[2]};
-}
-
-void PID::ErrorAndTimeUpdate(float pError, float pSampleTime) {
-//	mError[1] = pError;
-//	mError[2] = mError[1];
-//	mError[3] = mError[2];//下のがはやそうだから。
-	mError = {pError,mError[1],mError[2]};
-	mSampleTime = pSampleTime;
+	mError = {pError,mError.at(0),mError.at(1)};
 }
 
 void PID::SetSampleTime(float pSampleTime) {
@@ -58,6 +51,8 @@ void PID::SetSampleTime(float pSampleTime) {
 }
 
 float PID::OutPut(void){
-	mDiff = mGain_p*(mError[1]-mError[2]+(mGain_i/mSampleTime)*mError[1]+(mGain_d/mSampleTime)*(mError[1]-2*mError[2]+mError[3]));
-	return mOutValOfLast + mDiff;
+	mOutValOfLast = mOutput;//前回値の保持
+	mDiff = mGain_p*(mError.at(0)-mError.at(1)+(mGain_i/mSampleTime)*mError.at(0)+(mGain_d/mSampleTime)*(mError.at(0)-2*mError.at(1)+mError.at(2)));
+	mOutput = mOutValOfLast + mDiff;
+	return mOutput;
 }

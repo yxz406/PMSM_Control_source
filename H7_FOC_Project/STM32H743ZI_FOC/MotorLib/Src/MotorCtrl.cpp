@@ -50,7 +50,7 @@ void MotorCtrl::InitSystem(void) {
 }
 
 
-void MotorCtrl::InitMotorInfo(void) {
+void MotorCtrl::InitMotorControl(void) {
 	mOperationMode = Drive;//起動時、動作をまずは運転にする。
 	mControlMode = OpenLoop;//起動時、動作をまずは強制転流にする。
 
@@ -60,15 +60,25 @@ void MotorCtrl::InitMotorInfo(void) {
 		mArgCtrl = ArgCtrl;
 	}
 
+//	{//PIDLibの生存時間調整(代入後メモリを解放する)
+//		PID IdPID;
+//		PID IqPID;
+//		IdPID.SetParam(PID_GAIN_ID_P, PID_GAIN_ID_I, PID_GAIN_ID_D);
+//		IqPID.SetParam(PID_GAIN_IQ_P, PID_GAIN_IQ_I, PID_GAIN_IQ_D);
+//		IdPID.SetSampleTime(PID_CONTROL_CYCLE);
+//		IqPID.SetSampleTime(PID_CONTROL_CYCLE);
+//		mIdPID = IdPID;
+//		mIqPID = IqPID;
+//	}
 	{//PIDLibの生存時間調整(代入後メモリを解放する)
-		PID IdPID;
-		PID IqPID;
-		IdPID.SetParam(PID_GAIN_ID_P, PID_GAIN_ID_I, PID_GAIN_ID_D);
-		IqPID.SetParam(PID_GAIN_IQ_P, PID_GAIN_IQ_I, PID_GAIN_IQ_D);
-		IdPID.SetSampleTime(PID_CONTROL_CYCLE);
-		IqPID.SetSampleTime(PID_CONTROL_CYCLE);
-		mIdPID = IdPID;
-		mIqPID = IqPID;
+		PID IganmaPID;
+		PID IdeltaPID;
+		IganmaPID.SetParam(PID_GAIN_IGANMA_P, PID_GAIN_IGANMA_I, PID_GAIN_IGANMA_D);
+		IdeltaPID.SetParam(PID_GAIN_IDELTA_P, PID_GAIN_IDELTA_I, PID_GAIN_IDELTA_D);
+		IganmaPID.SetSampleTime(PID_CYCLE_TIME);
+		IdeltaPID.SetSampleTime(PID_CYCLE_TIME);
+		mIganmaPID = IganmaPID;
+		mIdeltaPID = IdeltaPID;
 	}
 }
 
@@ -104,28 +114,28 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 	ReadCurrentTask();
 	ReadVoltageTask();
 
-	ReadAngle(); //OpenLoop or FOCの制御
+	ReadAngle(); //mgdArgを取得する。(OpenLoop or FOC分岐あり)
 
 	//Iuvw -> Iab
 	clarkTransform();
 	//Iab -> Igd
-	parkabtogd();
+	parkabtogd();//mgdArgで回転
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 	ObserverTask();
 
-	//PIDTask();
+	CurrentPITask();
 
-	//IO入力
-	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-	float Vganma_input,Vdelta_input;
-	Vganma_input = 0;
-	Vdelta_input=0;
-	//Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
-	Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
-	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
-	setVgd(inputVgd);
+//	//IO入力
+//	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+//	float Vganma_input,Vdelta_input;
+//	Vganma_input = 0;
+//	Vdelta_input=0;
+//	//Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
+//	Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
+//	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
+//	setVgd(inputVgd);
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
@@ -266,37 +276,44 @@ void MotorCtrl::ObserverTask() {
 }
 
 
-void MotorCtrl::PIDTask() {
-	std::array<float, 2> Idq = getIdq();
-	float Id, Iq;//あとで使う　今は未使用だからエラー吐くはず。
-	Id = Idq.at(0);
-	Iq = Idq.at(1);
+void MotorCtrl::CurrentPITask() {
+	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+	if(mControlMode == OpenLoop) {
+		//IO入力
+
+		float Vganma_input,Vdelta_input;
+		Vganma_input = 0;
+		Vdelta_input=0;
+		//Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
+		Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
+		std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
+		setVgd(inputVgd);
 
 
-	//指令値入力
-	//本当はここをpIdqTargetにして入力にする
-	//float Vd_input = 0;
-	//float Vq_input = 0.5f;
+//		std::array<float, 2> Igd = getIgd();//現在値取得
+//		float Ig, Id;
+//		Ig = Igd.at(0);
+//		Id = Igd.at(1);
+//
+//		float Ig_target;
+//		float Id_target;
+//
+//		Ig_target = 0;//ここに目標値を入れる(外部から入れるからSetter必要かも)
+//		Id_target = adc2_input * 2;
+//
+//		float Ig_Err;
+//		float Id_Err;
+//
+//		Ig_Err = Ig_target - Ig;
+//		Id_Err = Id_target - Id;
+//
+//		std::array<float, 2> IgdErr = {Ig_Err, Id_Err};
+//
+//		PIDgd_control(IgdErr);
 
-//	float Vganma_input = 0;
-//	float Vdelta_input = 0;
+	} else if (mControlMode == FOC) {
+	}
 
-	float Id_error;
-	float Iq_error;
-
-	float Id_target;
-	float Iq_target;
-
-	Id_target = 0;
-	Iq_target = 0;//ここに目標値を入れる(外部から入れるからSetter必要かも)
-
-	Id_error = Id_target - Id;
-	Iq_error = Iq_target - Iq;
-
-	std::array<float, 2> IdqErr = {Id_error, Iq_error};
-	//Id,IqのPID制御
-
-	PIDdq_control(IdqErr);
 }
 
 
@@ -325,8 +342,17 @@ void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
 		float Vganma = mMotorInfo.mVgd.at(0);
 		float Vdelta = mMotorInfo.mVgd.at(1);
 
-		Vganma = Vganma + mIganmaPID.OutPut();
-		Vdelta = Vdelta + mIdeltaPID.OutPut();
+		Vganma = mIganmaPID.OutPut();
+		Vdelta = mIdeltaPID.OutPut();
+
+		//LIMITを入れる
+		if( Vganma > PID_IGANMA_MAX_VOLTAGE ) {
+			Vganma = PID_IGANMA_MAX_VOLTAGE;
+		}
+		if( Vdelta > PID_IDELTA_MAX_VOLTAGE ) {
+			Vdelta = PID_IDELTA_MAX_VOLTAGE;
+		}
+
 		mMotorInfo.mVgd = {Vganma, Vdelta};
 	}
 }
