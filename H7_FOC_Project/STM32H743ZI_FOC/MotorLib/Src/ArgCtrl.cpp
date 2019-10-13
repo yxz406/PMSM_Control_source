@@ -30,8 +30,8 @@ void ArgCtrl::Init(void) {
 	mArgErr = 0;
 
 	//強制転流Init
-	ForceCom.mFCtargetRPS = FC_TARGET_RPS;
-	ForceCom.mFCtargetAcc = FC_TARGET_ACCEL;
+	mOpenLoopInfo.mtargetRPS = OPENLOOP_TARGET_RPS;
+	mOpenLoopInfo.mtargetAcc = OPENLOOP_TARGET_ACCEL;
 }
 
 void ArgCtrl::increment(fp_rad pArg) {
@@ -62,23 +62,23 @@ fp_rad ArgCtrl::getArgOmega(void) {
 	return (mArg - mArgOld) * CONTROL_FREQ_HZ;
 }
 
-ForceCom_Status ArgCtrl::FCacceleration(void) {
+OpenLoop_Status ArgCtrl::accelerationForOpenLoop(void) {
 	//基本設計がおかしい。作り直してる。
-	float TargetSPD = (ForceCom.mFCtargetRPS/(float)CONTROL_FREQ_HZ * 2.0f * M_PI);
-	if( ForceCom.mAccelSPD < TargetSPD ) { // [rpm]/20000 * 2*M_PI = [arg]
-		ForceCom.mAccelSPD += ForceCom.mFCtargetAcc;//進む差分角
-		increment(ForceCom.mAccelSPD);
+	float TargetSPD = (mOpenLoopInfo.mtargetRPS/(float)CONTROL_FREQ_HZ * 2.0f * M_PI);
+	if( mOpenLoopInfo.mAccelSPD < TargetSPD ) { // [rpm]/20000 * 2*M_PI = [arg]
+		mOpenLoopInfo.mAccelSPD += mOpenLoopInfo.mtargetAcc;//進む差分角
+		increment(mOpenLoopInfo.mAccelSPD);
 		return 0;
 	} else {
-		increment(ForceCom.mAccelSPD);
+		increment(mOpenLoopInfo.mAccelSPD);
 		return 1;
 	}
 }
 
-ForceCom_Status ArgCtrl::FCdeceleration(void) {
-	if(ForceCom.mAccelSPD > 0){
-		ForceCom.mAccelSPD -= ForceCom.mFCtargetAcc;
-		increment(ForceCom.mAccelSPD);
+OpenLoop_Status ArgCtrl::decelerationForOpenLoop(void) {
+	if(mOpenLoopInfo.mAccelSPD > 0){
+		mOpenLoopInfo.mAccelSPD -= mOpenLoopInfo.mtargetAcc;
+		increment(mOpenLoopInfo.mAccelSPD);
 		return 0;
 	} else {
 		increment(0);

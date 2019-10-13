@@ -16,7 +16,7 @@ typedef float fp_rad;
 typedef float fp_deg;
 
 //Status of ForceCommutation
-typedef int ForceCom_Status;
+typedef int OpenLoop_Status;
 
 
 #endif /* INC_MOTORLIBDEFPACK_HPP_ */

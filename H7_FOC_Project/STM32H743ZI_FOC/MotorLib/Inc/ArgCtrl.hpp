@@ -16,11 +16,11 @@
 
 class ArgCtrl {
 public://struct
-	class ForceCommutation {
+	class OpenLoopInfo {
 		private:
 		public:
-		fp_rad mFCtargetRPS;
-		fp_rad mFCtargetAcc;
+		fp_rad mtargetRPS;
+		fp_rad mtargetAcc;
 		fp_rad mAccelSPD;
 	};
 private:
@@ -30,7 +30,7 @@ private:
 	fp_rad mOmega;
 	fp_rad mArgErr;
 
-	ForceCommutation ForceCom;
+	OpenLoopInfo mOpenLoopInfo;
 
 public:
 	ArgCtrl();
@@ -43,8 +43,8 @@ public:
 	fp_rad getArgOld(void);
 	fp_rad getArgOmega(void);
 
-	ForceCom_Status FCacceleration(void);
-	ForceCom_Status FCdeceleration(void);
+	OpenLoop_Status accelerationForOpenLoop(void);
+	OpenLoop_Status decelerationForOpenLoop(void);
 
 };
 

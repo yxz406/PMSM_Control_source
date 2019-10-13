@@ -58,14 +58,18 @@ public:
 
 	int mDebugC=0; //SEGGERおためしでつくった
 
-	enum MotorStartStopStatus {
+	enum MotorStartStopStatus {//ON OFFのフラグ管理
 			MotorStop = 0,
 			MotorStart = 1,
 	};
 
-	enum DriveMode {
-		Parammeasure = -1,
-		ForceCommutation = 1,
+	enum OperationMode { //測定か運転か
+		Measure = -1,
+		Drive = 1,
+	};
+
+	enum ControlMode { //強制転流、FOCなどの動作モード管理
+		OpenLoop = 1,
 		FOC = 2,
 	};
 
@@ -83,7 +87,9 @@ private:
 
 	ArgCtrl mArgCtrl;
 
-	DriveMode mDriveMode;
+	OperationMode mOperationMode;
+	ControlMode mControlMode;
+
 	UIStatus mUIStatus;
 
 	DebugCtrl mDebug;
@@ -99,16 +105,16 @@ public:
 
 	void HighFreqTask(void);
 
-	void ForceCommutationMode(void);
-	void FOCMode(void);
+	void MotorDrive(void);
 
 	void MotorOutputTask(void);
 	void MotorOutputTaskSVM(void);
 
-	//MotorControl
-	//void ForceCommutation(void);
 
 	void setIuvw(float pIu, float pIv, float pIw);
+
+	void ReadAngle(void);
+
 	void clarkTransform(void);
 	void parkTransform(void);
 	void parkGanmaDelta(void);
@@ -132,15 +138,14 @@ public:
 	//Task
 	void ReadCurrentTask();
 	void ReadVoltageTask();
-	void ForceCommutationTask();
-	void ObserverTaskforFC();
-	void ObserverTaskforFOC();
+	void AngleTaskForOpenLoop();
+	void AngleTaskForFOC();
+	void ObserverTask();
 	void PIDTask();
 
 	void GPIODebugTask();
 
 	//Debug
-	void DebugTask(float pIu, float pIv, float pIw, float pArg);
 	void JLinkDebug();
 
 	//UI
@@ -150,6 +155,7 @@ public:
 
 	//for debug
 	void DbgUart(std::string pStr);
+	void DebugTask(float pIu, float pIv, float pIw, float pArg);
 
 private:
 	int mlogcount = 0;
