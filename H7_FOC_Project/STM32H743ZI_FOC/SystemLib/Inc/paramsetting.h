@@ -81,6 +81,8 @@
 //制御周期[s]
 #define PID_CYCLE_TIME PWM_PERIOD_SEC
 
+//PI電流制御をかけない
+#define PI_NOCONTROL_DEBUG 1
 //PIdq制御器パラメータ設定
 #define PID_GAIN_ID_P 0.1
 #define PID_GAIN_ID_I 0.1
@@ -103,6 +105,8 @@
 #define PID_GAIN_IDELTA_D 0
 #define PID_IDELTA_MAX_VOLTAGE 10
 
+//OpenLoop から FOCに切り替えるまでのステップ数
+#define OPEN_TO_FOC_TRANSITION_COUNT 1000
 
 
 //強制転流の設定

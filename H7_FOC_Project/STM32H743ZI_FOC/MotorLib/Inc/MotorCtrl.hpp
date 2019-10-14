@@ -70,7 +70,8 @@ public:
 
 	enum ControlMode { //強制転流、FOCなどの動作モード管理
 		OpenLoop = 1,
-		FOC = 2,
+		OpenLoopToFOC = 2,
+		FOC = 3,
 	};
 
 	class UIStatus {
@@ -110,6 +111,7 @@ public:
 	void MotorOutputTask(void);
 	void MotorOutputTaskSVM(void);
 
+	void ControlModeHandler();
 
 	void setIuvw(float pIu, float pIv, float pIw);
 
@@ -159,7 +161,7 @@ public:
 
 private:
 	int mlogcount = 0;
-
+	int mTransitionCountForOpenToFOC = 0;
 };
 
 #endif /* MOTORCTRL_HPP_ */

@@ -5,6 +5,7 @@
  *      Author: watashi
  */
 
+//TODO:ControlModeHandler();を作って加速度で切り替えるようにする
 
 #include "MotorCtrl.hpp"
 
@@ -123,29 +124,19 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
-	ObserverTask();
-
-	CurrentPITask();
-
-//	//IO入力
-//	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-//	float Vganma_input,Vdelta_input;
-//	Vganma_input = 0;
-//	Vdelta_input=0;
-//	//Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
-//	Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
-//	std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
-//	setVgd(inputVgd);
+	ObserverTask();//オブザーバ
+	CurrentPITask();//電流PI制御
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
-	//Vgd->Vab
+	//Vgd　->　Vab
 	invParkgdtoab();
 	//Vab -> Vuvw
 	SVM();
 
-	//PWM出力
-	MotorOutputTaskSVM();
+	MotorOutputTaskSVM();//PWM出力
+
+	ControlModeHandler();//次の運転制御モードを決める関数
 
 	//DEBUG
 	GPIODebugTask();//GPIOからオシロに波形を出力する
@@ -154,8 +145,8 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 		JLinkDebug();
 	}
 	GPIODebugTask();//GPIOからオシロに波形を出力する
-
 }
+
 
 void MotorCtrl::ReadCurrentTask(void) {
 	//ReadCurrent
@@ -171,11 +162,13 @@ void MotorCtrl::ReadCurrentTask(void) {
 	setIuvw(Iu, Iv, Iw);
 }
 
+
 void MotorCtrl::ReadVoltageTask() {
 	//ReadVoltage
 	//電圧測定(入力)
 	mMotorInfo.mVoltageVCC = VCC_VOLTAGE;
 }
+
 
 //Motor
 void MotorCtrl::setIuvw(float pIu, float pIv, float pIw){
@@ -183,6 +176,7 @@ void MotorCtrl::setIuvw(float pIu, float pIv, float pIw){
 	mMotorInfo.mIuvw.at(1) = pIv;
 	mMotorInfo.mIuvw.at(2) = pIw;
 }
+
 
 void MotorCtrl::AngleTaskForOpenLoop(void) {
 	//強制転流では、gd軸を回転させる。
@@ -193,6 +187,7 @@ void MotorCtrl::AngleTaskForOpenLoop(void) {
 	}
 	mMotorInfo.mgdArg = mArgCtrl.getArg(); //gd軸のみ回す。
 }
+
 
 void MotorCtrl::AngleTaskForFOC(void) {
 	//mMotorInfo.mgdArg = mMotorInfo.mArgErr + mArgCtrl.; //みたいな感じでつくること。
@@ -278,40 +273,48 @@ void MotorCtrl::ObserverTask() {
 
 void MotorCtrl::CurrentPITask() {
 	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+	float Ig_target;
+	float Id_target;
 	if(mControlMode == OpenLoop) {
-		//IO入力
 
+		Ig_target = adc2_input;//[A]
+		Id_target = 0;//[A]
+
+	}else if(mControlMode == OpenLoopToFOC) {//OpenLoopからFOCに切り替わる時に動作するモード
+
+		if(mTransitionCountForOpenToFOC < OPEN_TO_FOC_TRANSITION_COUNT) {
+			Ig_target = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT;
+			Id_target = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT;
+			mTransitionCountForOpenToFOC++;
+		} else {
+			Ig_target = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT;
+			Id_target = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT;
+			//ParamInheritanceTaskForOpenLoopToFOC();//オブザーバに強制転流の情報を継承させる。
+			//mControlMode = FOC;
+		}
+
+	}else if(mControlMode == FOC) {//FOCのときの入力
+		Ig_target = 0;
+		Id_target = adc2_input;
+	}
+	//PI Control Start
+	std::array<float, 2> Igd = getIgd();//現在値取得
+	float Ig, Id;
+	Ig = Igd.at(0);
+	Id = Igd.at(1);
+	float Ig_Err;
+	float Id_Err;
+	Ig_Err = Ig_target - Ig;
+	Id_Err = Id_target - Id;
+	std::array<float, 2> IgdErr = {Ig_Err, Id_Err};
+	PIDgd_control(IgdErr);
+
+	if(PI_NOCONTROL_DEBUG) {//PI電流制御の電流指令値を電圧値として使う。デバッグモード
 		float Vganma_input,Vdelta_input;
-		Vganma_input = 0;
-		Vdelta_input=0;
-		//Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
-		Vganma_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
+		Vganma_input = Ig_target * VCC_VOLTAGE * 0.866;
+		Vdelta_input = Id_target * VCC_VOLTAGE * 0.866;//連れ回し運転
 		std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
 		setVgd(inputVgd);
-
-
-//		std::array<float, 2> Igd = getIgd();//現在値取得
-//		float Ig, Id;
-//		Ig = Igd.at(0);
-//		Id = Igd.at(1);
-//
-//		float Ig_target;
-//		float Id_target;
-//
-//		Ig_target = 0;//ここに目標値を入れる(外部から入れるからSetter必要かも)
-//		Id_target = adc2_input * 2;
-//
-//		float Ig_Err;
-//		float Id_Err;
-//
-//		Ig_Err = Ig_target - Ig;
-//		Id_Err = Id_target - Id;
-//
-//		std::array<float, 2> IgdErr = {Ig_Err, Id_Err};
-//
-//		PIDgd_control(IgdErr);
-
-	} else if (mControlMode == FOC) {
 	}
 
 }
@@ -505,6 +508,10 @@ void MotorCtrl::MotorOutputTaskSVM(void) {
 	TIMCtrl::floatDuty_ch3(mMotorInfo.mDutyuvw.at(2));
 }
 
+
+void MotorCtrl::ControlModeHandler() {
+	//if()
+}
 
 void MotorCtrl::GPIODebugTask() {//Lチカでタイミングをオシロで見る
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
