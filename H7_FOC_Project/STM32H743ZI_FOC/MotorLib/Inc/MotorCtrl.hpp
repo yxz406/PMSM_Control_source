@@ -49,6 +49,8 @@ public:
 		std::array<float, 2> mVdq;//単位[V]
 		std::array<float, 2> mVgd; //単位[V] ganmadelta
 
+		std::array<float, 2> mIgdTarget;//
+		std::array<float, 2> mIgdErr;
 		float mVoltageVCC;
 		std::array<float, 3> mDutyuvw;//単位[%]
 		fp_rad mdqArg;//単位[rad]

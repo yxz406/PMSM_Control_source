@@ -273,46 +273,38 @@ void MotorCtrl::ObserverTask() {
 
 void MotorCtrl::CurrentPITask() {
 	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-	float Ig_target;
-	float Id_target;
+
 	if(mControlMode == OpenLoop) {
 
-		Ig_target = adc2_input;//[A]
-		Id_target = 0;//[A]
+		mMotorInfo.mIgdTarget.at(0) = adc2_input;//IgTarget [A]
+		mMotorInfo.mIgdTarget.at(1) = 0;//IdTarget [A]
 
 	}else if(mControlMode == OpenLoopToFOC) {//OpenLoopからFOCに切り替わる時に動作するモード
 
 		if(mTransitionCountForOpenToFOC < OPEN_TO_FOC_TRANSITION_COUNT) {
-			Ig_target = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT;
-			Id_target = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT;
+			mMotorInfo.mIgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT;
+			mMotorInfo.mIgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT;
 			mTransitionCountForOpenToFOC++;
 		} else {
-			Ig_target = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT;
-			Id_target = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT;
+			mMotorInfo.mIgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT;
+			mMotorInfo.mIgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT;
 			//ParamInheritanceTaskForOpenLoopToFOC();//オブザーバに強制転流の情報を継承させる。
 			//mControlMode = FOC;
 		}
 
 	}else if(mControlMode == FOC) {//FOCのときの入力
-		Ig_target = 0;
-		Id_target = adc2_input;
+		mMotorInfo.mIgdTarget.at(0) = 0;
+		mMotorInfo.mIgdTarget.at(1) = adc2_input;
 	}
 	//PI Control Start
-	std::array<float, 2> Igd = getIgd();//現在値取得
-	float Ig, Id;
-	Ig = Igd.at(0);
-	Id = Igd.at(1);
-	float Ig_Err;
-	float Id_Err;
-	Ig_Err = Ig_target - Ig;
-	Id_Err = Id_target - Id;
-	std::array<float, 2> IgdErr = {Ig_Err, Id_Err};
-	PIDgd_control(IgdErr);
+	mMotorInfo.mIgdErr.at(0) = mMotorInfo.mIgdTarget.at(0) - mMotorInfo.mIgd.at(0);
+	mMotorInfo.mIgdErr.at(1) = mMotorInfo.mIgdTarget.at(1) - mMotorInfo.mIgd.at(1);
+	PIDgd_control(mMotorInfo.mIgdErr);
 
 	if(PI_NOCONTROL_DEBUG) {//PI電流制御の電流指令値を電圧値として使う。デバッグモード
 		float Vganma_input,Vdelta_input;
-		Vganma_input = Ig_target * VCC_VOLTAGE * 0.866;
-		Vdelta_input = Id_target * VCC_VOLTAGE * 0.866;//連れ回し運転
+		Vganma_input = mMotorInfo.mIgdErr.at(0) * VCC_VOLTAGE * 0.866;
+		Vdelta_input = mMotorInfo.mIgdErr.at(1) * VCC_VOLTAGE * 0.866;//連れ回し運転
 		std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
 		setVgd(inputVgd);
 	}
@@ -348,6 +340,8 @@ void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
 		Vganma = mIganmaPID.OutPut();
 		Vdelta = mIdeltaPID.OutPut();
 
+		Vganma = Vganma;
+		Vdelta = Vdelta;
 		//LIMITを入れる
 		if( Vganma > PID_IGANMA_MAX_VOLTAGE ) {
 			Vganma = PID_IGANMA_MAX_VOLTAGE;
@@ -549,12 +543,14 @@ void MotorCtrl::JLinkDebug() {
 	int milVv = (int)(mMotorInfo.mDutyuvw.at(1) * 1000 );
 	int milVw = (int)(mMotorInfo.mDutyuvw.at(2) * 1000 );
 
-	char outputStr[100]={0};//100文字までとりあえず静的確保
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVg, milVd, milIg, milId, DegArg, DegAxiErr);//みやゆうさんご希望のデバッグ
+	int milIgTarget = (int)(mMotorInfo.mIgdTarget.at(0)*1000);
 
-	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る ACCEL
-		return;
-	}
+	char outputStr[100]={0};//100文字までとりあえず静的確保
+	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr);//みやゆうさんご希望のデバッグ
+
+//	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
+//		return;
+//	}
 
 	SEGGER_RTT_WriteString(0,outputStr);
 	//printf("%s" ,outputStr);
