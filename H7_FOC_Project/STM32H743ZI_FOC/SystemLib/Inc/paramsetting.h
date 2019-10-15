@@ -79,7 +79,9 @@
 #define CONTROL_FREQ_HZ PWM_FREQ_HZ
 
 //制御周期[s]
-#define PID_CYCLE_TIME 1.0f/(float)50
+#define PID_CYCLE_TIME PWM_PERIOD_SEC
+#define PID_CYCLE_TIME_G 1.0f/((float)500*3.1415926f)
+#define PID_CYCLE_TIME_D 1.0f/((float)50*3.1415926f)
 
 //PI電流制御をかけない
 #define PI_NOCONTROL_DEBUG 0
@@ -95,16 +97,19 @@
 #define PID_IQ_MAX_VOLTAGE 10
 
 //PIgd制御器パラメータ設定
-#define PID_GAIN_IGANMA_P (M_PARAM_LD)/(PID_CYCLE_TIME)
+#define PID_GAIN_IGANMA_P (M_PARAM_LD)/(PID_CYCLE_TIME_G)
 #define PID_GAIN_IGANMA_I (M_PARAM_LD)/(M_PARAM_R)
 #define PID_GAIN_IGANMA_D 0
 #define PID_IGANMA_MAX_VOLTAGE 10
 
-#define PID_GAIN_IDELTA_P (M_PARAM_LQ)/(PID_CYCLE_TIME)
+#define PID_GAIN_IDELTA_P (M_PARAM_LQ)/(PID_CYCLE_TIME_D)
 #define PID_GAIN_IDELTA_I (M_PARAM_LQ)/(M_PARAM_R)
 #define PID_GAIN_IDELTA_D 0
 #define PID_IDELTA_MAX_VOLTAGE 10
 
+
+//OpenLoopから変更開始の加速度
+#define OPENLOOP_END_OMEGA 1000
 //OpenLoop から FOCに切り替えるまでのステップ数
 #define OPEN_TO_FOC_TRANSITION_COUNT 1000
 

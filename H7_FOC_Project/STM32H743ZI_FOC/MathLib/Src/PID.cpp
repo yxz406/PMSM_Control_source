@@ -52,7 +52,7 @@ void PID::SetSampleTime(float pSampleTime) {
 
 float PID::OutPut(void){
 	mOutValOfLast = mOutput;//前回値の保持
-	mDiff = mGain_p*(// mError.at(0)-mError.at(1)//P
+	mDiff = mGain_p*( mError.at(0)-mError.at(1)//P
 			          +(mSampleTime/mGain_i)*mError.at(0)//I
 					  +(mGain_d/mSampleTime)*(mError.at(0)-2*mError.at(1)+mError.at(2)) );//D
 	mOutput = mOutValOfLast + mDiff;

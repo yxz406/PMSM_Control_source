@@ -351,6 +351,7 @@ void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
 		}
 
 		mMotorInfo.mVgd = {Vganma, Vdelta};
+		//mMotorInfo.mVgd = {Vganma, 0};
 	}
 }
 
@@ -504,7 +505,14 @@ void MotorCtrl::MotorOutputTaskSVM(void) {
 
 
 void MotorCtrl::ControlModeHandler() {
-	//if()
+	float OpenLoopOmega = mArgCtrl.getArgOmega();
+	float ObserverOmega = mObserver.GetEstOmegaE();
+	if(OpenLoopOmega > OPENLOOP_END_OMEGA) {
+//		mControlMode = OpenLoopToFOC;
+	} else {
+		mControlMode = OpenLoop;
+	}
+
 }
 
 void MotorCtrl::GPIODebugTask() {//Lチカでタイミングをオシロで見る
@@ -548,9 +556,9 @@ void MotorCtrl::JLinkDebug() {
 	char outputStr[100]={0};//100文字までとりあえず静的確保
 	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr);//みやゆうさんご希望のデバッグ
 
-//	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
-//		return;
-//	}
+	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
+		return;
+	}
 
 	SEGGER_RTT_WriteString(0,outputStr);
 	//printf("%s" ,outputStr);
