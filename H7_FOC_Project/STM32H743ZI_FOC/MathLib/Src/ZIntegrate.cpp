@@ -5,13 +5,6 @@
  *      Author: watashi
  */
 
-//お　し　ら　せ　ここだけコーダ規約破ります。
-//ｐInputとかmOutputOldとか書いてあってもよめねーから！！！！
-//x_n =
-//y_n
-//のがずっとありがたいだろ？
-//そういうことだよ。
-
 #include <ZIntegrate.hpp>
 
 ZIntegrate::ZIntegrate() {
