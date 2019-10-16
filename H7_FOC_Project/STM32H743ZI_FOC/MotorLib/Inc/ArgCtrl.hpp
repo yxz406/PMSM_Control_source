@@ -10,6 +10,7 @@
 
 
 #include "MotorLibDefPack.hpp"
+#include "MotorMath.hpp"
 #include "paramsetting.h"
 #include "math.h"
 #include "Observer.hpp"

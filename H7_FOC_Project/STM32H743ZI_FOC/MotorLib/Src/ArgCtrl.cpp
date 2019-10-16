@@ -59,7 +59,8 @@ fp_rad ArgCtrl::getArgOld(void) {
 }
 
 fp_rad ArgCtrl::getArgOmega(void) {
-	return (mArg - mArgOld) * CONTROL_FREQ_HZ;
+	fp_rad diff = MotorMath::AngleDiff(mArg, mArgOld);
+	return diff * CONTROL_FREQ_HZ;
 }
 
 OpenLoop_Status ArgCtrl::accelerationForOpenLoop(void) {

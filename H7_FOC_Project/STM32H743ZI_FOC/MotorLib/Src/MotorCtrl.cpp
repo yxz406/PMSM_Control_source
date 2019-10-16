@@ -197,6 +197,8 @@ void MotorCtrl::AngleTaskForFOC(void) {
 void MotorCtrl::ReadAngle(void) {
 	if(mControlMode == OpenLoop) {
 		AngleTaskForOpenLoop();
+	}else if (mControlMode == OpenLoopToFOC) {
+		AngleTaskForOpenLoop();
 	} else if (mControlMode == FOC) {
 		AngleTaskForFOC();
 	}
@@ -256,7 +258,19 @@ void MotorCtrl::ObserverTask() {
 		mMotorInfo.mArgErr = EstAxiErr;
 		mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
 
-	} else if(mControlMode == FOC) {
+	}else if(mControlMode == OpenLoopToFOC){
+		//Observer
+		//オブザーバセット・計算・値取得
+		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
+		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
+		//mObserver.Calculate();//ベクトル制御用
+		mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
+
+		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
+		mMotorInfo.mArgErr = EstAxiErr;
+		mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
+
+	}else if(mControlMode == FOC) {
 		//Observer
 		//オブザーバセット・計算・値取得
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
@@ -508,7 +522,7 @@ void MotorCtrl::ControlModeHandler() {
 	float OpenLoopOmega = mArgCtrl.getArgOmega();
 	float ObserverOmega = mObserver.GetEstOmegaE();
 	if(OpenLoopOmega > OPENLOOP_END_OMEGA) {
-//		mControlMode = OpenLoopToFOC;
+		mControlMode = OpenLoopToFOC;
 	} else {
 		mControlMode = OpenLoop;
 	}
