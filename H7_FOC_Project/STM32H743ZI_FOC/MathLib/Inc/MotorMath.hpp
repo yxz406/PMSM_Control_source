@@ -24,6 +24,7 @@ public:
 	static inline std::array<float, 2> InvparkTransform( fp_rad pRadian,
 												   std::array<float, 2> pVector);
 	static inline std::array<float, 3> InvclarkTransform (std::array<float, 2> pVector);
+	static inline std::array<float, 3> SVM(std::array<float, 2> pVector, float pVoltageVCC);
 
 	static inline fp_rad AngleDiff(fp_rad pAnglePlus, fp_rad pAngleMinus);
 };
@@ -74,7 +75,97 @@ inline  std::array<float, 3> MotorMath::InvclarkTransform (std::array<float, 2> 
 	return RtnArr;
 };
 
-//input
+//input [a,b],VCC
+//output Duty[u,v,w]
+inline  std::array<float, 3> MotorMath::SVM (std::array<float, 2> pVector, float pVoltageVCC) {
+	float Va = pVector.at(0);
+	float Vb = pVector.at(1);
+
+	bool sector0 = ((Va*Va)>(Vb*Vb / 3)) && (Va >= 0) && (Vb >= 0);
+	bool sector5 = ((Va*Va)>(Vb*Vb / 3)) && (Va>0) && (Vb<0);
+
+	bool sector1 = ((Va*Va) <= (Vb*Vb / 3)) && (Vb >= 0);//Va=Vb=0はここに入る
+	bool sector4 = ((Va*Va) <= (Vb*Vb / 3)) && (Vb<0);
+
+	bool sector2 = ((Va*Va)>(Vb*Vb / 3)) && (Va<0) && (Vb>0);
+	bool sector3 = ((Va*Va)>(Vb*Vb / 3)) && (Va <= 0) && (Vb <= 0);
+
+	int svmflag = ( sector0 | sector1<<1 | sector2 <<2 | sector3 <<3 | sector4 <<4 | sector5 <<5 );
+
+	float cot60 = 1/sqrt(3);
+	float cosec60 = 2/sqrt(3);
+	float coefficient = sqrt(3.0f/2.0f);
+	float Du, Dv, Dw;
+	float D0, D1, D2, D3, D4, D5, D6, D7;
+	switch (svmflag) {
+	case 1://sector0
+		D1 = coefficient * (Va - cot60 * Vb) / 12;
+		D2 = coefficient * (cosec60 * Vb) / 12;
+		D0 = (1 - (D1 + D2)) / 2;
+		D7 = (1 - (D1 + D2)) / 2;
+
+		Du = D1 + D2 + D7;
+		Dv = D2 + D7;
+		Dw = D7;
+		break;
+	case 2://sector1
+		D3 = coefficient * (-Va + cot60 * Vb) / pVoltageVCC;
+		D2 = coefficient * (Va + cot60 * Vb) / pVoltageVCC;
+		D0 = (1 - (D2 + D3)) / 2;
+		D7 = (1 - (D2 + D3)) / 2;
+		Du = D2 + D7;
+		Dv = D2 + D3 + D7;
+		Dw = D7;
+		break;
+	case 4://sector2
+		D3 = coefficient * (cosec60 * Vb) / pVoltageVCC;
+		D4 = coefficient * (-Va - cot60 * Vb) / pVoltageVCC;
+		D0 = (1 - (D3 + D4)) / 2;
+		D7 = (1 - (D3 + D4)) / 2;
+		Du = D7;
+		Dv = D3 + D4 + D7;
+		Dw = D4 + D7;
+		break;
+	case 8://sector3
+		D5 = coefficient * (-cosec60 * Vb) / pVoltageVCC;
+		D4 = coefficient * (-Va + cot60 * Vb) / pVoltageVCC;
+		D0 = (1 - (D4 + D5)) / 2;
+		D7 = (1 - (D4 + D5)) / 2;
+		Du = D7;
+		Dv = D4 + D7;
+		Dw = D4 + D5 + D7;
+		break;
+	case 16://sector4
+		D5 = coefficient * (-Va - cot60 * Vb) / pVoltageVCC;
+		D6 = coefficient * (Va - cot60 * Vb) / pVoltageVCC;
+		D0 = (1 - (D5 + D6)) / 2;
+		D7 = (1 - (D5 + D6)) / 2;
+		Du = D6 + D7;
+		Dv = D7;
+		Dw = D5 + D6 + D7;
+		break;
+	case 32://sector5
+		D1 = coefficient * (Va + cot60 * Vb) / pVoltageVCC;
+		D6 = coefficient * (-cosec60 * Vb) / pVoltageVCC;
+		D0 = (1 - (D1 + D6)) / 2;
+		D7 = (1 - (D1 + D6)) / 2;
+		Du = D1 + D6 + D7;
+		Dv = D7;
+		Dw = D6 + D7;
+		break;
+	default:
+		Du = 0.5f;
+		Dv = 0.5f;
+		Dw = 0.5f;
+		break;
+	}
+
+	return {Du,Dv,Dw};
+};
+
+
+//input[Angle+, Angle-]
+//output[Angle+ - Angle-]
 //+10が出力の時
 //Nominal 30 20
 //Carry    5 355
