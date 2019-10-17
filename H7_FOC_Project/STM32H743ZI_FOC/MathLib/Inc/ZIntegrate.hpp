@@ -19,14 +19,15 @@ public:
 class Zintegrate1n {
 private:
 	float mK;
-	float mInput = 0;
-	float mInputOld = 0;
+	float mInput;
+	float mInputOld;
 
-	float mOutput = 0;
-	float mOutputOld = 0;
+	float mOutput;
+	float mOutputOld;
 
 
 public:
+	Zintegrate1n(float pK);
 	void ZintegrateInit(float pK);
 	float integrate(float pTime, float pInput);
 };
@@ -36,6 +37,7 @@ private:
 	Zintegrate1n mIntegrate1;
 	Zintegrate1n mIntegrate2;
 public:
+	Zintegrate2n(float pK);
 	void ZintegrateInit(float pK);
 	std::array<float, 2> integrate(float pTime, std::array<float, 2> pInput);
 };

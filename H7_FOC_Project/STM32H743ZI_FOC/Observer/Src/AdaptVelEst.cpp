@@ -7,7 +7,9 @@
 
 #include <AdaptVelEst.hpp>
 
-AdaptVelEst::AdaptVelEst() {
+AdaptVelEst::AdaptVelEst()
+:mEtaAlphaBetaITG(1), mAdaptEmfAlphaBetaITG(1), mBufVal4ITG(1)
+{
 	// TODO Auto-generated constructor stub
 	//オブジェクト生成時に必ず0埋めすること.
 	mBufVec1 = {0};

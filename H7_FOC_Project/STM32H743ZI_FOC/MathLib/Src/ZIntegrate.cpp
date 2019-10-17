@@ -7,9 +7,9 @@
 
 #include <ZIntegrate.hpp>
 
-ZIntegrate::ZIntegrate() {
+ZIntegrate::ZIntegrate()
+{
 	// TODO Auto-generated constructor stub
-
 }
 
 ZIntegrate::~ZIntegrate() {
@@ -17,13 +17,12 @@ ZIntegrate::~ZIntegrate() {
 }
 
 
+Zintegrate1n::Zintegrate1n(float pK)
+:mK(pK), mInput(0), mInputOld(0), mOutput(0), mOutputOld(0)
+{
+}
 
 void Zintegrate1n::ZintegrateInit(float pK){
-	mInput = 0;
-	mInputOld = 0;
-
-	mOutput = 0;
-	mOutputOld = 0;
 	mK = pK;
 }
 
@@ -40,6 +39,10 @@ float Zintegrate1n::integrate(float pTime, float pInput) {
 	return mOutput;
 }
 
+Zintegrate2n::Zintegrate2n(float pK)
+:mIntegrate1(pK), mIntegrate2(pK)
+{
+}
 
 void Zintegrate2n::ZintegrateInit(float pK){
 	mIntegrate1.ZintegrateInit(pK);

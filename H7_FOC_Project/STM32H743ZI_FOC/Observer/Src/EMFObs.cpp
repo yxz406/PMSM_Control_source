@@ -7,7 +7,9 @@
 
 #include "EMFObs.hpp"
 
-EMFObs::EMFObs() {
+EMFObs::EMFObs()
+:mBufVec7ITG(1)
+{
 	// TODO Auto-generated constructor stub
 
 }
@@ -71,5 +73,10 @@ void EMFObs::EMFObserver() {
 //Getter
 std::array<float, 2> EMFObs::GetEstEMFgd(void) {
 	return mEstEMFgd;
+}
+
+//debug Getter
+float EMFObs::GetInputEstOmegaE(void) {
+	return mEstOmegaE;
 }
 

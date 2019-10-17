@@ -466,6 +466,7 @@ void MotorCtrl::JLinkDebug() {
 	int milIw = (int)( mMotorInfo.mIuvw.at(2) * 1000 );
 	int DegArg = (int)(mMotorInfo.mgdArg/M_PI * 180 );//指令値の角度
 	int DegAxiErr =(int)( mObserver.GetEstAxiErr() / M_PI *180 );
+	int milEstOmega =(int)( mObserver.GetEstOmegaE());
 
 	int milIa = (int)( mMotorInfo.mIab.at(0) * 1000 );
 	int milIb = (int)( mMotorInfo.mIab.at(1) * 1000 );
@@ -483,8 +484,11 @@ void MotorCtrl::JLinkDebug() {
 
 	int milIgTarget = (int)(mMotorInfo.mIgdTarget.at(0)*1000);
 
+	int milEstEMFg = (int)(mObserver.GetEstEMFgd().at(0) * 1000);
+	int milEstEMFd = (int)(mObserver.GetEstEMFgd().at(1) * 1000);
+
 	char outputStr[100]={0};//100文字までとりあえず静的確保
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr);//みやゆうさんご希望のデバッグ
+	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, milEstEMFg ,milEstEMFd);//みやゆうさんご希望のデバッグ
 
 	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
 		return;

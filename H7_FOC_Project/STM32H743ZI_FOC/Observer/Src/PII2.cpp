@@ -7,7 +7,9 @@
 
 #include "PII2.hpp"
 
-PII2::PII2() {
+PII2::PII2()
+:mBufVal4ITG(1), mBufVal6ITG(1)
+{
 	// TODO Auto-generated constructor stub
 
 }

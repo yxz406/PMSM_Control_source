@@ -27,6 +27,10 @@ private:
 	float mEstOmegaE;
 	float mEstTheta;
 
+
+	//for debug;
+	std::array<float, 2> mEstEMFgd;
+
 public:
 	Observer();
 	virtual ~Observer();
@@ -47,6 +51,11 @@ public:
 	float GetEstTheta(void);
 	float GetEstOmegaE(void);
 	float GetEstAxiErr(void);
+
+	//debug Get
+	std::array<float, 2> GetIgd(void);
+	std::array<float, 2> GetVgd(void);
+	std::array<float, 2> GetEstEMFgd(void);
 };
 
 #endif /* OBSERVER_HPP_ */

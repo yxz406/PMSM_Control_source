@@ -43,6 +43,10 @@ void Observer::Calculate() {
 	mEMFObserver.SetVgd(mVGanmaDelta);
 	mEMFObserver.EMFObserver();
 	std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
+
+	//debug用に作る
+	mEstEMFgd = mEMFObserver.GetEstEMFgd();
+
 	mEstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
 	mEstThetaPII2.SetValue(mEstAxiErr);
 	mEstThetaPII2.Calculate();
@@ -56,11 +60,19 @@ void Observer::CalculateForceCom(float pOmegaE) {
 	mEMFObserver.SetVgd(mVGanmaDelta);
 	mEMFObserver.EMFObserver();
 	std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
+
+	//debug用に作る
+	mEstEMFgd = mEMFObserver.GetEstEMFgd();
+
 	mEstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
 	//mEstThetaPII2.SetValue(EstAxiErr);
 	//mEstThetaPII2.Calculate();
 
 	mEstOmegaE = mEstThetaPII2.GetPIVal();
+
+	//PII2から取得せずに入力したOMEGAを見る。
+	mEstOmegaE = mEMFObserver.GetInputEstOmegaE();
+
 	mEMFObserver.SetEstOmegaE( pOmegaE );
 	//デバッグはEstAxiErrを見れば良い。
 }
@@ -79,3 +91,16 @@ float Observer::GetEstOmegaE(void) {
 	return mEstOmegaE;
 }
 
+//debug Getter
+std::array<float, 2> Observer::GetIgd(void) {
+	return mIGanmaDelta;
+}
+
+std::array<float, 2> Observer::GetVgd(void) {
+	return mVGanmaDelta;
+}
+
+
+std::array<float, 2> Observer::GetEstEMFgd(void) {
+	return mEstEMFgd;
+}

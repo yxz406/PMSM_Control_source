@@ -65,6 +65,8 @@ public:
 	//Getter
 	std::array<float, 2> GetEstEMFgd(void);
 
+	//Debug Getter
+	float GetInputEstOmegaE(void);
 };
 
 #endif /* INC_EMFOBS_HPP_ */
