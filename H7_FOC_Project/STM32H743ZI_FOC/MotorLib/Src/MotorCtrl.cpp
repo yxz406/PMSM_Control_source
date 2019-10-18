@@ -252,7 +252,7 @@ void MotorCtrl::ObserverTask() {
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 		//mObserver.Calculate();//ベクトル制御用
-		mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
+		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() );//強制転流中はこっち。
 
 		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
 		mMotorInfo.mArgErr = EstAxiErr;
@@ -264,7 +264,7 @@ void MotorCtrl::ObserverTask() {
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 		//mObserver.Calculate();//ベクトル制御用
-		mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
+		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() );//強制転流中はこっち。
 
 		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
 		mMotorInfo.mArgErr = EstAxiErr;
@@ -276,7 +276,7 @@ void MotorCtrl::ObserverTask() {
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 		mObserver.Calculate();//ベクトル制御用
-		mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
+		//mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
 		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
 		mMotorInfo.mArgErr = EstAxiErr;
 		mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;

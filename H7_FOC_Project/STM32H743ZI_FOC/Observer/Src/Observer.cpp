@@ -42,39 +42,44 @@ void Observer::Calculate() {
 	mEMFObserver.SetIgd(mIGanmaDelta);
 	mEMFObserver.SetVgd(mVGanmaDelta);
 	mEMFObserver.EMFObserver();
-	std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
 
-	//debug用に作る
+	//これ一時変数で置く意味ないので、クラスメンバにする。
+	//std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
+
 	mEstEMFgd = mEMFObserver.GetEstEMFgd();
-
-	mEstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
+	mEstAxiErr = EstimatedAxisError::GetError(mEstEMFgd);
 	mEstThetaPII2.SetValue(mEstAxiErr);
 	mEstThetaPII2.Calculate();
-	mEstOmegaE = mEstThetaPII2.GetPIVal();
+	mEstOmegaE = mEstThetaPII2.GetOmega();
 	mEMFObserver.SetEstOmegaE(mEstOmegaE);
-	mEstTheta = fmod( ( mEstThetaPII2.GetValue() + 2 * M_PI ) , ( 2 * M_PI ) ); //theta % 2pi
+	mEstTheta = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) ); //theta % 2pi
 }
 
-void Observer::CalculateForceCom(float pOmegaE) {
+void Observer::CalculateOpenLoop(float pOmegaE) {
+	//FOCモードとの違い
+	//FOCとは違って、電気角速度ωは強制転流コントローラが勝手に決める。
+	//そのため、PII2で推定しないで外から強制転流コントローラのωを代入する。
 	mEMFObserver.SetIgd(mIGanmaDelta);
 	mEMFObserver.SetVgd(mVGanmaDelta);
 	mEMFObserver.EMFObserver();
-	std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
 
-	//debug用に作る
+	//これ一時変数で置く意味ないので、クラスメンバにする。
+	//std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
+
 	mEstEMFgd = mEMFObserver.GetEstEMFgd();
-
-	mEstAxiErr = EstimatedAxisError::GetError(EstEMFgd);
+	mEstAxiErr = EstimatedAxisError::GetError(mEstEMFgd);
 	//mEstThetaPII2.SetValue(EstAxiErr);
 	//mEstThetaPII2.Calculate();
 
-	mEstOmegaE = mEstThetaPII2.GetPIVal();
+	mEstOmegaE = mEstThetaPII2.GetOmega();
 
 	//PII2から取得せずに入力したOMEGAを見る。
 	mEstOmegaE = mEMFObserver.GetInputEstOmegaE();
 
-	mEMFObserver.SetEstOmegaE( pOmegaE );
+	mEMFObserver.SetEstOmegaE( pOmegaE );//強制転流コントローラからのωを入力している
+
 	//デバッグはEstAxiErrを見れば良い。
+
 }
 
 

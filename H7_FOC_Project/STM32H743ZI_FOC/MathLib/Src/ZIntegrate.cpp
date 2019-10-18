@@ -7,23 +7,15 @@
 
 #include <ZIntegrate.hpp>
 
-ZIntegrate::ZIntegrate()
-{
-	// TODO Auto-generated constructor stub
-}
-
-ZIntegrate::~ZIntegrate() {
-	// TODO Auto-generated destructor stub
-}
-
 
 Zintegrate1n::Zintegrate1n(float pK)
 :mK(pK), mInput(0), mInputOld(0), mOutput(0), mOutputOld(0)
 {
+	//constructor
 }
 
-void Zintegrate1n::ZintegrateInit(float pK){
-	mK = pK;
+Zintegrate1n::~Zintegrate1n() {
+	//destructor
 }
 
 float Zintegrate1n::integrate(float pTime, float pInput) {
@@ -39,14 +31,17 @@ float Zintegrate1n::integrate(float pTime, float pInput) {
 	return mOutput;
 }
 
+
+
+
 Zintegrate2n::Zintegrate2n(float pK)
 :mIntegrate1(pK), mIntegrate2(pK)
 {
+	//constructor
 }
 
-void Zintegrate2n::ZintegrateInit(float pK){
-	mIntegrate1.ZintegrateInit(pK);
-	mIntegrate2.ZintegrateInit(pK);
+Zintegrate2n::~Zintegrate2n() {
+	//destructor
 }
 
 std::array<float, 2> Zintegrate2n::integrate(float pTime, std::array<float, 2> pInput) {

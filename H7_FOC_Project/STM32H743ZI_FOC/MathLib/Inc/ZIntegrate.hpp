@@ -10,11 +10,6 @@
 
 #include <array>
 
-class ZIntegrate {
-public:
-	ZIntegrate();
-	virtual ~ZIntegrate();
-};
 
 class Zintegrate1n {
 private:
@@ -28,7 +23,7 @@ private:
 
 public:
 	Zintegrate1n(float pK);
-	void ZintegrateInit(float pK);
+	virtual ~Zintegrate1n();
 	float integrate(float pTime, float pInput);
 };
 
@@ -38,7 +33,7 @@ private:
 	Zintegrate1n mIntegrate2;
 public:
 	Zintegrate2n(float pK);
-	void ZintegrateInit(float pK);
+	virtual ~Zintegrate2n();
 	std::array<float, 2> integrate(float pTime, std::array<float, 2> pInput);
 };
 

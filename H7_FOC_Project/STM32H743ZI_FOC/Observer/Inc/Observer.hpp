@@ -45,7 +45,7 @@ public:
 
 	//Calculator
 	void Calculate();
-	void CalculateForceCom(float pOmegaE);
+	void CalculateOpenLoop(float pOmegaE);
 
 	//Getter
 	float GetEstTheta(void);

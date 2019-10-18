@@ -51,8 +51,8 @@ public:
 	void Calculate();
 
 	//Getter
-	float GetValue();
-	float GetPIVal();
+	float GetTheta();
+	float GetOmega();
 };
 
 #endif /* INC_PII2_HPP_ */

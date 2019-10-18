@@ -53,10 +53,10 @@ void PII2::Calculate() {
 }
 
 //Getter
-float PII2::GetValue() {
+float PII2::GetTheta() {
 	return mOutputVal;
 }
 
-float PII2::GetPIVal() {
+float PII2::GetOmega() {
 	return mBufVal5;
 }
