@@ -18,6 +18,12 @@ Zintegrate1n::~Zintegrate1n() {
 	//destructor
 }
 
+void Zintegrate1n::SetDefault(float pInputOld, float pOutputOld) {
+	//初期値のSetter
+	mInputOld = pInputOld;
+	mOutputOld = pOutputOld;
+}
+
 float Zintegrate1n::integrate(float pTime, float pInput) {
 
 	//現在の状態を更新

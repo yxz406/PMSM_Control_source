@@ -44,6 +44,8 @@ public:
 	void InitGainK2(float pK2);
 	void InitGainK3(float pK3);
 
+	void ThetaResetForOpenLoop(float pTheta);
+
 	//Setter
 	void SetValue(float pInputVal);
 

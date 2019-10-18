@@ -190,7 +190,7 @@ void MotorCtrl::AngleTaskForOpenLoop(void) {
 
 
 void MotorCtrl::AngleTaskForFOC(void) {
-	//mMotorInfo.mgdArg = mMotorInfo.mArgErr + mArgCtrl.; //みたいな感じでつくること。
+	mMotorInfo.mgdArg = mObserver.GetEstTheta();//オブザーバから読み取る
 }
 
 
@@ -252,11 +252,13 @@ void MotorCtrl::ObserverTask() {
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 		//mObserver.Calculate();//ベクトル制御用
-		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() );//強制転流中はこっち。
+		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() ,mMotorInfo.mgdArg );//強制転流中はこっち。
 
 		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
 		mMotorInfo.mArgErr = EstAxiErr;
-		mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
+
+		//mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
+
 
 	}else if(mControlMode == OpenLoopToFOC){
 		//Observer
@@ -264,11 +266,13 @@ void MotorCtrl::ObserverTask() {
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 		//mObserver.Calculate();//ベクトル制御用
-		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() );//強制転流中はこっち。
+		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() ,mMotorInfo.mgdArg );//強制転流中はこっち。
 
 		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
 		mMotorInfo.mArgErr = EstAxiErr;
-		mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
+		//mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
+
+
 
 	}else if(mControlMode == FOC) {
 		//Observer
@@ -276,10 +280,8 @@ void MotorCtrl::ObserverTask() {
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 		mObserver.Calculate();//ベクトル制御用
-		//mObserver.CalculateForceCom( mArgCtrl.getArgOmega() );//強制転流中はこっち。
 		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
 		mMotorInfo.mArgErr = EstAxiErr;
-		mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
 	}
 
 }
@@ -303,7 +305,7 @@ void MotorCtrl::CurrentPITask() {
 			mMotorInfo.mIgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT;
 			mMotorInfo.mIgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT;
 			//ParamInheritanceTaskForOpenLoopToFOC();//オブザーバに強制転流の情報を継承させる。
-			//mControlMode = FOC;
+			mControlMode = FOC; //何が起こるかわくわく
 		}
 
 	}else if(mControlMode == FOC) {//FOCのときの入力
@@ -437,11 +439,20 @@ void MotorCtrl::MotorOutputTaskSVM(void) {
 void MotorCtrl::ControlModeHandler() {
 	float OpenLoopOmega = mArgCtrl.getArgOmega();
 	float ObserverOmega = mObserver.GetEstOmegaE();
+
+	if(mControlMode == FOC) {
+		return;
+	}
+
 	if(OpenLoopOmega > OPENLOOP_END_OMEGA) {
 		mControlMode = OpenLoopToFOC;
 	} else {
 		mControlMode = OpenLoop;
 	}
+
+//	if (mControlMode == FOC && 200 > ObserverOmega ) {//ここまだ未整備
+//		mControlMode = OpenLoop;
+//	}
 
 }
 
@@ -467,6 +478,7 @@ void MotorCtrl::JLinkDebug() {
 	int DegArg = (int)(mMotorInfo.mgdArg/M_PI * 180 );//指令値の角度
 	int DegAxiErr =(int)( mObserver.GetEstAxiErr() / M_PI *180 );
 	int milEstOmega =(int)( mObserver.GetEstOmegaE());
+	int EstTheta =(int)(mObserver.GetEstTheta()/M_PI * 180 );
 
 	int milIa = (int)( mMotorInfo.mIab.at(0) * 1000 );
 	int milIb = (int)( mMotorInfo.mIab.at(1) * 1000 );
@@ -488,7 +500,7 @@ void MotorCtrl::JLinkDebug() {
 	int milEstEMFd = (int)(mObserver.GetEstEMFgd().at(1) * 1000);
 
 	char outputStr[100]={0};//100文字までとりあえず静的確保
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, milEstEMFg ,milEstEMFd);//みやゆうさんご希望のデバッグ
+	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, EstTheta);//みやゆうさんご希望のデバッグ
 
 	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
 		return;
@@ -517,6 +529,7 @@ void MotorCtrl::BtnAct(void){//強制転流開始へのトリガ 割り込みか
 
 void MotorCtrl::BtnActOFF(void){//強制転流開始へのトリガOFF
 	mUIStatus.mStartStopTRG = MotorStop;
+	mControlMode = OpenLoop;
 }
 
 

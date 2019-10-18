@@ -52,6 +52,14 @@ void PII2::Calculate() {
 	mOutputVal = mBufVal1 + mBufVal6;
 }
 
+//integrate Reset For OpenLoop
+void PII2::ThetaResetForOpenLoop(float pTheta) {
+	//内部変数を無理やりリセットすることで、強制転流時の角度を引き継ぐ。
+	mBufVal4ITG.SetDefault(0, 0);
+	mBufVal6ITG.SetDefault(0, pTheta);
+}
+
+
 //Getter
 float PII2::GetTheta() {
 	return mOutputVal;

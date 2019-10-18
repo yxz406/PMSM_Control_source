@@ -43,19 +43,16 @@ void Observer::Calculate() {
 	mEMFObserver.SetVgd(mVGanmaDelta);
 	mEMFObserver.EMFObserver();
 
-	//これ一時変数で置く意味ないので、クラスメンバにする。
-	//std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
-
 	mEstEMFgd = mEMFObserver.GetEstEMFgd();
 	mEstAxiErr = EstimatedAxisError::GetError(mEstEMFgd);
 	mEstThetaPII2.SetValue(mEstAxiErr);
 	mEstThetaPII2.Calculate();
-	mEstOmegaE = mEstThetaPII2.GetOmega();
+	mEstOmegaE = mEstThetaPII2.GetOmega();//計算した角速度の出力
 	mEMFObserver.SetEstOmegaE(mEstOmegaE);
 	mEstTheta = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) ); //theta % 2pi
 }
 
-void Observer::CalculateOpenLoop(float pOmegaE) {
+void Observer::CalculateOpenLoop(float pOmegaE, float pThetaE) {
 	//FOCモードとの違い
 	//FOCとは違って、電気角速度ωは強制転流コントローラが勝手に決める。
 	//そのため、PII2で推定しないで外から強制転流コントローラのωを代入する。
@@ -63,18 +60,22 @@ void Observer::CalculateOpenLoop(float pOmegaE) {
 	mEMFObserver.SetVgd(mVGanmaDelta);
 	mEMFObserver.EMFObserver();
 
-	//これ一時変数で置く意味ないので、クラスメンバにする。
-	//std::array<float, 2> EstEMFgd = mEMFObserver.GetEstEMFgd();
-
 	mEstEMFgd = mEMFObserver.GetEstEMFgd();
 	mEstAxiErr = EstimatedAxisError::GetError(mEstEMFgd);
-	//mEstThetaPII2.SetValue(EstAxiErr);
-	//mEstThetaPII2.Calculate();
 
-	mEstOmegaE = mEstThetaPII2.GetOmega();
+	//強制転流時には毎回角度のリセットをする
+	mEstThetaPII2.ThetaResetForOpenLoop(pThetaE);
 
-	//PII2から取得せずに入力したOMEGAを見る。
-	mEstOmegaE = mEMFObserver.GetInputEstOmegaE();
+	//本当はここ以降動かしてなかった
+	mEstThetaPII2.SetValue(mEstAxiErr);
+	mEstThetaPII2.Calculate();
+	//ここまで
+
+	mEstOmegaE = mEstThetaPII2.GetOmega();//計算した角速度の出力
+	mEstTheta = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) );//計算した角度の出力
+
+	//PII2から取得せずに入力したOMEGAを見る。 comment out
+	//mEstOmegaE = mEMFObserver.GetInputEstOmegaE();
 
 	mEMFObserver.SetEstOmegaE( pOmegaE );//強制転流コントローラからのωを入力している
 

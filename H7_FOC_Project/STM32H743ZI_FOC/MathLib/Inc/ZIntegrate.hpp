@@ -24,6 +24,7 @@ private:
 public:
 	Zintegrate1n(float pK);
 	virtual ~Zintegrate1n();
+	void SetDefault(float pInputOld, float pOutputOld);
 	float integrate(float pTime, float pInput);
 };
 
