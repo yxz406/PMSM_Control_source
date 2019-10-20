@@ -80,8 +80,8 @@
 
 //制御周期[s]
 #define PID_CYCLE_TIME PWM_PERIOD_SEC
-#define PID_CYCLE_TIME_G 1.0f/((float)250*3.1415926f)
-#define PID_CYCLE_TIME_D 1.0f/((float)50*3.1415926f)
+#define PID_CYCLE_TIME_G 1.0f/((float)50*3.1415926f)
+#define PID_CYCLE_TIME_D 1.0f/((float)250*3.1415926f)
 
 //PI電流制御をかけない
 #define PI_NOCONTROL_DEBUG 0
@@ -111,8 +111,8 @@
 //OpenLoopから変更開始の加速度
 #define OPENLOOP_END_OMEGA 1000
 //OpenLoop から FOCに切り替えるまでのステップ数
-#define OPEN_TO_FOC_TRANSITION_COUNT 10000
-
+#define OPEN_TO_FOC_TRANSITION_COUNT_STEP1 10000
+#define OPEN_TO_FOC_TRANSITION_COUNT_STEP2 10000
 
 //強制転流の設定
 //#define FC_TARGET_RPM 1000

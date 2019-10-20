@@ -5,8 +5,6 @@
  *      Author: watashi
  */
 
-//TODO:ControlModeHandler();を作って加速度で切り替えるようにする
-
 #include "MotorCtrl.hpp"
 
 MotorCtrl::MotorCtrl() {
@@ -297,15 +295,24 @@ void MotorCtrl::CurrentPITask() {
 
 	}else if(mControlMode == OpenLoopToFOC) {//OpenLoopからFOCに切り替わる時に動作するモード
 
-		if(mTransitionCountForOpenToFOC < OPEN_TO_FOC_TRANSITION_COUNT) {
-			mMotorInfo.mIgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT;
-			mMotorInfo.mIgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT;
+		if(mTransitionCountForOpenToFOC < OPEN_TO_FOC_TRANSITION_COUNT_STEP1) {
+			mMotorInfo.mIgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT_STEP1 - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
+			mMotorInfo.mIgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
 			mTransitionCountForOpenToFOC++;
 		} else {
-			mMotorInfo.mIgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT;
-			mMotorInfo.mIgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT;
+			mMotorInfo.mIgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT_STEP1 - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
+			mMotorInfo.mIgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
 			//ParamInheritanceTaskForOpenLoopToFOC();//オブザーバに強制転流の情報を継承させる。
-			mControlMode = FOC; //何が起こるかわくわく
+
+
+			if(mTransitionCountForOpenToFOC2 < OPEN_TO_FOC_TRANSITION_COUNT_STEP2) {
+				mControlMode = FOC; //何が起こるかわくわく
+				mTransitionCountForOpenToFOC = 0;
+				mTransitionCountForOpenToFOC2 = 0;
+			}
+			mTransitionCountForOpenToFOC2++;
+
+
 		}
 
 	}else if(mControlMode == FOC) {//FOCのときの入力
@@ -356,8 +363,6 @@ void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
 		Vganma = mIganmaPID.OutPut();
 		Vdelta = mIdeltaPID.OutPut();
 
-		Vganma = Vganma;
-		Vdelta = Vdelta;
 		//LIMITを入れる
 		if( Vganma > PID_IGANMA_MAX_VOLTAGE ) {
 			Vganma = PID_IGANMA_MAX_VOLTAGE;
@@ -441,6 +446,9 @@ void MotorCtrl::ControlModeHandler() {
 	float ObserverOmega = mObserver.GetEstOmegaE();
 
 	if(mControlMode == FOC) {
+		if(400 > ObserverOmega ){
+			mControlMode = OpenLoopToFOC;
+		}
 		return;
 	}
 

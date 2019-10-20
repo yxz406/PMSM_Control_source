@@ -164,6 +164,7 @@ public:
 private:
 	int mlogcount = 0;
 	int mTransitionCountForOpenToFOC = 0;
+	int mTransitionCountForOpenToFOC2 = 0;
 };
 
 #endif /* MOTORCTRL_HPP_ */
