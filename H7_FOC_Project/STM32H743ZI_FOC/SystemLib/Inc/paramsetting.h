@@ -12,6 +12,7 @@
  * パラメータセッティング
  * ここではマクロを利用して、動作モードの一括変更をする。
  *
+ *注意　演算が入るものは（）をつけること。
  */
 
 
@@ -21,10 +22,10 @@
 //PWMの設定
 #define PWM_FREQ_HZ 20000
 #define TIM_CLOCK_DIVIDER 1
-#define TIM_CLK_MHz 400/TIM_CLOCK_DIVIDER
+#define TIM_CLK_MHz (400/TIM_CLOCK_DIVIDER)
 #define PWM_PERIOD_CYCLES (uint16_t)(TIM_CLK_MHz*(unsigned long long)1000000u/(uint16_t)(PWM_FREQ_HZ))
 //#define PWM_PERIOD_COUNT PWM_PERIOD_CYCLES/2　//片側のPWMだとこれ
-#define PWM_PERIOD_COUNT PWM_PERIOD_CYCLES/4 //両端のPWMだとこれ
+#define PWM_PERIOD_COUNT (PWM_PERIOD_CYCLES/4) //両端のPWMだとこれ
 
 
 /*
@@ -62,16 +63,18 @@
 //Lq=0.02[mH]
 //phi=0.8
 #define M_PARAM_LD 0.00002f
+//#define M_PARAM_LD 0.000018f
 //#define M_PARAM_LQ 0.00002f
 #define M_PARAM_LQ 0.00002f
+//#define M_PARAM_LQ 0.000018f
 #define M_PARAM_PHY 0.0008f
 #define M_PARAM_R 0.26f
 
 #define OBSERVER_CYCLE_TIME PWM_PERIOD_SEC
 #define OBSERVER_GAIN_ALPHA 200
 #define OBSERVER_GAIN_K1 2
-#define OBSERVER_GAIN_K2 3 * OBSERVER_GAIN_ALPHA
-#define OBSERVER_GAIN_K3 OBSERVER_GAIN_ALPHA * OBSERVER_GAIN_ALPHA
+#define OBSERVER_GAIN_K2 (3 * OBSERVER_GAIN_ALPHA)
+#define OBSERVER_GAIN_K3 (OBSERVER_GAIN_ALPHA * OBSERVER_GAIN_ALPHA)
 
 
 //制御用周期
@@ -80,8 +83,8 @@
 
 //制御周期[s]
 #define PID_CYCLE_TIME PWM_PERIOD_SEC
-#define PID_CYCLE_TIME_G 1.0f/((float)50*3.1415926f)
-#define PID_CYCLE_TIME_D 1.0f/((float)250*3.1415926f)
+#define PID_CYCLE_TIME_G 1.0f/((float)350*3.1415926f)
+#define PID_CYCLE_TIME_D 1.0f/((float)350*3.1415926f)
 
 //PI電流制御をかけない
 #define PI_NOCONTROL_DEBUG 0
@@ -122,5 +125,8 @@
 #define OPENLOOP_TARGET_RPS 7*30 //秒間200周
 #define OPENLOOP_TARGET_ACCEL 0.1f/20000
 
+
+#define ENCODER_ABZ 1
+#define ENCODER_PERIOD (2000 - 1)
 
 #endif /* PARAMSETTING_H_ */

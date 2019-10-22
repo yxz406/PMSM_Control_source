@@ -39,6 +39,10 @@ void MotorCtrl::InitSystem(void) {
 
 	TIMCtrl::TIM1PWMStart();
 
+	//Encoder Initialize
+	//EncoderABZCtrl::MX_TIM4_Init();
+	//EncoderABZCtrl::EncoderStart();
+
 	//ADC Initialize
 	ADCCtrl::ADC2Init_HAL();
 	ADCCtrl::ADC2Calibration();
@@ -286,6 +290,7 @@ void MotorCtrl::ObserverTask() {
 
 
 void MotorCtrl::CurrentPITask() {
+	//Current Target Setting
 	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
 
 	if(mControlMode == OpenLoop) {
@@ -302,11 +307,10 @@ void MotorCtrl::CurrentPITask() {
 		} else {
 			mMotorInfo.mIgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT_STEP1 - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
 			mMotorInfo.mIgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
-			//ParamInheritanceTaskForOpenLoopToFOC();//オブザーバに強制転流の情報を継承させる。
 
 
-			if(mTransitionCountForOpenToFOC2 < OPEN_TO_FOC_TRANSITION_COUNT_STEP2) {
-				mControlMode = FOC; //何が起こるかわくわく
+			if(OPEN_TO_FOC_TRANSITION_COUNT_STEP2 < mTransitionCountForOpenToFOC2) {
+				mControlMode = FOC; //何が起こるかわくわく　ここで本来書くべきではない。Handerが管理するべき。
 				mTransitionCountForOpenToFOC = 0;
 				mTransitionCountForOpenToFOC2 = 0;
 			}
@@ -317,20 +321,32 @@ void MotorCtrl::CurrentPITask() {
 
 	}else if(mControlMode == FOC) {//FOCのときの入力
 		mMotorInfo.mIgdTarget.at(0) = 0;
-		mMotorInfo.mIgdTarget.at(1) = adc2_input;
+		//mMotorInfo.mIgdTarget.at(1) = adc2_input;
+		mMotorInfo.mIgdTarget.at(1) = adc2_input/5;
 	}
+
 	//PI Control Start
 	mMotorInfo.mIgdErr.at(0) = mMotorInfo.mIgdTarget.at(0) - mMotorInfo.mIgd.at(0);
 	mMotorInfo.mIgdErr.at(1) = mMotorInfo.mIgdTarget.at(1) - mMotorInfo.mIgd.at(1);
 	PIDgd_control(mMotorInfo.mIgdErr);
+//	if(mControlMode == OpenLoop) {
+//		PIDgd_control(mMotorInfo.mIgdErr);
+//	}else if(mControlMode == OpenLoopToFOC) {
+//		PIDgd_control(mMotorInfo.mIgdErr);
+//	}else if(mControlMode == FOC) {
+//		float Vganma_input,Vdelta_input;
+//		Vganma_input = 0 * VCC_VOLTAGE * 0.866;
+//		Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
+//	setVgd({Vganma_input,Vdelta_input});
+//	}
 
-	if(PI_NOCONTROL_DEBUG) {//PI電流制御の電流指令値を電圧値として使う。デバッグモード
-		float Vganma_input,Vdelta_input;
-		Vganma_input = mMotorInfo.mIgdErr.at(0) * VCC_VOLTAGE * 0.866;
-		Vdelta_input = mMotorInfo.mIgdErr.at(1) * VCC_VOLTAGE * 0.866;//連れ回し運転
-		std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
-		setVgd(inputVgd);
-	}
+//	if(PI_NOCONTROL_DEBUG) {//PI電流制御の電流指令値を電圧値として使う。デバッグモード
+//		float Vganma_input,Vdelta_input;
+//		Vganma_input = mMotorInfo.mIgdErr.at(0) * VCC_VOLTAGE * 0.866;
+//		Vdelta_input = mMotorInfo.mIgdErr.at(1) * VCC_VOLTAGE * 0.866;//連れ回し運転
+//		std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
+//		setVgd(inputVgd);
+//	}
 
 }
 
@@ -372,7 +388,18 @@ void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
 		}
 
 		mMotorInfo.mVgd = {Vganma, Vdelta};
-		//mMotorInfo.mVgd = {Vganma, 0};
+
+//		if(mControlMode == OpenLoop) {
+//		//mMotorInfo.mVgd = {Vganma, Vdelta};
+//		mMotorInfo.mVgd = {Vganma, 0};
+//		}else if(mControlMode == OpenLoopToFOC) {//OpenLoopからFOCに切り替わる時に動作するモード
+//			mMotorInfo.mVgd = {Vganma, Vdelta};
+//		}else if(mControlMode == FOC) {//FOCのとき
+//			mMotorInfo.mVgd = {0, Vdelta};
+//		}
+
+
+
 	}
 }
 
@@ -445,13 +472,15 @@ void MotorCtrl::ControlModeHandler() {
 	float OpenLoopOmega = mArgCtrl.getArgOmega();
 	float ObserverOmega = mObserver.GetEstOmegaE();
 
+	//FOCからの推移ハンドル
 	if(mControlMode == FOC) {
-		if(400 > ObserverOmega ){
+		if(200 > ObserverOmega ){ //定常状態は400
 			mControlMode = OpenLoopToFOC;
 		}
 		return;
 	}
 
+	//OpenLoopからの推移
 	if(OpenLoopOmega > OPENLOOP_END_OMEGA) {
 		mControlMode = OpenLoopToFOC;
 	} else {
@@ -507,8 +536,14 @@ void MotorCtrl::JLinkDebug() {
 	int milEstEMFg = (int)(mObserver.GetEstEMFgd().at(0) * 1000);
 	int milEstEMFd = (int)(mObserver.GetEstEMFgd().at(1) * 1000);
 
+	//encoder
+	//int encoder = (int)(EncoderABZCtrl::GetAngle()*(360.0f/(ENCODER_PERIOD+1)));
+
 	char outputStr[100]={0};//100文字までとりあえず静的確保
 	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, EstTheta);//みやゆうさんご希望のデバッグ
+
+	//encoder
+	//sprintf(outputStr,"%d\n",encoder);
 
 	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
 		return;

@@ -1,0 +1,4 @@
+ADCInit.cpp:12:6:static void ADCInit::ADC3Init()	8	static
+ADCInit.cpp:48:6:static void ADCInit::ADC3Enable()	16	static,ignoring_inline_asm
+ADCInit.cpp:71:6:static void ADCInit::ADC3EnableIT()	4	static
+ADCInit.cpp:115:6:static void ADCInit::ADC3Disable()	4	static,ignoring_inline_asm

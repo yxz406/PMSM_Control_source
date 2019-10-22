@@ -16,6 +16,7 @@
 
 #include "ADCCtrl.hpp"
 #include "TIMCtrl.hpp"
+#include "EncoderABZCtrl.hpp"
 
 //#include "GPIOInit.hpp"
 //#include "USARTInit.hpp"
@@ -113,7 +114,7 @@ public:
 	void MotorOutputTask(void);
 	void MotorOutputTaskSVM(void);
 
-	void ControlModeHandler();
+
 
 	void setIuvw(float pIu, float pIv, float pIw);
 
@@ -148,6 +149,9 @@ public:
 	void CurrentPITask();
 
 	void GPIODebugTask();
+
+	//Handler
+	void ControlModeHandler();
 
 	//Debug
 	void JLinkDebug();

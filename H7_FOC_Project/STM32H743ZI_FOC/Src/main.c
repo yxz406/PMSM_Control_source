@@ -126,9 +126,10 @@ int main(void)
 //  MX_ADC3_Init();
 //  MX_TIM1_Init();
 //  MX_ADC2_Init();
+  //MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
-  //‰ª•‰∏ã„ÇíÁÑ°ÂäπÂåñ„Åô„Çã„Åì„Å®
+  //à»â∫Çñ≥å¯âªÇ∑ÇÈÇ±Ç∆
   //  MX_ADC3_Init();
   //  MX_TIM1_Init();
   //  MX_ADC2_Init();
