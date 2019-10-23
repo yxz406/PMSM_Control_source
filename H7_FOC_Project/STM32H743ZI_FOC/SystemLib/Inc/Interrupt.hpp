@@ -12,28 +12,28 @@
  extern "C" {
 #endif
 
-#include "main.h"
-#include "stm32h7xx_it.h"
 
-#//include "Deus.hpp"
+#include "TIMCtrl.hpp"
 
-#include "main.h"
+//#include "main.h"
 #include "wrapper.hpp"
 
 
-void NMI_Handler(void);
-void HardFault_Handler(void);
-void MemManage_Handler(void);
-void BusFault_Handler(void);
-void UsageFault_Handler(void);
-void SVC_Handler(void);
-void DebugMon_Handler(void);
-void PendSV_Handler(void);
-void SysTick_Handler(void);
-void ADC_IRQHandler(void);
-void TIM1_BRK_TIM9_IRQHandler(void);
-void TIM1_UP_TIM10_IRQHandler(void);
-void EXTI15_10_IRQHandler(void);
+ void NMI_Handler(void);
+ void HardFault_Handler(void);
+ void MemManage_Handler(void);
+ void BusFault_Handler(void);
+ void UsageFault_Handler(void);
+ void SVC_Handler(void);
+ void DebugMon_Handler(void);
+ void PendSV_Handler(void);
+ void SysTick_Handler(void);
+ void TIM1_BRK_IRQHandler(void);
+ void TIM1_UP_IRQHandler(void);
+ void TIM1_TRG_COM_IRQHandler(void);
+ void TIM1_CC_IRQHandler(void);
+ void EXTI15_10_IRQHandler(void);
+ void ADC3_IRQHandler(void);
 
 #ifdef __cplusplus
 }

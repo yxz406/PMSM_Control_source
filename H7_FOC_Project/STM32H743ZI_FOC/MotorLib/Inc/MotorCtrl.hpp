@@ -89,6 +89,8 @@ private:
 	PID mIdPID, mIqPID;
 	PID mIganmaPID, mIdeltaPID;
 
+	PID mVelocityPID;
+
 	ArgCtrl mArgCtrl;
 
 	OperationMode mOperationMode;
@@ -146,6 +148,7 @@ public:
 	void AngleTaskForOpenLoop();
 	void AngleTaskForFOC();
 	void ObserverTask();
+	void VelocityPIDTask();
 	void CurrentPITask();
 
 	void GPIODebugTask();

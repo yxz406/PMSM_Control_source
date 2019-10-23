@@ -24,7 +24,7 @@
 #include "paramsetting.h"
 /* USER CODE END 0 */
 
-TIM_HandleTypeDef htim1;
+//TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim4;
 
 /* TIM1 init function */

@@ -1,5 +1,0 @@
-SystemTest.cpp:35:6:void uartstr(char*)	16	static
-SystemTest.cpp:40:1:SystemTest::SystemTest()	16	static
-SystemTest.cpp:45:1:SystemTest::~SystemTest()	16	static
-SystemTest.cpp:45:1:virtual SystemTest::~SystemTest()	16	static
-SystemTest.cpp:49:6:static void SystemTest::StartTest()	16	static

@@ -1,3 +1,0 @@
-USARTCtrl.cpp:10:1:USARTCtrl::USARTCtrl()	16	static
-USARTCtrl.cpp:15:1:USARTCtrl::~USARTCtrl()	16	static
-USARTCtrl.cpp:15:1:virtual USARTCtrl::~USARTCtrl()	16	static

@@ -83,6 +83,10 @@ void MotorCtrl::InitMotorControl(void) {
 		mIganmaPID = IganmaPID;
 		mIdeltaPID = IdeltaPID;
 	}
+	{
+		mVelocityPID.SetParam(PID_GAIN_VEL_P, PID_GAIN_VEL_I, PID_GAIN_VEL_D);
+		mVelocityPID.SetSampleTime(PID_CYCLE_TIME_VEL);
+	}
 }
 
 void MotorCtrl::InitObserver(void) {
@@ -127,6 +131,7 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 	ObserverTask();//オブザーバ
+	VelocityPIDTask();//速度PID制御
 	CurrentPITask();//電流PI制御
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
@@ -289,6 +294,16 @@ void MotorCtrl::ObserverTask() {
 }
 
 
+void MotorCtrl::VelocityPIDTask() {
+	if(mControlMode == FOC) {
+		float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+		float velocityTarget = adc2_input * 1000;
+		float velErr = velocityTarget - mObserver.GetEstOmegaE();
+		mVelocityPID.ErrorUpdate(velErr);
+	}
+}
+
+
 void MotorCtrl::CurrentPITask() {
 	//Current Target Setting
 	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
@@ -323,6 +338,9 @@ void MotorCtrl::CurrentPITask() {
 		mMotorInfo.mIgdTarget.at(0) = 0;
 		//mMotorInfo.mIgdTarget.at(1) = adc2_input;
 		mMotorInfo.mIgdTarget.at(1) = adc2_input/5;
+		if(VEL_CONTROL) {
+		mMotorInfo.mIgdTarget.at(1) = mVelocityPID.OutPut();
+		}
 	}
 
 	//PI Control Start
@@ -380,11 +398,19 @@ void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
 		Vdelta = mIdeltaPID.OutPut();
 
 		//LIMITを入れる
+		//上限Limit
 		if( Vganma > PID_IGANMA_MAX_VOLTAGE ) {
 			Vganma = PID_IGANMA_MAX_VOLTAGE;
 		}
 		if( Vdelta > PID_IDELTA_MAX_VOLTAGE ) {
 			Vdelta = PID_IDELTA_MAX_VOLTAGE;
+		}
+		//下限Limit
+		if( Vganma < PID_IGANMA_MIN_VOLTAGE ) {
+			Vganma = PID_IGANMA_MIN_VOLTAGE;
+		}
+		if( Vdelta < PID_IDELTA_MIN_VOLTAGE ) {
+			Vdelta = PID_IDELTA_MIN_VOLTAGE;
 		}
 
 		mMotorInfo.mVgd = {Vganma, Vdelta};
