@@ -296,10 +296,13 @@ void MotorCtrl::ObserverTask() {
 
 void MotorCtrl::VelocityPIDTask() {
 	if(mControlMode == FOC) {
-		float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-		float velocityTarget = adc2_input * 1000;
-		float velErr = velocityTarget - mObserver.GetEstOmegaE();
-		mVelocityPID.ErrorUpdate(velErr);
+		if(mFOCcount>30000){
+			float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+			//float velocityTarget = adc2_input * 1000;
+			float velocityTarget = 1500;
+			float velErr = velocityTarget - mObserver.GetEstOmegaE();
+			mVelocityPID.ErrorUpdate(velErr);
+		}
 	}
 }
 
@@ -339,7 +342,13 @@ void MotorCtrl::CurrentPITask() {
 		//mMotorInfo.mIgdTarget.at(1) = adc2_input;
 		mMotorInfo.mIgdTarget.at(1) = adc2_input/5;
 		if(VEL_CONTROL) {
-		mMotorInfo.mIgdTarget.at(1) = mVelocityPID.OutPut();
+			if(mFOCcount>30000){
+
+				mMotorInfo.mIgdTarget.at(1) = mVelocityPID.OutPut();
+			} else {
+			mFOCcount++;
+			}
+
 		}
 	}
 
@@ -566,7 +575,11 @@ void MotorCtrl::JLinkDebug() {
 	//int encoder = (int)(EncoderABZCtrl::GetAngle()*(360.0f/(ENCODER_PERIOD+1)));
 
 	char outputStr[100]={0};//100文字までとりあえず静的確保
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, EstTheta);//みやゆうさんご希望のデバッグ
+	//general
+	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, EstTheta);//みやゆうさんご希望のデバッグ
+
+	//velocity
+	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVg, milVd, milIg, milId, milEstOmega, EstTheta);
 
 	//encoder
 	//sprintf(outputStr,"%d\n",encoder);
