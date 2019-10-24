@@ -64,7 +64,8 @@ void Observer::CalculateOpenLoop(float pOmegaE, float pThetaE) {
 	mEstAxiErr = EstimatedAxisError::GetError(mEstEMFgd);
 
 	//強制転流時には毎回角度のリセットをする
-	mEstThetaPII2.ThetaResetForOpenLoop(pThetaE);
+	//ganma axis でなく est d axis を入れる
+	mEstThetaPII2.ThetaResetForOpenLoop(pThetaE + mEstAxiErr);
 
 	//本当はここ以降動かしてなかった
 	mEstThetaPII2.SetValue(mEstAxiErr);
