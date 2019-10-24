@@ -204,9 +204,9 @@ void MotorCtrl::AngleTaskForFOC(void) {
 void MotorCtrl::ReadAngle(void) {
 	if(mControlMode == OpenLoop) {
 		AngleTaskForOpenLoop();
-	}else if (mControlMode == OpenLoopToFOC) {
+	}else if(mControlMode == OpenLoopToFOC) {
 		AngleTaskForOpenLoop();
-	} else if (mControlMode == FOC) {
+	}else if(mControlMode == FOC) {
 		AngleTaskForFOC();
 	}
 }
@@ -258,13 +258,10 @@ void MotorCtrl::ObserverTask() {
 		//オブザーバセット・計算・値取得
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
-		//mObserver.Calculate();//ベクトル制御用
 		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() ,mMotorInfo.mgdArg );//強制転流中はこっち。
 
 		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
 		mMotorInfo.mArgErr = EstAxiErr;
-
-		//mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
 
 
 	}else if(mControlMode == OpenLoopToFOC){
@@ -272,12 +269,10 @@ void MotorCtrl::ObserverTask() {
 		//オブザーバセット・計算・値取得
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
-		//mObserver.Calculate();//ベクトル制御用
 		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() ,mMotorInfo.mgdArg );//強制転流中はこっち。
 
 		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
 		mMotorInfo.mArgErr = EstAxiErr;
-		//mMotorInfo.mdqArg = mMotorInfo.mgdArg + mMotorInfo.mArgErr;
 
 
 
@@ -296,13 +291,11 @@ void MotorCtrl::ObserverTask() {
 
 void MotorCtrl::VelocityPIDTask() {
 	if(mControlMode == FOC) {
-		if(mFOCcount>30000){
 			float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
 			//float velocityTarget = adc2_input * 1000;
 			float velocityTarget = 1500;
 			float velErr = velocityTarget - mObserver.GetEstOmegaE();
 			mVelocityPID.ErrorUpdate(velErr);
-		}
 	}
 }
 
@@ -325,16 +318,7 @@ void MotorCtrl::CurrentPITask() {
 		} else {
 			mMotorInfo.mIgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT_STEP1 - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
 			mMotorInfo.mIgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
-
-
-			if(OPEN_TO_FOC_TRANSITION_COUNT_STEP2 < mTransitionCountForOpenToFOC2) {
-				mControlMode = FOC; //何が起こるかわくわく　ここで本来書くべきではない。Handerが管理するべき。
-				mTransitionCountForOpenToFOC = 0;
-				mTransitionCountForOpenToFOC2 = 0;
-			}
 			mTransitionCountForOpenToFOC2++;
-
-
 		}
 
 	}else if(mControlMode == FOC) {//FOCのときの入力
@@ -424,17 +408,6 @@ void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
 
 		mMotorInfo.mVgd = {Vganma, Vdelta};
 
-//		if(mControlMode == OpenLoop) {
-//		//mMotorInfo.mVgd = {Vganma, Vdelta};
-//		mMotorInfo.mVgd = {Vganma, 0};
-//		}else if(mControlMode == OpenLoopToFOC) {//OpenLoopからFOCに切り替わる時に動作するモード
-//			mMotorInfo.mVgd = {Vganma, Vdelta};
-//		}else if(mControlMode == FOC) {//FOCのとき
-//			mMotorInfo.mVgd = {0, Vdelta};
-//		}
-
-
-
 	}
 }
 
@@ -503,28 +476,40 @@ void MotorCtrl::MotorOutputTaskSVM(void) {
 }
 
 
-void MotorCtrl::ControlModeHandler() {
+void MotorCtrl::ControlModeHandler() { //状態遷移を管理する関数
 	float OpenLoopOmega = mArgCtrl.getArgOmega();
 	float ObserverOmega = mObserver.GetEstOmegaE();
 
-	//FOCからの推移ハンドル
+	//OpenLoopからの遷移ハンドル
+	if(mControlMode == OpenLoop) {
+		if(OpenLoopOmega > OPENLOOP_END_OMEGA) {
+			mControlMode = OpenLoopToFOC;
+		}
+		return;
+	}
+
+	//OpenLoopToFOCからの遷移ハンドル
+	if(mControlMode == OpenLoopToFOC) {
+		//OpenLoopへの遷移
+		if(OpenLoopOmega < OPENLOOP_END_OMEGA) {
+			mControlMode = OpenLoop;
+		}
+		//FOCへの遷移
+		if(OPEN_TO_FOC_TRANSITION_COUNT_STEP2 < mTransitionCountForOpenToFOC2) {
+			mControlMode = FOC; //何が起こるかわくわく　ここで本来書くべきではない。Handerが管理するべき。
+			mTransitionCountForOpenToFOC = 0;
+			mTransitionCountForOpenToFOC2 = 0;
+		}
+		return;
+	}
+
+	//FOCからの遷移ハンドル
 	if(mControlMode == FOC) {
 		if(200 > ObserverOmega ){ //定常状態は400
 			mControlMode = OpenLoopToFOC;
 		}
 		return;
 	}
-
-	//OpenLoopからの推移
-	if(OpenLoopOmega > OPENLOOP_END_OMEGA) {
-		mControlMode = OpenLoopToFOC;
-	} else {
-		mControlMode = OpenLoop;
-	}
-
-//	if (mControlMode == FOC && 200 > ObserverOmega ) {//ここまだ未整備
-//		mControlMode = OpenLoop;
-//	}
 
 }
 

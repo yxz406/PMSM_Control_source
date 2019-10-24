@@ -73,8 +73,8 @@ public:
 
 	enum ControlMode { //強制転流、FOCなどの動作モード管理
 		OpenLoop = 1,
-		OpenLoopToFOC = 2,
-		FOC = 3,
+		OpenLoopToFOC,
+		FOC,
 	};
 
 	class UIStatus {

@@ -63,10 +63,7 @@
 //Lq=0.02[mH]
 //phi=0.8
 #define M_PARAM_LD 0.00002f
-//#define M_PARAM_LD 0.000018f
-//#define M_PARAM_LQ 0.00002f
 #define M_PARAM_LQ 0.00002f
-//#define M_PARAM_LQ 0.000018f
 #define M_PARAM_PHY 0.0008f
 #define M_PARAM_R 0.26f
 
@@ -91,16 +88,16 @@
 
 //PI電流制御をかけない
 #define PI_NOCONTROL_DEBUG 0
-//PIdq制御器パラメータ設定
-#define PID_GAIN_ID_P 0.1
-#define PID_GAIN_ID_I 0.1
-#define PID_GAIN_ID_D 0.1
-#define PID_ID_MAX_VOLTAGE 10
-
-#define PID_GAIN_IQ_P 0.1
-#define PID_GAIN_IQ_I 0.1
-#define PID_GAIN_IQ_D 0.1
-#define PID_IQ_MAX_VOLTAGE 10
+////PIdq制御器パラメータ設定
+//#define PID_GAIN_ID_P 0.1
+//#define PID_GAIN_ID_I 0.1
+//#define PID_GAIN_ID_D 0.1
+//#define PID_ID_MAX_VOLTAGE 10
+//
+//#define PID_GAIN_IQ_P 0.1
+//#define PID_GAIN_IQ_I 0.1
+//#define PID_GAIN_IQ_D 0.1
+//#define PID_IQ_MAX_VOLTAGE 10
 
 //PIgd制御器パラメータ設定
 #define PID_GAIN_IGANMA_P (M_PARAM_LD)/(PID_CYCLE_TIME_G)
