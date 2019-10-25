@@ -57,46 +57,20 @@ void MotorCtrl::InitMotorControl(void) {
 	mOperationMode = Drive;//起動時、動作をまずは運転にする。
 	mControlMode = OpenLoop;//起動時、動作をまずは強制転流にする。
 
-	{
-		ArgCtrl ArgCtrl; //角度を求める機能を持ったclass
-		ArgCtrl.Init();
-		mArgCtrl = ArgCtrl;
-	}
+	mArgCtrl.Init();
 
-//	{//PIDLibの生存時間調整(代入後メモリを解放する)
-//		PID IdPID;
-//		PID IqPID;
-//		IdPID.SetParam(PID_GAIN_ID_P, PID_GAIN_ID_I, PID_GAIN_ID_D);
-//		IqPID.SetParam(PID_GAIN_IQ_P, PID_GAIN_IQ_I, PID_GAIN_IQ_D);
-//		IdPID.SetSampleTime(PID_CONTROL_CYCLE);
-//		IqPID.SetSampleTime(PID_CONTROL_CYCLE);
-//		mIdPID = IdPID;
-//		mIqPID = IqPID;
-//	}
-	{//PIDLibの生存時間調整(代入後メモリを解放する)
-		PID IganmaPID;
-		PID IdeltaPID;
-		IganmaPID.SetParam(PID_GAIN_IGANMA_P, PID_GAIN_IGANMA_I, PID_GAIN_IGANMA_D);
-		IdeltaPID.SetParam(PID_GAIN_IDELTA_P, PID_GAIN_IDELTA_I, PID_GAIN_IDELTA_D);
-		IganmaPID.SetSampleTime(PID_CYCLE_TIME);
-		IdeltaPID.SetSampleTime(PID_CYCLE_TIME);
-		mIganmaPID = IganmaPID;
-		mIdeltaPID = IdeltaPID;
-	}
-	{
-		mVelocityPID.SetParam(PID_GAIN_VEL_P, PID_GAIN_VEL_I, PID_GAIN_VEL_D);
-		mVelocityPID.SetSampleTime(PID_CYCLE_TIME_VEL);
-	}
+	mIganmaPID.SetParam(PID_GAIN_IGANMA_P, PID_GAIN_IGANMA_I, PID_GAIN_IGANMA_D);
+	mIdeltaPID.SetParam(PID_GAIN_IDELTA_P, PID_GAIN_IDELTA_I, PID_GAIN_IDELTA_D);
+	mIganmaPID.SetSampleTime(PID_CYCLE_TIME);
+	mIdeltaPID.SetSampleTime(PID_CYCLE_TIME);
+
+	mVelocityPID.SetParam(PID_GAIN_VEL_P, PID_GAIN_VEL_I, PID_GAIN_VEL_D);
+	mVelocityPID.SetSampleTime(PID_CYCLE_TIME_VEL);
 }
 
 void MotorCtrl::InitObserver(void) {
-
-	{
-		Observer Observer; //オブザーバのInit
-		Observer.InitEMFObs(OBSERVER_CYCLE_TIME, M_PARAM_R, M_PARAM_LD, M_PARAM_LQ, OBSERVER_GAIN_ALPHA);
-		Observer.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
-		mObserver = Observer;
-	}
+	mObserver.InitEMFObs(OBSERVER_CYCLE_TIME, M_PARAM_R, M_PARAM_LD, M_PARAM_LQ, OBSERVER_GAIN_ALPHA);
+	mObserver.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
 }
 
 
@@ -340,24 +314,6 @@ void MotorCtrl::CurrentPITask() {
 	mMotorInfo.mIgdErr.at(0) = mMotorInfo.mIgdTarget.at(0) - mMotorInfo.mIgd.at(0);
 	mMotorInfo.mIgdErr.at(1) = mMotorInfo.mIgdTarget.at(1) - mMotorInfo.mIgd.at(1);
 	PIDgd_control(mMotorInfo.mIgdErr);
-//	if(mControlMode == OpenLoop) {
-//		PIDgd_control(mMotorInfo.mIgdErr);
-//	}else if(mControlMode == OpenLoopToFOC) {
-//		PIDgd_control(mMotorInfo.mIgdErr);
-//	}else if(mControlMode == FOC) {
-//		float Vganma_input,Vdelta_input;
-//		Vganma_input = 0 * VCC_VOLTAGE * 0.866;
-//		Vdelta_input = adc2_input * VCC_VOLTAGE * 0.866;//連れ回し運転
-//	setVgd({Vganma_input,Vdelta_input});
-//	}
-
-//	if(PI_NOCONTROL_DEBUG) {//PI電流制御の電流指令値を電圧値として使う。デバッグモード
-//		float Vganma_input,Vdelta_input;
-//		Vganma_input = mMotorInfo.mIgdErr.at(0) * VCC_VOLTAGE * 0.866;
-//		Vdelta_input = mMotorInfo.mIgdErr.at(1) * VCC_VOLTAGE * 0.866;//連れ回し運転
-//		std::array<float, 2> inputVgd = {Vganma_input,Vdelta_input};
-//		setVgd(inputVgd);
-//	}
 
 }
 
