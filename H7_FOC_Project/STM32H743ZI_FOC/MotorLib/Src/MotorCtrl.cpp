@@ -24,20 +24,20 @@ void MotorCtrl::InitSystem(void) {
 
 
 	//Timer Initialize
-	TIMCtrl::MX_TIM1_Init();
+	TIMCtrl::GetIns().MX_TIM1_Init();
 
-	TIMCtrl::MotorDuty_ch1(0);//50%duty
-	TIMCtrl::MotorDuty_ch2(0);
-	TIMCtrl::MotorDuty_ch3(0);
+	TIMCtrl::GetIns().MotorDuty_ch1(0);//50%duty
+	TIMCtrl::GetIns().MotorDuty_ch2(0);
+	TIMCtrl::GetIns().MotorDuty_ch3(0);
 	//TIMCtrl::MotorDuty_ch4(0.9);//9割タイミングで打つ
-	TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
+	TIMCtrl::GetIns().TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
 
 	//ENABLE信号
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_SET);
 
-	TIMCtrl::TIM1PWMStart();
+	TIMCtrl::GetIns().TIM1PWMStart();
 
 	//Encoder Initialize
 	//EncoderABZCtrl::MX_TIM4_Init();
@@ -419,16 +419,16 @@ void MotorCtrl::SVM(void) {
 
 
 void MotorCtrl::MotorOutputTask(void) {
-	TIMCtrl::MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
-	TIMCtrl::MotorDuty_ch2(mMotorInfo.mDutyuvw.at(1));
-	TIMCtrl::MotorDuty_ch3(mMotorInfo.mDutyuvw.at(2));
+	TIMCtrl::GetIns().MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
+	TIMCtrl::GetIns().MotorDuty_ch2(mMotorInfo.mDutyuvw.at(1));
+	TIMCtrl::GetIns().MotorDuty_ch3(mMotorInfo.mDutyuvw.at(2));
 }
 
 
 void MotorCtrl::MotorOutputTaskSVM(void) {
-	TIMCtrl::floatDuty_ch1(mMotorInfo.mDutyuvw.at(0));
-	TIMCtrl::floatDuty_ch2(mMotorInfo.mDutyuvw.at(1));
-	TIMCtrl::floatDuty_ch3(mMotorInfo.mDutyuvw.at(2));
+	TIMCtrl::GetIns().floatDuty_ch1(mMotorInfo.mDutyuvw.at(0));
+	TIMCtrl::GetIns().floatDuty_ch2(mMotorInfo.mDutyuvw.at(1));
+	TIMCtrl::GetIns().floatDuty_ch3(mMotorInfo.mDutyuvw.at(2));
 }
 
 

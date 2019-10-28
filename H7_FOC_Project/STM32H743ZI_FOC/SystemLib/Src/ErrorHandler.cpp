@@ -7,14 +7,14 @@
 
 #include "ErrorHandler.hpp"
 
-ErrorHandler::ErrorHandler() {
-	// TODO Auto-generated constructor stub
-
-}
-
-ErrorHandler::~ErrorHandler() {
-	// TODO Auto-generated destructor stub
-}
+//ErrorHandler::ErrorHandler() {
+//	// TODO Auto-generated constructor stub
+//
+//}
+//
+//ErrorHandler::~ErrorHandler() {
+//	// TODO Auto-generated destructor stub
+//}
 
 void ErrorHandler::ADC_Error_Handler(){
 	//ADC Error Handler

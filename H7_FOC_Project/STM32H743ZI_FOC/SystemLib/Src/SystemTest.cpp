@@ -61,18 +61,18 @@ void SystemTest::StartTest() {
 		  break;
 
 	  case 2:
-		  TIMCtrl::MX_TIM1_Init();
+		  TIMCtrl::GetIns().MX_TIM1_Init();
+		 // TIMCtrl::get_instance().TIM1SetCOMP_ch1(pCompare)
+		  TIMCtrl::GetIns().TIM1SetCOMP_ch1(5000);
+		  TIMCtrl::GetIns().TIM1SetCOMP_ch2(2500);
+		  TIMCtrl::GetIns().TIM1SetCOMP_ch3(1250);
+		  TIMCtrl::GetIns().TIM1SetCOMP_ch4(5000);
 
-		  TIMCtrl::TIM1SetCOMP_ch1(5000);
-		  TIMCtrl::TIM1SetCOMP_ch2(2500);
-		  TIMCtrl::TIM1SetCOMP_ch3(1250);
-		  TIMCtrl::TIM1SetCOMP_ch4(5000);
+		  TIMCtrl::GetIns().MotorDuty_ch1(1);
+		  TIMCtrl::GetIns().MotorDuty_ch2(0.5);
+		  TIMCtrl::GetIns().MotorDuty_ch3(-1);
 
-		  TIMCtrl::MotorDuty_ch1(1);
-		  TIMCtrl::MotorDuty_ch2(0.5);
-		  TIMCtrl::MotorDuty_ch3(-1);
-
-		  TIMCtrl::TIM1PWMStart();
+		  TIMCtrl::GetIns().TIM1PWMStart();
 
 			//ADC Initialize
 			ADCCtrl::ADC2Init_HAL();

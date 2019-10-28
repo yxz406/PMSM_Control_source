@@ -12,38 +12,52 @@
 #include "STM32SystemPack.h"
 
 class TIMCtrl {
+private:
+	TIM_HandleTypeDef mHandleTIM1;
+
+	TIMCtrl() = default;
+	~TIMCtrl() = default;
+
 public:
-	static TIM_HandleTypeDef mHandleTIM1;
 
+	//singleton getter
+	TIMCtrl(const TIMCtrl&) = delete;
+	TIMCtrl& operator=(const TIMCtrl&) = delete;
+	TIMCtrl(TIMCtrl&&) = delete;
+	TIMCtrl& operator=(TIMCtrl&&) = delete;
 
-	TIMCtrl();
-	virtual ~TIMCtrl();
+	static TIMCtrl& GetIns() {
+	        static TIMCtrl instance;
+	        return instance;
+	}
 
-	static void TIM1Init_HAL(void);
-	static void TIM1PWMStart(void);
+	TIM_HandleTypeDef& GetHandle(void);
 
-	static void TIM1SetCOMP_ch1(int pCompare);
-	static void TIM1SetCOMP_ch2(int pCompare);
-	static void TIM1SetCOMP_ch3(int pCompare);
-	static void TIM1SetCOMP_ch4(int pCompare);
-	static void TIM1SetCOMP_ch5(int pCompare);
-	static void TIM1SetCOMP_ch6(int pCompare);
+	void TIM1Init_HAL(void);
+	void TIM1PWMStart(void);
 
-	static void floatDuty_ch1(float pfDuty);//0~1
-	static void floatDuty_ch2(float pfDuty);//0~1
-	static void floatDuty_ch3(float pfDuty);//0~1
-	static void floatDuty_ch4(float pfDuty);//0~1
+	void TIM1SetCOMP_ch1(int pCompare);
+	void TIM1SetCOMP_ch2(int pCompare);
+	void TIM1SetCOMP_ch3(int pCompare);
+	void TIM1SetCOMP_ch4(int pCompare);
+	void TIM1SetCOMP_ch5(int pCompare);
+	void TIM1SetCOMP_ch6(int pCompare);
 
-	static void MotorDuty_ch1(float pfDuty);//-1~1
-	static void MotorDuty_ch2(float pfDuty);
-	static void MotorDuty_ch3(float pfDuty);
-	static void MotorDuty_ch4(float pfDuty);
+	void floatDuty_ch1(float pfDuty);//0~1
+	void floatDuty_ch2(float pfDuty);//0~1
+	void floatDuty_ch3(float pfDuty);//0~1
+	void floatDuty_ch4(float pfDuty);//0~1
+
+	void MotorDuty_ch1(float pfDuty);//-1~1
+	void MotorDuty_ch2(float pfDuty);
+	void MotorDuty_ch3(float pfDuty);
+	void MotorDuty_ch4(float pfDuty);
 
 	//以下HALのWrapper
-	static void MX_TIM1_Init(void);
-	static void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle);
-	static void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle);
-	static void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle);
+	void MX_TIM1_Init(void);
+	void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle);
+	void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle);
+	void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle);
 
 };
 

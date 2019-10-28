@@ -19,6 +19,7 @@
 #include "PWM.hpp"
 
 
+#include "ErrorHandler.hpp"
 
 class Deus {
 private:

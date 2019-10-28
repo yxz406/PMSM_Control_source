@@ -9,13 +9,27 @@
 #define ERRORHANDLER_HPP_
 
 //エラーハンドラ関数を格納するClass
-//基本的にPublic Static宣言で、オブジェクトを生成せずに関数を直接叩くこと。
+//singletonだから複数インスタンスは生成できないよ。
+//基本的にGetInstanceして関数をたたくこと。
 class ErrorHandler {
+private:
+	ErrorHandler() = default;
+	~ErrorHandler() = default;
 public:
-	ErrorHandler();
-	virtual ~ErrorHandler();
-	static void ADC_Error_Handler();
-	static void UART_Error_Handler();
+    ErrorHandler(const ErrorHandler&) = delete;
+    ErrorHandler& operator=(const ErrorHandler&) = delete;
+    ErrorHandler(ErrorHandler&&) = delete;
+    ErrorHandler& operator=(ErrorHandler&&) = delete;
+
+    static ErrorHandler& get_instance()
+    {
+        static ErrorHandler instance;
+        return instance;
+    }
+//	ErrorHandler();
+//	virtual ~ErrorHandler();
+	void ADC_Error_Handler();
+	void UART_Error_Handler();
 };
 
 #endif /* ERRORHANDLER_HPP_ */
