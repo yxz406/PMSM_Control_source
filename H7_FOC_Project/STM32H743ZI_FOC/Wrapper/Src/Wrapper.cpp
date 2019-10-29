@@ -14,7 +14,7 @@
 
 #include "ADCCtrl.hpp"
 
-extern ADC_HandleTypeDef hadc3;//動作切り替えの都合で一応入れている
+//extern ADC_HandleTypeDef hadc3;//動作切り替えの都合で一応入れている
 
 Deus Bosatsu;
 
@@ -63,11 +63,12 @@ void ADC3_IRQHandler(void)
 			ADC3 -> ISR &= ~(LL_ADC_FLAG_JEOS);
 			break;
 		case 2:
-			ADCCtrl::ADC3IRQHandler();
+			ADCCtrl::GetIns().ADC3IRQHandler();
+			//ADCCtrl::ADC3IRQHandler();
 		break;
 		case 3:
 			break;
-			HAL_ADC_IRQHandler(&hadc3);
+			//HAL_ADC_IRQHandler(&hadc3);
 		default:
 			break;
 		}
@@ -107,13 +108,13 @@ void ADC3_IRQHandler(void)
 
 void SystemTest(void) {
 	//開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
-	ADCCtrl::ADC2Start_Conversion();
-	ADCCtrl::ADC2Conversion_wait(100);
-	int adc2 = ADCCtrl::ADC2_Read();
+	ADCCtrl::GetIns().ADC2Start_Conversion();
+	ADCCtrl::GetIns().ADC2Conversion_wait(100);
+	int adc2 = ADCCtrl::GetIns().ADC2_Read();
 			const float multiple_val = (3.3/65535);
-			int adc_u = ADCCtrl::ADC3_INJ_Read_ch1();
-			int adc_v = ADCCtrl::ADC3_INJ_Read_ch2();
-			int adc_w = ADCCtrl::ADC3_INJ_Read_ch3();
+			int adc_u = ADCCtrl::GetIns().ADC3_INJ_Read_ch1();
+			int adc_v = ADCCtrl::GetIns().ADC3_INJ_Read_ch2();
+			int adc_w = ADCCtrl::GetIns().ADC3_INJ_Read_ch3();
 			float voltage_u = (float)adc_u * multiple_val;
 			float voltage_v = (float)adc_v * multiple_val;
 			float voltage_w = (float)adc_w * multiple_val;

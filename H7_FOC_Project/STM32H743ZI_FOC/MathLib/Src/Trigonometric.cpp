@@ -5,7 +5,7 @@
  *      Author: watashi
  */
 
-#include <Trigonometric.hpp>
+#include "Trigonometric.hpp"
 
 Trigonometric::Trigonometric() {
 	// TODO Auto-generated constructor stub

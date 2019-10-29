@@ -41,7 +41,7 @@
 
 //ボードの I -> V 倍率
 //(Rの配置及び計算式についてはPDF参照)
-#define BOARD_OFFSET_VCC_VOLTAGE 3.3
+#define BOARD_OFFSET_VOLTAGE 3.3
 #define BOARD_OPAMP_R1 2200
 #define BOARD_OPAMP_R2 2200
 #define BOARD_OPAMP_R3 680
@@ -49,7 +49,7 @@
 #define BOARD_SHUNT_R 0.33
 
 #define BOARD_IV_RATIO ( ( 1.0f / (float)BOARD_SHUNT_R ) * ( (float)BOARD_OPAMP_R1 / ( (float)BOARD_OPAMP_R1 + (float)BOARD_OPAMP_R2 ) ) * ( ( (float)BOARD_OPAMP_R3 + (float)BOARD_OPAMP_R4 ) / (float)BOARD_OPAMP_R4 ) )
-#define BOARD_IV_OFFSET ( -1.0f * ( 1.0f / (float)BOARD_SHUNT_R ) * ( (float)BOARD_OPAMP_R3 / (float)BOARD_OPAMP_R4 ) * (float)BOARD_OFFSET_VCC_VOLTAGE )
+#define BOARD_IV_OFFSET ( -1.0f * ( 1.0f / (float)BOARD_SHUNT_R ) * ( (float)BOARD_OPAMP_R3 / (float)BOARD_OPAMP_R4 ) * (float)BOARD_OFFSET_VOLTAGE )
 
 //VCC Voltage
 #define VCC_VOLTAGE 12
@@ -83,8 +83,8 @@
 
 //制御周期[s]
 #define PID_CYCLE_TIME PWM_PERIOD_SEC
-#define PID_CYCLE_TIME_G 1.0f/((float)350*3.1415926f)
-#define PID_CYCLE_TIME_D 1.0f/((float)350*3.1415926f)
+#define PID_TIME_CONSTANT_G 1.0f/((float)100*3.1415926f)
+#define PID_TIME_CONSTANT_D 1.0f/((float)100*3.1415926f)
 
 //PI電流制御をかけない
 #define PI_NOCONTROL_DEBUG 0
@@ -100,13 +100,13 @@
 //#define PID_IQ_MAX_VOLTAGE 10
 
 //PIgd制御器パラメータ設定
-#define PID_GAIN_IGANMA_P (M_PARAM_LD)/(PID_CYCLE_TIME_G)
+#define PID_GAIN_IGANMA_P (M_PARAM_LD)/(PID_TIME_CONSTANT_G)
 #define PID_GAIN_IGANMA_I (M_PARAM_LD)/(M_PARAM_R)
 #define PID_GAIN_IGANMA_D 0
 #define PID_IGANMA_MAX_VOLTAGE 10
 #define PID_IGANMA_MIN_VOLTAGE -10
 
-#define PID_GAIN_IDELTA_P (M_PARAM_LQ)/(PID_CYCLE_TIME_D)
+#define PID_GAIN_IDELTA_P (M_PARAM_LQ)/(PID_TIME_CONSTANT_D)
 #define PID_GAIN_IDELTA_I (M_PARAM_LQ)/(M_PARAM_R)
 #define PID_GAIN_IDELTA_D 0
 #define PID_IDELTA_MAX_VOLTAGE 10

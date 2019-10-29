@@ -44,12 +44,12 @@ void MotorCtrl::InitSystem(void) {
 	//EncoderABZCtrl::EncoderStart();
 
 	//ADC Initialize
-	ADCCtrl::ADC2Init_HAL();
-	ADCCtrl::ADC2Calibration();
+	ADCCtrl::GetIns().ADC2Init_HAL();
+	ADCCtrl::GetIns().ADC2Calibration();
 
-	ADCCtrl::ADC3Init_HAL();
-	ADCCtrl::ADC3Calibration();
-	ADCCtrl::ADC3InjectedStart_IT();
+	ADCCtrl::GetIns().ADC3Init_HAL();
+	ADCCtrl::GetIns().ADC3Calibration();
+	ADCCtrl::GetIns().ADC3InjectedStart_IT();
 }
 
 
@@ -90,8 +90,8 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 	//開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
-	ADCCtrl::ADC2Start_Conversion();
-	//ADCCtrl::ADC2Conversion_wait(10);
+	ADCCtrl::GetIns().ADC2Start_Conversion();
+	//ADCCtrl::GetIns().ADC2Conversion_wait(10);
 	ReadCurrentTask();
 	ReadVoltageTask();
 
@@ -134,9 +134,9 @@ void MotorCtrl::ReadCurrentTask(void) {
 	//エンコーダ読み取り
 	float Iu,Iv,Iw;
 	//増幅率のバイアス考慮してない。あとで計算すること。
-	Iu = (float)ADCCtrl::ADC3_INJ_Read_ch1() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
-	Iv = (float)ADCCtrl::ADC3_INJ_Read_ch2() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
-	Iw = (float)ADCCtrl::ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iu = (float)ADCCtrl::GetIns().ADC3_INJ_Read_ch1() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iv = (float)ADCCtrl::GetIns().ADC3_INJ_Read_ch2() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iw = (float)ADCCtrl::GetIns().ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
 	Iu = -Iu;//モータ「に」流す電流にするため、反転。
 	Iv = -Iv;
 	Iw = -Iw;
@@ -265,7 +265,7 @@ void MotorCtrl::ObserverTask() {
 
 void MotorCtrl::VelocityPIDTask() {
 	if(mControlMode == FOC) {
-			float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+			float adc2_input = (float)ADCCtrl::GetIns().ADC2_Read() / 65535;
 			//float velocityTarget = adc2_input * 1000;
 			float velocityTarget = 1500;
 			float velErr = velocityTarget - mObserver.GetEstOmegaE();
@@ -276,7 +276,7 @@ void MotorCtrl::VelocityPIDTask() {
 
 void MotorCtrl::CurrentPITask() {
 	//Current Target Setting
-	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+	float adc2_input = (float)ADCCtrl::GetIns().ADC2_Read() / 65535;
 
 	if(mControlMode == OpenLoop) {
 

@@ -75,13 +75,13 @@ void SystemTest::StartTest() {
 		  TIMCtrl::GetIns().TIM1PWMStart();
 
 			//ADC Initialize
-			ADCCtrl::ADC2Init_HAL();
-			ADCCtrl::ADC2Calibration();
+			ADCCtrl::GetIns().ADC2Init_HAL();
+			ADCCtrl::GetIns().ADC2Calibration();
 
 
-		  ADCCtrl::ADC3Init_HAL();
-		  ADCCtrl::ADC3Calibration();
-		  ADCCtrl::ADC3InjectedStart_IT();
+		  ADCCtrl::GetIns().ADC3Init_HAL();
+		  ADCCtrl::GetIns().ADC3Calibration();
+		  ADCCtrl::GetIns().ADC3InjectedStart_IT();
 
 	  case 3:
 //		  MX_ADC3_Init();
