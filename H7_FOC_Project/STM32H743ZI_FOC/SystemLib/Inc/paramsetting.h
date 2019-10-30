@@ -83,8 +83,8 @@
 
 //制御周期[s]
 #define PID_CYCLE_TIME PWM_PERIOD_SEC
-#define PID_TIME_CONSTANT_G 1.0f/((float)100*3.1415926f)
-#define PID_TIME_CONSTANT_D 1.0f/((float)100*3.1415926f)
+#define PID_TIME_CONSTANT_G 1.0f/((float)175*2*3.1415926f)
+#define PID_TIME_CONSTANT_D 1.0f/((float)175*2*3.1415926f)
 
 //PI電流制御をかけない
 #define PI_NOCONTROL_DEBUG 0

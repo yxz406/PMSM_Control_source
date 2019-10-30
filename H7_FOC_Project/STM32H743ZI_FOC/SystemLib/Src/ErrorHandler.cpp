@@ -33,3 +33,7 @@ void ErrorHandler::UART_Error_Handler(){
 
 	  /* USER CODE END Error_Handler_Debug */
 }
+
+//過電流とかそういうの。
+void ErrorHandler::DriveErrorHandler() {
+}

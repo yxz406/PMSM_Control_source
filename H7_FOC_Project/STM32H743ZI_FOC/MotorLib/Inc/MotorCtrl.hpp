@@ -149,6 +149,9 @@ public:
 	void AngleTaskForFOC();
 	void ObserverTask();
 	void VelocityPIDTask();
+	void CurrentControlTask();
+	void CurrentTargetSettingTask();
+	void CurrentFeedForwardTask();
 	void CurrentPITask();
 
 	void GPIODebugTask();

@@ -89,9 +89,10 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
-	//開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
+	//これは指令値決定用ADC。開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
 	ADCCtrl::GetIns().ADC2Start_Conversion();
 	//ADCCtrl::GetIns().ADC2Conversion_wait(10);
+
 	ReadCurrentTask();
 	ReadVoltageTask();
 
@@ -106,7 +107,9 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 	ObserverTask();//オブザーバ
 	VelocityPIDTask();//速度PID制御
-	CurrentPITask();//電流PI制御
+
+	CurrentControlTask();//電流制御とか
+	//CurrentPITask();//電流PI制御
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
@@ -273,9 +276,21 @@ void MotorCtrl::VelocityPIDTask() {
 	}
 }
 
-
-void MotorCtrl::CurrentPITask() {
+void MotorCtrl::CurrentControlTask() {
 	//Current Target Setting
+	CurrentTargetSettingTask();
+
+	//FF Control for Openloop
+	//CurrentFeedForwardTask();
+
+	//PI Control Start
+	CurrentPITask();
+}
+
+void MotorCtrl::CurrentTargetSettingTask() {
+	//ADC2を読み取って、
+	//mMotorInfo.mIgdTargetを操作するTask
+
 	float adc2_input = (float)ADCCtrl::GetIns().ADC2_Read() / 65535;
 
 	if(mControlMode == OpenLoop) {
@@ -309,7 +324,35 @@ void MotorCtrl::CurrentPITask() {
 
 		}
 	}
+}
 
+void MotorCtrl::CurrentFeedForwardTask() {
+	//作成途中 OpenLoop用のFeedForward制御をする。
+
+	//モータの電圧方程式を参考に、出力電流から出力電圧を計算する
+	float Vganma = mMotorInfo.mIgdTarget.at(0);
+	float Vdelta = mMotorInfo.mIgdTarget.at(1);
+
+	//LIMITを入れる
+	//上限Limit
+	if( Vganma > PID_IGANMA_MAX_VOLTAGE ) {
+		Vganma = PID_IGANMA_MAX_VOLTAGE;
+	}
+	if( Vdelta > PID_IDELTA_MAX_VOLTAGE ) {
+		Vdelta = PID_IDELTA_MAX_VOLTAGE;
+	}
+	//下限Limit
+	if( Vganma < PID_IGANMA_MIN_VOLTAGE ) {
+		Vganma = PID_IGANMA_MIN_VOLTAGE;
+	}
+	if( Vdelta < PID_IDELTA_MIN_VOLTAGE ) {
+		Vdelta = PID_IDELTA_MIN_VOLTAGE;
+	}
+
+	mMotorInfo.mVgd = {Vganma, Vdelta};
+}
+
+void MotorCtrl::CurrentPITask() {
 	//PI Control Start
 	mMotorInfo.mIgdErr.at(0) = mMotorInfo.mIgdTarget.at(0) - mMotorInfo.mIgd.at(0);
 	mMotorInfo.mIgdErr.at(1) = mMotorInfo.mIgdTarget.at(1) - mMotorInfo.mIgd.at(1);

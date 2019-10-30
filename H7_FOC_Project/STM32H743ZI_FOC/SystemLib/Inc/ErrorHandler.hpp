@@ -8,6 +8,8 @@
 #ifndef ERRORHANDLER_HPP_
 #define ERRORHANDLER_HPP_
 
+#include "TIMCtrl.hpp"
+
 //エラーハンドラ関数を格納するClass
 //singletonだから複数インスタンスは生成できないよ。
 //基本的にGetInstanceして関数をたたくこと。
@@ -30,6 +32,7 @@ public:
 //	virtual ~ErrorHandler();
 	void ADC_Error_Handler();
 	void UART_Error_Handler();
+	void DriveErrorHandler();
 };
 
 #endif /* ERRORHANDLER_HPP_ */
