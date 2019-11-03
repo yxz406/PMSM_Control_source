@@ -61,27 +61,27 @@ void SystemTest::StartTest() {
 		  break;
 
 	  case 2:
-		  TIMCtrl::GetIns().MX_TIM1_Init();
-		 // TIMCtrl::get_instance().TIM1SetCOMP_ch1(pCompare)
-		  TIMCtrl::GetIns().TIM1SetCOMP_ch1(5000);
-		  TIMCtrl::GetIns().TIM1SetCOMP_ch2(2500);
-		  TIMCtrl::GetIns().TIM1SetCOMP_ch3(1250);
-		  TIMCtrl::GetIns().TIM1SetCOMP_ch4(5000);
+		  TIMCtrl::MX_TIM1_Init();
 
-		  TIMCtrl::GetIns().MotorDuty_ch1(1);
-		  TIMCtrl::GetIns().MotorDuty_ch2(0.5);
-		  TIMCtrl::GetIns().MotorDuty_ch3(-1);
+		  TIMCtrl::TIM1SetCOMP_ch1(5000);
+		  TIMCtrl::TIM1SetCOMP_ch2(2500);
+		  TIMCtrl::TIM1SetCOMP_ch3(1250);
+		  TIMCtrl::TIM1SetCOMP_ch4(5000);
 
-		  TIMCtrl::GetIns().TIM1PWMStart();
+		  TIMCtrl::MotorDuty_ch1(1);
+		  TIMCtrl::MotorDuty_ch2(0.5);
+		  TIMCtrl::MotorDuty_ch3(-1);
+
+		  TIMCtrl::TIM1PWMStart();
 
 			//ADC Initialize
-			ADCCtrl::GetIns().ADC2Init_HAL();
-			ADCCtrl::GetIns().ADC2Calibration();
+			ADCCtrl::ADC2Init_HAL();
+			ADCCtrl::ADC2Calibration();
 
 
-		  ADCCtrl::GetIns().ADC3Init_HAL();
-		  ADCCtrl::GetIns().ADC3Calibration();
-		  ADCCtrl::GetIns().ADC3InjectedStart_IT();
+		  ADCCtrl::ADC3Init_HAL();
+		  ADCCtrl::ADC3Calibration();
+		  ADCCtrl::ADC3InjectedStart_IT();
 
 	  case 3:
 //		  MX_ADC3_Init();

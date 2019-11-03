@@ -8,8 +8,19 @@
 #include "ADCCtrl.hpp"
 
 //staticの実体を作る
-//ADC_HandleTypeDef ADCCtrl::mHandleADC2;
-//ADC_HandleTypeDef ADCCtrl::mHandleADC3;
+ADC_HandleTypeDef ADCCtrl::mHandleADC2;
+ADC_HandleTypeDef ADCCtrl::mHandleADC3;
+
+
+ADCCtrl::ADCCtrl() {
+	// TODO Auto-generated constructor stub
+
+}
+
+ADCCtrl::~ADCCtrl() {
+	// TODO Auto-generated destructor stub
+}
+
 
 //ADC2
 void ADCCtrl::ADC2Init_HAL() {

@@ -24,32 +24,32 @@ void MotorCtrl::InitSystem(void) {
 
 
 	//Timer Initialize
-	TIMCtrl::GetIns().MX_TIM1_Init();
+	TIMCtrl::MX_TIM1_Init();
 
-	TIMCtrl::GetIns().MotorDuty_ch1(0);//50%duty
-	TIMCtrl::GetIns().MotorDuty_ch2(0);
-	TIMCtrl::GetIns().MotorDuty_ch3(0);
+	TIMCtrl::MotorDuty_ch1(0);//50%duty
+	TIMCtrl::MotorDuty_ch2(0);
+	TIMCtrl::MotorDuty_ch3(0);
 	//TIMCtrl::MotorDuty_ch4(0.9);//9割タイミングで打つ
-	TIMCtrl::GetIns().TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
+	TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
 
 	//ENABLE信号
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_SET);
 
-	TIMCtrl::GetIns().TIM1PWMStart();
+	TIMCtrl::TIM1PWMStart();
 
 	//Encoder Initialize
 	//EncoderABZCtrl::MX_TIM4_Init();
 	//EncoderABZCtrl::EncoderStart();
 
 	//ADC Initialize
-	ADCCtrl::GetIns().ADC2Init_HAL();
-	ADCCtrl::GetIns().ADC2Calibration();
+	ADCCtrl::ADC2Init_HAL();
+	ADCCtrl::ADC2Calibration();
 
-	ADCCtrl::GetIns().ADC3Init_HAL();
-	ADCCtrl::GetIns().ADC3Calibration();
-	ADCCtrl::GetIns().ADC3InjectedStart_IT();
+	ADCCtrl::ADC3Init_HAL();
+	ADCCtrl::ADC3Calibration();
+	ADCCtrl::ADC3InjectedStart_IT();
 }
 
 
@@ -90,8 +90,8 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 	//これは指令値決定用ADC。開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
-	ADCCtrl::GetIns().ADC2Start_Conversion();
-	//ADCCtrl::GetIns().ADC2Conversion_wait(10);
+	ADCCtrl::ADC2Start_Conversion();
+	//ADCCtrl::ADC2Conversion_wait(10);
 
 	ReadCurrentTask();
 	ReadVoltageTask();
@@ -137,9 +137,9 @@ void MotorCtrl::ReadCurrentTask(void) {
 	//エンコーダ読み取り
 	float Iu,Iv,Iw;
 	//増幅率のバイアス考慮してない。あとで計算すること。
-	Iu = (float)ADCCtrl::GetIns().ADC3_INJ_Read_ch1() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
-	Iv = (float)ADCCtrl::GetIns().ADC3_INJ_Read_ch2() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
-	Iw = (float)ADCCtrl::GetIns().ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iu = (float)ADCCtrl::ADC3_INJ_Read_ch1() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iv = (float)ADCCtrl::ADC3_INJ_Read_ch2() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
+	Iw = (float)ADCCtrl::ADC3_INJ_Read_ch3() * BOARD_IV_RATIO * ADC_VOLTAGE_RATIO + BOARD_IV_OFFSET;
 	Iu = -Iu;//モータ「に」流す電流にするため、反転。
 	Iv = -Iv;
 	Iw = -Iw;
@@ -268,7 +268,7 @@ void MotorCtrl::ObserverTask() {
 
 void MotorCtrl::VelocityPIDTask() {
 	if(mControlMode == FOC) {
-			float adc2_input = (float)ADCCtrl::GetIns().ADC2_Read() / 65535;
+			float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
 			//float velocityTarget = adc2_input * 1000;
 			float velocityTarget = 1500;
 			float velErr = velocityTarget - mObserver.GetEstOmegaE();
@@ -291,7 +291,7 @@ void MotorCtrl::CurrentTargetSettingTask() {
 	//ADC2を読み取って、
 	//mMotorInfo.mIgdTargetを操作するTask
 
-	float adc2_input = (float)ADCCtrl::GetIns().ADC2_Read() / 65535;
+	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
 
 	if(mControlMode == OpenLoop) {
 
@@ -462,16 +462,16 @@ void MotorCtrl::SVM(void) {
 
 
 void MotorCtrl::MotorOutputTask(void) {
-	TIMCtrl::GetIns().MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
-	TIMCtrl::GetIns().MotorDuty_ch2(mMotorInfo.mDutyuvw.at(1));
-	TIMCtrl::GetIns().MotorDuty_ch3(mMotorInfo.mDutyuvw.at(2));
+	TIMCtrl::MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
+	TIMCtrl::MotorDuty_ch2(mMotorInfo.mDutyuvw.at(1));
+	TIMCtrl::MotorDuty_ch3(mMotorInfo.mDutyuvw.at(2));
 }
 
 
 void MotorCtrl::MotorOutputTaskSVM(void) {
-	TIMCtrl::GetIns().floatDuty_ch1(mMotorInfo.mDutyuvw.at(0));
-	TIMCtrl::GetIns().floatDuty_ch2(mMotorInfo.mDutyuvw.at(1));
-	TIMCtrl::GetIns().floatDuty_ch3(mMotorInfo.mDutyuvw.at(2));
+	TIMCtrl::floatDuty_ch1(mMotorInfo.mDutyuvw.at(0));
+	TIMCtrl::floatDuty_ch2(mMotorInfo.mDutyuvw.at(1));
+	TIMCtrl::floatDuty_ch3(mMotorInfo.mDutyuvw.at(2));
 }
 
 

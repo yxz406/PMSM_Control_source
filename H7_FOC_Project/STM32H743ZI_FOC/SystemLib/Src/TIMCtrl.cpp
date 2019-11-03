@@ -7,10 +7,20 @@
 
 #include "TIMCtrl.hpp"
 
-//Handle Getter
-TIM_HandleTypeDef& TIMCtrl::GetHandle(void) {
-	return mHandleTIM1;
+//staticの実体を作る
+TIM_HandleTypeDef TIMCtrl::mHandleTIM1;
+
+TIMCtrl::TIMCtrl() {
+	// TODO Auto-generated constructor stub
+
 }
+
+TIMCtrl::~TIMCtrl() {
+	// TODO Auto-generated destructor stub
+}
+
+
+
 
 //Initialize
 void TIMCtrl::TIM1Init_HAL(void) {

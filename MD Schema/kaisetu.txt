@@ -1,0 +1,88 @@
+
+
+4 PWRGD O(DRAIN)
+An open drain output with external pullup resistor required. Asserts low if buck output voltage is low
+due to thermal shutdown, dropout, overvoltage, or EN_BUCK shut down
+
+4pinはオープンドレイン出力で、サーマル、電圧、など異常の時にLOWに落とす
+
+5 nOCTW O
+Overcurrent and overtemperature warning indicator. This output is open drain with external pullup
+resistor required.
+
+5pinは電流、サーマル異常インジケータ
+
+6 nFAULT O Fault report indicator. This output is open drain with external pullup resistor required.
+
+6pinは異常インジケータ
+
+7 DTC I Dead-time adjustment with external resistor to GND
+
+7pinはデッドタイム調整用入力
+
+8 M_PWM I
+Mode selection pin for PWM input configuration. If M_PWM = LOW, the device supports 6 independent
+PWM inputs. When M_PWM = HIGH, the device must be connected to ONLY 3 PWM input signals on
+INH_x. The complementary PWM signals for low side signaling will be internally generated from the
+high side inputs.
+
+8pinをHighにすると3入力でOK　INHxを3つつなげる
+8pinをLOWにすると6入力必要
+
+9 M_OC I
+Mode selection pin for over-current protection options. If M_OC = LOW, the gate driver will operate in a
+cycle-by-cycle current limiting mode. If M_OC = HIGH, the gate driver will shutdown the channel which
+detected an over-current event.
+
+9pinは　LOWでサイクル毎に電流制限、HIGHで異常時シャットダウン
+
+10 GAIN O
+Gain selection for integrated current shunt amplifiers. If GAIN = LOW, the internal current shunt
+amplifiers have a gain of 10V/V. If GAIN = HIGH, the current shunt amplifiers have a gain of 40V/V.
+
+10pinはゲイン選択。LOWで10V/V,Highで40V/V 使わないからいらない。
+
+11 OC_ADJ I
+Overcurrent trip set pin. Apply a voltage on this pin to set the trip point for the internal overcurrent
+protection circuitry. A voltage divider from DVDD is recommended.
+
+11pinは電流制限用の設定ピン　分圧器から持ってくる推奨
+
+12 DC_CAL I
+When DC_CAL is high, device shorts inputs of shunt amplifiers and disconnects loads. DC offset
+calibration can be done through external microcontroller.
+
+12pinはHIGHに上げるとシャントの入力をショートして、キャリブレーションできるよ
+
+16 EN_GATE I Enable gate driver and current shunt amplifiers. Control buck via EN_BUCK pin.
+
+16pinは有効化ピン。これがないと動かない。
+
+
+23 DVDD P
+Internal 3.3-V supply voltage. DVDD cap should connect to AGND. This is an output, but not specified
+to drive external circuitry.
+
+23pin　ｵｯここから3V3取ってこれるじゃ～ん・・・
+
+24 REF I
+Reference voltage to set output of shunt amplfiiers with a bias voltage which equals to half of the
+voltage set on this pin. Connect to ADC reference in microcontroller.
+
+24pin mcのADCリファレンスに使え電圧
+
+27 AVDD P
+Internal 6-V supply voltage, AVDD cap should connect to AGND. This is an output, but not specified to
+drive external circuitry.
+
+27pin ｵｯここから6V取ってこれるじゃ～ん・・・
+
+55 EN_BUCK I
+Enable buck converter. Internal pullup current source. Pull below 1.2 V to disable. Float to enable.
+Adjust the input undervoltage lockout with two resistors
+
+55pin 降圧コンバータ有効化　1.2Vより下に落とすと無効化。勝手にプルアップされてる
+
+
+
+
