@@ -280,11 +280,19 @@ void MotorCtrl::CurrentControlTask() {
 	//Current Target Setting
 	CurrentTargetSettingTask();
 
-	//FF Control for Openloop
-	//CurrentFeedForwardTask();
 
-	//PI Control Start
-	CurrentPITask();
+	//FF Control for Openloop
+	if(mControlMode == OpenLoop) {
+		CurrentFeedForwardTask();
+	} else if (mControlMode == OpenLoopToFOC) {
+		CurrentFeedForwardTask();
+	} else if (mControlMode == FOC) {
+		//PI Control Start
+		CurrentPITask();
+	}
+
+//	CurrentPITask();
+
 }
 
 void MotorCtrl::CurrentTargetSettingTask() {
@@ -330,26 +338,20 @@ void MotorCtrl::CurrentFeedForwardTask() {
 	//作成途中 OpenLoop用のFeedForward制御をする。
 
 	//モータの電圧方程式を参考に、出力電流から出力電圧を計算する
-	float Vganma = mMotorInfo.mIgdTarget.at(0);
-	float Vdelta = mMotorInfo.mIgdTarget.at(1);
+	float IgTarget = mMotorInfo.mIgdTarget.at(0);
+	float IdTarget = mMotorInfo.mIgdTarget.at(1);
 
-	//LIMITを入れる
-	//上限Limit
-	if( Vganma > PID_IGANMA_MAX_VOLTAGE ) {
-		Vganma = PID_IGANMA_MAX_VOLTAGE;
-	}
-	if( Vdelta > PID_IDELTA_MAX_VOLTAGE ) {
-		Vdelta = PID_IDELTA_MAX_VOLTAGE;
-	}
-	//下限Limit
-	if( Vganma < PID_IGANMA_MIN_VOLTAGE ) {
-		Vganma = PID_IGANMA_MIN_VOLTAGE;
-	}
-	if( Vdelta < PID_IDELTA_MIN_VOLTAGE ) {
-		Vdelta = PID_IDELTA_MIN_VOLTAGE;
-	}
+	float R = M_PARAM_R * 10;
+	float Ld = M_PARAM_LD;
+	float Lq = M_PARAM_LQ;
+	float Ke = M_PARAM_PHY;
 
-	mMotorInfo.mVgd = {Vganma, Vdelta};
+	float omega = mArgCtrl.getArgOmega();
+
+	float Vganma = R * IgTarget - omega * Lq * IdTarget;
+	float Vdelta = R * IdTarget - omega * Ld * IgTarget + Ke * omega;
+
+	setVgd({Vganma, Vdelta});
 }
 
 void MotorCtrl::CurrentPITask() {
@@ -389,24 +391,7 @@ void MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
 		Vganma = mIganmaPID.OutPut();
 		Vdelta = mIdeltaPID.OutPut();
 
-		//LIMITを入れる
-		//上限Limit
-		if( Vganma > PID_IGANMA_MAX_VOLTAGE ) {
-			Vganma = PID_IGANMA_MAX_VOLTAGE;
-		}
-		if( Vdelta > PID_IDELTA_MAX_VOLTAGE ) {
-			Vdelta = PID_IDELTA_MAX_VOLTAGE;
-		}
-		//下限Limit
-		if( Vganma < PID_IGANMA_MIN_VOLTAGE ) {
-			Vganma = PID_IGANMA_MIN_VOLTAGE;
-		}
-		if( Vdelta < PID_IDELTA_MIN_VOLTAGE ) {
-			Vdelta = PID_IDELTA_MIN_VOLTAGE;
-		}
-
-		mMotorInfo.mVgd = {Vganma, Vdelta};
-
+		setVgd({Vganma, Vdelta});
 	}
 }
 
@@ -418,6 +403,22 @@ void MotorCtrl::setVdq(std::array<float, 2> pVdq) {
 
 
 void MotorCtrl::setVgd(std::array<float, 2> pVgd) {
+	float Vganma = pVgd.at(0);
+	float Vdelta = pVgd.at(1);
+	//上限Limit
+	if( Vganma > PID_IGANMA_MAX_VOLTAGE ) {
+		Vganma = PID_IGANMA_MAX_VOLTAGE;
+	}
+	if( Vdelta > PID_IDELTA_MAX_VOLTAGE ) {
+		Vdelta = PID_IDELTA_MAX_VOLTAGE;
+	}
+	//下限Limit
+	if( Vganma < PID_IGANMA_MIN_VOLTAGE ) {
+		Vganma = PID_IGANMA_MIN_VOLTAGE;
+	}
+	if( Vdelta < PID_IDELTA_MIN_VOLTAGE ) {
+		Vdelta = PID_IDELTA_MIN_VOLTAGE;
+	}
 	mMotorInfo.mVgd = pVgd;
 }
 
