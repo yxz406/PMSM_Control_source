@@ -32,6 +32,7 @@
 //#include "UART.hpp"
 
 #include "DebugCtrl.hpp"
+//#include "DebugOutput.hpp"
 
 #include "SEGGER_RTT.h"
 
@@ -98,7 +99,7 @@ private:
 
 	UIStatus mUIStatus;
 
-	DebugCtrl mDebug;
+	//DebugCtrl mDebug;
 
 public:
 	MotorCtrl();
@@ -112,29 +113,31 @@ public:
 	void HighFreqTask(void);
 
 	void MotorDrive(void);
-
-	void MotorOutputTask(void);
-	void MotorOutputTaskSVM(void);
-
-
-
+	//MotorDrive内呼び出し関数
+	void ReadCurrentTask();
 	void setIuvw(float pIu, float pIv, float pIw);
+	void ReadVoltageTask();
 
-	void ReadAngle(void);
+	void ReadAngleTask(void);
+	fp_rad GetAngleForOpenLoop();
+	fp_rad GetAngleForFOC();
 
 	void clarkTransform(void);
 	void parkTransform(void);
 	void parkGanmaDelta(void);
 	void parkabtogd(void);
 
+	void ObserverTask();
+
+	void CurrentControlTask();
+	std::array<float, 2> GetCurrentTarget();
+	void CurrentFeedForwardTask();
+	void CurrentPITask();
+	std::array<float, 2> PIDgd_control(std::array<float, 2> pErrIgd);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
+	void setVgd(std::array<float, 2> pVgd);
+
 	std::array<float, 2> getIdq(void);
 	std::array<float, 2> getIgd(void);
-
-	void PIDdq_control(std::array<float, 2> pErrIdq);//ここでPID使う？？ライブラリインクルード必要だよね？
-	void PIDgd_control(std::array<float, 2> pErrIgd);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
-
-	void setVdq(std::array<float, 2> pVdq);//強制転流用
-	void setVgd(std::array<float, 2> pVgd);
 
 	void invParkgdtoab(void);
 	void invParkGanmaDelta(void);
@@ -142,18 +145,9 @@ public:
 	void invClarkTransform(void);
 	void SVM(void);
 
-	//Task
-	void ReadCurrentTask();
-	void ReadVoltageTask();
-	void AngleTaskForOpenLoop();
-	void AngleTaskForFOC();
-	void ObserverTask();
-	void VelocityPIDTask();
-	void CurrentControlTask();
-	void CurrentTargetSettingTask();
-	void CurrentFeedForwardTask();
-	void CurrentPITask();
+	void VoltageOutputTask(void);
 
+	void VelocityPIDTask();
 	void GPIODebugTask();
 
 	//Handler
@@ -167,9 +161,13 @@ public:
 	void BtnActOFF(void);
 	void BtnActON(void);
 
-	//for debug
-	void DbgUart(std::string pStr);
-	void DebugTask(float pIu, float pIv, float pIw, float pArg);
+//	//for debug
+//	void DbgUart(std::string pStr);
+//	void DebugTask(float pIu, float pIv, float pIw, float pArg);
+
+    //void PIDdq_control(std::array<float, 2> pErrIdq);//ここでPID使う？？ライブラリインクルード必要だよね？
+	//void setVdq(std::array<float, 2> pVdq);//使ってない使わないのでは
+	//void MotorOutputTask(void);
 
 private:
 	int mlogcount = 0;
