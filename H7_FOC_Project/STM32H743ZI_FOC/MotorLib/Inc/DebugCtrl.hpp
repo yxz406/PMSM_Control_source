@@ -8,31 +8,21 @@
 #ifndef DEBUGCTRL_HPP_
 #define DEBUGCTRL_HPP_
 
-#include "paramsetting.h"
-
-//#include "UART.hpp"
-//#include <vector>
-#include "DebugInfo.hpp"
-#include "DebugInfoTiny.hpp"
+#include "MotorInfo.hpp"
+#include "UIStatus.hpp"
+#include "math.h"
+#include "SEGGER_RTT.h"
 
 
 class DebugCtrl {
 private:
-	DebugInfo mDebugInfo;//動的確保
-	DebugInfoTiny mDebugInfoTiny;//静的確保
-	int mDebugSize;
-
-	int mDebugStatus;
-
+	int mDebugC;
+	int mLogcount;
 public:
 	DebugCtrl();
 	virtual ~DebugCtrl();
-	int GetDbgStatus();
-	void DbgInfoRegister(float pIu, float pIv, float pIw, float pArg);
-	void DbgInfoTinyRegister(float pIu, float pIv, float pIw, float pArg);
-	void SetDebugStatus(int pStatus);
-	void PrintStatus();
-	void PrintStatusTiny();
+	void RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus);
+
 };
 
 #endif /* DEBUGCTRL_HPP_ */

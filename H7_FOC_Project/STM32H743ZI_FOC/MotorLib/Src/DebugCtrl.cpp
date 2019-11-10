@@ -9,110 +9,73 @@
 
 DebugCtrl::DebugCtrl() {
 	// TODO Auto-generated constructor stub
-	mDebugStatus = 0;
+	mDebugC = 0;
+	mLogcount = 0;
 }
 
 DebugCtrl::~DebugCtrl() {
 	// TODO Auto-generated destructor stub
 }
 
-int DebugCtrl::GetDbgStatus(void) {
-	return mDebugStatus;
-}
 
-void DebugCtrl::DbgInfoRegister(float pIu, float pIv, float pIw, float pArg){
-	//DEBUG_COUNTを超えるまではDebugInfoに情報を登録し続ける
-	//超えた瞬間に、DebugStatusを更新することで次の関数に入るようにする。
-	mDebugInfo.SetMotorData(new DebugInfo::SendMotorData(pIu,pIv,pIw,pArg));//デバッグの種類増やしたい時はここで変えてね
+void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus) {
+	mDebugC++;
 
-	if(mDebugInfo.GetVectSize() == DEBUG_COUNT) {
-		mDebugStatus = 1;//情報格納完了
+	if(mDebugC >= 2) {
+		mDebugC = 0;
+		return;
 	}
-//		//モータ停止の動作
-//		MotorCtrl::BtnActOFF();
-//		//モータ停止を確認する動作
-//
-////		if(mMotorInfo.mSensor.getArg() == mMotorInfo.mSensor.getArgOld()){
-//			//タイマ停止する動作(何回もこれ呼ばれちゃうから)
-//
-//			mPWMch1.f2Duty(0);//50%duty
-//			mPWMch2.f2Duty(0);
-//			mPWMch3.f2Duty(0);
-//			mPWMch4.f2Duty(0);
-//
-//			mPWMch1.Disable();
-//			mPWMch2.Disable();
-//			mPWMch3.Disable();
-//			mPWMch4.Disable();
-}
 
-void DebugCtrl::DbgInfoTinyRegister(float pIu, float pIv, float pIw, float pArg){
-	//DEBUG_COUNTを超えるまではDebugInfoに情報を登録し続ける
-	//超えた瞬間に、DebugStatusを更新することで次の関数に入るようにする。
-	mDebugInfoTiny.SetMotorData(pIu, pIv, pIw, 0, 0, 0, 0, pArg);
-	if(mDebugInfoTiny.GetCNT() == DEBUG_COUNT) {
-		mDebugStatus = 1;//情報格納完了
+	int milIu = (int)( pMotorInfo.mIuvw.at(0) * 1000 );
+	int milIv = (int)( pMotorInfo.mIuvw.at(1) * 1000 );
+	int milIw = (int)( pMotorInfo.mIuvw.at(2) * 1000 );
+	int DegArg = (int)(pMotorInfo.mgdArg/M_PI * 180 );//指令値の角度
+	int DegAxiErr =(int)( pMotorInfo.mArgErr / M_PI *180 );
+	int milEstOmega =(int)( pMotorInfo.mEstOmega );
+	int EstTheta =(int)( pMotorInfo.mEstTheta/M_PI * 180 );
+
+	int milIa = (int)( pMotorInfo.mIab.at(0) * 1000 );
+	int milIb = (int)( pMotorInfo.mIab.at(1) * 1000 );
+
+	int milIg = (int)( pMotorInfo.mIgd.at(0) * 1000 );
+	int milId = (int)( pMotorInfo.mIgd.at(1) * 1000 );
+
+	int milVg = (int)( pMotorInfo.mVgd.at(0) * 1000 );
+	int milVd = (int)( pMotorInfo.mVgd.at(1) * 1000 );
+
+	//SVMdebug
+	int milVu = (int)(pMotorInfo.mDutyuvw.at(0) * 1000 );
+	int milVv = (int)(pMotorInfo.mDutyuvw.at(1) * 1000 );
+	int milVw = (int)(pMotorInfo.mDutyuvw.at(2) * 1000 );
+
+	int milIgTarget = (int)(pMotorInfo.mIgdTarget.at(0)*1000);
+
+//	int milEstEMFg = (int)(mObserver.GetEstEMFgd().at(0) * 1000);
+//	int milEstEMFd = (int)(mObserver.GetEstEMFgd().at(1) * 1000);
+
+	//encoder
+	//int encoder = (int)(EncoderABZCtrl::GetAngle()*(360.0f/(ENCODER_PERIOD+1)));
+
+	char outputStr[100]={0};//100文字までとりあえず静的確保
+	//general
+	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, EstTheta);//みやゆうさんご希望のデバッグ
+
+	//velocity
+	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, milEstOmega, EstTheta);
+
+	//encoder
+	//sprintf(outputStr,"%d\n",encoder);
+
+	if( !pUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
+		return;
 	}
-}
 
-void DebugCtrl::SetDebugStatus(int pStatus) {
-	mDebugStatus = pStatus;
-}
+	SEGGER_RTT_WriteString(0,outputStr);
+	//printf("%s" ,outputStr);
 
-void DebugCtrl::PrintStatus() {
-	//UARTで転送する動作
-
-	std::vector<DebugInfo::SendMotorData> vectorbuf = mDebugInfo.GetVect();
-	for(const auto& num : vectorbuf){
-		std::string strbuf;
-		strbuf.append(std::to_string(num.mIu));
-		strbuf.append(",");
-		strbuf.append(std::to_string(num.mIv));
-		strbuf.append(",");
-		strbuf.append(std::to_string(num.mIw));
-		strbuf.append(",");
-		strbuf.append(std::to_string(num.mEArg));
-		strbuf.append(",");
-		#ifdef Debug_alpha_beta //ifdefじゃなくてパラメタのヘッダを持たせるべきか。
-		strbuf.append(std::to_string(num.mIalpha));
-		strbuf.append(",");
-		strbuf.append(std::to_string(num.mIbeta));
-		strbuf.append(",");
-		#endif
-		strbuf.append(std::to_string(num.mId));
-		strbuf.append(",");
-		strbuf.append(std::to_string(num.mIq));
-
-		strbuf.append("\r\n");
-		//UART::Transmit(strbuf);
+	mLogcount++;
+	if(	mLogcount > 65535){
+		mLogcount=0;
 	}
-}
 
-void DebugCtrl::PrintStatusTiny() {
-	//UARTで転送する動作
-	int CNT = 0;
-	while(CNT != DEBUG_COUNT){
-		std::string strbuf;
-		strbuf.append(std::to_string(mDebugInfoTiny.mIu[CNT]));
-		strbuf.append(",");
-		strbuf.append(std::to_string(mDebugInfoTiny.mIv[CNT]));
-		strbuf.append(",");
-		strbuf.append(std::to_string(mDebugInfoTiny.mIw[CNT]));
-		strbuf.append(",");
-		strbuf.append(std::to_string(mDebugInfoTiny.mEArg[CNT]));
-		strbuf.append(",");
-		#ifdef Debug_alpha_beta //ifdefじゃなくてパラメタのヘッダを持たせるべきか。
-		strbuf.append(std::to_string(mDebugInfoTiny.mIalpha[CNT]));
-		strbuf.append(",");
-		strbuf.append(std::to_string(mDebugInfoTiny.mIbeta[CNT]));
-		strbuf.append(",");
-		#endif
-		strbuf.append(std::to_string(mDebugInfoTiny.mVd[CNT]));
-		strbuf.append(",");
-		strbuf.append(std::to_string(mDebugInfoTiny.mVq[CNT]));
-
-		strbuf.append("\r\n");
-		//UART::Transmit(strbuf);
-		CNT++;
-	}
 }

@@ -76,6 +76,7 @@ void MotorCtrl::InitObserver(void) {
 
 
 
+
 void MotorCtrl::HighFreqTask(void) {
 
 	if( mOperationMode == Drive ) {
@@ -126,7 +127,8 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 	if(DEBUG_MODE){//デバッグモードで入る処理
-		JLinkDebug();
+		mDebugCtrl.RTTOutput(mMotorInfo, mUIStatus);
+
 	}
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 }
@@ -234,8 +236,10 @@ void MotorCtrl::ObserverTask() {
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() ,mMotorInfo.mgdArg );//強制転流中はこっち。
 
-		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
-		mMotorInfo.mArgErr = EstAxiErr;
+		//MotorInfoへ情報の格納
+		mMotorInfo.mArgErr = mObserver.GetEstAxiErr(); //軸誤差。gdとdqの差。本来はこの情報だけでドライブできる。
+		mMotorInfo.mEstOmega = mObserver.GetEstOmegaE();//デバッグ用
+		mMotorInfo.mEstTheta = mObserver.GetEstTheta();//デバッグ用
 
 	}else if(mControlMode == FOC) {
 		//Observer
@@ -243,8 +247,11 @@ void MotorCtrl::ObserverTask() {
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 		mObserver.Calculate();//ベクトル制御用
-		float EstAxiErr = mObserver.GetEstAxiErr();//軸誤差。gdとdqの差。
-		mMotorInfo.mArgErr = EstAxiErr;
+
+		//MotorInfoへ情報の格納
+		mMotorInfo.mArgErr = mObserver.GetEstAxiErr(); //軸誤差。gdとdqの差。本来はこの情報だけでドライブできる。
+		mMotorInfo.mEstOmega = mObserver.GetEstOmegaE();//デバッグ用
+		mMotorInfo.mEstTheta = mObserver.GetEstTheta();//デバッグ用
 	}
 
 }
@@ -264,15 +271,15 @@ void MotorCtrl::CurrentControlTask() {
 	//Current Target Setting
 	mMotorInfo.mIgdTarget = GetCurrentTarget();
 
-	//FF Control for Openloop
-	if(mControlMode == OpenLoop || mControlMode == OpenLoopToFOC) {
-		CurrentFeedForwardTask();
-	} else if (mControlMode == FOC) {
-		//PI Control Start
-		CurrentPITask();
-	}
+//	//FF Control for Openloop
+//	if(mControlMode == OpenLoop || mControlMode == OpenLoopToFOC) {
+//		CurrentFeedForwardTask();
+//	} else if (mControlMode == FOC) {
+//		//PI Control Start
+//		CurrentPITask();
+//	}
 
-//	CurrentPITask();
+	CurrentPITask();
 
 }
 
@@ -477,69 +484,6 @@ void MotorCtrl::GPIODebugTask() {//Lチカでタイミングをオシロで見�
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
 	asm("NOP");
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-}
-
-
-void MotorCtrl::JLinkDebug() {
-	mDebugC++;
-
-	if(mDebugC >= 2) {
-		mDebugC = 0;
-		return;
-	}
-
-	int milIu = (int)( mMotorInfo.mIuvw.at(0) * 1000 );
-	int milIv = (int)( mMotorInfo.mIuvw.at(1) * 1000 );
-	int milIw = (int)( mMotorInfo.mIuvw.at(2) * 1000 );
-	int DegArg = (int)(mMotorInfo.mgdArg/M_PI * 180 );//指令値の角度
-	int DegAxiErr =(int)( mObserver.GetEstAxiErr() / M_PI *180 );
-	int milEstOmega =(int)( mObserver.GetEstOmegaE());
-	int EstTheta =(int)(mObserver.GetEstTheta()/M_PI * 180 );
-
-	int milIa = (int)( mMotorInfo.mIab.at(0) * 1000 );
-	int milIb = (int)( mMotorInfo.mIab.at(1) * 1000 );
-
-	int milIg = (int)( mMotorInfo.mIgd.at(0) * 1000 );
-	int milId = (int)( mMotorInfo.mIgd.at(1) * 1000 );
-
-	int milVg = (int)( mMotorInfo.mVgd.at(0) * 1000 );
-	int milVd = (int)( mMotorInfo.mVgd.at(1) * 1000 );
-
-	//SVMdebug
-	int milVu = (int)(mMotorInfo.mDutyuvw.at(0) * 1000 );
-	int milVv = (int)(mMotorInfo.mDutyuvw.at(1) * 1000 );
-	int milVw = (int)(mMotorInfo.mDutyuvw.at(2) * 1000 );
-
-	int milIgTarget = (int)(mMotorInfo.mIgdTarget.at(0)*1000);
-
-	int milEstEMFg = (int)(mObserver.GetEstEMFgd().at(0) * 1000);
-	int milEstEMFd = (int)(mObserver.GetEstEMFgd().at(1) * 1000);
-
-	//encoder
-	//int encoder = (int)(EncoderABZCtrl::GetAngle()*(360.0f/(ENCODER_PERIOD+1)));
-
-	char outputStr[100]={0};//100文字までとりあえず静的確保
-	//general
-	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, EstTheta);//みやゆうさんご希望のデバッグ
-
-	//velocity
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milVg, milVd, milIg, milId, milEstOmega, EstTheta);
-
-	//encoder
-	//sprintf(outputStr,"%d\n",encoder);
-
-	if( !mUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
-		return;
-	}
-
-	SEGGER_RTT_WriteString(0,outputStr);
-	//printf("%s" ,outputStr);
-
-	mlogcount++;
-	if(	mlogcount > 65535){
-		mlogcount=0;
-	}
-
 }
 
 

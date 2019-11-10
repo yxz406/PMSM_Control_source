@@ -22,6 +22,8 @@
 //#include "USARTInit.hpp"
 
 #include "MotorInfo.hpp"
+#include "UIStatus.hpp"
+
 #include "ArgCtrl.hpp"
 #include "MotorMath.hpp"
 #include "PID.hpp"
@@ -34,38 +36,9 @@
 #include "DebugCtrl.hpp"
 //#include "DebugOutput.hpp"
 
-#include "SEGGER_RTT.h"
 
 class MotorCtrl {
 public:
-
-//	class MotorInfo {//モータの情報を格納するClass
-//	public:
-//		std::array<float, 3> mIuvw;//単位[A]
-//		std::array<float, 2> mIab;//単位[A]
-//		std::array<float, 2> mIdq;//単位[A]
-//		std::array<float, 2> mIgd; //単位[A] ganmadelta
-//
-//		std::array<float, 3> mVuvw;//単位[V]
-//		std::array<float, 2> mVab;//単位[V]
-//		std::array<float, 2> mVdq;//単位[V]
-//		std::array<float, 2> mVgd; //単位[V] ganmadelta
-//
-//		std::array<float, 2> mIgdTarget;//
-//		std::array<float, 2> mIgdErr;
-//		float mVoltageVCC;
-//		std::array<float, 3> mDutyuvw;//単位[%]
-//		fp_rad mdqArg;//単位[rad]
-//		fp_rad mgdArg;//単位[rad]
-//		fp_rad mArgErr;//単位[rad]
-//	};
-
-	int mDebugC=0; //SEGGERおためしでつくった
-
-	enum MotorStartStopStatus {//ON OFFのフラグ管理
-			MotorStop = 0,
-			MotorStart = 1,
-	};
 
 	enum OperationMode { //測定か運転か
 		Measure = -1,
@@ -76,11 +49,6 @@ public:
 		OpenLoop = 1,
 		OpenLoopToFOC,
 		FOC,
-	};
-
-	class UIStatus {
-	public:
-		MotorStartStopStatus mStartStopTRG;
 	};
 
 private:
@@ -98,8 +66,7 @@ private:
 	ControlMode mControlMode;
 
 	UIStatus mUIStatus;
-
-	//DebugCtrl mDebug;
+	DebugCtrl mDebugCtrl;
 
 public:
 	MotorCtrl();

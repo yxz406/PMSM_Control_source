@@ -30,6 +30,11 @@ public:
 	fp_rad mdqArg;//単位[rad]
 	fp_rad mgdArg;//単位[rad]
 	fp_rad mArgErr;//単位[rad]
+
+	//forDebug(ドライブには直接必要はない)
+	fp_rad mEstOmega;//単位[rad/s]
+	fp_rad mEstTheta;//単位[rad]
+
 };
 
 #endif /* SRC_MOTORINFO_HPP_ */
