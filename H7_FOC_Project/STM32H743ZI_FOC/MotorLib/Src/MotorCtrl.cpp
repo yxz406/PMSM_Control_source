@@ -262,7 +262,7 @@ void MotorCtrl::VelocityPIDTask() {
 			float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
 			//float velocityTarget = adc2_input * 1000;
 			float velocityTarget = 1500;
-			float velErr = velocityTarget - mObserver.GetEstOmegaE();
+			float velErr = velocityTarget - mMotorInfo.mEstOmega;
 			mVelocityPID.ErrorUpdate(velErr);
 	}
 }

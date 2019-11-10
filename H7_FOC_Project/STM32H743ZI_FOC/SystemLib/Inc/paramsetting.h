@@ -65,7 +65,7 @@
 #define M_PARAM_LD 0.00002f
 #define M_PARAM_LQ 0.00002f
 #define M_PARAM_PHY 0.0008f
-#define M_PARAM_R 0.26f
+#define M_PARAM_R 2.6f
 
 #define OBSERVER_CYCLE_TIME PWM_PERIOD_SEC
 #define OBSERVER_GAIN_ALPHA 200
@@ -113,10 +113,10 @@
 #define PID_IDELTA_MIN_VOLTAGE -10
 
 //速度制御器PID
-#define VEL_CONTROL 0
-#define PID_GAIN_VEL_P 0.00001
-#define PID_GAIN_VEL_I 0.0001
-#define PID_GAIN_VEL_D 0.09
+#define VEL_CONTROL 1
+#define PID_GAIN_VEL_P 0.001f
+#define PID_GAIN_VEL_I 0.01f
+#define PID_GAIN_VEL_D 0.01f
 #define PID_CYCLE_TIME_VEL PWM_PERIOD_SEC
 
 
