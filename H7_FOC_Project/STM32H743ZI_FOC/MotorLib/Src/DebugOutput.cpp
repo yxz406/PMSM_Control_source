@@ -5,7 +5,8 @@
  *      Author: watashi
  */
 
-#include <DebugOutput.hpp>
+#include "DebugOutput.hpp"
+#include "math.h"
 
 DebugOutput::DebugOutput() {
 	// TODO Auto-generated constructor stub
@@ -16,7 +17,7 @@ DebugOutput::~DebugOutput() {
 	// TODO Auto-generated destructor stub
 }
 
-void DebugOutput::Output(const MotorCtrl::MotorInfo &pMotorInfo){
+void DebugOutput::Output(const MotorInfo &pMotorInfo){
 	//mDebugC++;
 //	if(mDebugC >= 2) {
 //		mDebugC = 0;

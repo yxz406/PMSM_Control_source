@@ -8,7 +8,7 @@
 #ifndef INC_DEBUGOUTPUT_HPP_
 #define INC_DEBUGOUTPUT_HPP_
 
-#include "MotorCtrl.hpp"
+#include "MotorInfo.hpp"
 
 class DebugOutput {
 private:
@@ -16,7 +16,7 @@ public:
 	DebugOutput();
 	virtual ~DebugOutput();
 
-	static void Output(const MotorCtrl::MotorInfo &pMotorInfo);
+	static void Output(const MotorInfo &pMotorInfo);
 };
 
 #endif /* INC_DEBUGOUTPUT_HPP_ */
