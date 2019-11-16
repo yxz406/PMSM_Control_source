@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -123,13 +124,15 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
-//  MX_ADC3_Init();
-//  MX_TIM1_Init();
-//  MX_ADC2_Init();
+  //MX_ADC3_Init();
+  //MX_TIM1_Init();
+  //MX_ADC2_Init();
   //MX_TIM4_Init();
+  //MX_SPI4_Init();
+  //MX_SPI5_Init();
   /* USER CODE BEGIN 2 */
 
-  //à»â∫Çñ≥å¯âªÇ∑ÇÈÇ±Ç∆
+  //‰ª•‰∏ã„ÇíÁÑ°ÂäπÂåñ„Åô„Çã„Åì„Å®
   //  MX_ADC3_Init();
   //  MX_TIM1_Init();
   //  MX_ADC2_Init();
@@ -204,7 +207,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_ADC;
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_SPI5
+                              |RCC_PERIPHCLK_SPI4|RCC_PERIPHCLK_ADC;
   PeriphClkInitStruct.PLL2.PLL2M = 1;
   PeriphClkInitStruct.PLL2.PLL2N = 18;
   PeriphClkInitStruct.PLL2.PLL2P = 1;
@@ -213,6 +217,7 @@ void SystemClock_Config(void)
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_3;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOMEDIUM;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 6144;
+  PeriphClkInitStruct.Spi45ClockSelection = RCC_SPI45CLKSOURCE_D2PCLK1;
   PeriphClkInitStruct.Usart234578ClockSelection = RCC_USART234578CLKSOURCE_D2PCLK1;
   PeriphClkInitStruct.AdcClockSelection = RCC_ADCCLKSOURCE_PLL2;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)

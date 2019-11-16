@@ -33,10 +33,10 @@ void MotorCtrl::InitSystem(void) {
 	//TIMCtrl::MotorDuty_ch4(0.9);//9割タイミングで打つ
 	TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
 
-	//ENABLE信号
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_SET);
+	//ENABLE信号 PWMSet_Pin|OCSet_Pin|GateEnable_Pin
+	HAL_GPIO_WritePin(PWMSet_GPIO_Port, PWMSet_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(OCSet_GPIO_Port, OCSet_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GateEnable_GPIO_Port, GateEnable_Pin, GPIO_PIN_SET);
 
 	TIMCtrl::TIM1PWMStart();
 
@@ -279,7 +279,8 @@ void MotorCtrl::CurrentControlTask() {
 //		CurrentPITask();
 //	}
 
-	CurrentPITask();
+	CurrentFeedForwardTask();
+//	CurrentPITask();
 
 }
 

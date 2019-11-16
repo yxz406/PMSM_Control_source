@@ -26,6 +26,7 @@
 #define PWM_PERIOD_CYCLES (uint16_t)(TIM_CLK_MHz*(unsigned long long)1000000u/(uint16_t)(PWM_FREQ_HZ))
 //#define PWM_PERIOD_COUNT PWM_PERIOD_CYCLES/2　//片側のPWMだとこれ
 #define PWM_PERIOD_COUNT (PWM_PERIOD_CYCLES/4) //両端のPWMだとこれ
+#define PWM_DEADTIME_COUNT 10
 
 
 /*
@@ -41,12 +42,12 @@
 
 //ボードの I -> V 倍率
 //(Rの配置及び計算式についてはPDF参照)
-#define BOARD_OFFSET_VOLTAGE 3.3
-#define BOARD_OPAMP_R1 2200
-#define BOARD_OPAMP_R2 2200
-#define BOARD_OPAMP_R3 680
-#define BOARD_OPAMP_R4 2200
-#define BOARD_SHUNT_R 0.33
+#define BOARD_OFFSET_VOLTAGE 1.65f
+#define BOARD_OPAMP_R1 2700
+#define BOARD_OPAMP_R2 33000
+#define BOARD_OPAMP_R3 2700
+#define BOARD_OPAMP_R4 33000
+#define BOARD_SHUNT_R 0.040f
 
 #define BOARD_IV_RATIO ( ( 1.0f / (float)BOARD_SHUNT_R ) * ( (float)BOARD_OPAMP_R1 / ( (float)BOARD_OPAMP_R1 + (float)BOARD_OPAMP_R2 ) ) * ( ( (float)BOARD_OPAMP_R3 + (float)BOARD_OPAMP_R4 ) / (float)BOARD_OPAMP_R4 ) )
 #define BOARD_IV_OFFSET ( -1.0f * ( 1.0f / (float)BOARD_SHUNT_R ) * ( (float)BOARD_OPAMP_R3 / (float)BOARD_OPAMP_R4 ) * (float)BOARD_OFFSET_VOLTAGE )
