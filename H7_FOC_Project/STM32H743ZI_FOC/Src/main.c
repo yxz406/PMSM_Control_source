@@ -124,18 +124,20 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
-  //MX_ADC3_Init();
-  //MX_TIM1_Init();
-  //MX_ADC2_Init();
-  //MX_TIM4_Init();
-  //MX_SPI4_Init();
-  //MX_SPI5_Init();
+//  MX_ADC3_Init();
+//  MX_TIM1_Init();
+//  MX_ADC2_Init();
+//  MX_TIM4_Init();
+//  MX_SPI4_Init();
+//  MX_SPI5_Init();
   /* USER CODE BEGIN 2 */
-
-  //以下を無効化すること
-  //  MX_ADC3_Init();
-  //  MX_TIM1_Init();
-  //  MX_ADC2_Init();
+//disable
+//  MX_ADC3_Init();
+//  MX_TIM1_Init();
+//  MX_ADC2_Init();
+//  MX_TIM4_Init();
+//  MX_SPI4_Init();
+//  MX_SPI5_Init();
 
 cppWrapper();
   /* USER CODE END 2 */

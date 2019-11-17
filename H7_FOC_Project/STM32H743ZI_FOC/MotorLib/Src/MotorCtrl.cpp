@@ -34,7 +34,8 @@ void MotorCtrl::InitSystem(void) {
 	TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
 
 	//ENABLE信号 PWMSet_Pin|OCSet_Pin|GateEnable_Pin
-	HAL_GPIO_WritePin(PWMSet_GPIO_Port, PWMSet_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(PWMSet_GPIO_Port, PWMSet_Pin, GPIO_PIN_RESET);//6PWM
+	//HAL_GPIO_WritePin(PWMSet_GPIO_Port, PWMSet_Pin, GPIO_PIN_SET);//3PWM
 	HAL_GPIO_WritePin(OCSet_GPIO_Port, OCSet_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GateEnable_GPIO_Port, GateEnable_Pin, GPIO_PIN_SET);
 
@@ -396,6 +397,9 @@ void MotorCtrl::setVgd(std::array<float, 2> pVgd) {
 	if( Vdelta < PID_IDELTA_MIN_VOLTAGE ) {
 		Vdelta = PID_IDELTA_MIN_VOLTAGE;
 	}
+	//Limitを適用
+	pVgd.at(0) = Vganma;
+	pVgd.at(1) = Vdelta;
 	mMotorInfo.mVgd = pVgd;
 }
 
