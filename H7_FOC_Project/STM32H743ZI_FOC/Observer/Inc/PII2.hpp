@@ -28,7 +28,7 @@ private:
 	Zintegrate1n mBufVal4ITG;
 	float mBufVal4;
 	float mBufVal5;
-	Zintegrate1n mBufVal6ITG;
+	Zintegrate1nMod mBufVal6ITG;
 	float mBufVal6;
 
 	//出力値

@@ -280,8 +280,8 @@ void MotorCtrl::CurrentControlTask() {
 //		CurrentPITask();
 //	}
 
-	CurrentFeedForwardTask();
-//	CurrentPITask();
+//CurrentFeedForwardTask();
+	CurrentPITask();
 
 }
 

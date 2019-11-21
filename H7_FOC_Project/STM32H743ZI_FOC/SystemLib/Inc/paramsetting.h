@@ -114,7 +114,7 @@
 #define PID_IDELTA_MIN_VOLTAGE -9.0f
 
 //速度制御器PID
-#define VEL_CONTROL 1
+#define VEL_CONTROL 0
 #define PID_GAIN_VEL_P 0.001f
 #define PID_GAIN_VEL_I 0.01f
 #define PID_GAIN_VEL_D 0.01f

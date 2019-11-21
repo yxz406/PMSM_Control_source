@@ -43,13 +43,13 @@ void PII2::Calculate() {
 	mBufVal2 = mK2 * mInputVal;
 	mBufVal3 = mK3 * mInputVal;
 
-	mBufVal4 = mBufVal4ITG.integrate(mCycleTime, mBufVal3);//怪しい
+	mBufVal4 = mBufVal4ITG.integrate(mCycleTime, mBufVal3);
 
 	mBufVal5 = mBufVal2 + mBufVal4;
 
-	mBufVal6 = mBufVal6ITG.integrate(mCycleTime, mBufVal5);//怪しい
+	mBufVal6 = mBufVal6ITG.integrate(mCycleTime, mBufVal5);//オーバフロー対処
 
-	mOutputVal = mBufVal1 + mBufVal6;//ここらへん一帯オーバーフロー起こしてる気がする
+	mOutputVal = mBufVal1 + mBufVal6;
 }
 
 //integrate Reset For OpenLoop

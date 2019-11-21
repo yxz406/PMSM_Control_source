@@ -9,7 +9,7 @@
 #define INC_ZINTEGRATE_HPP_
 
 #include <array>
-
+#include <math.h>
 
 class Zintegrate1n {
 private:
@@ -24,6 +24,23 @@ private:
 public:
 	Zintegrate1n(float pK);
 	virtual ~Zintegrate1n();
+	void SetDefault(float pInputOld, float pOutputOld);
+	float integrate(float pTime, float pInput);
+};
+
+class Zintegrate1nMod { //TODO 継承してきれいにするべき
+protected:
+	float mK;
+	float mInput;
+	float mInputOld;
+
+	float mOutput;
+	float mOutputOld;
+
+
+public:
+	Zintegrate1nMod(float pK);
+	virtual ~Zintegrate1nMod();
 	void SetDefault(float pInputOld, float pOutputOld);
 	float integrate(float pTime, float pInput);
 };
