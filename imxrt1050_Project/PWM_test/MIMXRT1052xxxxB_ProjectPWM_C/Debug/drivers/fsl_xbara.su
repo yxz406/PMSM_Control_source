@@ -1,0 +1,10 @@
+fsl_clock.h:1034:20:CLOCK_ControlGate	32	static
+fsl_clock.h:1051:20:CLOCK_EnableClock	16	static
+fsl_clock.h:1061:20:CLOCK_DisableClock	16	static
+fsl_xbara.c:51:17:XBARA_GetInstance	24	static
+fsl_xbara.c:76:6:XBARA_Init	16	static
+fsl_xbara.c:91:6:XBARA_Deinit	16	static
+fsl_xbara.c:115:6:XBARA_SetSignalsConnection	16	static
+fsl_xbara.c:132:10:XBARA_GetStatusFlags	24	static
+fsl_xbara.c:148:6:XBARA_ClearStatusFlags	24	static
+fsl_xbara.c:189:6:XBARA_SetOutputSignalConfig	32	static

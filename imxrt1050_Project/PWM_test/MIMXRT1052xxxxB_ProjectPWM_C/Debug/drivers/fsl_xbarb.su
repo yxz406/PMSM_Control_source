@@ -1,0 +1,7 @@
+fsl_clock.h:1034:20:CLOCK_ControlGate	32	static
+fsl_clock.h:1051:20:CLOCK_EnableClock	16	static
+fsl_clock.h:1061:20:CLOCK_DisableClock	16	static
+fsl_xbarb.c:48:17:XBARB_GetInstance	24	static
+fsl_xbarb.c:73:6:XBARB_Init	16	static
+fsl_xbarb.c:88:6:XBARB_Deinit	16	static
+fsl_xbarb.c:107:6:XBARB_SetSignalsConnection	16	static
