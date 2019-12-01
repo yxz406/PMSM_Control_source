@@ -1,0 +1,2 @@
+fsl_adc.h:356:20:ADC_EnableHardwareTrigger	16	static
+adc.c:13:6:ADC_Configuration	32	static

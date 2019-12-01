@@ -1,0 +1,4 @@
+fsl_pwm.h:566:20:PWM_StartTimer	16	static
+fsl_pwm.h:651:20:PWM_SetPwmLdok	16	static
+pwm.c:15:6:flexPWMInit	24	static
+pwm.c:46:6:flexPWMSetup	64	static
