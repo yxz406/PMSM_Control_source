@@ -6,6 +6,7 @@
 C_SRCS += \
 ../source/EVKBimxrt1050_PWM_eadc_sample.c \
 ../source/adc.c \
+../source/eadc.c \
 ../source/pwm.c \
 ../source/semihost_hardfault.c \
 ../source/xbara.c 
@@ -13,6 +14,7 @@ C_SRCS += \
 OBJS += \
 ./source/EVKBimxrt1050_PWM_eadc_sample.o \
 ./source/adc.o \
+./source/eadc.o \
 ./source/pwm.o \
 ./source/semihost_hardfault.o \
 ./source/xbara.o 
@@ -20,6 +22,7 @@ OBJS += \
 C_DEPS += \
 ./source/EVKBimxrt1050_PWM_eadc_sample.d \
 ./source/adc.d \
+./source/eadc.d \
 ./source/pwm.d \
 ./source/semihost_hardfault.d \
 ./source/xbara.d 

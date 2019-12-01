@@ -41,25 +41,22 @@
 #include "fsl_debug_console.h"
 
 /* TODO: insert other include files here. */
-#include "fsl_adc.h"
+//#include "fsl_adc.h"
 #include "fsl_adc_etc.h"
 
-#include "fsl_pwm.h"
-#include "fsl_xbara.h"
+//#include "fsl_pwm.h"
+//#include "fsl_xbara.h"
 
 #include "pwm.h"
 #include "adc.h"
+#include "eadc.h"
+#include "xbara.h"
 
 /* TODO: insert other definitions and declarations here. */
 
-void ADC_Configuration(void);
-void XBARA_Configuration(void);
-//void PIT_Configuration(void);
 
-//void flexPWMInit(void);
-//void flexPWMSetup(void);
 /*******************************************************************************
- * Variables
+ * Global Variables
  ******************************************************************************/
 volatile uint32_t g_AdcConversionValue0;
 volatile uint32_t g_AdcConversionValue1;
@@ -73,6 +70,8 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, kADC_ETC_Trg0TriggerSource, kADC_ETC_Done0StatusFlagMask);
     g_AdcConversionValue0 = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
     __DSB();
+
+    PRINTF("interrupt!! ADC0\n");
 }
 
 void ADC_ETC_IRQ1_IRQHandler(void)
@@ -80,6 +79,8 @@ void ADC_ETC_IRQ1_IRQHandler(void)
     ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, kADC_ETC_Trg0TriggerSource, kADC_ETC_Done1StatusFlagMask);
     g_AdcConversionValue1 = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 1U); /* Get trigger0 chain1 result. */
     __DSB();
+
+    PRINTF("interrupt!! ADC1\n");
 }
 
 
@@ -87,10 +88,6 @@ void ADC_ETC_IRQ1_IRQHandler(void)
  * @brief   Application entry point.
  */
 int main(void) {
-
-    adc_etc_config_t adcEtcConfig;
-    adc_etc_trigger_config_t adcEtcTriggerConfig;
-    adc_etc_trigger_chain_config_t adcEtcTriggerChainConfig;
 
   	/* Init board hardware. */
     BOARD_InitBootPins();
@@ -104,47 +101,17 @@ int main(void) {
 
 
     ADC_Configuration();
+    ADC_etc_Configuration();
     XBARA_Configuration();
 
-    /* Initialize the ADC_ETC. */
-    ADC_ETC_GetDefaultConfig(&adcEtcConfig);
-    adcEtcConfig.XBARtriggerMask = 1U; /* Enable the external XBAR trigger0. */
-    ADC_ETC_Init(ADC_ETC, &adcEtcConfig);
-
-    /* Set the external XBAR trigger0 configuration. */
-    adcEtcTriggerConfig.enableSyncMode      = false;
-    adcEtcTriggerConfig.enableSWTriggerMode = false;
-    adcEtcTriggerConfig.triggerChainLength  = 1U; /* Chain length is 2. */
-    adcEtcTriggerConfig.triggerPriority     = 0U;
-    adcEtcTriggerConfig.sampleIntervalDelay = 0U;
-    adcEtcTriggerConfig.initialDelay        = 0U;
-    ADC_ETC_SetTriggerConfig(ADC_ETC, 0U, &adcEtcTriggerConfig);
-
-    /* Set the external XBAR trigger0 chain configuration. */
-    adcEtcTriggerChainConfig.enableB2BMode       = true;
-    adcEtcTriggerChainConfig.ADCHCRegisterSelect = 1U << 0U; /* Select ADC_HC0 register to trigger. */
-    adcEtcTriggerChainConfig.ADCChannelSelect = 15U; /* ADC_HC0 will be triggered to sample Corresponding channel. */
-    adcEtcTriggerChainConfig.InterruptEnable = kADC_ETC_Done0InterruptEnable; /* Enable the Done0 interrupt. */
-    ADC_ETC_SetTriggerChainConfig(ADC_ETC, 0U, 0U, &adcEtcTriggerChainConfig); /* Configure the trigger0 chain0. */
-    adcEtcTriggerChainConfig.ADCHCRegisterSelect = 1U << 1U; /* Select ADC_HC1 register to trigger. */
-    adcEtcTriggerChainConfig.ADCChannelSelect = 0U; /* ADC_HC1 will be triggered to sample Corresponding channel. */
-    adcEtcTriggerChainConfig.InterruptEnable = kADC_ETC_Done1InterruptEnable; /* Enable the Done1 interrupt. */
-    ADC_ETC_SetTriggerChainConfig(ADC_ETC, 0U, 1U, &adcEtcTriggerChainConfig); /* Configure the trigger0 chain1. */
-
-    /* Enable the NVIC. */
-    EnableIRQ(ADC_ETC_IRQ0_IRQn);
-    EnableIRQ(ADC_ETC_IRQ1_IRQn);
-
-    /* Start PIT channel0. */
-    //PIT_StartTimer(PIT, kPIT_Chnl_0);
 
     PRINTF("ADC Full Range: %d\r\n", g_Adc_12bitFullRange);
 
     PRINTF("FlexPWM driver example\n");
 
     flexPWMInit();
-   // PWM_OutputTriggerEnable(PWM1, kPWM_Module_3, kPWM_ValueRegister_5, true);
-    PWM_OutputTriggerEnable(PWM1, kPWM_Module_3, kPWM_ValueRegister_1, true);
+
+    //PWM_OutputTriggerEnable(PWM1, kPWM_Module_3, kPWM_ValueRegister_1, true);
     flexPWMSetup();
 
 
@@ -152,7 +119,7 @@ int main(void) {
 
     while (1)
     {
-        GETCHAR();
+        //GETCHAR();
         PRINTF("ADC conversion vaule is %d and %d\r\n", g_AdcConversionValue0, g_AdcConversionValue1);
     }
 

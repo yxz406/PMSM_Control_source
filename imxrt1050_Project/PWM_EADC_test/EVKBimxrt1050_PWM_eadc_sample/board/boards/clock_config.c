@@ -52,7 +52,7 @@ void BOARD_InitBootClocks(void)
 name: BOARD_BootClockRUN
 called_from_default_init: true
 outputs:
-- {id: AHB_CLK_ROOT.outFreq, value: 75 MHz}
+- {id: AHB_CLK_ROOT.outFreq, value: 30 MHz}
 - {id: CAN_CLK_ROOT.outFreq, value: 40 MHz}
 - {id: CKIL_SYNC_CLK_ROOT.outFreq, value: 32.768 kHz}
 - {id: CLK_1M.outFreq, value: 1 MHz}
@@ -64,15 +64,15 @@ outputs:
 - {id: FLEXIO1_CLK_ROOT.outFreq, value: 30 MHz}
 - {id: FLEXIO2_CLK_ROOT.outFreq, value: 30 MHz}
 - {id: FLEXSPI_CLK_ROOT.outFreq, value: 160 MHz}
-- {id: GPT1_ipg_clk_highfreq.outFreq, value: 18.75/2 MHz}
-- {id: GPT2_ipg_clk_highfreq.outFreq, value: 18.75/2 MHz}
-- {id: IPG_CLK_ROOT.outFreq, value: 18.75 MHz}
+- {id: GPT1_ipg_clk_highfreq.outFreq, value: 3.75 MHz}
+- {id: GPT2_ipg_clk_highfreq.outFreq, value: 3.75 MHz}
+- {id: IPG_CLK_ROOT.outFreq, value: 7.5 MHz}
 - {id: LCDIF_CLK_ROOT.outFreq, value: 67.5 MHz}
 - {id: LPI2C_CLK_ROOT.outFreq, value: 60 MHz}
 - {id: LPSPI_CLK_ROOT.outFreq, value: 105.6 MHz}
 - {id: LVDS1_CLK.outFreq, value: 1.2 GHz}
 - {id: MQS_MCLK.outFreq, value: 1080/17 MHz}
-- {id: PERCLK_CLK_ROOT.outFreq, value: 18.75/2 MHz}
+- {id: PERCLK_CLK_ROOT.outFreq, value: 3.75 MHz}
 - {id: PLL7_MAIN_CLK.outFreq, value: 24 MHz}
 - {id: SAI1_CLK_ROOT.outFreq, value: 1080/17 MHz}
 - {id: SAI1_MCLK1.outFreq, value: 1080/17 MHz}
@@ -84,7 +84,7 @@ outputs:
 - {id: SAI3_CLK_ROOT.outFreq, value: 1080/17 MHz}
 - {id: SAI3_MCLK1.outFreq, value: 1080/17 MHz}
 - {id: SAI3_MCLK3.outFreq, value: 30 MHz}
-- {id: SEMC_CLK_ROOT.outFreq, value: 75 MHz}
+- {id: SEMC_CLK_ROOT.outFreq, value: 30 MHz}
 - {id: SPDIF0_CLK_ROOT.outFreq, value: 30 MHz}
 - {id: TRACE_CLK_ROOT.outFreq, value: 352/3 MHz}
 - {id: UART_CLK_ROOT.outFreq, value: 80 MHz}
@@ -92,7 +92,7 @@ outputs:
 - {id: USDHC2_CLK_ROOT.outFreq, value: 198 MHz}
 settings:
 - {id: CCM.AHB_PODF.scale, value: '8', locked: true}
-- {id: CCM.ARM_PODF.scale, value: '2', locked: true}
+- {id: CCM.ARM_PODF.scale, value: '5', locked: true}
 - {id: CCM.FLEXSPI_PODF.scale, value: '3', locked: true}
 - {id: CCM.FLEXSPI_SEL.sel, value: CCM.PLL3_SW_CLK_SEL}
 - {id: CCM.LPSPI_PODF.scale, value: '5', locked: true}
@@ -184,7 +184,7 @@ void BOARD_BootClockRUN(void)
     /* Set IPG_PODF. */
     CLOCK_SetDiv(kCLOCK_IpgDiv, 3);
     /* Set ARM_PODF. */
-    CLOCK_SetDiv(kCLOCK_ArmDiv, 1);
+    CLOCK_SetDiv(kCLOCK_ArmDiv, 4);
     /* Set PERIPH_CLK2_PODF. */
     CLOCK_SetDiv(kCLOCK_PeriphClk2Div, 0);
     /* Disable PERCLK clock gate. */

@@ -41,6 +41,7 @@ void flexPWMInit(void) {
         return;
     }
 
+    PWM_OutputTriggerEnable(PWM1, kPWM_Module_3, kPWM_ValueRegister_5, true);
 }
 
 void flexPWMSetup(void) {
@@ -48,7 +49,7 @@ void flexPWMSetup(void) {
     uint16_t deadTimeVal;
     pwm_signal_param_t pwmSignal[1];
     uint32_t pwmSourceClockInHz;
-    uint32_t pwmFrequencyInHz = 4;
+    uint32_t pwmFrequencyInHz = 1;
 
     //double ahbclk = CLOCK_GetAhbFreq();//for Debug
     pwmSourceClockInHz = CLOCK_GetFreq(kCLOCK_IpgClk);

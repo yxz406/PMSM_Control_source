@@ -1,0 +1,3 @@
+core_cm7.h:1885:22:__NVIC_EnableIRQ	16	static
+fsl_common.h:419:28:EnableIRQ	16	static
+eadc.c:11:6:ADC_etc_Configuration	64	static

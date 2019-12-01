@@ -11,9 +11,8 @@ source/EVKBimxrt1050_PWM_eadc_sample.o \
  ../board/boards/clock_config.h ../device/MIMXRT1052.h \
  ../utilities/fsl_debug_console.h \
  ../component/serial_manager/serial_manager.h \
- ../component/serial_manager/serial_port_uart.h ../drivers/fsl_adc.h \
- ../drivers/fsl_adc_etc.h ../drivers/fsl_pwm.h ../drivers/fsl_xbara.h \
- ../source/pwm.h ../source/adc.h
+ ../component/serial_manager/serial_port_uart.h ../drivers/fsl_adc_etc.h \
+ ../source/pwm.h ../source/adc.h ../source/eadc.h ../source/xbara.h
 
 ../board/boards/board.h:
 
@@ -61,14 +60,12 @@ source/EVKBimxrt1050_PWM_eadc_sample.o \
 
 ../component/serial_manager/serial_port_uart.h:
 
-../drivers/fsl_adc.h:
-
 ../drivers/fsl_adc_etc.h:
-
-../drivers/fsl_pwm.h:
-
-../drivers/fsl_xbara.h:
 
 ../source/pwm.h:
 
 ../source/adc.h:
+
+../source/eadc.h:
+
+../source/xbara.h:
