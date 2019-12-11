@@ -28,6 +28,10 @@ void TIMCtrl::TIM1Init_HAL(void) {
 	MX_TIM1_Init();
 }
 
+void TIMCtrl::TIM1DeInit_HAL(void) {
+	MX_TIM1_DeInit();
+}
+
 //Start
 void TIMCtrl::TIM1PWMStart(void) {
 	HAL_TIM_PWM_Start(&mHandleTIM1, TIM_CHANNEL_1);
@@ -185,6 +189,13 @@ void TIMCtrl::MX_TIM1_Init(void)
   HAL_TIM_MspPostInit(&mHandleTIM1);
 
 }
+
+void TIMCtrl::MX_TIM1_DeInit(void) {
+	if (HAL_TIM_PWM_DeInit(&mHandleTIM1) != HAL_OK) {
+		Error_Handler();
+	}
+}
+
 
 void TIMCtrl::HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
 {

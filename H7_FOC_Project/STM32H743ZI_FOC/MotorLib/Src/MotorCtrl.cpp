@@ -6,7 +6,6 @@
  */
 
 #include "MotorCtrl.hpp"
-//#include "DebugOutput.hpp"//相互参照回避の術発動
 
 MotorCtrl::MotorCtrl() {
 	// TODO Auto-generated constructor stub
@@ -55,6 +54,31 @@ void MotorCtrl::InitSystem(void) {
 }
 
 
+void MotorCtrl::DeInitSystem(void) {
+	HAL_GPIO_WritePin(GateEnable_GPIO_Port, GateEnable_Pin, GPIO_PIN_RESET);//Gate Disable
+
+	//以降Initの逆順にDeInitしていくこと
+	ADCCtrl::ADC3DeInit_HAL();
+	ADCCtrl::ADC2DeInit_HAL();
+
+	//TIMをDeIntする前に安全のため、50%Duty,I=0に戻す
+	TIMCtrl::MotorDuty_ch1(0);//50%duty
+	TIMCtrl::MotorDuty_ch2(0);
+	TIMCtrl::MotorDuty_ch3(0);
+	//TIMCtrl::MotorDuty_ch4(0.9);//9割タイミングで打つ
+	TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
+
+	//Timer Initialize
+	TIMCtrl::MX_TIM1_DeInit();
+
+	//ENABLE信号 PWMSet_Pin|OCSet_Pin|GateEnable_Pin
+	HAL_GPIO_WritePin(PWMSet_GPIO_Port, PWMSet_Pin, GPIO_PIN_RESET);//6PWM
+	//HAL_GPIO_WritePin(PWMSet_GPIO_Port, PWMSet_Pin, GPIO_PIN_SET);//3PWM
+	HAL_GPIO_WritePin(OCSet_GPIO_Port, OCSet_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GateEnable_GPIO_Port, GateEnable_Pin, GPIO_PIN_RESET);
+}
+
+
 void MotorCtrl::InitMotorControl(void) {
 	mOperationMode = Drive;//起動時、動作をまずは運転にする。
 	mControlMode = OpenLoop;//起動時、動作をまずは強制転流にする。
@@ -76,8 +100,6 @@ void MotorCtrl::InitObserver(void) {
 }
 
 
-
-
 void MotorCtrl::HighFreqTask(void) {
 
 	if( mOperationMode == Drive ) {
@@ -87,6 +109,7 @@ void MotorCtrl::HighFreqTask(void) {
 	}
 
 }
+
 
 void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定モードを用意する予定
 

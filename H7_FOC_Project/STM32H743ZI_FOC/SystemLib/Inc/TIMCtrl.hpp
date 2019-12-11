@@ -20,6 +20,7 @@ public:
 	virtual ~TIMCtrl();
 
 	static void TIM1Init_HAL(void);
+	static void TIM1DeInit_HAL(void);
 	static void TIM1PWMStart(void);
 
 	static void TIM1SetCOMP_ch1(int pCompare);
@@ -41,6 +42,7 @@ public:
 
 	//以下HALのWrapper
 	static void MX_TIM1_Init(void);
+	static void MX_TIM1_DeInit(void);
 	static void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle);
 	static void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle);
 	static void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle);

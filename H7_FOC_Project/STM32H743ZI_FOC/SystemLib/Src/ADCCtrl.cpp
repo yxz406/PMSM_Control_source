@@ -27,6 +27,10 @@ void ADCCtrl::ADC2Init_HAL() {
 	MX_ADC2_Init();
 }
 
+void ADCCtrl::ADC2DeInit_HAL() {
+	MX_ADC2_DeInit();
+}
+
 void ADCCtrl::ADC2Calibration() {
 	HAL_ADCEx_Calibration_Start(&mHandleADC2, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED);
 }
@@ -47,6 +51,10 @@ int ADCCtrl::ADC2_Read() {
 //ADC3
 void ADCCtrl::ADC3Init_HAL() {
 	MX_ADC3_Init();
+}
+
+void ADCCtrl::ADC3DeInit_HAL() {
+	MX_ADC3_DeInit();
 }
 
 void ADCCtrl::ADC3Calibration() {
@@ -77,7 +85,6 @@ void ADCCtrl::ADC3IRQHandler() {
 
 
 //以下HALコード置き場
-
 void ADCCtrl::MX_ADC2_Init(void)
 {
   ADC_ChannelConfTypeDef sConfig = {0};
@@ -116,6 +123,14 @@ void ADCCtrl::MX_ADC2_Init(void)
     Error_Handler();
   }
 }
+
+
+void ADCCtrl::MX_ADC2_DeInit(void) {
+	if (HAL_ADC_DeInit(&mHandleADC2) != HAL_OK) {
+		Error_Handler();
+	}
+}
+
 
 void ADCCtrl::MX_ADC3_Init(void)
 {
@@ -180,6 +195,14 @@ void ADCCtrl::MX_ADC3_Init(void)
   }
 
 }
+
+
+void ADCCtrl::MX_ADC3_DeInit(void) {
+	if (HAL_ADC_DeInit(&mHandleADC3) != HAL_OK) {
+		Error_Handler();
+	}
+}
+
 
 void ADCCtrl::HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 {

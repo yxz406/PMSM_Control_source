@@ -74,6 +74,7 @@ public:
 	void SetMotorInfo(MotorInfo pMotorInfo);
 
 	void InitSystem(void);
+	void DeInitSystem(void);
 	void InitMotorControl(void);
 	void InitObserver(void);
 

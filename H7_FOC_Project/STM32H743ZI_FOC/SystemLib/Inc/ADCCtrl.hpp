@@ -25,12 +25,14 @@ public:
 	static void ADC2Disable();
 	//HAL関数を使った定義
 	static void ADC2Init_HAL();
+	static void ADC2DeInit_HAL();
 	static void ADC2Calibration();
 	static void ADC2Start_Conversion();
 	static void ADC2Conversion_wait(int pTimeout);
 	static int ADC2_Read();
 	//以下HALのWrapper
 	static void MX_ADC2_Init(void);
+	static void MX_ADC2_DeInit(void);
 
 
 	//static void ADC3Init();
@@ -40,6 +42,7 @@ public:
 
 	//HAL関数を使った定義
 	static void ADC3Init_HAL();
+	static void ADC3DeInit_HAL();
 	static void ADC3Calibration();
 	static void ADC3InjectedStart_IT();
 
@@ -50,7 +53,9 @@ public:
 	static void ADC3IRQHandler();
 
 	//以下HALのWrapper
+	//TODO:考慮すること12/12  static宣言必要か？
 	static void MX_ADC3_Init(void);
+	static void MX_ADC3_DeInit(void);
 	static void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle);
 	static void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle);
 };
