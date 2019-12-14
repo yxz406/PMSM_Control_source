@@ -139,4 +139,8 @@
 #define ENCODER_ABZ 1
 #define ENCODER_PERIOD (2000 - 1)
 
+//高周波重畳
+//測定
+#define MEASURE_HIGH_FREQ_RESOLUTION 1000
+
 #endif /* PARAMSETTING_H_ */

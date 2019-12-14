@@ -1,28 +1,37 @@
 /*
- * MotorCtrl.hpp
+ * MotorMeasure.hpp
  *
- *  Created on: Aug 5, 2019
+ *  Created on: Dec 14, 2019
  *      Author: watashi
  */
 
-#ifndef MOTORCTRL_HPP_
-#define MOTORCTRL_HPP_
+#ifndef SRC_MOTORMEASURE_HPP_
+#define SRC_MOTORMEASURE_HPP_
 
 #include "MotorInterface.hpp"
 
-class MotorCtrl : MotorInterface {
+class MotorMeasure : MotorInterface {
 public:
 
-	enum OperationMode { //測定か運転か
-		Measure = -1,
-		Drive = 1,
-	};
+//	enum OperationMode { //測定か運転か
+//		Measure = -1,
+//		Drive = 1,
+//	};
 
 	enum ControlMode { //強制転流、FOCなどの動作モード管理
 		OpenLoop = 1,
 		OpenLoopToFOC,
 		FOC,
 	};
+
+	enum MeasureTarget { //測定する対象
+		Ldd = 1,
+		Lqd,
+		Ldq,
+		Lqq,
+		R,
+	};
+
 
 private:
 	MotorInfo mMotorInfo;
@@ -35,15 +44,17 @@ private:
 
 	ArgCtrl mArgCtrl;
 
-	OperationMode mOperationMode;
+	//OperationMode mOperationMode;
 	ControlMode mControlMode;
+	MeasureTarget mMeasureTarget;
 
 	UIStatus mUIStatus;
 	DebugCtrl mDebugCtrl;
 
+	WaveGenerator mWaveGen;//パラメータ測定用
 public:
-	MotorCtrl();
-	virtual ~MotorCtrl();
+	MotorMeasure();
+	virtual ~MotorMeasure();
 
 	void InitSystem(void);
 	void DeInitSystem(void);
@@ -52,8 +63,8 @@ public:
 
 	void HighFreqTask(void);
 
-	//void MotorMeasure(void);
-	void MotorDrive(void);
+	void Measure(void);
+	//void MotorDrive(void);
 	//MotorDrive内呼び出し関数
 	void ReadCurrentTask();
 	void setIuvw(float pIu, float pIv, float pIw);
@@ -72,7 +83,7 @@ public:
 
 	void CurrentControlTask();
 	std::array<float, 2> GetCurrentTarget();
-	void CurrentFeedForwardTask();
+	//void CurrentFeedForwardTask();
 	void CurrentPITask();
 	std::array<float, 2> PIDgd_control(std::array<float, 2> pErrIgd);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
 	void setVgd(std::array<float, 2> pVgd);
@@ -107,4 +118,4 @@ private:
 	int mFOCcount=0;
 };
 
-#endif /* MOTORCTRL_HPP_ */
+#endif /* SRC_MOTORMEASURE_HPP_ */

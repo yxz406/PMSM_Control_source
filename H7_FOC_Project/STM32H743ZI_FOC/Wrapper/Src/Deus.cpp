@@ -11,6 +11,7 @@
 
 Deus::Deus() {
 	// TODO Auto-generated constructor stub
+	mMode = OperationMode::Drive;
 }
 
 Deus::~Deus() {
@@ -19,15 +20,28 @@ Deus::~Deus() {
 
 
 void Deus::HFTask() {
-	M_Ctrl.HighFreqTask();
+	if(mMode == OperationMode::Drive) {
+		M_Ctrl.HighFreqTask();
+	} else if (mMode == OperationMode::Measure) {
+		M_Measure.HighFreqTask();
+	}
+
 }
 
 void Deus::Ctrl() {
 
-	M_Ctrl.InitMotorControl();
-	M_Ctrl.InitObserver();
+	if(mMode == OperationMode::Drive) {
+		M_Ctrl.InitMotorControl();
+		M_Ctrl.InitObserver();
 
-	M_Ctrl.InitSystem();//ここでTIMとADC起動
+		M_Ctrl.InitSystem();//ここでTIMとADC起動
+	} else if (mMode == OperationMode::Measure) {
+		M_Measure.InitMotorControl();
+		M_Measure.InitObserver();
+
+		M_Measure.InitSystem();
+	}
+
 
 	while(1){
 	}
