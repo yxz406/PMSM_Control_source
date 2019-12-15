@@ -323,11 +323,7 @@ std::array<float, 2> MotorMeasure::GetCurrentTarget() {
 void MotorMeasure::CurrentPITask() {
 	//PI Control Start
 
-	if(mMeasureTarget == Ldd) {
-
-		//IgdTarget.at(0) = 0;//IgTarget [A] ここに入れていく
-		//IgdTarget.at(1) = 0;//IdTarget [A]
-
+	if(mMeasureTarget == Ldd || mMeasureTarget == Lqd) {
 		float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
 		float Vh = mMotorInfo.mVoltageVCC * adc2_input;//[V]
 		//float VqOffset = 0 * adc2_input;
@@ -341,23 +337,24 @@ void MotorMeasure::CurrentPITask() {
 
 		setVg(VgInput);
 		setVd(CulcVd);
-
 		return;
 
-	} else if (mMeasureTarget == Lqd) {
+	} else if (mMeasureTarget == Lqq || mMeasureTarget == Ldq) {
+		float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+		float Vh = mMotorInfo.mVoltageVCC * adc2_input;//[V]
+		//float VqOffset = 0 * adc2_input;
+		float VdOffset = 0;
+		float VdInput = Vh * mWaveGen.OutputWaveform() + VdOffset;
 
-		return;
+		mMotorInfo.mIgdErr.at(0) = mMotorInfo.mIgdTarget.at(0) - mMotorInfo.mIgd.at(0);
+		mMotorInfo.mIgdErr.at(1) = 0;//deltaの方はPI制御はかけない(sin波入れる)
+		std::array<float,2> CulcVgd = PIDgd_control(mMotorInfo.mIgdErr);
+		float CulcVg = CulcVgd.at(0);
 
-	} else if (mMeasureTarget == Ldq) {
-
-		return;
-
-	} else if (mMeasureTarget == Lqq) {
-
+		setVg(CulcVg);
+		setVd(VdInput);
 		return;
 	}
-
-
 
 }
 
@@ -548,25 +545,25 @@ void MotorMeasure::ChangeFreq(void){//周波数の変更
 		return;
 	}
 
-	if(mFreqMode == 1) {
+	else if(mFreqMode == 1) {
 		mWaveGen.InitFrequency(329);
 		mFreqMode++;
 		return;
 	}
 
-	if(mFreqMode == 2) {
+	else if(mFreqMode == 2) {
 		mWaveGen.InitFrequency(391);
 		mFreqMode++;
 		return;
 	}
 
-	if(mFreqMode == 3) {
+	else if(mFreqMode == 3) {
 		mWaveGen.InitFrequency(523);
 		mFreqMode++;
 		return;
 	}
 
-	if(mFreqMode == 4) {
+	else if(mFreqMode == 4) {
 		mWaveGen.InitFrequency(0);
 		mWaveGen.ResetPhase();
 		mFreqMode = 0;
