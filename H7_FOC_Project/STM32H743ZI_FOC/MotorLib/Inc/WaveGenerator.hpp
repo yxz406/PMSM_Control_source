@@ -15,6 +15,7 @@ class WaveGenerator {
 private:
 	int mTargetHz;
 	int mCount;
+	float mThetaPerStep;
 public:
 	WaveGenerator();
 	virtual ~WaveGenerator();

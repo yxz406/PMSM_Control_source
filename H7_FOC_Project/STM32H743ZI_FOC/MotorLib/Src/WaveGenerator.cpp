@@ -18,6 +18,7 @@ WaveGenerator::~WaveGenerator() {
 
 void WaveGenerator::InitFrequency(int pTargetHz) {
 	mTargetHz = pTargetHz;
+	mThetaPerStep = ( (2.0f * M_PI)* (float)mTargetHz/(float)CONTROL_FREQ_HZ );
 }
 
 
@@ -28,7 +29,7 @@ void WaveGenerator::ResetPhase() {
 
 
 float WaveGenerator::OutputWaveform() {
-	float theta = ( (2 * M_PI)/(CONTROL_FREQ_HZ * mTargetHz) ) * mCount ;
+	float theta = mThetaPerStep * mCount ;
 	mCount++;
 
 	if(mCount > CONTROL_FREQ_HZ - 1) {//CONTROL_FREQに届いたら0にする

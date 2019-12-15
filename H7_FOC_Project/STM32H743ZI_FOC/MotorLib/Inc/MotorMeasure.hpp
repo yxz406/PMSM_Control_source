@@ -86,6 +86,8 @@ public:
 	//void CurrentFeedForwardTask();
 	void CurrentPITask();
 	std::array<float, 2> PIDgd_control(std::array<float, 2> pErrIgd);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
+	void setVg(float pVg);
+	void setVd(float pVd);
 	void setVgd(std::array<float, 2> pVgd);
 
 	std::array<float, 2> getIdq(void);
@@ -99,7 +101,7 @@ public:
 
 	void VoltageOutputTask(void);
 
-	void VelocityPIDTask();
+	//void VelocityPIDTask();
 	void GPIODebugTask();
 
 	//Handler
@@ -110,12 +112,16 @@ public:
 	void BtnActOFF(void);
 	void BtnActON(void);
 
+	void ChangeFreq(void);
+
 private:
 	int mlogcount = 0;
 	int mTransitionCountForOpenToFOC = 0;
 	int mTransitionCountForOpenToFOC2 = 0;
 
 	int mFOCcount=0;
+
+	int mFreqMode = 0;
 };
 
 #endif /* SRC_MOTORMEASURE_HPP_ */

@@ -90,7 +90,7 @@ public:
 
 	virtual void VoltageOutputTask(void) = 0;
 
-	virtual void VelocityPIDTask() = 0;
+	//virtual void VelocityPIDTask() = 0;
 	virtual void GPIODebugTask() = 0;
 
 	//Handler

@@ -11,7 +11,8 @@
 
 Deus::Deus() {
 	// TODO Auto-generated constructor stub
-	mMode = OperationMode::Drive;
+	//mMode = OperationMode::Drive;
+	mMode =OperationMode::Measure;
 }
 
 Deus::~Deus() {
@@ -44,11 +45,22 @@ void Deus::Ctrl() {
 
 
 	while(1){
+
 	}
 }
 
 void Deus::BtnAct(){
-	M_Ctrl.BtnAct();
+	//M_Ctrl.BtnAct();
+
+	if(mMode == OperationMode::Drive) {
+		M_Ctrl.BtnAct();
+
+	} else if (mMode == OperationMode::Measure) {
+		M_Measure.BtnAct();
+		//M_Measure.DeInitSystem();
+	}
+
+
 }
 
 void Deus::BtnAct2(){
