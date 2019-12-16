@@ -70,7 +70,7 @@ public:
 	virtual void parkGanmaDelta(void) = 0;
 	virtual void parkabtogd(void) = 0;
 
-	virtual void ObserverTask() = 0;
+	//virtual void ObserverTask() = 0;
 
 	virtual void CurrentControlTask() = 0;
 	virtual std::array<float, 2> GetCurrentTarget() = 0;

@@ -79,7 +79,7 @@ public:
 	void parkGanmaDelta(void);
 	void parkabtogd(void);
 
-	void ObserverTask();
+	//void ObserverTask();
 
 	void CurrentControlTask();
 	std::array<float, 2> GetCurrentTarget();

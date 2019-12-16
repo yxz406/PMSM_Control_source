@@ -132,9 +132,6 @@ void MotorMeasure::Measure(void) {//モータを測定するモード
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
-	//ObserverTask();//オブザーバ
-	//VelocityPIDTask();//速度PID制御
-
 	CurrentControlTask();//電流制御とか
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
@@ -251,35 +248,6 @@ std::array<float, 2> MotorMeasure::getIdq() {
 
 std::array<float, 2> MotorMeasure::getIgd() {
 	return mMotorInfo.mIgd;
-}
-
-
-void MotorMeasure::ObserverTask() {
-	if(mControlMode == OpenLoop || mControlMode == OpenLoopToFOC) {
-		//Observer
-		//オブザーバセット・計算・値取得
-		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
-		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
-		mObserver.CalculateOpenLoop( mArgCtrl.getArgOmega() ,mMotorInfo.mgdArg );//強制転流中はこっち。
-
-		//MotorInfoへ情報の格納
-		mMotorInfo.mArgErr = mObserver.GetEstAxiErr(); //軸誤差。gdとdqの差。本来はこの情報だけでドライブできる。
-		mMotorInfo.mEstOmega = mObserver.GetEstOmegaE();//デバッグ用
-		mMotorInfo.mEstTheta = mObserver.GetEstTheta();//デバッグ用
-
-	}else if(mControlMode == FOC) {
-		//Observer
-		//オブザーバセット・計算・値取得
-		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
-		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
-		mObserver.Calculate();//ベクトル制御用
-
-		//MotorInfoへ情報の格納
-		mMotorInfo.mArgErr = mObserver.GetEstAxiErr(); //軸誤差。gdとdqの差。本来はこの情報だけでドライブできる。
-		mMotorInfo.mEstOmega = mObserver.GetEstOmegaE();//デバッグ用
-		mMotorInfo.mEstTheta = mObserver.GetEstTheta();//デバッグ用
-	}
-
 }
 
 
