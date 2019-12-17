@@ -13,17 +13,27 @@ public:
 	SystemInterface();
 	virtual ~SystemInterface();
 
-	//ADC Interface
+	//ADC(MotorDrive) Interface
 	virtual bool ADCInit();
 	virtual bool ADCDeInit();
 	virtual float ADCReadChU();
 	virtual float ADCReadChV();
 	virtual float ADCReadChW();
 
-	//PWM Interface
+	//PWM(MotorDrive) Interface
 	virtual bool PWMInit();
 	virtual bool PWMDeInit();
+	virtual bool PWMStart();
+	virtual bool PWMOutputChU(float pDuty);
+	virtual bool PWMOutputChV(float pDuty);
+	virtual bool PWMOutputChW(float pDuty);
 
+	//Output-Pin Interface
+	virtual bool GPIO_Init();
+	virtual bool GPIO_DeInit();
+	virtual bool GPIO_PWMSetting(bool pOutput);
+	virtual bool GPIO_OverCurrentSetting(bool pOutput);
+	virtual bool GPIO_GateEnable(bool pOutput);
 
 };
 
