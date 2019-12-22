@@ -16,6 +16,7 @@
 
 #include "ADCCtrl.hpp"
 #include "TIMCtrl.hpp"
+#include "SPICtrl.hpp"
 #include "EncoderABZCtrl.hpp"
 
 //#include "GPIOInit.hpp"
@@ -29,6 +30,7 @@
 #include "PID.hpp"
 #include "Observer.hpp"
 #include <array>
+#include <vector>
 
 #include "PWM.hpp"
 //#include "UART.hpp"

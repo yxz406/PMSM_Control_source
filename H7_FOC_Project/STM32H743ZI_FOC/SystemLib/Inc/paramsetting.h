@@ -28,6 +28,8 @@
 #define PWM_PERIOD_COUNT (PWM_PERIOD_CYCLES/4) //両端のPWMだとこれ
 #define PWM_DEADTIME_COUNT 20
 
+#define SPI_DATA_SIZE 16
+#define SPI_TIMEOUT 100
 
 /*
  * ソフトウェアセッティング

@@ -26,6 +26,10 @@ public:
 	std::array<float, 2> mIgdTarget;//
 	std::array<float, 2> mIgdErr;
 	float mVoltageVCC;
+
+	//高周波重畳用変数
+	float mVh;
+
 	std::array<float, 3> mDutyuvw;//単位[%]
 	fp_rad mdqArg;//単位[rad]
 	fp_rad mgdArg;//単位[rad]

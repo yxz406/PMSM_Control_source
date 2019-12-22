@@ -116,6 +116,18 @@ void MotorMeasure::Measure(void) {//モータを測定するモード
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
+	mSPICtrl.SPITransmitReceive();
+	std::vector<uint8_t> rxdata = mSPICtrl.GetReceiveData();
+	IntToCharArray tempData;
+	for(unsigned int i=0; i < tempData.mByte.size(); i++) {
+		tempData.mByte.at(3-i) = rxdata.at(i);
+	}
+	int rxint = tempData.mInt;
+	float Vh = (float)rxint/(float)4095;
+	mMotorInfo.mVh = Vh;
+
+	GPIODebugTask();//GPIOからオシロに波形を出力する
+
 	//これは指令値決定用ADC。開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
 	ADCCtrl::ADC2Start_Conversion();
 	//ADCCtrl::ADC2Conversion_wait(10);
@@ -153,7 +165,7 @@ void MotorMeasure::Measure(void) {//モータを測定するモード
 
 	}
 	GPIODebugTask();//GPIOからオシロに波形を出力する
-
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
 }
 
 
@@ -292,8 +304,10 @@ void MotorMeasure::CurrentPITask() {
 	//PI Control Start
 
 	if(mMeasureTarget == Ldd || mMeasureTarget == Lqd) {
-		float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-		float Vh = mMotorInfo.mVoltageVCC * adc2_input;//[V]
+		//float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+
+		//float Vh = mMotorInfo.mVoltageVCC * adc2_input;//[V]
+		float Vh = mMotorInfo.mVh;
 		//float VqOffset = 0 * adc2_input;
 		float VgOffset = 0;
 		float VgInput = Vh * mWaveGen.OutputWaveform() + VgOffset;
@@ -477,9 +491,9 @@ void MotorMeasure::ControlModeHandler() { //状態遷移を管理する関数
 }
 
 void MotorMeasure::GPIODebugTask() {//Lチカでタイミングをオシロで見る
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
 	asm("NOP");
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
 }
 
 

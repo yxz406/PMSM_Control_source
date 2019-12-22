@@ -56,19 +56,24 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 	//encoder
 	//int encoder = (int)(EncoderABZCtrl::GetAngle()*(360.0f/(ENCODER_PERIOD+1)));
 
+	int milVh = (int)(pMotorInfo.mVh * 1000 );
+
 	char outputStr[100]={0};//100文字までとりあえず静的確保
 	//general
 	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, EstTheta);//みやゆうさんご希望のデバッグ
 
 	//velocity
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, milEstOmega, EstTheta);
+	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, milEstOmega, EstTheta);
 
 	//encoder
 	//sprintf(outputStr,"%d\n",encoder);
 
-	if( !pUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
-		return;
-	}
+	//SPIVh
+	sprintf(outputStr,"%d\n",milVh);
+
+//	if( !pUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
+//		return;
+//	}
 
 	SEGGER_RTT_WriteString(0,outputStr);
 	//printf("%s" ,outputStr);

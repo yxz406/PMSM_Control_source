@@ -44,6 +44,8 @@ private:
 
 	ArgCtrl mArgCtrl;
 
+	SPICtrl mSPICtrl;
+
 	//OperationMode mOperationMode;
 	ControlMode mControlMode;
 	MeasureTarget mMeasureTarget;
@@ -122,6 +124,7 @@ private:
 	int mFOCcount=0;
 
 	int mFreqMode = 0;
+
 };
 
 #endif /* SRC_MOTORMEASURE_HPP_ */

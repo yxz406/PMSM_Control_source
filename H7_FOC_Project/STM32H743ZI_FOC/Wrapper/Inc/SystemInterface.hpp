@@ -11,29 +11,34 @@
 class SystemInterface {
 public:
 	SystemInterface();
-	virtual ~SystemInterface();
+	virtual ~SystemInterface() = 0;
 
 	//ADC(MotorDrive) Interface
-	virtual bool ADCInit();
-	virtual bool ADCDeInit();
-	virtual float ADCReadChU();
-	virtual float ADCReadChV();
-	virtual float ADCReadChW();
+	virtual bool ADCInit() = 0;
+	virtual bool ADCDeInit() = 0;
+	virtual float ADCReadChU() = 0;
+	virtual float ADCReadChV() = 0;
+	virtual float ADCReadChW() = 0;
 
 	//PWM(MotorDrive) Interface
-	virtual bool PWMInit();
-	virtual bool PWMDeInit();
-	virtual bool PWMStart();
-	virtual bool PWMOutputChU(float pDuty);
-	virtual bool PWMOutputChV(float pDuty);
-	virtual bool PWMOutputChW(float pDuty);
+	virtual bool PWMInit() = 0;
+	virtual bool PWMDeInit() = 0;
+	virtual bool PWMStart() = 0;
+	virtual bool PWMOutputChU(float pDuty) = 0;
+	virtual bool PWMOutputChV(float pDuty) = 0;
+	virtual bool PWMOutputChW(float pDuty) = 0;
 
 	//Output-Pin Interface
-	virtual bool GPIO_Init();
-	virtual bool GPIO_DeInit();
-	virtual bool GPIO_PWMSetting(bool pOutput);
-	virtual bool GPIO_OverCurrentSetting(bool pOutput);
-	virtual bool GPIO_GateEnable(bool pOutput);
+	virtual bool GPIOInit() = 0;
+	virtual bool GPIODeInit() = 0;
+	virtual bool GPIOPWMSetting(bool pOutput) = 0;
+	virtual bool GPIOOverCurrentSetting(bool pOutput) = 0;
+	virtual bool GPIOGateEnable(bool pOutput) = 0;
+
+	//SPI Interface
+	virtual bool SPIInit() = 0;
+	virtual bool SPIDeInit() = 0;
+	virtual bool SPITransmitReceive() = 0;
 
 };
 
