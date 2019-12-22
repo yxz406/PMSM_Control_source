@@ -13,7 +13,11 @@
 #include <array>
 #include <vector>
 
-
+enum spiState{
+ TRANSFER_WAIT,
+ TRANSFER_COMPLETE,
+ TRANSFER_ERROR
+};
 
 union IntToCharArray {
 	int mInt;
@@ -27,14 +31,21 @@ private:
 	std::vector<uint8_t> mRxBuffer;
 
 	IntToCharArray mTmpData;
+	spiState mspiState;
 
 public:
+
 	SPICtrl();
 	virtual ~SPICtrl();
 	void SetTransmitData();
 	void PushBackTransmitIntData(int pIntData);
 	void GetReceiveData();
 	void SPITransmitReceive();
+
+	void spiCplt() { mspiState = TRANSFER_COMPLETE; }
+	void spiWait() {mspiState = TRANSFER_WAIT; }
+	void spiErr() {mspiState = TRANSFER_ERROR; }
+
 };
 
 

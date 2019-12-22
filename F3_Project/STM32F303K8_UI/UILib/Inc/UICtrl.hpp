@@ -20,6 +20,10 @@ public:
 	UICtrl();
 	virtual ~UICtrl();
 	void UITask();
+
+	void spiCplt(){ mSPICtrl.spiCplt(); }
+	void spiErr() { mSPICtrl.spiErr(); }
+
 };
 
 #endif /* INC_UICTRL_HPP_ */

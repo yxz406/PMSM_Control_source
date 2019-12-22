@@ -56,3 +56,12 @@ void Deus::Ctrl() {
 //void Deus::BtnAct2(){
 //	M_Ctrl.BtnActOFF();
 //}
+
+
+void Deus::SPICplt() {
+	mUICtrl.spiCplt();
+}
+
+void Deus::SPIErr() {
+	mUICtrl.spiErr();
+}

@@ -46,23 +46,37 @@ void SPICtrl::GetReceiveData() {
 
 void SPICtrl::SPITransmitReceive() {
 
-	//rxバッファを一旦リセットする
-	mRxBuffer.clear();
-	mRxBuffer.shrink_to_fit();
+	mspiState = TRANSFER_WAIT;
 
-	mTxBuffer.resize(SPI_DATA_SIZE, 0);
-
+//	//rxバッファを一旦リセットする
+//	mRxBuffer.clear();
+//	mRxBuffer.shrink_to_fit();
+//
+	//mTxBuffer.resize(SPI_DATA_SIZE, 0);//これが重くて動かなかった
+//
 	uint8_t txBuf[SPI_DATA_SIZE];
 	for(unsigned int i=0; i < mTxBuffer.size(); i++) {
 		txBuf[i] = mTxBuffer.at(i);
 	}
+//
 
-	uint8_t rxBuf[64];
-	HAL_SPI_TransmitReceive(&hspi1,(uint8_t*)txBuf,(uint8_t*)rxBuf,SPI_DATA_SIZE,2000);
+	//uint8_t txBuf[SPI_DATA_SIZE] = { 0x55, 0xAA };
+	uint8_t rxBuf[SPI_DATA_SIZE];
 
-	std::vector<uint8_t> rxBuffer(std::begin(rxBuf), std::end(rxBuf));
-	mRxBuffer = rxBuffer;
 
+
+
+	//HAL_SPI_TransmitReceive(&hspi1,(uint8_t*)txBuf,(uint8_t*)rxBuf,SPI_DATA_SIZE,2000);
+
+	HAL_SPI_TransmitReceive_DMA(&hspi1,(uint8_t*)txBuf,(uint8_t*)rxBuf,SPI_DATA_SIZE);
+
+	while(mspiState == TRANSFER_WAIT){
+	}
+
+
+//	std::vector<uint8_t> rxBuffer(std::begin(rxBuf), std::end(rxBuf));
+//	mRxBuffer = rxBuffer;
+//
 	//配列のクリア
 	mTxBuffer.clear();
 	mTxBuffer.shrink_to_fit();

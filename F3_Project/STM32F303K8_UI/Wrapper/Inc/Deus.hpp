@@ -36,6 +36,9 @@ public:
 	void BtnAct();
 	void BtnAct2();
 
+
+	void SPICplt();
+	void SPIErr();
 };
 
 #endif /* INC_DEUS_HPP_ */

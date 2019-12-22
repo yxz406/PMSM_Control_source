@@ -10,6 +10,8 @@
 
 #include "Wrapper.hpp"
 #include "Deus.hpp"
+
+
 //#include "SystemTest.hpp"
 //
 //#include "ADCCtrl.hpp"
@@ -126,3 +128,14 @@ void cppWrapper(void){
 //			printf("adcVal:%+6.5f, %+6.5f, %+6.5f \r\n", voltage_u, voltage_v, voltage_w);
 //			printf("adcVal:%+6.5f, %+6.5f, %+6.5f, %+6.5f \r\n", voltage_u, voltage_v, voltage_w, voltage_adc2);
 //}
+
+
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	Bosatsu.SPICplt();
+}
+
+void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi)
+{
+	Bosatsu.SPIErr();
+}

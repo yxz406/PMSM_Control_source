@@ -12,8 +12,15 @@
 extern "C" {
 #endif
 
+#include "stm32f3xx_hal.h"
+
+
 void cppWrapper(void);
 void HighFreqTask(void);
+
+
+void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi);
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi);
 
 //void EXTI15_10_IRQHandler(void);
 //void ADC3_IRQHandler(void);

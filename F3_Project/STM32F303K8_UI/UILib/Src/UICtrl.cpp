@@ -20,6 +20,12 @@ UICtrl::~UICtrl() {
 
 void UICtrl::UITask() {
 
+//	uint8_t txBuf[SPI_DATA_SIZE] = {0x0A, 0x0B, 0x0C, 0x0D};
+//	HAL_SPI_Transmit_DMA(&hspi1,(uint8_t *)txBuf,SPI_DATA_SIZE);
+//	while(1){
+//
+//	}
+	//HAL_SPI_DMA
 
 //	while(1){
 //		uint8_t txBuf[SPI_DATA_SIZE] = {0x0A, 0x0B, 0x0C, 0x0D};
@@ -33,13 +39,16 @@ void UICtrl::UITask() {
 
 
 	while(1){
+
 		mADCCtrl.ADC1Start_Conversion();
-		mADCCtrl.ADC1Conversion_wait(5);
-		//int adcval = mADCCtrl.ADC1_Read();
+		mADCCtrl.ADC1Conversion_wait(10);
+		int adcval = mADCCtrl.ADC1_Read();
+//
+		mSPICtrl.PushBackTransmitIntData(adcval);
+//
+//		mSPICtrl.PushBackTransmitIntData(4095);
 
-		mSPICtrl.PushBackTransmitIntData(mADCCtrl.ADC1_Read());
 
-		mSPICtrl.PushBackTransmitIntData(4095);
 
 //		mSPICtrl.PushBackTransmitIntData(1195);
 //
@@ -50,6 +59,6 @@ void UICtrl::UITask() {
 		//mSPICtrl.SetTransmitData();
 		mSPICtrl.SPITransmitReceive();
 
-		mSPICtrl.GetReceiveData();
+		//mSPICtrl.GetReceiveData();
 	}
 }
