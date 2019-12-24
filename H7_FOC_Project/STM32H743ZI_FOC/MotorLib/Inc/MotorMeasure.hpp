@@ -10,7 +10,7 @@
 
 #include "MotorInterface.hpp"
 
-class MotorMeasure : MotorInterface {
+class MotorMeasure {
 public:
 
 //	enum OperationMode { //測定か運転か

@@ -26,11 +26,17 @@ union IntToCharArray {
 
 class SPICtrl {
 private:
-	char* mData;
-	std::vector<uint8_t> mTxBuffer;
-	std::vector<uint8_t> mRxBuffer;
+//	char* mData;
+//	std::vector<uint8_t> mTxBuffer;
+//	std::vector<uint8_t> mRxBuffer;
+	int mArrayPos = 0;
 
-	IntToCharArray mTmpData;
+	//IntToCharArray mTmpData;
+
+	uint8_t m0fillArr[SPI_DATA_SIZE] = {0};
+	uint8_t mTxData[SPI_DATA_SIZE] = {0};
+	uint8_t mRxData[SPI_DATA_SIZE] = {0};
+
 	spiState mspiState;
 
 public:

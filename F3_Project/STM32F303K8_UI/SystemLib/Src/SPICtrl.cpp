@@ -11,14 +11,7 @@
 
 SPICtrl::SPICtrl() {
 	// TODO Auto-generated constructor stub
-	mTxBuffer.reserve(SPI_DATA_SIZE);
-	mRxBuffer.reserve(SPI_DATA_SIZE);
 
-	mTxBuffer.clear();
-	mRxBuffer.clear();
-
-	mTxBuffer.shrink_to_fit();
-	mRxBuffer.shrink_to_fit();
 }
 
 SPICtrl::~SPICtrl() {
@@ -32,11 +25,16 @@ void SPICtrl::SetTransmitData() {
 
 void SPICtrl::PushBackTransmitIntData(int pIntData) {
 
-	mTmpData.mInt = pIntData;
-	for(unsigned int i=0; i < mTmpData.mByte.size(); i++) {
-		mTxBuffer.push_back( mTmpData.mByte.at(3-i) );
+	if( ( 3 + mArrayPos ) < SPI_DATA_SIZE ) {
+		return;
 	}
 
+	mTxData[ 3 + mArrayPos ] = pIntData & 0xFF;
+	mTxData[ 2 + mArrayPos ] = ( pIntData >> 8 ) & 0xFF;
+	mTxData[ 1 + mArrayPos ] = ( pIntData >> 16 ) & 0xFF;
+	mTxData[ 0 + mArrayPos ] = ( pIntData >> 24 ) & 0xFF;
+
+	mArrayPos = mArrayPos + 4;
 }
 
 
@@ -45,40 +43,15 @@ void SPICtrl::GetReceiveData() {
 }
 
 void SPICtrl::SPITransmitReceive() {
-
 	mspiState = TRANSFER_WAIT;
-
-//	//rxバッファを一旦リセットする
-//	mRxBuffer.clear();
-//	mRxBuffer.shrink_to_fit();
-//
-	//mTxBuffer.resize(SPI_DATA_SIZE, 0);//これが重くて動かなかった
-//
-	uint8_t txBuf[SPI_DATA_SIZE];
-	for(unsigned int i=0; i < mTxBuffer.size(); i++) {
-		txBuf[i] = mTxBuffer.at(i);
-	}
-//
-
-	//uint8_t txBuf[SPI_DATA_SIZE] = { 0x55, 0xAA };
-	uint8_t rxBuf[SPI_DATA_SIZE];
-
-
-
-
-	//HAL_SPI_TransmitReceive(&hspi1,(uint8_t*)txBuf,(uint8_t*)rxBuf,SPI_DATA_SIZE,2000);
-
-	HAL_SPI_TransmitReceive_DMA(&hspi1,(uint8_t*)txBuf,(uint8_t*)rxBuf,SPI_DATA_SIZE);
+	//rxバッファを読み込み前に0埋めする。
+	*mRxData = *m0fillArr;
+	HAL_SPI_TransmitReceive_DMA(&hspi1,(uint8_t*)mTxData,(uint8_t*)mRxData,SPI_DATA_SIZE);
 
 	while(mspiState == TRANSFER_WAIT){
 	}
 
-
-//	std::vector<uint8_t> rxBuffer(std::begin(rxBuf), std::end(rxBuf));
-//	mRxBuffer = rxBuffer;
-//
-	//配列のクリア
-	mTxBuffer.clear();
-	mTxBuffer.shrink_to_fit();
-
+	//使い終わったtxバッファを0埋めする。
+	*mTxData = *m0fillArr;
+	mArrayPos = 0;
 }

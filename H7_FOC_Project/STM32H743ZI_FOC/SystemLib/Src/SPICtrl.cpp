@@ -57,9 +57,9 @@ void SPICtrl::SPITransmitReceive() {
 		txBuf[i] = mTxBuffer.at(i);
 	}
 
-	uint8_t rxBuf[64];
+	uint8_t rxBuf[SPI_DATA_SIZE];
 	HAL_SPI_TransmitReceive(&hspi4, (uint8_t*)txBuf, (uint8_t*)rxBuf, SPI_DATA_SIZE, SPI_TIMEOUT);
-	//HAL_SPI_TransmitReceive(&hspi4, (uint8_t*)txBuf, (uint8_t*)rxBuf, 64, 2000);
+
 	std::vector<uint8_t> rxBuffer(std::begin(rxBuf), std::end(rxBuf));
 	mRxBuffer = rxBuffer;
 
