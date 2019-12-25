@@ -40,6 +40,5 @@ void ADCCtrl::ADC1Conversion_wait(int pTimeout) {
 }
 
 int ADCCtrl::ADC1_Read(){
-
 	return HAL_ADC_GetValue(&hadc1);
 }

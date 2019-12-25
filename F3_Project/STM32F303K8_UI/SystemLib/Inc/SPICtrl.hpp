@@ -43,9 +43,9 @@ public:
 
 	SPICtrl();
 	virtual ~SPICtrl();
-	void SetTransmitData();
+	void SetTransmitData(const uint8_t* pTxData);
 	void PushBackTransmitIntData(int pIntData);
-	void GetReceiveData();
+	uint8_t* GetReceiveData();
 	void SPITransmitReceive();
 
 	void spiCplt() { mspiState = TRANSFER_COMPLETE; }

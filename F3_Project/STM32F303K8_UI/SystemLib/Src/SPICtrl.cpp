@@ -19,13 +19,19 @@ SPICtrl::~SPICtrl() {
 }
 
 
-void SPICtrl::SetTransmitData() {
+void SPICtrl::SetTransmitData(const uint8_t* pTxData) {
+
+	if(sizeof(pTxData) > SPI_DATA_SIZE) {
+		return;
+	}
+
+	*mTxData = *pTxData;
 
 }
 
 void SPICtrl::PushBackTransmitIntData(int pIntData) {
 
-	if( ( 3 + mArrayPos ) < SPI_DATA_SIZE ) {
+	if( ( 3 + mArrayPos ) > SPI_DATA_SIZE ) {
 		return;
 	}
 
@@ -38,8 +44,8 @@ void SPICtrl::PushBackTransmitIntData(int pIntData) {
 }
 
 
-void SPICtrl::GetReceiveData() {
-
+uint8_t* SPICtrl::GetReceiveData() {
+	return mRxData;
 }
 
 void SPICtrl::SPITransmitReceive() {
