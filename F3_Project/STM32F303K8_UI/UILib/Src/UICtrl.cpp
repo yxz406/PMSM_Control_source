@@ -7,7 +7,6 @@
 
 #include "UICtrl.hpp"
 
-#include "spi.h"
 
 
 UICtrl::UICtrl() {
@@ -19,14 +18,20 @@ UICtrl::~UICtrl() {
 }
 
 void UICtrl::UITask() {
-
+		mADCCtrl.ADC1Init();
 	while(1){
 
-		mADCCtrl.ADC1Start_Conversion();
-		mADCCtrl.ADC1Conversion_wait(10);
-		int adcval = mADCCtrl.ADC1_Read();
+		mADCCtrl.ADC1Start_ConversionDMA();
+		//HAL_Delay(10);
+
+		uint16_t* ADCResult = mADCCtrl.GetADC_DMA_Val();
+		uint16_t ADCCh1 = *ADCResult;
+		uint16_t ADCCh2 = *(ADCResult+1);
+		uint16_t ADCCh3 = *(ADCResult+2);
+
 //
-		mSPICtrl.PushBackTransmitIntData(adcval);
+		mSPICtrl.PushBackTransmitIntData(ADCCh1);
+		mSPICtrl.PushBackTransmitIntData(ADCCh2);
 
 //		mSPICtrl.PushBackTransmitIntData(4095);
 

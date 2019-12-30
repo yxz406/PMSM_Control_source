@@ -10,6 +10,7 @@
 
 #include "SPICtrl.hpp"
 #include "ADCCtrl.hpp"
+#include "spi.h"
 
 
 class UICtrl {
