@@ -117,14 +117,17 @@ void MotorMeasure::Measure(void) {//モータを測定するモード
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 	mSPICtrl.SPITransmitReceive();
-	std::vector<uint8_t> rxdata = mSPICtrl.GetReceiveData();
-	IntToCharArray tempData;
-	for(unsigned int i=0; i < tempData.mByte.size(); i++) {
-		tempData.mByte.at(3-i) = rxdata.at(i);
-	}
-	int rxint = tempData.mInt;
-	float Vh = (float)rxint/(float)4095;
+
+//	std::vector<uint8_t> rxdata = mSPICtrl.GetReceiveData();
+//	IntToCharArray tempData;
+//	for(unsigned int i=0; i < tempData.mByte.size(); i++) {
+//		tempData.mByte.at(3-i) = rxdata.at(i);
+//	}
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
+	float Vh = (float)rxint.at(0)/(float)4095;
 	mMotorInfo.mVh = Vh;
+	float Voffset = (float)rxint.at(1)/(float)4095;
+	mMotorInfo.mVoffset = Voffset;
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
