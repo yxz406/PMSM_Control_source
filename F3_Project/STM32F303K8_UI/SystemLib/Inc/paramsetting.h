@@ -9,7 +9,7 @@
 #define INC_PARAMSETTING_H_
 
 
-#define SPI_DATA_SIZE 64
+#define SPI_DATA_SIZE 16
 
 #define ADC_DMA_CIRCULAR_USED 0
 #define ADC_BUF_LENGTH 3

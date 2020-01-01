@@ -13,7 +13,7 @@
 
 class ADCCtrl {
 private:
-	uint16_t mADCBuffer[ADC_BUF_LENGTH];
+	uint16_t mADCBuffer[ADC_BUF_LENGTH] = {0};
 
 public:
 	ADCCtrl();
