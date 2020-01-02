@@ -46,6 +46,7 @@ void MotorMeasure::InitSystem(void) {
 	//EncoderABZCtrl::EncoderStart();
 
 	mMeasureTarget = MeasureTarget::Ldd;
+	//mMeasureTarget = MeasureTarget::Lqq;
 	mWaveGen.InitFrequency(440);
 	mFreqMode = 0;
 
@@ -312,7 +313,7 @@ void MotorMeasure::CurrentPITask() {
 		//float Vh = mMotorInfo.mVoltageVCC * adc2_input;//[V]
 		float Vh = mMotorInfo.mVh;
 		//float VqOffset = 0 * adc2_input;
-		float VgOffset = 0;
+		float VgOffset = mMotorInfo.mVoffset;
 		float VgInput = Vh * mWaveGen.OutputWaveform() + VgOffset;
 
 		mMotorInfo.mIgdErr.at(0) = 0;//ganmaの方はPI制御はかけない(sin波入れる)
@@ -325,10 +326,12 @@ void MotorMeasure::CurrentPITask() {
 		return;
 
 	} else if (mMeasureTarget == Lqq || mMeasureTarget == Ldq) {
-		float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-		float Vh = mMotorInfo.mVoltageVCC * adc2_input;//[V]
+		//float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+
+		//float Vh = mMotorInfo.mVoltageVCC * adc2_input;//[V]
+		float Vh = mMotorInfo.mVh;
 		//float VqOffset = 0 * adc2_input;
-		float VdOffset = 0;
+		float VdOffset = mMotorInfo.mVoffset;
 		float VdInput = Vh * mWaveGen.OutputWaveform() + VdOffset;
 
 		mMotorInfo.mIgdErr.at(0) = mMotorInfo.mIgdTarget.at(0) - mMotorInfo.mIgd.at(0);

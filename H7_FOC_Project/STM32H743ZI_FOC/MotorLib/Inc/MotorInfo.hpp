@@ -28,8 +28,8 @@ public:
 	float mVoltageVCC;
 
 	//高周波重畳用変数
-	float mVh;
-	float mVoffset;
+	float mVh = 0;
+	float mVoffset = 0;
 
 	std::array<float, 3> mDutyuvw;//単位[%]
 	fp_rad mdqArg;//単位[rad]

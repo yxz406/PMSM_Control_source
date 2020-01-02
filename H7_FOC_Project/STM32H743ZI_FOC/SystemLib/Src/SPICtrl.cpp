@@ -49,13 +49,13 @@ uint8_t* SPICtrl::GetReceiveData() {
 }
 
 std::array<int,(SPI_DATA_SIZE/4)> SPICtrl::GetRxInt() {
-	std::array<int,(SPI_DATA_SIZE/4)> rxint;
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = {0};
 
-	for(int pos=0; pos>(SPI_DATA_SIZE/4); pos=pos+4){
+	for(int pos=0; pos < SPI_DATA_SIZE; pos=pos+4){
 		int buf = mRxData[3 + pos]
 				| (mRxData[2 + pos] << 8)
-				| (mRxData[2 + pos] << 16)
-				| (mRxData[2 + pos] << 24);
+				| (mRxData[1 + pos] << 16)
+				| (mRxData[pos] << 24);
 		rxint.at(pos/4) = buf;
 	}
 	return rxint;

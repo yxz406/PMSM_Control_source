@@ -68,8 +68,11 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 	//encoder
 	//sprintf(outputStr,"%d\n",encoder);
 
+	//measure velocity
+	sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
+
 	//SPIVh
-	sprintf(outputStr,"%d\n",milVh);
+	//sprintf(outputStr,"%d\n",milVh);
 
 //	if( !pUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
 //		return;
