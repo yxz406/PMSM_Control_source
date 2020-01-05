@@ -11,6 +11,7 @@
 #include "paramsetting.h"
 #include "Trigonometric.hpp"
 
+#include <array>
 class WaveGenerator {
 private:
 	int mTargetHz;
@@ -22,6 +23,7 @@ public:
 	void InitFrequency(int pTargetHz);
 	void ResetPhase();
 	float OutputWaveform();
+	std::array<float, 2> OutputWaves();
 };
 
 #endif /* INC_WAVEGENERATOR_HPP_ */

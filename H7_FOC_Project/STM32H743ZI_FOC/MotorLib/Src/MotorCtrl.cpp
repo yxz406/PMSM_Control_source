@@ -45,6 +45,10 @@ void MotorCtrl::InitSystem(void) {
 	//EncoderABZCtrl::MX_TIM4_Init();
 	//EncoderABZCtrl::EncoderStart();
 
+
+	mWaveGen.InitFrequency(440);
+
+
 	//ADC Initialize
 	ADCCtrl::ADC2Init_HAL();
 	ADCCtrl::ADC2Calibration();
@@ -81,8 +85,12 @@ void MotorCtrl::DeInitSystem(void) {
 
 
 void MotorCtrl::InitMotorControl(void) {
-	mOperationMode = Drive;//起動時、動作をまずは運転にする。
+
 	mControlMode = OpenLoop;//起動時、動作をまずは強制転流にする。
+
+	if(FOC_CONVOLUTION) { //高周波重畳アプリケーション
+		mControlMode = FOC_Convolution;
+	}
 
 	mArgCtrl.Init();
 
@@ -98,6 +106,8 @@ void MotorCtrl::InitMotorControl(void) {
 void MotorCtrl::InitObserver(void) {
 	mObserver.InitEMFObs(OBSERVER_CYCLE_TIME, M_PARAM_R, M_PARAM_LD, M_PARAM_LQ, OBSERVER_GAIN_ALPHA);
 	mObserver.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
+
+	mHFConvolution.Init(OBSERVER_CYCLE_TIME, OBSERVER_HFKi, OBSERVER_HFKp);
 }
 
 
@@ -110,9 +120,13 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
-	//これは指令値決定用ADC。開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
-	ADCCtrl::ADC2Start_Conversion();
-	//ADCCtrl::ADC2Conversion_wait(10);
+	SPITask();
+
+	if(mControlMode == FOC_Convolution) {
+		WaveGenTask();
+	}
+
+	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 	ReadCurrentTask();
 	ReadVoltageTask();
@@ -153,6 +167,24 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 }
 
 
+void MotorCtrl::SPITask(void) {
+	mSPICtrl.SPITransmitReceive();
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
+
+	float CurrentTargetInput = (float)rxint.at(0)/(float)4095;
+	float Vh = (float)rxint.at(1)/(float)4095;
+
+	mMotorInfo.mCurrentTargetInput = CurrentTargetInput;
+	mMotorInfo.mVh = Vh;
+}
+
+
+void MotorCtrl::WaveGenTask() {
+	std::array<float,2> sincos = mWaveGen.OutputWaves();
+	mMotorInfo.mSinForConv = sincos.at(0);
+	mMotorInfo.mCosForConv = sincos.at(1);
+}
+
 void MotorCtrl::ReadCurrentTask(void) {
 	//ReadCurrent
 	//エンコーダ読み取り
@@ -187,6 +219,8 @@ void MotorCtrl::ReadAngleTask(void) {
 		mMotorInfo.mgdArg = GetAngleForOpenLoop();
 	}else if(mControlMode == FOC) {
 		mMotorInfo.mgdArg = GetAngleForFOC();
+	}else if(mControlMode == FOC_Convolution) {
+		mMotorInfo.mgdArg = GetAngleForFOC_HFConv();
 	}
 }
 
@@ -204,6 +238,11 @@ fp_rad MotorCtrl::GetAngleForOpenLoop(void) {
 
 fp_rad MotorCtrl::GetAngleForFOC(void) {
 	return mObserver.GetEstTheta();//オブザーバから読み取る
+}
+
+
+fp_rad MotorCtrl::GetAngleForFOC_HFConv(void) {
+	return mHFConvolution.GetTheta_c();
 }
 
 
@@ -271,6 +310,15 @@ void MotorCtrl::ObserverTask() {
 		mMotorInfo.mArgErr = mObserver.GetEstAxiErr(); //軸誤差。gdとdqの差。本来はこの情報だけでドライブできる。
 		mMotorInfo.mEstOmega = mObserver.GetEstOmegaE();//デバッグ用
 		mMotorInfo.mEstTheta = mObserver.GetEstTheta();//デバッグ用
+
+	}else if(mControlMode == FOC_Convolution) {
+		mHFConvolution.SetIgdPair(mMotorInfo.mIgd);
+
+		mHFConvolution.SetSinCos( {mMotorInfo.mSinForConv,mMotorInfo.mCosForConv} );
+		mHFConvolution.Calculate();
+
+		mMotorInfo.mEstTheta = mHFConvolution.GetTheta_c();
+
 	}
 
 }
@@ -278,7 +326,7 @@ void MotorCtrl::ObserverTask() {
 
 void MotorCtrl::VelocityPIDTask() {
 	if(mControlMode == FOC) {
-			float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
+			//float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
 			//float velocityTarget = adc2_input * 1000;
 			float velocityTarget = 1500;
 			float velErr = velocityTarget - mMotorInfo.mEstOmega;
@@ -290,30 +338,29 @@ void MotorCtrl::CurrentControlTask() {
 	//Current Target Setting
 	mMotorInfo.mIgdTarget = GetCurrentTarget();
 
-//	//FF Control for Openloop
-//	if(mControlMode == OpenLoop || mControlMode == OpenLoopToFOC) {
-//		CurrentFeedForwardTask();
-//	} else if (mControlMode == FOC) {
-//		//PI Control Start
-//		CurrentPITask();
-//	}
+	if(mControlMode == OpenLoop || mControlMode == OpenLoopToFOC) {
 
-//CurrentFeedForwardTask();
-	CurrentPITask();
+		CurrentFeedForwardTask();//OpenLoop Drive
+
+	} else if (mControlMode == FOC) {
+		CurrentPITask();//PI Control
+
+	} else if (mControlMode == FOC_Convolution) {
+		CurrentPITaskForConvolution();//PI Control
+
+	}
 
 }
 
 std::array<float, 2> MotorCtrl::GetCurrentTarget() {
-	//ADC2を読み取って、
 	//mMotorInfo.mIgdTargetを操作するTask
 
-	float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-
 	std::array<float, 2> IgdTarget = {0, 0};
+	float CurrentTargetInput = mMotorInfo.mCurrentTargetInput;
 
 	if(mControlMode == OpenLoop) {
 
-		IgdTarget.at(0) = adc2_input;//IgTarget [A]
+		IgdTarget.at(0) = CurrentTargetInput;//IgTarget [A]
 		IgdTarget.at(1) = 0;//IdTarget [A]
 
 		return IgdTarget;
@@ -321,21 +368,20 @@ std::array<float, 2> MotorCtrl::GetCurrentTarget() {
 	}else if(mControlMode == OpenLoopToFOC) {//OpenLoopからFOCに切り替わる時に動作するモード
 
 		if(mTransitionCountForOpenToFOC < OPEN_TO_FOC_TRANSITION_COUNT_STEP1) {
-			IgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT_STEP1 - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
-			IgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
+			IgdTarget.at(0) = CurrentTargetInput * (OPEN_TO_FOC_TRANSITION_COUNT_STEP1 - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
+			IgdTarget.at(1) = CurrentTargetInput * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
 			mTransitionCountForOpenToFOC++;
 			return IgdTarget;
 		} else {
-			IgdTarget.at(0) = adc2_input * (OPEN_TO_FOC_TRANSITION_COUNT_STEP1 - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
-			IgdTarget.at(1) = adc2_input * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
+			IgdTarget.at(0) = CurrentTargetInput * (OPEN_TO_FOC_TRANSITION_COUNT_STEP1 - mTransitionCountForOpenToFOC) / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
+			IgdTarget.at(1) = CurrentTargetInput * mTransitionCountForOpenToFOC / OPEN_TO_FOC_TRANSITION_COUNT_STEP1;
 			mTransitionCountForOpenToFOC2++;
 			return IgdTarget;
 		}
 
 	}else if(mControlMode == FOC) {//FOCのときの入力
 		IgdTarget.at(0) = 0;
-		//mMotorInfo.mIgdTarget.at(1) = adc2_input;
-		IgdTarget.at(1) = adc2_input/5;
+		IgdTarget.at(1) = CurrentTargetInput/5;
 
 
 		if(VEL_CONTROL) { //ここおかしい。これはHanlderが持つべき仕事であって、電流指令決定が持つべきものではない
@@ -345,6 +391,12 @@ std::array<float, 2> MotorCtrl::GetCurrentTarget() {
 			mFOCcount++;
 			}
 		}
+
+		return IgdTarget;
+
+	}else if(mControlMode == FOC_Convolution) {
+		IgdTarget.at(0) = CurrentTargetInput;//Idcに指令電流いれてみる。
+		IgdTarget.at(1) = 0;//IqcTarget [A]
 
 		return IgdTarget;
 	}
@@ -357,7 +409,7 @@ void MotorCtrl::CurrentFeedForwardTask() {
 	float IgTarget = mMotorInfo.mIgdTarget.at(0);
 	float IdTarget = mMotorInfo.mIgdTarget.at(1);
 
-	float R = M_PARAM_R * 10;
+	float R = M_PARAM_R;
 	float Ld = M_PARAM_LD;
 	float Lq = M_PARAM_LQ;
 	float Ke = M_PARAM_PHY;
@@ -375,6 +427,24 @@ void MotorCtrl::CurrentPITask() {
 	mMotorInfo.mIgdErr.at(0) = mMotorInfo.mIgdTarget.at(0) - mMotorInfo.mIgd.at(0);
 	mMotorInfo.mIgdErr.at(1) = mMotorInfo.mIgdTarget.at(1) - mMotorInfo.mIgd.at(1);
 	std::array<float,2> CulcVgd = PIDgd_control(mMotorInfo.mIgdErr);
+
+	setVgd(CulcVgd);
+}
+
+
+void MotorCtrl::CurrentPITaskForConvolution() {
+
+	//PI Control Start
+	mMotorInfo.mIgdErr.at(0) = mMotorInfo.mIgdTarget.at(0) - mMotorInfo.mIgd.at(0);
+	mMotorInfo.mIgdErr.at(1) = mMotorInfo.mIgdTarget.at(1) - mMotorInfo.mIgd.at(1);
+	std::array<float,2> CulcVgd = PIDgd_control(mMotorInfo.mIgdErr);
+
+	//ここで重畳させる
+	float VgConv = mMotorInfo.mVh * mMotorInfo.mSinForConv;
+	float VdConv = mMotorInfo.mVh * mMotorInfo.mCosForConv;
+
+	CulcVgd.at(0) = CulcVgd.at(0) + VgConv;
+	CulcVgd.at(1) = CulcVgd.at(1) + VdConv;
 
 	setVgd(CulcVgd);
 }
@@ -530,72 +600,3 @@ void MotorCtrl::BtnActON(void){//強制転流開始へのトリガON
 	mUIStatus.mStartStopTRG = MotorStart;
 }
 
-
-
-
-//////////////////func of debug ///////////////////
-//void MotorCtrl::DbgUart(std::string pStr) {
-//	//UART::Transmit(pStr);
-//}
-//
-//
-////Debug
-//void MotorCtrl::DebugTask(float pIu, float pIv, float pIw, float pArg){
-//	int sw = mDebug.GetDbgStatus();
-//	switch(sw){
-//	case 0:
-//		//if(mMotorInfo.mSensor.GetArgCount() > 24000){
-//		mDebug.DbgInfoTinyRegister(pIu, pIv, pIw, pArg);
-//		//mDebug.DbgInfoRegister(pIu, pIv, pIw, pArg);
-//		//}
-//		break;
-//	case 1:
-//		//止める動作が必要だと思う
-//		MotorCtrl::BtnActOFF();
-//		mDebug.SetDebugStatus(2);
-//		break;
-//	case 2:
-//		//止まるのを確認したら次にすすめる
-//		//if(mMotorInfo.mSensor.GetArgCount() < 10){
-//			mDebug.SetDebugStatus(3);
-//		//}
-//		break;
-//	case 3:
-//		mDebug.PrintStatusTiny();
-//		//mDebug.PrintStatus();
-//		HAL_Delay(1);
-//		mDebug.SetDebugStatus(0);
-////		//こんな感じで状態遷移の動作をさせればいいのではないでしょうか。
-//		break;
-//	default :
-//		//例外は何もしない
-//		break;
-//	}
-//}
-
-//void MotorCtrl::MotorOutputTask(void) {
-//	TIMCtrl::MotorDuty_ch1(mMotorInfo.mDutyuvw.at(0));
-//	TIMCtrl::MotorDuty_ch2(mMotorInfo.mDutyuvw.at(1));
-//	TIMCtrl::MotorDuty_ch3(mMotorInfo.mDutyuvw.at(2));
-//}
-
-//void MotorCtrl::PIDdq_control(std::array<float, 2> pErrIdq) {
-//	float ErrId = pErrIdq.at(0);
-//	float ErrIq = pErrIdq.at(1);
-//	mIdPID.ErrorUpdate(ErrId);
-//	mIqPID.ErrorUpdate(ErrIq);
-//
-//	float Vd = mMotorInfo.mVdq.at(0);
-//	float Vq = mMotorInfo.mVdq.at(1);
-//
-//	Vd = Vd + mIdPID.OutPut();
-//	Vq = Vq + mIqPID.OutPut();
-//	mMotorInfo.mVdq = {Vd, Vq};
-//}
-
-
-
-//void MotorCtrl::setVdq(std::array<float, 2> pVdq) {
-//	//強制転流用
-//	mMotorInfo.mVdq = pVdq;
-//}

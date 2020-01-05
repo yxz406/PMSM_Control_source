@@ -29,6 +29,7 @@
 #include "MotorMath.hpp"
 #include "PID.hpp"
 #include "Observer.hpp"
+#include "HFConvolution.hpp"
 #include <array>
 #include <vector>
 

@@ -27,9 +27,15 @@ public:
 	std::array<float, 2> mIgdErr;
 	float mVoltageVCC;
 
+	//spiの指令値バッファ
+	float mCurrentTargetInput = 0;
+
 	//高周波重畳用変数
 	float mVh = 0;
 	float mVoffset = 0;
+
+	float mSinForConv = 0;
+	float mCosForConv = 0;
 
 	std::array<float, 3> mDutyuvw;//単位[%]
 	fp_rad mdqArg;//単位[rad]

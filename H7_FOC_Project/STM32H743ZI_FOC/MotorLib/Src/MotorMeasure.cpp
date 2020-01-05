@@ -117,23 +117,12 @@ void MotorMeasure::Measure(void) {//モータを測定するモード
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
-	mSPICtrl.SPITransmitReceive();
-
-//	std::vector<uint8_t> rxdata = mSPICtrl.GetReceiveData();
-//	IntToCharArray tempData;
-//	for(unsigned int i=0; i < tempData.mByte.size(); i++) {
-//		tempData.mByte.at(3-i) = rxdata.at(i);
-//	}
-	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
-	float Vh = (float)rxint.at(0)/(float)4095;
-	mMotorInfo.mVh = Vh;
-	float Voffset = (float)rxint.at(1)/(float)4095;
-	mMotorInfo.mVoffset = Voffset;
+	SPITask();
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
 	//これは指令値決定用ADC。開始直後にADC2を読み取って、変換時間を演算処理の中で相殺する。
-	ADCCtrl::ADC2Start_Conversion();
+	//ADCCtrl::ADC2Start_Conversion();
 	//ADCCtrl::ADC2Conversion_wait(10);
 
 	ReadCurrentTask();
@@ -172,6 +161,14 @@ void MotorMeasure::Measure(void) {//モータを測定するモード
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
 }
 
+void MotorMeasure::SPITask(void) {
+	mSPICtrl.SPITransmitReceive();
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
+	float Vh = (float)rxint.at(0)/(float)4095;
+	mMotorInfo.mVh = Vh;
+	float Voffset = (float)rxint.at(1)/(float)4095;
+	mMotorInfo.mVoffset = Voffset;
+}
 
 void MotorMeasure::ReadCurrentTask(void) {
 	//ReadCurrent
@@ -274,13 +271,12 @@ void MotorMeasure::CurrentControlTask() {
 }
 
 std::array<float, 2> MotorMeasure::GetCurrentTarget() {
-	//ADC2を読み取って、
+	//SPIを読み取って、
 	//mMotorInfo.mIgdTargetを操作するTask
 
+	//のはずなんだけどすでにSPITaskで処理しちゃってるから、どうしようかなあ…
 
 
-	//float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-	//float offsetCurrent = adc2_input * 0;
 	float offsetCurrent =  0;
 	//TODO:ここのoffsetを外部入力できるようにしたほうがいい
 

@@ -11,8 +11,8 @@
 
 Deus::Deus() {
 	// TODO Auto-generated constructor stub
-	//mMode = OperationMode::Drive;
-	mMode =OperationMode::Measure;
+	mMode = OperationMode::Drive;
+	//mMode =OperationMode::Measure;
 }
 
 Deus::~Deus() {

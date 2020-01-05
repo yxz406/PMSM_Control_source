@@ -38,3 +38,16 @@ float WaveGenerator::OutputWaveform() {
 
 	return Trigonometric::sin(theta);
 }
+
+
+std::array<float, 2> WaveGenerator::OutputWaves() {
+	float theta = mThetaPerStep * mCount ;
+	mCount++;
+
+	if(mCount > CONTROL_FREQ_HZ - 1) {//CONTROL_FREQに届いたら0にする
+		mCount = 0;
+	}
+
+	return {Trigonometric::sin(theta),Trigonometric::cos(theta)};
+
+}

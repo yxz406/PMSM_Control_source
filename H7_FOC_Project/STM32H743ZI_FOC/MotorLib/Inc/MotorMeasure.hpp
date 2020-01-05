@@ -13,11 +13,6 @@
 class MotorMeasure {
 public:
 
-//	enum OperationMode { //測定か運転か
-//		Measure = -1,
-//		Drive = 1,
-//	};
-
 	enum ControlMode { //強制転流、FOCなどの動作モード管理
 		OpenLoop = 1,
 		OpenLoopToFOC,
@@ -46,7 +41,6 @@ private:
 
 	SPICtrl mSPICtrl;
 
-	//OperationMode mOperationMode;
 	ControlMode mControlMode;
 	MeasureTarget mMeasureTarget;
 
@@ -68,6 +62,7 @@ public:
 	void Measure(void);
 	//void MotorDrive(void);
 	//MotorDrive内呼び出し関数
+	void SPITask(void);
 	void ReadCurrentTask();
 	void setIuvw(float pIu, float pIv, float pIw);
 	void ReadVoltageTask();
