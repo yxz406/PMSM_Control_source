@@ -23,8 +23,19 @@ void HFConvolution::Init(float pCycleTime, float pKi, float pKp) {
 	InitCycleTime(pCycleTime);
 	InitKi(pKi);
 	InitKp(pKp);
+
+	//mLPF.Init(pGainB0, pGainB1, pGainA1);
 }
 
+void HFConvolution::LPFInit(float pGainB0, float pGainB1, float pGainA1) {
+	mLPFIdc.Init(pGainB0, pGainB1, pGainA1);
+	mLPFIqc.Init(pGainB0, pGainB1, pGainA1);
+}
+
+void HFConvolution::BPFInit(float pGainB0, float pGainB2, float pGainA1, float pGainA2) {
+	mBPFIdc.Init(pGainB0, pGainB2, pGainA1, pGainA2);
+	mBPFIqc.Init(pGainB0, pGainB2, pGainA1, pGainA2);
+}
 
 void HFConvolution::InitCycleTime(float pCycleTime) {
 	mCycleTime = pCycleTime;
@@ -51,14 +62,15 @@ void HFConvolution::SetSinCos(const std::array<float, 2> &pSinCos) {
 
 
 void HFConvolution::Calculate() {
-	float convIdc = mIgd.at(0) * mSinCos.at(1);
-	float convIqc = mIgd.at(1) * mSinCos.at(0);
+	float BPFIdc = mBPFIdc.Output(mCycleTime, mIgd.at(0));
+	float BPFIqc = mBPFIqc.Output(mCycleTime, mIgd.at(1));
+	float convIdc = BPFIdc * mSinCos.at(1);
+	float convIqc = BPFIqc * mSinCos.at(0);
+	float LPFIdc = mLPFIdc.Output(mCycleTime, convIdc);
+	float LPFIqc = mLPFIqc.Output(mCycleTime, convIqc);
 
-	//ここでLPFの処理が必要
-	int hoooooooo
-	//LPF後の処理
-
-	float omega = convIqc - convIdc;
+	//PII2を使うことも要検討。
+	float omega = LPFIqc - LPFIdc;
 
 	float omega_c = mKi * mIntegOmega.integrate(mCycleTime, omega) + mKp * omega;
 
