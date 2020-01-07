@@ -8,7 +8,6 @@
 #include "HFConvolution.hpp"
 
 HFConvolution::HFConvolution()
-:mIntegOmega(1), mIntegTheta(1)
 {
 	// TODO Auto-generated constructor stub
 
@@ -18,14 +17,6 @@ HFConvolution::~HFConvolution() {
 	// TODO Auto-generated destructor stub
 }
 
-
-void HFConvolution::Init(float pCycleTime, float pKi, float pKp) {
-	InitCycleTime(pCycleTime);
-	InitKi(pKi);
-	InitKp(pKp);
-
-	//mLPF.Init(pGainB0, pGainB1, pGainA1);
-}
 
 void HFConvolution::LPFInit(float pGainB0, float pGainB1, float pGainA1) {
 	mLPFIdc.Init(pGainB0, pGainB1, pGainA1);
@@ -41,13 +32,11 @@ void HFConvolution::InitCycleTime(float pCycleTime) {
 	mCycleTime = pCycleTime;
 }
 
-void HFConvolution::InitKi(float pKi) {
-	mKi = pKi;
-}
-
-
-void HFConvolution::InitKp(float pKp) {
-	mKp = pKp;
+void HFConvolution::InitPII2(float pCycleTime, float pK1, float pK2, float pK3) {
+	mEstThetaPII2.InitCycleTime(pCycleTime);
+	mEstThetaPII2.InitGainK1(pK1);
+	mEstThetaPII2.InitGainK2(pK2);
+	mEstThetaPII2.InitGainK3(pK3);
 }
 
 
@@ -70,11 +59,11 @@ void HFConvolution::Calculate() {
 	float LPFIqc = mLPFIqc.Output(mCycleTime, convIqc);
 
 	//PII2を使うことも要検討。
-	float omega = LPFIqc - LPFIdc;
+	float estAxiErr = LPFIqc - LPFIdc;
 
-	float omega_c = mKi * mIntegOmega.integrate(mCycleTime, omega) + mKp * omega;
-
-	mTheta_c = mIntegTheta.integrate(mCycleTime, omega_c);
+	mEstThetaPII2.SetValue(estAxiErr);
+	mEstThetaPII2.Calculate();
+	mTheta_c = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) );//theta % 2pi
 
 }
 

@@ -12,23 +12,21 @@
 #include "ZIntegrate.hpp"
 #include "LPF.hpp"
 #include "BPF.hpp"
+#include "PII2.hpp"
 
 class HFConvolution {
 private:
 	std::array<float, 2> mIgd; //単位[A]
 	std::array<float, 2> mSinCos;
 
+	float mCycleTime;
+
 	LPF mLPFIdc;
 	LPF mLPFIqc;
 	BPF mBPFIdc;
 	BPF mBPFIqc;
 
-	float mKi;
-	float mKp;
-	float mCycleTime;
-	Zintegrate1n mIntegOmega;
-	Zintegrate1nMod mIntegTheta;
-
+	PII2 mEstThetaPII2;
 
 	float mTheta_c;
 
@@ -37,9 +35,7 @@ public:
 	virtual ~HFConvolution();
 
 	void InitCycleTime(float pCycleTime);
-	void Init(float pCycleTime, float pKi, float pKp);
-	void InitKi(float pKi);
-	void InitKp(float pKp);
+	void InitPII2(float pCycleTime, float pK1, float pK2, float pK3);
 	void LPFInit(float pGainB0, float pGainB1, float pGainA1);
 	void BPFInit(float pGainB0, float pGainB2, float pGainA1, float pGainA2);
 
