@@ -26,7 +26,7 @@ void LPF::Init(float pGainB0, float pGainB1, float pGainA1) {
 
 float LPF::Output(float pTime, float pInput) {
 	mBuf1 = ( mGainB0 * pInput ) + ( mGainB1 * mInputIntegrate.integrate(pTime, pInput) );
-	mOutput = mGainA1 * mBuf2;
+	mOutput = mBuf1 - mGainA1 * mBuf2;
 	mBuf2 = mOutputIntegrate.integrate(pTime, mOutput);
 	return mOutput;
 	//TODO ここの答え合わせ
