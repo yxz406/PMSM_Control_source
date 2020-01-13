@@ -8,7 +8,8 @@
 #ifndef INC_BPF_HPP_
 #define INC_BPF_HPP_
 
-#include "ZIntegrate.hpp"
+//#include "ZIntegrate.hpp"
+#include "UnitDelay.hpp"
 
 class BPF {
 
@@ -18,10 +19,16 @@ private:
 	float mGainA1;
 	float mGainA2;
 
-	Zintegrate1n mInputIntegrate1;
-	Zintegrate1n mInputIntegrate2;
-	Zintegrate1n mMidIntegrate;
-	Zintegrate1n mOutIntegrate;
+	UnitDelay mInputUnitDelay1;
+	UnitDelay mInputUnitDelay2;
+	UnitDelay mMidUnitDelay;
+	UnitDelay mOutputUnitDelay;
+
+	//Zintegrate1n mInputIntegrate1;
+	//Zintegrate1n mInputIntegrate2;
+	//Zintegrate1n mMidIntegrate;
+	//Zintegrate1n mOutIntegrate;
+
 
 	float mBuf1 = 0;
 	float mBuf2 = 0;

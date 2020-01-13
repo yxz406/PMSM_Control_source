@@ -51,3 +51,18 @@ std::array<float, 2> WaveGenerator::OutputWaves() {
 	return {Trigonometric::sin(theta),Trigonometric::cos(theta)};
 
 }
+
+std::array<float, 4> WaveGenerator::OutputWavesSupOffsetPhase(fp_rad pOffset) {
+	fp_rad theta = mThetaPerStep * mCount;
+	fp_rad thetaDemodulation = theta + pOffset;
+
+	mCount++;
+
+	if(mCount > CONTROL_FREQ_HZ - 1) {//CONTROL_FREQに届いたら0にする
+		mCount = 0;
+	}
+
+	return {Trigonometric::sin(theta),Trigonometric::cos(theta),
+				Trigonometric::sin(thetaDemodulation),Trigonometric::cos(thetaDemodulation)};
+
+}

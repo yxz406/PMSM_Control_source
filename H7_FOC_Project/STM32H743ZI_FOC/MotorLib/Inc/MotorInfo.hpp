@@ -36,6 +36,8 @@ public:
 
 	float mSinForConv = 0;
 	float mCosForConv = 0;
+	float mSinForDemodulation = 0;
+	float mCosForDemodulation = 0;
 
 	std::array<float, 3> mDutyuvw;//単位[%]
 	fp_rad mdqArg;//単位[rad]

@@ -23,6 +23,10 @@ void HFConvolution::LPFInit(float pGainB0, float pGainB1, float pGainA1) {
 	mLPFIqc.Init(pGainB0, pGainB1, pGainA1);
 }
 
+void HFConvolution::SetKh(float pKh) {
+	mKh = pKh;
+}
+
 void HFConvolution::BPFInit(float pGainB0, float pGainB2, float pGainA1, float pGainA2) {
 	mBPFIdc.Init(pGainB0, pGainB2, pGainA1, pGainA2);
 	mBPFIqc.Init(pGainB0, pGainB2, pGainA1, pGainA2);
@@ -45,21 +49,21 @@ void HFConvolution::SetIgdPair(const std::array<float, 2> &pIgd) {
 }
 
 
-void HFConvolution::SetSinCos(const std::array<float, 2> &pSinCos) {
-	mSinCos = pSinCos;
+void HFConvolution::SetSinCosForDemodulation(const std::array<float, 2> &pSinCosForDemodulation) {
+	mSinCosForDemodulation = pSinCosForDemodulation;
 }
 
 
 void HFConvolution::Calculate() {
 	float BPFIdc = mBPFIdc.Output(mCycleTime, mIgd.at(0));
 	float BPFIqc = mBPFIqc.Output(mCycleTime, mIgd.at(1));
-	float convIdc = BPFIdc * mSinCos.at(1);
-	float convIqc = BPFIqc * mSinCos.at(0);
+	float convIdc = BPFIdc * mSinCosForDemodulation.at(1);
+	float convIqc = BPFIqc * mSinCosForDemodulation.at(0);
 	float LPFIdc = mLPFIdc.Output(mCycleTime, convIdc);
 	float LPFIqc = mLPFIqc.Output(mCycleTime, convIqc);
 
 	//PII2を使うことも要検討。
-	float estAxiErr = LPFIqc - LPFIdc;
+	float estAxiErr = mKh*(LPFIqc - LPFIdc);
 
 	mEstThetaPII2.SetValue(estAxiErr);
 	mEstThetaPII2.Calculate();

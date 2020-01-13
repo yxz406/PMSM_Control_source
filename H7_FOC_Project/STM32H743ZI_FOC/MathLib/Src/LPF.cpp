@@ -5,10 +5,10 @@
  *      Author: watashi
  */
 
-#include <LPF.hpp>
+#include "LPF.hpp"
 
 LPF::LPF()
-:mInputIntegrate(1), mOutputIntegrate(1)
+//:mInputIntegrate(1), mOutputIntegrate(1)
 {
 	// TODO Auto-generated constructor stub
 
@@ -25,9 +25,9 @@ void LPF::Init(float pGainB0, float pGainB1, float pGainA1) {
 }
 
 float LPF::Output(float pTime, float pInput) {
-	mBuf1 = ( mGainB0 * pInput ) + ( mGainB1 * mInputIntegrate.integrate(pTime, pInput) );
+	mBuf1 = ( mGainB0 * pInput ) + ( mGainB1 * mInputUnitDelay.PushAndGetVal(pInput) );
 	mOutput = mBuf1 - mGainA1 * mBuf2;
-	mBuf2 = mOutputIntegrate.integrate(pTime, mOutput);
+	mBuf2 = mOutputUnitDelay.PushAndGetVal(mOutput);
 	return mOutput;
 	//TODO ここの答え合わせ
 }

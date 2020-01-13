@@ -10,7 +10,7 @@
 
 #include "paramsetting.h"
 #include "Trigonometric.hpp"
-
+#include "MotorLibDefPack.hpp"
 #include <array>
 class WaveGenerator {
 private:
@@ -24,6 +24,7 @@ public:
 	void ResetPhase();
 	float OutputWaveform();
 	std::array<float, 2> OutputWaves();
+	std::array<float, 4> OutputWavesSupOffsetPhase(fp_rad pOffset);
 };
 
 #endif /* INC_WAVEGENERATOR_HPP_ */

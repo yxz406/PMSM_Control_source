@@ -46,8 +46,9 @@ void MotorCtrl::InitSystem(void) {
 	//EncoderABZCtrl::EncoderStart();
 
 
-	mWaveGen.InitFrequency(440);
 
+	//mWaveGen.InitFrequency(440);
+	mWaveGen.InitFrequency(HF_CONV_FREQ);
 
 	//ADC Initialize
 	ADCCtrl::ADC2Init_HAL();
@@ -108,7 +109,7 @@ void MotorCtrl::InitObserver(void) {
 	mObserver.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
 
 	mHFConvolution.InitCycleTime(OBSERVER_CYCLE_TIME);
-	mHFConvolution.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
+	mHFConvolution.InitPII2(OBSERVER_CYCLE_TIME, HF_PII_GAIN_K1, HF_PII_GAIN_K2, HF_PII_GAIN_K3);
 	mHFConvolution.BPFInit(HF_BPF_B0, HF_BPF_B2, HF_BPF_A1, HF_BPF_A2);
 	mHFConvolution.LPFInit(HF_LPF_B0, HF_LPF_B1, HF_LPF_A1);
 }
@@ -179,13 +180,20 @@ void MotorCtrl::SPITask(void) {
 
 	mMotorInfo.mCurrentTargetInput = CurrentTargetInput;
 	mMotorInfo.mVh = Vh;
+
+	if(mControlMode == FOC_Convolution) {
+		mMotorInfo.mVh = Vh;
+		mHFConvolution.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((Vh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
+	}
 }
 
 
 void MotorCtrl::WaveGenTask() {
-	std::array<float,2> sincos = mWaveGen.OutputWaves();
-	mMotorInfo.mSinForConv = sincos.at(0);
-	mMotorInfo.mCosForConv = sincos.at(1);
+	std::array<float,4> waves = mWaveGen.OutputWavesSupOffsetPhase(HF_HETERODYNE_PHASE_OFFSET);
+	mMotorInfo.mSinForConv = waves.at(0);
+	mMotorInfo.mCosForConv = waves.at(1);
+	mMotorInfo.mSinForDemodulation = waves.at(2);
+	mMotorInfo.mCosForDemodulation = waves.at(3);
 }
 
 void MotorCtrl::ReadCurrentTask(void) {
@@ -245,6 +253,10 @@ fp_rad MotorCtrl::GetAngleForFOC(void) {
 
 
 fp_rad MotorCtrl::GetAngleForFOC_HFConv(void) {
+	//ここで調整　発散なら0
+	if(HF_ARG_ZERO_FIX) {
+		return 0;
+	}
 	return mHFConvolution.GetTheta_c();
 }
 
@@ -317,7 +329,7 @@ void MotorCtrl::ObserverTask() {
 	}else if(mControlMode == FOC_Convolution) {
 		mHFConvolution.SetIgdPair(mMotorInfo.mIgd);
 
-		mHFConvolution.SetSinCos( {mMotorInfo.mSinForConv,mMotorInfo.mCosForConv} );
+		mHFConvolution.SetSinCosForDemodulation( {mMotorInfo.mSinForDemodulation,mMotorInfo.mCosForDemodulation} );
 		mHFConvolution.Calculate();
 
 		mMotorInfo.mEstTheta = mHFConvolution.GetTheta_c();
@@ -403,6 +415,7 @@ std::array<float, 2> MotorCtrl::GetCurrentTarget() {
 
 		return IgdTarget;
 	}
+
 }
 
 void MotorCtrl::CurrentFeedForwardTask() {
@@ -443,8 +456,8 @@ void MotorCtrl::CurrentPITaskForConvolution() {
 	std::array<float,2> CulcVgd = PIDgd_control(mMotorInfo.mIgdErr);
 
 	//ここで重畳させる
-	float VgConv = mMotorInfo.mVh * mMotorInfo.mSinForConv;
-	float VdConv = mMotorInfo.mVh * mMotorInfo.mCosForConv;
+	float VgConv = mMotorInfo.mVh * mMotorInfo.mCosForConv;
+	float VdConv = mMotorInfo.mVh * mMotorInfo.mSinForConv;
 
 	CulcVgd.at(0) = CulcVgd.at(0) + VgConv;
 	CulcVgd.at(1) = CulcVgd.at(1) + VdConv;
