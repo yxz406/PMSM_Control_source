@@ -12,6 +12,7 @@
 #include "ZIntegrate.hpp"
 #include "LPF.hpp"
 #include "BPF.hpp"
+#include "HPF.hpp"
 #include "PII2.hpp"
 
 class HFConvolution {
@@ -26,8 +27,16 @@ private:
 	BPF mBPFIdc;
 	BPF mBPFIqc;
 
+	LPF mBPF_LPFIdc;
+	LPF mBPF_LPFIqc;
+	HPF mBPF_HPFIdc;
+	HPF mBPF_HPFIqc;
+
+
 	//倍率
 	float mKh;
+
+	float mEstAxiErr;
 
 	PII2 mEstThetaPII2;
 
@@ -43,6 +52,8 @@ public:
 	void SetKh(float pKh);
 	void BPFInit(float pGainB0, float pGainB2, float pGainA1, float pGainA2);
 
+	void BPF_LPFInit(float pGainB0, float pGainB1, float pGainA1);
+	void BPF_HPFInit(float pGainB0, float pGainB1, float pGainA1);
 
 	void SetIgdPair(const std::array<float, 2> &pIgd);
 	void SetSinCosForDemodulation(const std::array<float, 2> &pSinCosForDemodulation);

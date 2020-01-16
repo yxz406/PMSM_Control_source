@@ -32,6 +32,16 @@ void HFConvolution::BPFInit(float pGainB0, float pGainB2, float pGainA1, float p
 	mBPFIqc.Init(pGainB0, pGainB2, pGainA1, pGainA2);
 }
 
+void HFConvolution::BPF_LPFInit(float pGainB0, float pGainB1, float pGainA1) {
+	mBPF_LPFIdc.Init(pGainB0, pGainB1, pGainA1);
+	mBPF_LPFIqc.Init(pGainB0, pGainB1, pGainA1);
+}
+
+void HFConvolution::BPF_HPFInit(float pGainB0, float pGainB1, float pGainA1) {
+	mBPF_HPFIdc.Init(pGainB0, pGainB1, pGainA1);
+	mBPF_HPFIqc.Init(pGainB0, pGainB1, pGainA1);
+}
+
 void HFConvolution::InitCycleTime(float pCycleTime) {
 	mCycleTime = pCycleTime;
 }
@@ -55,17 +65,24 @@ void HFConvolution::SetSinCosForDemodulation(const std::array<float, 2> &pSinCos
 
 
 void HFConvolution::Calculate() {
-	float BPFIdc = mBPFIdc.Output(mCycleTime, mIgd.at(0));
-	float BPFIqc = mBPFIqc.Output(mCycleTime, mIgd.at(1));
-	float convIdc = BPFIdc * mSinCosForDemodulation.at(1);
-	float convIqc = BPFIqc * mSinCosForDemodulation.at(0);
+	//float BPFIdc = mBPFIdc.Output(mCycleTime, mIgd.at(0));
+	//float BPFIqc = mBPFIqc.Output(mCycleTime, mIgd.at(1));
+
+	float BPF_LPFIdc = mBPF_LPFIdc.Output(mCycleTime, mIgd.at(0));
+	float BPF_LPFIqc = mBPF_LPFIqc.Output(mCycleTime, mIgd.at(1));
+
+	float BPF_HPFIdc = mBPF_HPFIdc.Output(mCycleTime, BPF_LPFIdc);
+	float BPF_HPFIqc = mBPF_HPFIqc.Output(mCycleTime, BPF_LPFIqc);
+
+	float convIdc = BPF_HPFIdc * mSinCosForDemodulation.at(1);
+	float convIqc = BPF_HPFIqc * mSinCosForDemodulation.at(0);
 	float LPFIdc = mLPFIdc.Output(mCycleTime, convIdc);
 	float LPFIqc = mLPFIqc.Output(mCycleTime, convIqc);
 
 	//PII2を使うことも要検討。
-	float estAxiErr = mKh*(LPFIqc - LPFIdc);
+	float mEstAxiErr = mKh*(LPFIqc - LPFIdc);
 
-	mEstThetaPII2.SetValue(estAxiErr);
+	mEstThetaPII2.SetValue(mEstAxiErr);
 	mEstThetaPII2.Calculate();
 	mTheta_c = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) );//theta % 2pi
 

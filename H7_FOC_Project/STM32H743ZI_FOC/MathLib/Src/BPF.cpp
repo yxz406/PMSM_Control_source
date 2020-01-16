@@ -35,4 +35,6 @@ float BPF::Output(float pTime, float pInput) {
 	mBuf3 = mOutputUnitDelay.PushAndGetVal(mOutput);
 	mBuf2 = mMidUnitDelay.PushAndGetVal(mBuf3);
 	//TODO コードレビュー
+
+	return mOutput;
 }

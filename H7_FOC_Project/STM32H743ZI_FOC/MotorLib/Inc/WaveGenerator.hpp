@@ -15,7 +15,7 @@
 class WaveGenerator {
 private:
 	int mTargetHz;
-	int mCount;
+	int mCount = 0;
 	float mThetaPerStep;
 public:
 	WaveGenerator();

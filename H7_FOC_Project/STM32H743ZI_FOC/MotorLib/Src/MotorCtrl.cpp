@@ -111,6 +111,10 @@ void MotorCtrl::InitObserver(void) {
 	mHFConvolution.InitCycleTime(OBSERVER_CYCLE_TIME);
 	mHFConvolution.InitPII2(OBSERVER_CYCLE_TIME, HF_PII_GAIN_K1, HF_PII_GAIN_K2, HF_PII_GAIN_K3);
 	mHFConvolution.BPFInit(HF_BPF_B0, HF_BPF_B2, HF_BPF_A1, HF_BPF_A2);
+
+	mHFConvolution.BPF_LPFInit(HF_LPF_BPF_B0, HF_LPF_BPF_B1, HF_LPF_BPF_A1);
+	mHFConvolution.BPF_HPFInit(HF_HPF_BPF_B0, HF_HPF_BPF_B1, HF_HPF_BPF_A1);
+
 	mHFConvolution.LPFInit(HF_LPF_B0, HF_LPF_B1, HF_LPF_A1);
 }
 
