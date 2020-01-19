@@ -136,8 +136,10 @@
 #define HF_LPF_B1 HF_LPF_B0
 #define HF_LPF_A1 (HF_LPF_SAMPLING_TIME - 2*HF_LPF_CUTOFF_TIME)/HF_LPF_DENOMINATOR
 
-#define HF_PII_GAIN_K1 0
-#define HF_PII_GAIN_K2 (6.5 * OBSERVER_GAIN_ALPHA)
+//0118 調査　K2は55倍程度までのゲインは許容する
+//ただし、初期位置によって発散する場合もあり
+#define HF_PII_GAIN_K1 3
+#define HF_PII_GAIN_K2 (55 * OBSERVER_GAIN_ALPHA)
 #define HF_PII_GAIN_K3 (OBSERVER_GAIN_ALPHA * OBSERVER_GAIN_ALPHA)
 
 //強制的にdg軸を0と仮定し続ける。測定用モード

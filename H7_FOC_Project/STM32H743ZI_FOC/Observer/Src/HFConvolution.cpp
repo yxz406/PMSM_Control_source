@@ -71,8 +71,8 @@ void HFConvolution::Calculate() {
 	float BPF_LPFIdc = mBPF_LPFIdc.Output(mCycleTime, mIgd.at(0));
 	float BPF_LPFIqc = mBPF_LPFIqc.Output(mCycleTime, mIgd.at(1));
 
-	float BPF_HPFIdc = mBPF_HPFIdc.Output(mCycleTime, BPF_LPFIdc);
-	float BPF_HPFIqc = mBPF_HPFIqc.Output(mCycleTime, BPF_LPFIqc);
+	float BPF_HPFIdc = 6 * mBPF_HPFIdc.Output(mCycleTime, BPF_LPFIdc);
+	float BPF_HPFIqc = 6 * mBPF_HPFIqc.Output(mCycleTime, BPF_LPFIqc);
 
 	float convIdc = BPF_HPFIdc * mSinCosForDemodulation.at(1);
 	float convIqc = BPF_HPFIqc * mSinCosForDemodulation.at(0);

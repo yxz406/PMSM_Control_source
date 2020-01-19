@@ -183,10 +183,19 @@ void MotorCtrl::SPITask(void) {
 	float Vh = (float)rxint.at(1)/(float)4095;
 
 	mMotorInfo.mCurrentTargetInput = CurrentTargetInput;
-	mMotorInfo.mVh = Vh;
+
+
+
+
 
 	if(mControlMode == FOC_Convolution) {
-		mMotorInfo.mVh = Vh;
+
+		if(HF_ARG_ZERO_FIX) {
+			mMotorInfo.mVh = Vh;
+		} else {
+			mMotorInfo.mVh = 0.3; //通常時は0.3固定にする
+		}
+
 		mHFConvolution.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((Vh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
 	}
 }
@@ -414,8 +423,18 @@ std::array<float, 2> MotorCtrl::GetCurrentTarget() {
 		return IgdTarget;
 
 	}else if(mControlMode == FOC_Convolution) {
-		IgdTarget.at(0) = CurrentTargetInput;//Idcに指令電流いれてみる。
-		IgdTarget.at(1) = 0;//IqcTarget [A]
+//		IgdTarget.at(0) = CurrentTargetInput;//Idcに指令電流いれてみる。
+//		IgdTarget.at(1) = 0;//IqcTarget [A]
+
+		if(HF_ARG_ZERO_FIX) {
+			IgdTarget.at(0) = CurrentTargetInput*4;//Idcに指令電流いれてみる。
+			IgdTarget.at(1) = 0;//IqcTarget [A]
+			return IgdTarget;
+		}
+
+		IgdTarget.at(0) = 0;//Idcに指令電流いれてみる。
+		IgdTarget.at(1) = CurrentTargetInput*4;//IqcTarget [A]
+
 
 		return IgdTarget;
 	}
