@@ -1,0 +1,25 @@
+﻿  BPF.cpp
+  LPF.cpp
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\src\lpf.cpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\src\lpf.cpp(27): fatal error C1075: '{': 一致するトークンが見つかりませんでした
+  Matrix.cpp
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\inc\matrix.hpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\inc\matrix.hpp(57): error C2511: 'std::array<float,2> Matrix::VectorAdd2x1(std::array<float,2>,std::array<float,2>,std::array<float,2>)': オーバーロードされたメンバー関数が 'Matrix' にありません。
+  e:\motorlibtest\libtest\libtest\motorlib\mathlib\inc\matrix.hpp(16): note: 'Matrix' の宣言を確認してください
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\inc\matrix.hpp(63): error C2039: 'VectorSubtract2x1': 'Matrix' のメンバーではありません。
+  e:\motorlibtest\libtest\libtest\motorlib\mathlib\inc\matrix.hpp(16): note: 'Matrix' の宣言を確認してください
+  MotorMath.cpp
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\src\motormath.cpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\inc\motormath.hpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\inc\motormath.hpp(11): fatal error C1083: include ファイルを開けません。'MotorLibDefPack.hpp':No such file or directory
+  Trigonometric.cpp
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\inc\trigonometric.hpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\src\trigonometric.cpp(20): error C3861: 'arm_sin_f32': 識別子が見つかりませんでした
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\src\trigonometric.cpp(24): error C3861: 'arm_cos_f32': 識別子が見つかりませんでした
+  ZIntegrate.cpp
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\src\zintegrate.cpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\inc\zintegrate.hpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\src\zintegrate.cpp(65): error C2065: 'M_PI': 定義されていない識別子です。
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\src\zintegrate.cpp(65): error C2661: 'fmod': 1 個の引数を伴うオーバーロードされた関数はありません。
+  コードを生成中...
+e:\motorlibtest\libtest\libtest\motorlib\mathlib\src\bpf.cpp(45): error C4716: 'BPF::Output': 値を返さなければいけません

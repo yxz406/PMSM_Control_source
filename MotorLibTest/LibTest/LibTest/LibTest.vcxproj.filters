@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="MotorLib">
+      <UniqueIdentifier>{bf6bbd1c-eea9-4155-8bca-522b9fb6afb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MotorLib\Src">
+      <UniqueIdentifier>{da810def-d2d2-4530-b4fe-8146a1ab975e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MotorLib\Inc">
+      <UniqueIdentifier>{ba453b60-f653-4fd3-bc3b-d1acfbaa213d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorLib\MathLib\Inc\Matrix.hpp">
+      <Filter>MotorLib\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorLib\MathLib\Inc\MotorMath.hpp">
+      <Filter>MotorLib\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorLib\MathLib\Inc\PID.hpp">
+      <Filter>MotorLib\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorLib\MathLib\Inc\Trigonometric.hpp">
+      <Filter>MotorLib\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorLib\MathLib\Inc\UnitDelay.hpp">
+      <Filter>MotorLib\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorLib\MathLib\Inc\ZIntegrate.hpp">
+      <Filter>MotorLib\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorLib\MathLib\Inc\BPF.hpp">
+      <Filter>MotorLib\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorLib\MathLib\Inc\DSPInc.hpp">
+      <Filter>MotorLib\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorLib\MathLib\Inc\LPF.hpp">
+      <Filter>MotorLib\Inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="LibTest.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MotorLib\MathLib\Src\BPF.cpp">
+      <Filter>MotorLib\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MotorLib\MathLib\Src\LPF.cpp">
+      <Filter>MotorLib\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MotorLib\MathLib\Src\Matrix.cpp">
+      <Filter>MotorLib\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MotorLib\MathLib\Src\MotorMath.cpp">
+      <Filter>MotorLib\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MotorLib\MathLib\Src\PID.cpp">
+      <Filter>MotorLib\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MotorLib\MathLib\Src\Trigonometric.cpp">
+      <Filter>MotorLib\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MotorLib\MathLib\Src\UnitDelay.cpp">
+      <Filter>MotorLib\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MotorLib\MathLib\Src\ZIntegrate.cpp">
+      <Filter>MotorLib\Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
