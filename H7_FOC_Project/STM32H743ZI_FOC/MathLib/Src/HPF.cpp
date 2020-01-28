@@ -25,7 +25,8 @@ void HPF::Init(float pGainB0, float pGainB1, float pGainA1) {
 float HPF::Output(float pTime, float pInput) {
 	mBuf1 = (mGainB0 * pInput) - (mGainB1 * mInputUnitDelay.PushAndGetVal(pInput));
 	mOutput = mBuf1 - mGainA1 * mBuf2;
-	mBuf2 = mOutputUnitDelay.PushAndGetVal(mOutput);
+
+	//以後出力側１遅延(叩かれるのが次回だから遅延器を使わないで良い)
+	mBuf2 = mOutput;
 	return mOutput;
-	//TODO ここの答え合わせ
 }

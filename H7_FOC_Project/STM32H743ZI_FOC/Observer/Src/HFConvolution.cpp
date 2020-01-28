@@ -71,16 +71,16 @@ void HFConvolution::Calculate() {
 	float BPF_LPFIdc = mBPF_LPFIdc.Output(mCycleTime, mIgd.at(0));
 	float BPF_LPFIqc = mBPF_LPFIqc.Output(mCycleTime, mIgd.at(1));
 
-	float BPF_HPFIdc = 6 * mBPF_HPFIdc.Output(mCycleTime, BPF_LPFIdc);
-	float BPF_HPFIqc = 6 * mBPF_HPFIqc.Output(mCycleTime, BPF_LPFIqc);
+	float BPF_HPFIdc = mBPF_HPFIdc.Output(mCycleTime, BPF_LPFIdc);
+	float BPF_HPFIqc = mBPF_HPFIqc.Output(mCycleTime, BPF_LPFIqc);
 
-	float convIdc = BPF_HPFIdc * mSinCosForDemodulation.at(1);
-	float convIqc = BPF_HPFIqc * mSinCosForDemodulation.at(0);
-	float LPFIdc = mLPFIdc.Output(mCycleTime, convIdc);
-	float LPFIqc = mLPFIqc.Output(mCycleTime, convIqc);
+	mConvIdc = BPF_HPFIdc * mSinCosForDemodulation.at(1);
+	mConvIqc = BPF_HPFIqc * mSinCosForDemodulation.at(0);
+	float LPFIdc = mLPFIdc.Output(mCycleTime, mConvIdc);
+	float LPFIqc = mLPFIqc.Output(mCycleTime, mConvIqc);
 
 	//PII2を使うことも要検討。
-	float mEstAxiErr = mKh*(LPFIqc - LPFIdc);
+	mEstAxiErr = mKh*(LPFIqc - LPFIdc);
 
 	mEstThetaPII2.SetValue(mEstAxiErr);
 	mEstThetaPII2.Calculate();
@@ -91,4 +91,9 @@ void HFConvolution::Calculate() {
 
 float HFConvolution::GetTheta_c(void) {
 	return mTheta_c;
+}
+
+//制御器設計Debug用
+std::array<float,2> HFConvolution::GetConvIdqc(void) {
+	return {mConvIdc, mConvIqc};
 }

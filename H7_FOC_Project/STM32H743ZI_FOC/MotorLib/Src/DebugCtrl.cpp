@@ -58,6 +58,15 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 
 	int milVh = (int)(pMotorInfo.mVh * 1000 );
 
+
+	//高周波重畳デバッグ用
+	int milSinDemod = pMotorInfo.mSinForDemodulation * 1000;
+	int milCosDemod = pMotorInfo.mCosForDemodulation * 1000;
+
+	int milConvIdc = pMotorInfo.mConvIdqc.at(0) * 1000;
+	int milConvIqc = pMotorInfo.mConvIdqc.at(1) * 1000;
+
+
 	char outputStr[100]={0};//100文字までとりあえず静的確保
 	//general
 	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, EstTheta);//みやゆうさんご希望のデバッグ

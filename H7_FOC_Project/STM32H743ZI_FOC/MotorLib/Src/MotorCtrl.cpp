@@ -345,6 +345,9 @@ void MotorCtrl::ObserverTask() {
 		mHFConvolution.SetSinCosForDemodulation( {mMotorInfo.mSinForDemodulation,mMotorInfo.mCosForDemodulation} );
 		mHFConvolution.Calculate();
 
+		//設計用Debug
+		mMotorInfo.mConvIdqc = mHFConvolution.GetConvIdqc();
+
 		mMotorInfo.mEstTheta = mHFConvolution.GetTheta_c();
 
 	}

@@ -36,7 +36,11 @@ private:
 	//倍率
 	float mKh;
 
-	float mEstAxiErr;
+	//計算用
+	float mConvIdc=0;
+	float mConvIqc=0;
+
+	float mEstAxiErr=0;
 
 	PII2 mEstThetaPII2;
 
@@ -61,6 +65,10 @@ public:
 	void Calculate();
 
 	float GetTheta_c(void);
+
+	//制御器設計Debug用
+	std::array<float,2> GetConvIdqc(void);
+
 
 };
 

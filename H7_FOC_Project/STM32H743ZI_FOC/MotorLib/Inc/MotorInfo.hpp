@@ -39,6 +39,9 @@ public:
 	float mSinForDemodulation = 0;
 	float mCosForDemodulation = 0;
 
+	//高周波重畳デバッグ変数
+	std::array<float, 2> mConvIdqc = {0,0};
+
 	std::array<float, 3> mDutyuvw;//単位[%]
 	fp_rad mdqArg;//単位[rad]
 	fp_rad mgdArg;//単位[rad]

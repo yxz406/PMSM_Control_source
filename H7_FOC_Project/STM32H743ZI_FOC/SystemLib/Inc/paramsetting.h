@@ -139,7 +139,7 @@
 //0118 調査　K2は55倍程度までのゲインは許容する
 //ただし、初期位置によって発散する場合もあり
 #define HF_PII_GAIN_K1 3
-#define HF_PII_GAIN_K2 (55 * OBSERVER_GAIN_ALPHA)
+#define HF_PII_GAIN_K2 (2 * OBSERVER_GAIN_ALPHA)
 #define HF_PII_GAIN_K3 (OBSERVER_GAIN_ALPHA * OBSERVER_GAIN_ALPHA)
 
 //強制的にdg軸を0と仮定し続ける。測定用モード
