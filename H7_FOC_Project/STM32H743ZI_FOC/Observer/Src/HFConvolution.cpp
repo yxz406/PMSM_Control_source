@@ -74,6 +74,11 @@ void HFConvolution::Calculate() {
 	float BPF_HPFIdc = mBPF_HPFIdc.Output(mCycleTime, BPF_LPFIdc);
 	float BPF_HPFIqc = mBPF_HPFIqc.Output(mCycleTime, BPF_LPFIqc);
 
+
+	mIdch = BPF_HPFIdc;
+	mIqch = BPF_HPFIqc;
+
+
 	mConvIdc = BPF_HPFIdc * mSinCosForDemodulation.at(1);
 	mConvIqc = BPF_HPFIqc * mSinCosForDemodulation.at(0);
 	float LPFIdc = mLPFIdc.Output(mCycleTime, mConvIdc);
@@ -96,4 +101,8 @@ float HFConvolution::GetTheta_c(void) {
 //制御器設計Debug用
 std::array<float,2> HFConvolution::GetConvIdqc(void) {
 	return {mConvIdc, mConvIqc};
+}
+
+std::array<float,2> HFConvolution::GetIdqch(void) {
+	return {mIdch, mIqch};
 }

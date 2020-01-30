@@ -25,6 +25,7 @@ public:
 	float OutputWaveform();
 	std::array<float, 2> OutputWaves();
 	std::array<float, 4> OutputWavesSupOffsetPhase(fp_rad pOffset);
+	std::array<float, 4> OutputWavesSupOffsetPhase_dq(fp_rad pOffset_dc, fp_rad pOffset_qc);
 };
 
 #endif /* INC_WAVEGENERATOR_HPP_ */

@@ -202,7 +202,8 @@ void MotorCtrl::SPITask(void) {
 
 
 void MotorCtrl::WaveGenTask() {
-	std::array<float,4> waves = mWaveGen.OutputWavesSupOffsetPhase(HF_HETERODYNE_PHASE_OFFSET);
+	//std::array<float,4> waves = mWaveGen.OutputWavesSupOffsetPhase(HF_HETERODYNE_PHASE_OFFSET);
+	std::array<float,4> waves = mWaveGen.OutputWavesSupOffsetPhase_dq(HF_HETERODYNE_PHASE_OFFSET_D, HF_HETERODYNE_PHASE_OFFSET_Q);
 	mMotorInfo.mSinForConv = waves.at(0);
 	mMotorInfo.mCosForConv = waves.at(1);
 	mMotorInfo.mSinForDemodulation = waves.at(2);
@@ -347,6 +348,7 @@ void MotorCtrl::ObserverTask() {
 
 		//設計用Debug
 		mMotorInfo.mConvIdqc = mHFConvolution.GetConvIdqc();
+		mMotorInfo.mIdqch = mHFConvolution.GetIdqch();
 
 		mMotorInfo.mEstTheta = mHFConvolution.GetTheta_c();
 

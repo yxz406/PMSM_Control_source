@@ -37,6 +37,10 @@ private:
 	float mKh;
 
 	//計算用
+	float mIdch = 0;
+	float mIqch = 0;
+
+
 	float mConvIdc=0;
 	float mConvIqc=0;
 
@@ -68,6 +72,8 @@ public:
 
 	//制御器設計Debug用
 	std::array<float,2> GetConvIdqc(void);
+
+	std::array<float,2> GetIdqch(void);
 
 
 };

@@ -123,8 +123,13 @@
 
 
 
-
+//ヘテロ用R補償の位相合わせ
 #define HF_HETERODYNE_PHASE_OFFSET (float)(0*2*M_PI/360.0f)
+#define HF_HETERODYNE_PHASE_OFFSET_D 1.016756949f
+#define HF_HETERODYNE_PHASE_OFFSET_Q 1.016756949f
+//#define HF_HETERODYNE_PHASE_OFFSET_Q 0.69797067047f
+
+
 
 #define HF_LPF_CUTOFF_FREQ 44
 #define HF_LPF_SAMPLING_FREQ 20000
@@ -139,7 +144,7 @@
 //0118 調査　K2は55倍程度までのゲインは許容する
 //ただし、初期位置によって発散する場合もあり
 #define HF_PII_GAIN_K1 3
-#define HF_PII_GAIN_K2 (2 * OBSERVER_GAIN_ALPHA)
+#define HF_PII_GAIN_K2 (250 * OBSERVER_GAIN_ALPHA)
 #define HF_PII_GAIN_K3 (OBSERVER_GAIN_ALPHA * OBSERVER_GAIN_ALPHA)
 
 //強制的にdg軸を0と仮定し続ける。測定用モード

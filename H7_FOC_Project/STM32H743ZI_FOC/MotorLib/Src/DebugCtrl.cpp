@@ -66,6 +66,9 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 	int milConvIdc = pMotorInfo.mConvIdqc.at(0) * 1000;
 	int milConvIqc = pMotorInfo.mConvIdqc.at(1) * 1000;
 
+	int milIdch = pMotorInfo.mIdqch.at(0) * 1000;
+	int milIqch = pMotorInfo.mIdqch.at(1) * 1000;
+
 
 	char outputStr[100]={0};//100文字までとりあえず静的確保
 	//general
@@ -78,7 +81,13 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 	//sprintf(outputStr,"%d\n",encoder);
 
 	//measure HFcon
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
+	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
+
+	//measure hetelo
+	sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milCosDemod, milSinDemod, milIdch, milIqch, DegArg);
+
+	//conv済み
+	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milCosDemod, milSinDemod, milConvIdc, milConvIqc, DegArg);
 
 	//Default
 	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
