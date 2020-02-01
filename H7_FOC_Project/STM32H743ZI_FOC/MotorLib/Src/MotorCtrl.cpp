@@ -30,7 +30,7 @@ void MotorCtrl::InitSystem(void) {
 	TIMCtrl::MotorDuty_ch1(0);//50%duty
 	TIMCtrl::MotorDuty_ch2(0);
 	TIMCtrl::MotorDuty_ch3(0);
-	//TIMCtrl::MotorDuty_ch4(0.9);//9割タイミングで打つ
+	//TIMCtrl::MotorDuty_ch4(0.95);//9割5分でタイミングで打つ
 	TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
 
 	//ENABLE信号 PWMSet_Pin|OCSet_Pin|GateEnable_Pin
@@ -45,9 +45,6 @@ void MotorCtrl::InitSystem(void) {
 	//EncoderABZCtrl::MX_TIM4_Init();
 	//EncoderABZCtrl::EncoderStart();
 
-
-
-	//mWaveGen.InitFrequency(440);
 	mWaveGen.InitFrequency(HF_CONV_FREQ);
 
 	//ADC Initialize
@@ -71,8 +68,6 @@ void MotorCtrl::DeInitSystem(void) {
 	TIMCtrl::MotorDuty_ch1(0);//50%duty
 	TIMCtrl::MotorDuty_ch2(0);
 	TIMCtrl::MotorDuty_ch3(0);
-	//TIMCtrl::MotorDuty_ch4(0.9);//9割タイミングで打つ
-	TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
 
 	//Timer Initialize
 	TIMCtrl::MX_TIM1_DeInit();
@@ -110,7 +105,6 @@ void MotorCtrl::InitObserver(void) {
 
 	mHFConvolution.InitCycleTime(OBSERVER_CYCLE_TIME);
 	mHFConvolution.InitPII2(OBSERVER_CYCLE_TIME, HF_PII_GAIN_K1, HF_PII_GAIN_K2, HF_PII_GAIN_K3);
-	mHFConvolution.BPFInit(HF_BPF_B0, HF_BPF_B2, HF_BPF_A1, HF_BPF_A2);
 
 	mHFConvolution.BPF_LPFInit(HF_LPF_BPF_B0, HF_LPF_BPF_B1, HF_LPF_BPF_A1);
 	mHFConvolution.BPF_HPFInit(HF_HPF_BPF_B0, HF_HPF_BPF_B1, HF_HPF_BPF_A1);
@@ -195,14 +189,12 @@ void MotorCtrl::SPITask(void) {
 		} else {
 			mMotorInfo.mVh = 0.3; //通常時は0.3固定にする
 		}
-
-		mHFConvolution.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((Vh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
+		mHFConvolution.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((mMotorInfo.mVh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
 	}
 }
 
 
 void MotorCtrl::WaveGenTask() {
-	//std::array<float,4> waves = mWaveGen.OutputWavesSupOffsetPhase(HF_HETERODYNE_PHASE_OFFSET);
 	std::array<float,4> waves = mWaveGen.OutputWavesSupOffsetPhase_dq(HF_HETERODYNE_PHASE_OFFSET_D, HF_HETERODYNE_PHASE_OFFSET_Q);
 	mMotorInfo.mSinForConv = waves.at(0);
 	mMotorInfo.mCosForConv = waves.at(1);
@@ -341,10 +333,18 @@ void MotorCtrl::ObserverTask() {
 		mMotorInfo.mEstTheta = mObserver.GetEstTheta();//デバッグ用
 
 	}else if(mControlMode == FOC_Convolution) {
+		//高周波重畳位置推定
 		mHFConvolution.SetIgdPair(mMotorInfo.mIgd);
-
 		mHFConvolution.SetSinCosForDemodulation( {mMotorInfo.mSinForDemodulation,mMotorInfo.mCosForDemodulation} );
 		mHFConvolution.Calculate();
+
+//		//オブザーバ位置推定
+		//TODO:ここにこれを入れるとタイミングが間に合わない。総合的な改修が必要
+//		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
+//		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
+//		mObserver.Calculate();//ベクトル制御用
+
+
 
 		//設計用Debug
 		mMotorInfo.mConvIdqc = mHFConvolution.GetConvIdqc();
@@ -359,8 +359,6 @@ void MotorCtrl::ObserverTask() {
 
 void MotorCtrl::VelocityPIDTask() {
 	if(mControlMode == FOC) {
-			//float adc2_input = (float)ADCCtrl::ADC2_Read() / 65535;
-			//float velocityTarget = adc2_input * 1000;
 			float velocityTarget = 1500;
 			float velErr = velocityTarget - mMotorInfo.mEstOmega;
 			mVelocityPID.ErrorUpdate(velErr);
@@ -618,9 +616,9 @@ void MotorCtrl::ControlModeHandler() { //状態遷移を管理する関数
 }
 
 void MotorCtrl::GPIODebugTask() {//Lチカでタイミングをオシロで見る
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);//Board to Driver pin2
 	asm("NOP");
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
 }
 
 

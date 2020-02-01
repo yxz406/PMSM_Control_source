@@ -27,11 +27,6 @@ void HFConvolution::SetKh(float pKh) {
 	mKh = pKh;
 }
 
-void HFConvolution::BPFInit(float pGainB0, float pGainB2, float pGainA1, float pGainA2) {
-	mBPFIdc.Init(pGainB0, pGainB2, pGainA1, pGainA2);
-	mBPFIqc.Init(pGainB0, pGainB2, pGainA1, pGainA2);
-}
-
 void HFConvolution::BPF_LPFInit(float pGainB0, float pGainB1, float pGainA1) {
 	mBPF_LPFIdc.Init(pGainB0, pGainB1, pGainA1);
 	mBPF_LPFIqc.Init(pGainB0, pGainB1, pGainA1);
@@ -65,9 +60,7 @@ void HFConvolution::SetSinCosForDemodulation(const std::array<float, 2> &pSinCos
 
 
 void HFConvolution::Calculate() {
-	//float BPFIdc = mBPFIdc.Output(mCycleTime, mIgd.at(0));
-	//float BPFIqc = mBPFIqc.Output(mCycleTime, mIgd.at(1));
-
+	//BPF
 	float BPF_LPFIdc = mBPF_LPFIdc.Output(mCycleTime, mIgd.at(0));
 	float BPF_LPFIqc = mBPF_LPFIqc.Output(mCycleTime, mIgd.at(1));
 
@@ -78,15 +71,16 @@ void HFConvolution::Calculate() {
 	mIdch = BPF_HPFIdc;
 	mIqch = BPF_HPFIqc;
 
-
+	//ヘテロダイン
 	mConvIdc = BPF_HPFIdc * mSinCosForDemodulation.at(1);
 	mConvIqc = BPF_HPFIqc * mSinCosForDemodulation.at(0);
 	float LPFIdc = mLPFIdc.Output(mCycleTime, mConvIdc);
 	float LPFIqc = mLPFIqc.Output(mCycleTime, mConvIqc);
 
-	//PII2を使うことも要検討。
+	//モータのパラメタの倍率調整
 	mEstAxiErr = mKh*(LPFIqc - LPFIdc);
 
+	//位相推定器
 	mEstThetaPII2.SetValue(mEstAxiErr);
 	mEstThetaPII2.Calculate();
 	mTheta_c = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) );//theta % 2pi
