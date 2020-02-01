@@ -55,9 +55,9 @@ public:
 	void InitModelGain(float pG1);
 
 	//Setter
-	void SetIgd(std::array<float, 2> pIGanmaDelta);
-	void SetVgd(std::array<float, 2> pVGanmaDelta);
-	void SetEstOmegaE(float pEstOmegaE);
+	void SetIgd(const std::array<float, 2> &pIGanmaDelta);
+	void SetVgd(const std::array<float, 2> &pVGanmaDelta);
+	void SetEstOmegaE(const float &pEstOmegaE);
 
 	//Calculator
 	void EMFObserver();

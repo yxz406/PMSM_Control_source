@@ -44,10 +44,10 @@ public:
 	void InitGainK2(float pK2);
 	void InitGainK3(float pK3);
 
-	void ThetaResetForOpenLoop(float pTheta);
+	void ThetaResetForOpenLoop(const float &pTheta);
 
 	//Setter
-	void SetValue(float pInputVal);
+	void SetValue(const float &pInputVal);
 
 	//void Calculator
 	void Calculate();

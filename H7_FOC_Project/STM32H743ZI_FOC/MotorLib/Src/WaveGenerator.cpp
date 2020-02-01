@@ -52,7 +52,7 @@ std::array<float, 2> WaveGenerator::OutputWaves() {
 
 }
 
-std::array<float, 4> WaveGenerator::OutputWavesSupOffsetPhase(fp_rad pOffset) {
+std::array<float, 4> WaveGenerator::OutputWavesSupOffsetPhase(const fp_rad &pOffset) {
 	fp_rad theta = mThetaPerStep * mCount;
 	fp_rad thetaDemodulation = theta + pOffset;
 
@@ -68,7 +68,7 @@ std::array<float, 4> WaveGenerator::OutputWavesSupOffsetPhase(fp_rad pOffset) {
 }
 
 
-std::array<float, 4> WaveGenerator::OutputWavesSupOffsetPhase_dq(fp_rad pOffset_dc, fp_rad pOffset_qc) {
+std::array<float, 4> WaveGenerator::OutputWavesSupOffsetPhase_dq(const fp_rad &pOffset_dc, const fp_rad &pOffset_qc) {
 	fp_rad theta = mThetaPerStep * mCount;
 	fp_rad thetaDemodulation_dc = theta + pOffset_dc;
 	fp_rad thetaDemodulation_qc = theta + pOffset_qc;

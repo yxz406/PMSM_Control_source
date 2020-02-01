@@ -24,7 +24,7 @@ void LPF::Init(float pGainB0, float pGainB1, float pGainA1) {
 	mGainA1 = pGainA1;
 }
 
-float LPF::Output(float pTime, float pInput) {
+float LPF::Output(const float &pInput) {
 	mBuf1 = ( mGainB0 * pInput ) + ( mGainB1 * mInputUnitDelay.PushAndGetVal(pInput) );
 	mOutput = mBuf1 - mGainA1 * mBuf2;
 

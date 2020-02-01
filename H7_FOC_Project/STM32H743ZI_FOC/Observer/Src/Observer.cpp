@@ -30,10 +30,10 @@ void Observer::InitPII2(float pCycleTime, float pK1, float pK2, float pK3) {
 }
 
 //Setter
-void Observer::SetIGanmaDelta(std::array<float, 2> pIGanmaDelta) {
+void Observer::SetIGanmaDelta(const std::array<float, 2> &pIGanmaDelta) {
 	mIGanmaDelta = pIGanmaDelta;
 }
-void Observer::SetVGanmaDelta(std::array<float, 2> pVGanmaDelta) {
+void Observer::SetVGanmaDelta(const std::array<float, 2> &pVGanmaDelta) {
 	mVGanmaDelta = pVGanmaDelta;
 }
 
@@ -52,7 +52,7 @@ void Observer::Calculate() {
 	mEstTheta = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) ); //theta % 2pi
 }
 
-void Observer::CalculateOpenLoop(float pOmegaE, float pThetaE) {
+void Observer::CalculateOpenLoop(const float &pOmegaE, const float &pThetaE) {
 	//FOCモードとの違い
 	//FOCとは違って、電気角速度ωは強制転流コントローラが勝手に決める。
 	//そのため、PII2で推定しないで外から強制転流コントローラのωを代入する。

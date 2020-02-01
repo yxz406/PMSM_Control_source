@@ -31,7 +31,7 @@ public:
 	LPF();
 	virtual ~LPF();
 	void Init(float pGainB0, float pGainB1, float pGainA1);
-	float Output(float pTime, float pInput);
+	float Output(const float &pInput);
 
 };
 

@@ -124,6 +124,8 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 	SPITask();
 
+	GPIODebugTask();
+
 	if(mControlMode == FOC_Convolution) {
 		WaveGenTask();
 	}

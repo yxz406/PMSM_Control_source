@@ -24,9 +24,9 @@ public:
 	Trigonometric();
 	virtual ~Trigonometric();
 
-	static float sin(float pVal);
-	static float cos(float pVal);
-	static float atan2(float pNumerator, float pDenominator);
+	static float sin(const float &pVal);
+	static float cos(const float &pVal);
+	static float atan2(const float &pNumerator, const float &pDenominator);
 };
 
 #endif /* INC_TRIGONOMETRIC_HPP_ */

@@ -61,21 +61,19 @@ void HFConvolution::SetSinCosForDemodulation(const std::array<float, 2> &pSinCos
 
 void HFConvolution::Calculate() {
 	//BPF
-	float BPF_LPFIdc = mBPF_LPFIdc.Output(mCycleTime, mIgd.at(0));
-	float BPF_LPFIqc = mBPF_LPFIqc.Output(mCycleTime, mIgd.at(1));
-
-	float BPF_HPFIdc = mBPF_HPFIdc.Output(mCycleTime, BPF_LPFIdc);
-	float BPF_HPFIqc = mBPF_HPFIqc.Output(mCycleTime, BPF_LPFIqc);
-
-
-	mIdch = BPF_HPFIdc;
-	mIqch = BPF_HPFIqc;
+	//BPFは、BPF_LPF に入れて、出力をBPF_HPFに入れる
+	//BPF_LPF
+	float BPF_LPFIdc = mBPF_LPFIdc.Output(mIgd.at(0));
+	float BPF_LPFIqc = mBPF_LPFIqc.Output(mIgd.at(1));
+	//BPF_HPF
+	mIdch = mBPF_HPFIdc.Output(BPF_LPFIdc);
+	mIqch = mBPF_HPFIqc.Output(BPF_LPFIqc);
 
 	//ヘテロダイン
-	mConvIdc = BPF_HPFIdc * mSinCosForDemodulation.at(1);
-	mConvIqc = BPF_HPFIqc * mSinCosForDemodulation.at(0);
-	float LPFIdc = mLPFIdc.Output(mCycleTime, mConvIdc);
-	float LPFIqc = mLPFIqc.Output(mCycleTime, mConvIqc);
+	mConvIdc = mIdch * mSinCosForDemodulation.at(1);
+	mConvIqc = mIqch * mSinCosForDemodulation.at(0);
+	float LPFIdc = mLPFIdc.Output(mConvIdc);
+	float LPFIqc = mLPFIqc.Output(mConvIqc);
 
 	//モータのパラメタの倍率調整
 	mEstAxiErr = mKh*(LPFIqc - LPFIdc);

@@ -17,28 +17,28 @@ class MotorMath {
 public:
 	MotorMath();
 	virtual ~MotorMath();
-	static inline std::array<float, 2> clarkTransform (std::array<float, 3> pVector);
-	static inline std::array<float, 2> parkTransform( fp_rad pRadian,
-												std::array<float, 2> pVector);
+	static inline std::array<float, 2> clarkTransform (const std::array<float, 3> &pVector);
+	static inline std::array<float, 2> parkTransform( const fp_rad &pRadian,
+												const std::array<float, 2> &pVector);
 
-	static inline std::array<float, 2> InvparkTransform( fp_rad pRadian,
-												   std::array<float, 2> pVector);
-	static inline std::array<float, 3> InvclarkTransform (std::array<float, 2> pVector);
-	static inline std::array<float, 3> SVM(std::array<float, 2> pVector, float pVoltageVCC);
+	static inline std::array<float, 2> InvparkTransform( const fp_rad &pRadian,
+												   const std::array<float, 2> &pVector);
+	static inline std::array<float, 3> InvclarkTransform (const std::array<float, 2> &pVector);
+	static inline std::array<float, 3> SVM(const std::array<float, 2> &pVector, const float &pVoltageVCC);
 
-	static inline fp_rad AngleDiff(fp_rad pAnglePlus, fp_rad pAngleMinus);
+	static inline fp_rad AngleDiff(const fp_rad &pAnglePlus, const fp_rad &pAngleMinus);
 };
 
 //input [u,v,w]
 //output [a,b]
-inline std::array<float, 2> MotorMath::clarkTransform (std::array<float, 3> pVector) {
+inline std::array<float, 2> MotorMath::clarkTransform (const std::array<float, 3> &pVector) {
 	//mIalpha = mIu - (mIv + mIw)/2;
 	//mIbeta = (mIv - mIw)* 1.7320508f/2;
 	return { ( 0.81649658f * ( pVector.at(0) - ((pVector.at(1) + pVector.at(2))/2)  ) ),
 				  ( 0.81649658f * ( (pVector.at(1) - pVector.at(2)) * 1.7320508f/2 ) ) };
 };
 
-inline std::array<float, 2> MotorMath::parkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
+inline std::array<float, 2> MotorMath::parkTransform(const fp_rad &pRadian, const std::array<float, 2> &pVector) {
 	float sinVal = Trigonometric::sin(pRadian);
 	float cosVal = Trigonometric::cos(pRadian);
 	float Invsin = -1.0f * sinVal;
@@ -48,7 +48,7 @@ inline std::array<float, 2> MotorMath::parkTransform(fp_rad pRadian, std::array<
 
 }
 
-inline std::array<float, 2> MotorMath::InvparkTransform(fp_rad pRadian, std::array<float, 2> pVector) {
+inline std::array<float, 2> MotorMath::InvparkTransform(const fp_rad &pRadian, const std::array<float, 2> &pVector) {
 	//mId =  mLib.getCosList().at(mArg) * mIalpha + mLib.getSinList().at(mArg) * mIbeta;
 	//mIq = -mLib.getSinList().at(mArg) * mIalpha + mLib.getCosList().at(mArg) * mIbeta;
 	float sinVal = Trigonometric::sin(pRadian);
@@ -61,7 +61,7 @@ inline std::array<float, 2> MotorMath::InvparkTransform(fp_rad pRadian, std::arr
 
 //input [a,b]
 //output [u,v,w]
-inline  std::array<float, 3> MotorMath::InvclarkTransform (std::array<float, 2> pVector) {
+inline  std::array<float, 3> MotorMath::InvclarkTransform (const std::array<float, 2> &pVector) {
 	//mVu = 0.75f * mValpha;
 	//mVv = -0.75f * mValpha + mValpha / 3 + mVbeta / 1.7320508f;
 	//mVw = - mValpha / 3 - mVbeta / 1.7320508f;
@@ -77,7 +77,7 @@ inline  std::array<float, 3> MotorMath::InvclarkTransform (std::array<float, 2> 
 
 //input [a,b],VCC
 //output Duty[u,v,w]
-inline  std::array<float, 3> MotorMath::SVM (std::array<float, 2> pVector, float pVoltageVCC) {
+inline  std::array<float, 3> MotorMath::SVM (const std::array<float, 2> &pVector, const float &pVoltageVCC) {
 	float Va = pVector.at(0);
 	float Vb = pVector.at(1);
 
@@ -179,7 +179,7 @@ inline  std::array<float, 3> MotorMath::SVM (std::array<float, 2> pVector, float
 //Borrow 350 10
 //Nominal:diff_carry=380-40=340 ,diff=-20,diff_borrow=20-(400)=-380
 //Borrow:diff_carry=710-10=700 ,diff=340, diff_borrow=350-(370)=-20
-inline fp_rad MotorMath::AngleDiff(fp_rad pAnglePlus, fp_rad pAngleMinus) {
+inline fp_rad MotorMath::AngleDiff(const fp_rad &pAnglePlus, const fp_rad &pAngleMinus) {
 	fp_rad diff = pAnglePlus - pAngleMinus;
 	fp_rad diff_carry = pAnglePlus + 2*PI - pAngleMinus;
 	fp_rad diff_borrow = pAnglePlus - (pAngleMinus + 2*PI);

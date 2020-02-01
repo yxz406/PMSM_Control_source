@@ -40,12 +40,12 @@ public:
 	void InitPII2(float pCycleTime, float pK1, float pK2, float pK3);
 
 	//Setter
-	void SetIGanmaDelta(std::array<float, 2> pIGanmaDelta);
-	void SetVGanmaDelta(std::array<float, 2> pVGanmaDelta);
+	void SetIGanmaDelta(const std::array<float, 2> &pIGanmaDelta);
+	void SetVGanmaDelta(const std::array<float, 2> &pVGanmaDelta);
 
 	//Calculator
 	void Calculate();
-	void CalculateOpenLoop(float pOmegaE, float pThetaE);
+	void CalculateOpenLoop(const float &pOmegaE, const float &pThetaE);
 
 	//Getter
 	float GetEstTheta(void);

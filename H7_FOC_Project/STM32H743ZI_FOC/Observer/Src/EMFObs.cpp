@@ -34,13 +34,13 @@ void EMFObs::InitObsGain(float pGainAlpha) {
 }
 
 //Setter
-void EMFObs::SetIgd(std::array<float, 2> pIGanmaDelta) {
+void EMFObs::SetIgd(const std::array<float, 2> &pIGanmaDelta) {
 	mIGanmaDelta = pIGanmaDelta;
 }
-void EMFObs::SetVgd(std::array<float, 2> pVGanmaDelta) {
+void EMFObs::SetVgd(const std::array<float, 2> &pVGanmaDelta) {
 	mVGanmaDelta = pVGanmaDelta;
 }
-void EMFObs::SetEstOmegaE(float pEstOmegaE) {
+void EMFObs::SetEstOmegaE(const float &pEstOmegaE) {
 	mEstOmegaE = pEstOmegaE;
 }
 
