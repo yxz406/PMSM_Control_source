@@ -162,8 +162,8 @@ void MotorMeasure::Measure(void) {//モータを測定するモード
 }
 
 void MotorMeasure::SPITask(void) {
-	mSPICtrl.SPITransmitReceive();
-	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
+	SPICtrl::GetInstance().SPITransmitReceive();
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = SPICtrl::GetInstance().GetRxInt();
 	float Vh = (float)rxint.at(0)/(float)4095;
 	mMotorInfo.mVh = Vh;
 	float Voffset = (float)rxint.at(1)/(float)4095;

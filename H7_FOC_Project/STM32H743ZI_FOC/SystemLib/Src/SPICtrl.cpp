@@ -7,18 +7,6 @@
 
 #include "SPICtrl.hpp"
 
-
-
-SPICtrl::SPICtrl() {
-	// TODO Auto-generated constructor stub
-
-}
-
-SPICtrl::~SPICtrl() {
-	// TODO Auto-generated destructor stub
-}
-
-
 void SPICtrl::SetTransmitData(const uint8_t* pTxData) {
 
 	if(sizeof(pTxData) > SPI_DATA_SIZE) {

@@ -32,8 +32,6 @@ private:
 
 	ArgCtrl mArgCtrl;
 
-	SPICtrl mSPICtrl;
-
 	ControlMode mControlMode;
 
 	UIStatus mUIStatus;

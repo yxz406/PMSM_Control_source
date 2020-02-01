@@ -174,17 +174,17 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 
 void MotorCtrl::SPITask(void) {
-	mSPICtrl.SPITransmitReceive();
+	SPICtrl::GetInstance().SPITransmitReceive();
 }
 
 
 void MotorCtrl::SetCurrentTarget() {
-	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = SPICtrl::GetInstance().GetRxInt();
 	mMotorInfo.mCurrentTargetInput = (float)rxint.at(0)/(float)4095;
 }
 
 void MotorCtrl::SetVhTask() {
-	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = SPICtrl::GetInstance().GetRxInt();
 	float Vh = (float)rxint.at(1)/(float)4095;
 
 	if(HF_ARG_ZERO_FIX) {

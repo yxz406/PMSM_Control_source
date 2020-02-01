@@ -39,8 +39,6 @@ private:
 
 	ArgCtrl mArgCtrl;
 
-	SPICtrl mSPICtrl;
-
 	ControlMode mControlMode;
 	MeasureTarget mMeasureTarget;
 

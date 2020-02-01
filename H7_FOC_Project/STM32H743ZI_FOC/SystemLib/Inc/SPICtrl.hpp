@@ -1,6 +1,12 @@
 /*
  * SPICtrl.hpp
  *
+ * Singleton Class
+ * どうあがいてもSPIのコントローラは一つしかないから、
+ * 複数のクラスに持たせるといろいろヤバい競合起こる。
+ *
+ *実機ではシングルトンとして運用して、テストではモックを作ること。
+ *
  *  Created on: Dec 21, 2019
  *      Author: watashi
  */
@@ -25,6 +31,21 @@ enum spiState{
 //};
 
 class SPICtrl {
+
+	//Singleton element
+private:
+	SPICtrl() = default;
+	~SPICtrl() = default;
+public:
+	SPICtrl(const SPICtrl&) = delete;
+	SPICtrl& operator=(const SPICtrl&) = delete;
+	SPICtrl(SPICtrl&&) = delete;
+	SPICtrl& operator=(SPICtrl&&) = delete;
+    static SPICtrl& GetInstance() {
+        static SPICtrl instance;
+        return instance;
+    }
+
 private:
 	int mArrayPos = 0;
 
@@ -38,8 +59,7 @@ private:
 
 public:
 
-	SPICtrl();
-	virtual ~SPICtrl();
+
 	void SetTransmitData(const uint8_t* pTxData);
 	void PushBackTransmitIntData(int pIntData);
 	uint8_t* GetReceiveData();
