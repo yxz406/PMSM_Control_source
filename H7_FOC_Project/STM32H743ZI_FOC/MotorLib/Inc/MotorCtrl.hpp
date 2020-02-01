@@ -10,7 +10,7 @@
 
 #include "MotorInterface.hpp"
 
-class MotorCtrl : MotorInterface {
+class MotorCtrl {
 public:
 
 	enum ControlMode { //強制転流、FOCなどの動作モード管理
@@ -77,7 +77,7 @@ public:
 	void CurrentFeedForwardTask();
 	void CurrentPITask();
 	void CurrentPITaskForConvolution();
-	std::array<float, 2> PIDgd_control(std::array<float, 2> pErrIgd);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
+	std::array<float, 2> PIDgd_control(const std::array<float, 2> &pErrIgd);//どちらかが死にclassになるけど毎回呼ぶ作業でif文使いたくない。
 	void setVgd(std::array<float, 2> pVgd);
 
 	std::array<float, 2> getIdq(void);

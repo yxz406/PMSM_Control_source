@@ -39,7 +39,7 @@ void PID::SetParam(float pGain_p, float pGain_i, float pGain_d) {
 	mGain_d = pGain_d;
 }
 
-void PID::ErrorUpdate(float pError) {
+void PID::ErrorUpdate(const float &pError) {
 //	mError[1] = pError;
 //	mError[2] = mError[1];
 //	mError[3] = mError[2];

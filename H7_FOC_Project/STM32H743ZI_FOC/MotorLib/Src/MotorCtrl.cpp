@@ -30,8 +30,8 @@ void MotorCtrl::InitSystem(void) {
 	TIMCtrl::MotorDuty_ch1(0);//50%duty
 	TIMCtrl::MotorDuty_ch2(0);
 	TIMCtrl::MotorDuty_ch3(0);
-	//TIMCtrl::MotorDuty_ch4(0.95);//9割5分でタイミングで打つ
-	TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
+	TIMCtrl::MotorDuty_ch4(0.99);//9割9分でタイミングで打つ
+	//TIMCtrl::TIM1SetCOMP_ch4(PWM_PERIOD_COUNT - 1);
 
 	//ENABLE信号 PWMSet_Pin|OCSet_Pin|GateEnable_Pin
 	HAL_GPIO_WritePin(PWMSet_GPIO_Port, PWMSet_Pin, GPIO_PIN_RESET);//6PWM
@@ -494,7 +494,7 @@ void MotorCtrl::CurrentPITaskForConvolution() {
 }
 
 
-std::array<float, 2> MotorCtrl::PIDgd_control(std::array<float, 2> pErrIgd) {
+std::array<float, 2> MotorCtrl::PIDgd_control(const std::array<float, 2> &pErrIgd) {
 		float ErrIganma = pErrIgd.at(0);
 		float ErrIdelta = pErrIgd.at(1);
 		mIganmaPID.ErrorUpdate(ErrIganma);

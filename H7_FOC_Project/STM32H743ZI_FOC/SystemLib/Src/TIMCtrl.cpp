@@ -44,41 +44,41 @@ void TIMCtrl::TIM1PWMStart(void) {
 }
 
 //SetCOMPARE
-void TIMCtrl::TIM1SetCOMP_ch1(int pCompare) {
+void TIMCtrl::TIM1SetCOMP_ch1(const int &pCompare) {
 	TIM1 -> CCR1 = pCompare;
 }
-void TIMCtrl::TIM1SetCOMP_ch2(int pCompare) {
+void TIMCtrl::TIM1SetCOMP_ch2(const int &pCompare) {
 	TIM1 -> CCR2 = pCompare;
 }
-void TIMCtrl::TIM1SetCOMP_ch3(int pCompare) {
+void TIMCtrl::TIM1SetCOMP_ch3(const int &pCompare) {
 	TIM1 -> CCR3 = pCompare;
 }
-void TIMCtrl::TIM1SetCOMP_ch4(int pCompare) {
+void TIMCtrl::TIM1SetCOMP_ch4(const int &pCompare) {
 	TIM1 -> CCR4 = pCompare;
 }
-void TIMCtrl::TIM1SetCOMP_ch5(int pCompare) {
+void TIMCtrl::TIM1SetCOMP_ch5(const int &pCompare) {
 	TIM1 -> CCR5 = pCompare;
 }
-void TIMCtrl::TIM1SetCOMP_ch6(int pCompare) {
+void TIMCtrl::TIM1SetCOMP_ch6(const int &pCompare) {
 	TIM1 -> CCR6 = pCompare;
 }
 
-void TIMCtrl::floatDuty_ch1(float pfDuty) {
+void TIMCtrl::floatDuty_ch1(const float &pfDuty) {
 	int duty = pfDuty * (float)mHandleTIM1.Init.Period;
 	TIM1SetCOMP_ch1(duty);
 }
 
-void TIMCtrl::floatDuty_ch2(float pfDuty) {
+void TIMCtrl::floatDuty_ch2(const float &pfDuty) {
 	int duty = pfDuty * (float)mHandleTIM1.Init.Period;
 	TIM1SetCOMP_ch2(duty);
 }
 
-void TIMCtrl::floatDuty_ch3(float pfDuty) {
+void TIMCtrl::floatDuty_ch3(const float &pfDuty) {
 	int duty = pfDuty * (float)mHandleTIM1.Init.Period;
 	TIM1SetCOMP_ch3(duty);
 }
 
-void TIMCtrl::floatDuty_ch4(float pfDuty) {
+void TIMCtrl::floatDuty_ch4(const float &pfDuty) {
 	int duty = pfDuty * (float)mHandleTIM1.Init.Period;
 	TIM1SetCOMP_ch4(duty);
 }

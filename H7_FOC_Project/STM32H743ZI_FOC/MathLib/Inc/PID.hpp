@@ -26,7 +26,7 @@ public:
 	PID(float pGain_p, float pGain_i, float pGain_d);
 	virtual ~PID();
 	void SetParam(float pGain_p, float pGain_i, float pGain_d);
-	void ErrorUpdate(float pError);
+	void ErrorUpdate(const float &pError);
 	void SetSampleTime(float pSampleTime);
 	float OutPut(void);
 };

@@ -23,17 +23,17 @@ public:
 	static void TIM1DeInit_HAL(void);
 	static void TIM1PWMStart(void);
 
-	static void TIM1SetCOMP_ch1(int pCompare);
-	static void TIM1SetCOMP_ch2(int pCompare);
-	static void TIM1SetCOMP_ch3(int pCompare);
-	static void TIM1SetCOMP_ch4(int pCompare);
-	static void TIM1SetCOMP_ch5(int pCompare);
-	static void TIM1SetCOMP_ch6(int pCompare);
+	static void TIM1SetCOMP_ch1(const int &pCompare);
+	static void TIM1SetCOMP_ch2(const int &pCompare);
+	static void TIM1SetCOMP_ch3(const int &pCompare);
+	static void TIM1SetCOMP_ch4(const int &pCompare);
+	static void TIM1SetCOMP_ch5(const int &pCompare);
+	static void TIM1SetCOMP_ch6(const int &pCompare);
 
-	static void floatDuty_ch1(float pfDuty);//0~1
-	static void floatDuty_ch2(float pfDuty);//0~1
-	static void floatDuty_ch3(float pfDuty);//0~1
-	static void floatDuty_ch4(float pfDuty);//0~1
+	static void floatDuty_ch1(const float &pfDuty);//0~1
+	static void floatDuty_ch2(const float &pfDuty);//0~1
+	static void floatDuty_ch3(const float &pfDuty);//0~1
+	static void floatDuty_ch4(const float &pfDuty);//0~1
 
 	static void MotorDuty_ch1(float pfDuty);//-1~1
 	static void MotorDuty_ch2(float pfDuty);
