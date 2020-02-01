@@ -126,7 +126,9 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 	GPIODebugTask();
 
+	SetCurrentTarget();
 	if(mControlMode == FOC_Convolution) {
+		SetVhTask();
 		WaveGenTask();
 	}
 
@@ -173,28 +175,25 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 void MotorCtrl::SPITask(void) {
 	mSPICtrl.SPITransmitReceive();
-	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
-
-	float CurrentTargetInput = (float)rxint.at(0)/(float)4095;
-	float Vh = (float)rxint.at(1)/(float)4095;
-
-	mMotorInfo.mCurrentTargetInput = CurrentTargetInput;
-
-
-
-
-
-	if(mControlMode == FOC_Convolution) {
-
-		if(HF_ARG_ZERO_FIX) {
-			mMotorInfo.mVh = Vh;
-		} else {
-			mMotorInfo.mVh = 0.3; //通常時は0.3固定にする
-		}
-		mHFConvolution.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((mMotorInfo.mVh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
-	}
 }
 
+
+void MotorCtrl::SetCurrentTarget() {
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
+	mMotorInfo.mCurrentTargetInput = (float)rxint.at(0)/(float)4095;
+}
+
+void MotorCtrl::SetVhTask() {
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = mSPICtrl.GetRxInt();
+	float Vh = (float)rxint.at(1)/(float)4095;
+
+	if(HF_ARG_ZERO_FIX) {
+		mMotorInfo.mVh = Vh;
+	} else {
+		mMotorInfo.mVh = 0.3; //通常時は0.3固定にする
+	}
+	mHFConvolution.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((mMotorInfo.mVh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
+}
 
 void MotorCtrl::WaveGenTask() {
 	std::array<float,4> waves = mWaveGen.OutputWavesSupOffsetPhase_dq(HF_HETERODYNE_PHASE_OFFSET_D, HF_HETERODYNE_PHASE_OFFSET_Q);

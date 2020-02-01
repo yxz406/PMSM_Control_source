@@ -55,6 +55,8 @@ public:
 	void MotorDrive(void);
 	//MotorDrive内呼び出し関数
 	void SPITask(void);
+	void SetCurrentTarget();
+	void SetVhTask();
 	void WaveGenTask(void);
 	void ReadCurrentTask();
 	void setIuvw(float pIu, float pIv, float pIw);
