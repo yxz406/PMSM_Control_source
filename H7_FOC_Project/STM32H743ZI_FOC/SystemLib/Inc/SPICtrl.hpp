@@ -68,9 +68,9 @@ public:
 
 	void SPITransmitReceive();
 
-	void spiCplt() { mspiState = TRANSFER_COMPLETE; }
-	void spiWait() {mspiState = TRANSFER_WAIT; }
-	void spiErr() {mspiState = TRANSFER_ERROR; }
+	void SPIComplete() { mspiState = TRANSFER_COMPLETE; }
+	void SPIWait() {mspiState = TRANSFER_WAIT; }
+	void SPIError() {mspiState = TRANSFER_ERROR; }
 
 };
 
