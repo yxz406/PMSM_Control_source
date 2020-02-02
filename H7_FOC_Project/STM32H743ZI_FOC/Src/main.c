@@ -128,17 +128,12 @@ int main(void)
   MX_USART3_UART_Init();
   MX_SPI4_Init();
   MX_SPI5_Init();
-//  MX_ADC3_Init();
-//  MX_TIM1_Init();
-//  MX_ADC2_Init();
-//  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 //disable
 //  MX_ADC3_Init();
 //  MX_TIM1_Init();
 //  MX_ADC2_Init();
 //  MX_TIM4_Init();
-
 
 cppWrapper();
   /* USER CODE END 2 */

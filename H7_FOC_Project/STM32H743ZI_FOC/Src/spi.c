@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -68,7 +68,7 @@ void MX_SPI5_Init(void)
   hspi5.Instance = SPI5;
   hspi5.Init.Mode = SPI_MODE_MASTER;
   hspi5.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi5.Init.DataSize = SPI_DATASIZE_4BIT;
+  hspi5.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi5.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi5.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi5.Init.NSS = SPI_NSS_HARD_OUTPUT;
@@ -128,7 +128,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     hdma_spi4_rx.Init.PeriphInc = DMA_PINC_DISABLE;
     hdma_spi4_rx.Init.MemInc = DMA_MINC_ENABLE;
     hdma_spi4_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-    hdma_spi4_rx.Init.MemDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_spi4_rx.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     hdma_spi4_rx.Init.Mode = DMA_NORMAL;
     hdma_spi4_rx.Init.Priority = DMA_PRIORITY_LOW;
     hdma_spi4_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
@@ -146,7 +146,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     hdma_spi4_tx.Init.PeriphInc = DMA_PINC_DISABLE;
     hdma_spi4_tx.Init.MemInc = DMA_MINC_ENABLE;
     hdma_spi4_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-    hdma_spi4_tx.Init.MemDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_spi4_tx.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     hdma_spi4_tx.Init.Mode = DMA_NORMAL;
     hdma_spi4_tx.Init.Priority = DMA_PRIORITY_LOW;
     hdma_spi4_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
