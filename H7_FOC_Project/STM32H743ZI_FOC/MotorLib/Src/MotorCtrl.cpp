@@ -122,10 +122,6 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
-	SPITask();
-
-	GPIODebugTask();
-
 	SetCurrentTarget();
 	if(mControlMode == FOC_Convolution) {
 		SetVhTask();
@@ -165,10 +161,15 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 	//DEBUG
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
-	if(DEBUG_MODE){//デバッグモードで入る処理
-		mDebugCtrl.RTTOutput(mMotorInfo, mUIStatus);
-
+	if(mDEBUGorSPI == SPI) {
+		SPITask();//エラッタなどの理由でとても重いから、２回のうち１回にする
 	}
+	if(mDEBUGorSPI == Debug) {
+		if(DEBUG_MODE){//デバッグモードで入る処理
+			mDebugCtrl.RTTOutput(mMotorInfo, mUIStatus);
+		}
+	}
+
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 }
 
@@ -339,11 +340,10 @@ void MotorCtrl::ObserverTask() {
 		mHFConvolution.SetSinCosForDemodulation( {mMotorInfo.mSinForDemodulation,mMotorInfo.mCosForDemodulation} );
 		mHFConvolution.Calculate();
 
-//		//オブザーバ位置推定
-		//TODO:ここにこれを入れるとタイミングが間に合わない。総合的な改修が必要
-//		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
-//		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
-//		mObserver.Calculate();//ベクトル制御用
+		//オブザーバ位置推定
+		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
+		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
+		mObserver.Calculate();//ベクトル制御用
 
 
 
@@ -612,6 +612,14 @@ void MotorCtrl::ControlModeHandler() { //状態遷移を管理する関数
 		break;
 	default:
 		break;
+	}
+
+
+	//Debug or SPI
+	if(mDEBUGorSPI == Debug) {//交互に入れ替える
+		mDEBUGorSPI = SPI;
+	} else {
+		mDEBUGorSPI = Debug;
 	}
 
 }

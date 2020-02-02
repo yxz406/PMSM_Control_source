@@ -55,16 +55,16 @@ void SPICtrl::SPITransmitReceive() {
 	//rxバッファを読み込み前に0埋めする。
 	*mRxData = *m0fillArr;
 
-	//DMA
-	if( HAL_SPI_TransmitReceive_DMA(&hspi4,(uint8_t*)mTxData,(uint8_t*)mRxData,SPI_DATA_SIZE) != HAL_OK ) {
-	}
-
-	while(mspiState == TRANSFER_WAIT){
-	}
-
-//	//NO DMA
-//	if( HAL_SPI_TransmitReceive(&hspi4,(uint8_t*)mTxData,(uint8_t*)mRxData,SPI_DATA_SIZE, 100) != HAL_OK ) {
+//	//DMA
+//	if( HAL_SPI_TransmitReceive_DMA(&hspi4,(uint8_t*)mTxData,(uint8_t*)mRxData,SPI_DATA_SIZE) != HAL_OK ) {
 //	}
+//
+//	while(mspiState == TRANSFER_WAIT){
+//	}
+
+	//NO DMA
+	if( HAL_SPI_TransmitReceive(&hspi4,(uint8_t*)mTxData,(uint8_t*)mRxData,SPI_DATA_SIZE, 100) != HAL_OK ) {
+	}
 
 	//使い終わったtxバッファを0埋めする。
 	*mTxData = *m0fillArr;

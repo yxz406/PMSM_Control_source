@@ -9,7 +9,6 @@
 
 DebugCtrl::DebugCtrl() {
 	// TODO Auto-generated constructor stub
-	mDebugC = 0;
 	mLogcount = 0;
 }
 
@@ -19,12 +18,6 @@ DebugCtrl::~DebugCtrl() {
 
 
 void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus) {
-	mDebugC++;
-
-	if(mDebugC >= 2) {
-		mDebugC = 0;
-		return;
-	}
 
 	int milIu = (int)( pMotorInfo.mIuvw.at(0) * 1000 );
 	int milIv = (int)( pMotorInfo.mIuvw.at(1) * 1000 );

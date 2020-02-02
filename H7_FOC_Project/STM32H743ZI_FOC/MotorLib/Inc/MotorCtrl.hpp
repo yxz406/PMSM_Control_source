@@ -20,6 +20,11 @@ public:
 		FOC_Convolution,
 	};
 
+	enum DEBUGorSPI { //重い処理だからそれぞれ交互に出すためのEnum
+		SPI = 1,
+		Debug,
+	};
+
 private:
 	MotorInfo mMotorInfo;
 	Observer mObserver;
@@ -33,6 +38,7 @@ private:
 	ArgCtrl mArgCtrl;
 
 	ControlMode mControlMode;
+	DEBUGorSPI mDEBUGorSPI =SPI;
 
 	UIStatus mUIStatus;
 	DebugCtrl mDebugCtrl;

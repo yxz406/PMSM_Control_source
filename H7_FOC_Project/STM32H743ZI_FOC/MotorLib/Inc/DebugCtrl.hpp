@@ -16,7 +16,6 @@
 
 class DebugCtrl {
 private:
-	int mDebugC;
 	int mLogcount;
 public:
 	DebugCtrl();
