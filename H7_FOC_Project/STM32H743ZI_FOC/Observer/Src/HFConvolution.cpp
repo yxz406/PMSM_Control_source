@@ -81,10 +81,14 @@ void HFConvolution::Calculate() {
 	//位相推定器
 	mEstThetaPII2.SetValue(mEstAxiErr);
 	mEstThetaPII2.Calculate();
+	mEstOmegaE = mEstThetaPII2.GetOmega();
 	mTheta_c = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) );//theta % 2pi
 
 }
 
+float HFConvolution::GetEstOmegaE(void) {
+	return mEstOmegaE;
+}
 
 float HFConvolution::GetTheta_c(void) {
 	return mTheta_c;

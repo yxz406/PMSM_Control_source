@@ -15,7 +15,7 @@ class EstimatedAxisError {
 public:
 	EstimatedAxisError();
 	virtual ~EstimatedAxisError();
-	static float GetError(std::array<float, 2> pEstEMFgd);
+	static float GetError(const std::array<float, 2> &pEstEMFgd);
 };
 
 #endif /* INC_ESTIMATEDAXISERROR_HPP_ */

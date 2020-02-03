@@ -50,6 +50,9 @@ public:
 
 	//forDebug(ドライブには直接必要はない)
 	fp_rad mEstOmega;//単位[rad/s]
+	fp_rad mEstOmega_Observer;//単位[rad/s]
+	fp_rad mEstOmega_HF;//単位[rad/s]
+
 	fp_rad mEstTheta;//単位[rad]
 
 };

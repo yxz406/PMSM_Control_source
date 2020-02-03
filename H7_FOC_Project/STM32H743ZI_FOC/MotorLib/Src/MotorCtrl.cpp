@@ -340,19 +340,23 @@ void MotorCtrl::ObserverTask() {
 		mHFConvolution.SetSinCosForDemodulation( {mMotorInfo.mSinForDemodulation,mMotorInfo.mCosForDemodulation} );
 		mHFConvolution.Calculate();
 
+		//オブザーバ切り替え推定電気角速度
+		mMotorInfo.mEstOmega_HF = mHFConvolution.GetEstOmegaE();
+
 		//オブザーバ位置推定
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
 		mObserver.SetVGanmaDelta(mMotorInfo.mVgd);
 		mObserver.Calculate();//ベクトル制御用
 
+		//高周波重畳推定電気角速度
+		mMotorInfo.mEstOmega_Observer = mObserver.GetEstOmegaE();
 
-
-		//設計用Debug
+		//高周波重畳,Rフィルタ,位相遅れ制御,設計用Debug
 		mMotorInfo.mConvIdqc = mHFConvolution.GetConvIdqc();
 		mMotorInfo.mIdqch = mHFConvolution.GetIdqch();
 
+		//出力のThetaE
 		mMotorInfo.mEstTheta = mHFConvolution.GetTheta_c();
-
 	}
 
 }
@@ -587,6 +591,8 @@ void MotorCtrl::ControlModeHandler() { //状態遷移を管理する関数
 	float OpenLoopOmega = mArgCtrl.getArgOmega();
 	float ObserverOmega = mObserver.GetEstOmegaE();
 
+	float HFOmega = mHFConvolution.GetEstOmegaE();
+
 	switch(mControlMode) {
 	case OpenLoop:
 		if(OpenLoopOmega > OPENLOOP_END_OMEGA) {
@@ -609,6 +615,8 @@ void MotorCtrl::ControlModeHandler() { //状態遷移を管理する関数
 		if(200 > ObserverOmega ){ //定常状態は400
 			mControlMode = OpenLoopToFOC;
 		}
+		break;
+	case FOC_Convolution:
 		break;
 	default:
 		break;

@@ -44,7 +44,8 @@ private:
 
 	PII2 mEstThetaPII2;
 
-	float mTheta_c;
+	float mEstOmegaE = 0;
+	float mTheta_c = 0;
 
 public:
 	HFConvolution();
@@ -63,6 +64,7 @@ public:
 
 	void Calculate();
 
+	float GetEstOmegaE(void);
 	float GetTheta_c(void);
 
 	//制御器設計Debug用

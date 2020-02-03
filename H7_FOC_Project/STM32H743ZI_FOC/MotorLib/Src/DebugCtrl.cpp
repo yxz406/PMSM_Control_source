@@ -62,6 +62,8 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 	int milIdch = pMotorInfo.mIdqch.at(0) * 1000;
 	int milIqch = pMotorInfo.mIdqch.at(1) * 1000;
 
+	int milHFOmega = pMotorInfo.mEstOmega_HF * 1000;
+	int milObsOmega = pMotorInfo.mEstOmega_Observer * 1000;
 
 	char outputStr[100]={0};//100文字までとりあえず静的確保
 	//general
@@ -77,7 +79,11 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
 
 	//measure hetelo
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milCosDemod, milSinDemod, milIdch, milIqch, DegArg);
+	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milCosDemod, milSinDemod, milIdch, milIqch, DegArg);
+
+	//obs and HF
+	sprintf(outputStr,"%d,%d,%d,%d\n" ,mLogcount, milHFOmega, milObsOmega, DegArg);
+
 
 	//conv済み
 	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milCosDemod, milSinDemod, milConvIdc, milConvIqc, DegArg);

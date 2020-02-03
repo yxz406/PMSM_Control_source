@@ -17,7 +17,9 @@ public:
 		OpenLoop = 1,
 		OpenLoopToFOC,
 		FOC,
+		FOC_Convolution_Start,
 		FOC_Convolution,
+		FOC_Convolution_HighSpeed,
 	};
 
 	enum DEBUGorSPI { //重い処理だからそれぞれ交互に出すためのEnum
