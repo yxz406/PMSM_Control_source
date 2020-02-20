@@ -5,12 +5,12 @@
  *      Author: watashi
  */
 
-#ifndef INC_PII2_HPP_
-#define INC_PII2_HPP_
+#ifndef INC_PHASEESTIMATOR_HPP_
+#define INC_PHASEESTIMATOR_HPP_
 
 #include "ZIntegrate.hpp"
 
-class PII2 {
+class PhaseEstimator {
 private:
 	//定義
 	float mCycleTime;
@@ -35,8 +35,8 @@ private:
 	float mOutputVal;
 
 public:
-	PII2();
-	virtual ~PII2();
+	PhaseEstimator();
+	virtual ~PhaseEstimator();
 
 	//Initializer
 	void InitCycleTime(float pCycleTime);
@@ -57,4 +57,4 @@ public:
 	float GetOmega();
 };
 
-#endif /* INC_PII2_HPP_ */
+#endif /* INC_PHASEESTIMATOR_HPP_ */

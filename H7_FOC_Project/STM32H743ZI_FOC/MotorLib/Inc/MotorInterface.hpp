@@ -29,7 +29,10 @@
 #include "MotorMath.hpp"
 #include "PID.hpp"
 #include "Observer.hpp"
-#include "HFConvolution.hpp"
+//#include "HFConvolution.hpp"
+#include "SineWaveConvCalculator.hpp"
+#include "SqWaveConvCalculator.hpp"
+
 #include <array>
 #include <vector>
 

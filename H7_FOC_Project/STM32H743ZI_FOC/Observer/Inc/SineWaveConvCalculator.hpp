@@ -1,25 +1,23 @@
 /*
- * HFConvolution.hpp
+ * SineWaveConvCalculator.hpp
  *
- *  Created on: 2020/01/05
+ *  Created on: Feb 18, 2020
  *      Author: watashi
  */
 
-#ifndef SRC_HFCONVOLUTION_HPP_
-#define SRC_HFCONVOLUTION_HPP_
+#ifndef INC_SINEWAVECONVCALCULATOR_HPP_
+#define INC_SINEWAVECONVCALCULATOR_HPP_
 
 #include <array>
 #include "ZIntegrate.hpp"
 #include "LPF.hpp"
 #include "HPF.hpp"
-#include "PII2.hpp"
+#include "PhaseEstimator.hpp"
 
-class HFConvolution {
+class SineWaveConvCalculator {
 private:
 	std::array<float, 2> mIgd; //単位[A]
 	std::array<float, 2> mSinCosForDemodulation;
-
-	float mCycleTime;
 
 	LPF mBPF_LPFIdc;
 	LPF mBPF_LPFIqc;
@@ -42,17 +40,17 @@ private:
 
 	float mEstAxiErr=0;
 
-	PII2 mEstThetaPII2;
+	PhaseEstimator mPhaseEstimator;
 
 	float mEstOmegaE = 0;
 	float mTheta_c = 0;
 
 public:
-	HFConvolution();
-	virtual ~HFConvolution();
+	SineWaveConvCalculator();
+	virtual ~SineWaveConvCalculator();
 
-	void InitCycleTime(float pCycleTime);
-	void InitPII2(float pCycleTime, float pK1, float pK2, float pK3);
+	//void InitCycleTime(float pCycleTime);
+	void InitPhaseEstimator(float pCycleTime, float pK1, float pK2, float pK3);
 	void LPFInit(float pGainB0, float pGainB1, float pGainA1);
 	void SetKh(float pKh);
 
@@ -62,7 +60,8 @@ public:
 	void SetIgdPair(const std::array<float, 2> &pIgd);
 	void SetSinCosForDemodulation(const std::array<float, 2> &pSinCosForDemodulation);
 
-	void Calculate();
+	void Demodulation();
+	void AngleCalculate();
 
 	float GetEstOmegaE(void);
 	float GetTheta_c(void);
@@ -75,4 +74,6 @@ public:
 
 };
 
-#endif /* SRC_HFCONVOLUTION_HPP_ */
+
+
+#endif /* INC_SINEWAVECONVCALCULATOR_HPP_ */

@@ -22,3 +22,12 @@ float UnitDelay::PushAndGetVal(float pNewVal) {
 
 	return mOldVal;
 }
+
+
+void UnitDelay::SetVal(float pNewVal) {
+	mOldVal = pNewVal;
+}
+
+float UnitDelay::GetOldVal(void) {
+	return mOldVal;
+}
