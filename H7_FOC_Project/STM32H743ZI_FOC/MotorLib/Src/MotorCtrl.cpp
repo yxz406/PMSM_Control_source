@@ -84,8 +84,12 @@ void MotorCtrl::InitMotorControl(void) {
 
 	mControlMode = OpenLoop;//起動時、動作をまずは強制転流にする。
 
-	if(FOC_CONVOLUTION) { //高周波重畳アプリケーション
+	if(SINEWAVE_CONVOLUTION) { //高周波重畳アプリケーション
 		mControlMode = FOC_Convolution;
+	}
+
+	if(SQWAVE_CONVOLUTION) {
+		mControlMode = FOC_SqWaveConvolution;
 	}
 
 	mArgCtrl.Init();
@@ -112,8 +116,7 @@ void MotorCtrl::InitObserver(void) {
 
 	//矩形波重畳
 	mSqWaveConvCalculator.InitPhaseEstimator(OBSERVER_CYCLE_TIME, HF_PII_GAIN_K1, HF_PII_GAIN_K2, HF_PII_GAIN_K3);
-	mSqWaveConvCalculator.BPF_LPFInit(HF_LPF_BPF_B0, HF_LPF_BPF_B1, HF_LPF_BPF_A1);
-	mSqWaveConvCalculator.BPF_HPFInit(HF_HPF_BPF_B0, HF_HPF_BPF_B1, HF_HPF_BPF_A1);
+	mSqWaveConvCalculator.HPFInit(SQWAVE_DEMOD_HPF_B0, SQWAVE_DEMOD_HPF_B1, SQWAVE_DEMOD_HPF_A1);
 
 }
 
@@ -202,8 +205,16 @@ void MotorCtrl::SetVhTask() {
 	} else {
 		mMotorInfo.mVh = 0.3; //通常時は0.3固定にする
 	}
-	mSineWaveConvCalculator.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((mMotorInfo.mVh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
+
+	//高周波重畳・取得Δθの倍率調整
+	if( mControlMode == FOC_Convolution ){
+		mSineWaveConvCalculator.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((mMotorInfo.mVh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
+	} else if( mControlMode == FOC_SqWaveConvolution ) {
+		mSqWaveConvCalculator.SetKh( CONV_SQWAVE_FREQ * M_PARAM_LD * M_PARAM_LQ /((mMotorInfo.mVh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f *(8.0f/M_PI*M_PI ) );
+	}
+
 }
+
 
 void MotorCtrl::SetVhTaskForSqWave() {
 	std::array<int,(SPI_DATA_SIZE/4)> rxint = SPICtrl::GetInstance().GetRxInt();

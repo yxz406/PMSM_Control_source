@@ -46,6 +46,7 @@
 									<listOptionValue builtIn="false" value="../CMSIS_DSP"/>
 									<listOptionValue builtIn="false" value="../Inc"/>
 									<listOptionValue builtIn="false" value="../MathLib/Inc"/>
+									<listOptionValue builtIn="false" value="../ParamSetting"/>
 									<listOptionValue builtIn="false" value="../SystemLib/Inc"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../SEGGER/Inc"/>
@@ -71,6 +72,7 @@
 									<listOptionValue builtIn="false" value="../CMSIS_DSP"/>
 									<listOptionValue builtIn="false" value="../Inc"/>
 									<listOptionValue builtIn="false" value="../MathLib/Inc"/>
+									<listOptionValue builtIn="false" value="../ParamSetting"/>
 									<listOptionValue builtIn="false" value="../SystemLib/Inc"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../SEGGER/Inc"/>

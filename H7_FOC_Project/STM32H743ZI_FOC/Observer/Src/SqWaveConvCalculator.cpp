@@ -22,12 +22,8 @@ void SqWaveConvCalculator::SetKh(float pKh) {
 	mKh = pKh;
 }
 
-void SqWaveConvCalculator::BPF_LPFInit(float pGainB0, float pGainB1, float pGainA1) {
-	mBPF_LPFIqc.Init(pGainB0, pGainB1, pGainA1);
-}
-
-void SqWaveConvCalculator::BPF_HPFInit(float pGainB0, float pGainB1, float pGainA1) {
-	mBPF_HPFIqc.Init(pGainB0, pGainB1, pGainA1);
+void SqWaveConvCalculator::HPFInit(float pGainB0, float pGainB1, float pGainA1) {
+	mHPFIqc.Init(pGainB0, pGainB1, pGainA1);
 }
 
 
@@ -57,23 +53,21 @@ void SqWaveConvCalculator::Demodulation() {
 		DemodulateVal = -mSqWave;
 	}
 
-
-
+	float oldSqWave = mSqWaveDelay.GetOldVal();
+	mSqWaveDelay.SetVal(DemodulateVal);
 
 	//BPF
-	//BPFは、BPF_LPF に入れて、出力をBPF_HPFに入れる
-	float BPF_LPFIqc = mBPF_LPFIqc.Output(mIgd.at(1));
-	mIqch = mBPF_HPFIqc.Output(BPF_LPFIqc);
+	float mIqch = mHPFIqc.Output(mIgd.at(1));
+
+	float IqchOld = mIqchDelay.GetOldVal();
+	mIqchDelay.SetVal(mIqch);
 
 	//ヘテロダイン
-	float Buf = mIqch - mIqchOld;
-	mIqchOld = mIqch; //z^-1
+	float buf = mIqch - IqchOld;
+	float output = buf + oldSqWave;
 
-	float output = Buf * DemodulateVal;
-
-	mEstAxiErr = mKh * output;
 	//モータのパラメタの倍率調整
-	//mEstAxiErr = mKh*(LPFIqc - LPFIdc);
+	mEstAxiErr = mKh * output;
 
 }
 

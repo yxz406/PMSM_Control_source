@@ -13,6 +13,7 @@
 #include "LPF.hpp"
 #include "HPF.hpp"
 #include "PhaseEstimator.hpp"
+#include "UnitDelay.hpp"
 
 
 class SqWaveConvCalculator {
@@ -20,16 +21,17 @@ private:
 	std::array<float, 2> mIgd; //単位[A]
 	float mSqWave = 0;
 
-	LPF mBPF_LPFIqc;
-	HPF mBPF_HPFIqc;
+	HPF mHPFIqc;
 
 	//計算用
 	float mIdch = 0;
 	float mIqch = 0;
-	float mIqchOld = 0;
+	UnitDelay mIqchDelay;
 
 	float mConvIdc=0;
 	float mConvIqc=0;
+
+	UnitDelay mSqWaveDelay;
 
 	float mEstAxiErr=0;
 
@@ -49,8 +51,8 @@ public:
 //	void LPFInit(float pGainB0, float pGainB1, float pGainA1);
 	void SetKh(float pKh);
 
-	void BPF_LPFInit(float pGainB0, float pGainB1, float pGainA1);
-	void BPF_HPFInit(float pGainB0, float pGainB1, float pGainA1);
+	//void BPF_LPFInit(float pGainB0, float pGainB1, float pGainA1);
+	void HPFInit(float pGainB0, float pGainB1, float pGainA1);
 
 	void SetIgdPair(const std::array<float, 2> &pIgd);
 	void SetSqWave(const float &pSqWave);
