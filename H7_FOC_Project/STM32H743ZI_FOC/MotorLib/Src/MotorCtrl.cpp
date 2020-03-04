@@ -208,9 +208,11 @@ void MotorCtrl::SetVhTask() {
 
 	//高周波重畳・取得Δθの倍率調整
 	if( mControlMode == FOC_Convolution ){
-		mSineWaveConvCalculator.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((mMotorInfo.mVh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
+		constexpr float VhGain = ( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /(M_PARAM_LD - M_PARAM_LQ) / 2.0f );
+		mSineWaveConvCalculator.SetKh(VhGain/mMotorInfo.mVh);
 	} else if( mControlMode == FOC_SqWaveConvolution ) {
-		mSqWaveConvCalculator.SetKh( CONV_SQWAVE_FREQ * M_PARAM_LD * M_PARAM_LQ /((mMotorInfo.mVh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f *(8.0f/M_PI*M_PI ) );
+		constexpr float VhGain = (CONV_SQWAVE_FREQ * M_PARAM_LD * M_PARAM_LQ /((M_PARAM_LD - M_PARAM_LQ)) / 2.0f *(8.0f/M_PI*M_PI) );
+		mSqWaveConvCalculator.SetKh(VhGain/mMotorInfo.mVh);
 	}
 
 }

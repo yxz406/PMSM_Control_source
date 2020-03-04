@@ -98,7 +98,8 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 //	if( !pUIStatus.mStartStopTRG ) {//加速してるときだけ入る Printf
 //		return;
 //	}
-
+//	SEGGER_RTT_WriteNoLock(BufferIndex, pBuffer, NumBytes);
+//	SEGGER_RTT_ASM_WriteSkipNoLock(BufferIndex, pBuffer, NumBytes);
 	SEGGER_RTT_WriteString(0,outputStr);
 	//printf("%s" ,outputStr);
 

@@ -25,7 +25,7 @@ void Zintegrate1n::SetDefault(float pInputOld, float pOutputOld) {
 	mOutputOld = pOutputOld;
 }
 
-float Zintegrate1n::integrate(float pTime, float pInput) {
+float Zintegrate1n::integrate(const float &pTime, const float &pInput) {
 
 	//現在の状態を更新
 	mInput = pInput;
@@ -56,7 +56,7 @@ void Zintegrate1nMod::SetDefault(float pInputOld, float pOutputOld) {
 	mOutputOld = pOutputOld;
 }
 
-float Zintegrate1nMod::integrate(float pTime, float pInput) {
+float Zintegrate1nMod::integrate(const float &pTime, const float &pInput) {
 
 	//現在の状態を更新
 	mInput = pInput;
@@ -83,9 +83,6 @@ Zintegrate2n::~Zintegrate2n() {
 	//destructor
 }
 
-std::array<float, 2> Zintegrate2n::integrate(float pTime, std::array<float, 2> pInput) {
-	std::array<float, 2> Output;
-	Output.at(0) = mIntegrate1.integrate(pTime, pInput.at(0));
-	Output.at(1) = mIntegrate2.integrate(pTime, pInput.at(1));
-	return Output;
-}
+//std::array<float, 2> Zintegrate2n::integrate(const float &pTime, const std::array<float, 2> &pInput) {
+//	return {mIntegrate1.integrate(pTime, pInput.at(0)), mIntegrate2.integrate(pTime, pInput.at(1))};
+//}
