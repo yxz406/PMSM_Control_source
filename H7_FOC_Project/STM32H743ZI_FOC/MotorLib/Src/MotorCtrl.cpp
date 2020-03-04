@@ -211,7 +211,7 @@ void MotorCtrl::SetVhTask() {
 		constexpr float VhGain = ( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /(M_PARAM_LD - M_PARAM_LQ) / 2.0f );
 		mSineWaveConvCalculator.SetKh(VhGain/mMotorInfo.mVh);
 	} else if( mControlMode == FOC_SqWaveConvolution ) {
-		constexpr float VhGain = (CONV_SQWAVE_FREQ * M_PARAM_LD * M_PARAM_LQ /((M_PARAM_LD - M_PARAM_LQ)) / 2.0f *(8.0f/M_PI*M_PI) );
+		constexpr float VhGain = ( 2 * CONV_SQWAVE_FREQ * M_PARAM_LD * M_PARAM_LQ /(M_PARAM_LQ - M_PARAM_LD) / M_PI );
 		mSqWaveConvCalculator.SetKh(VhGain/mMotorInfo.mVh);
 	}
 

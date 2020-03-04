@@ -76,13 +76,13 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 	//sprintf(outputStr,"%d\n",encoder);
 
 	//measure HFcon
-	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
+	sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
 
 	//measure hetelo
 	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milCosDemod, milSinDemod, milIdch, milIqch, DegArg);
 
-	//obs and HF
-	sprintf(outputStr,"%d,%d,%d,%d\n" ,mLogcount, milHFOmega, milObsOmega, DegArg);
+	//obs  theta and HF
+	//sprintf(outputStr,"%d,%d,%d,%d\n" ,mLogcount, milHFOmega, milObsOmega, DegArg);
 
 
 	//conv済み
