@@ -19,7 +19,7 @@
  * ハードウェアセッティング
  */
 //PWMの設定
-#define PWM_FREQ_HZ 20000
+#define PWM_FREQ_HZ 40000
 #define TIM_CLOCK_DIVIDER 1
 #define TIM_CLK_MHz (480/TIM_CLOCK_DIVIDER)
 #define PWM_PERIOD_CYCLES (uint16_t)(TIM_CLK_MHz*(unsigned long long)1000000u/(uint16_t)(PWM_FREQ_HZ))

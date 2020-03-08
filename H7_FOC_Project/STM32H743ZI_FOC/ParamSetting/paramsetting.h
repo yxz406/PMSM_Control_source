@@ -32,16 +32,7 @@
 #include "motorparamsetting.h"
 
 
-//オブザーバ位相推定器セッティング
-#include "observerparamsetting.h"
 
-//高周波重畳パラメータ-正弦波バージョン
-#define SINEWAVE_CONVOLUTION 0
-#include "sinewaveconvsetting.h"
-
-//高周波重畳パラメータ-矩形波バージョン
-#define SQWAVE_CONVOLUTION 1
-#include "sqwaveconvsetting.h"
 
 //ヘテロ用R補償の位相合わせ
 #define HF_HETERODYNE_PHASE_OFFSET (float)(0*2*M_PI/360.0f)
@@ -52,7 +43,7 @@
 
 //LPFパラメータ
 #define HF_LPF_CUTOFF_FREQ 44
-#define HF_LPF_SAMPLING_FREQ 20000
+#define HF_LPF_SAMPLING_FREQ PWM_FREQ_HZ
 #define HF_LPF_CUTOFF_TIME (1.0f /(2* M_PI * (float)HF_LPF_CUTOFF_FREQ) )
 #define HF_LPF_SAMPLING_TIME (1.0f/(float)HF_LPF_SAMPLING_FREQ )
 #define HF_LPF_DENOMINATOR (2*HF_LPF_CUTOFF_TIME + HF_LPF_SAMPLING_TIME)
@@ -75,6 +66,17 @@
 
 //速度PID制御器
 #include "speedpidsetting.h"
+
+//オブザーバ位相推定器セッティング
+#include "observerparamsetting.h"
+
+//高周波重畳パラメータ-正弦波バージョン
+#define SINEWAVE_CONVOLUTION 1
+#include "sinewaveconvsetting.h"
+
+//高周波重畳パラメータ-矩形波バージョン
+#define SQWAVE_CONVOLUTION 0
+#include "sqwaveconvsetting.h"
 
 
 //OpenLoopから変更開始の加速度

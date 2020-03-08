@@ -13,14 +13,19 @@
 #include "math.h"
 #include "SEGGER_RTT.h"
 
+//#include <string>
 
 class DebugCtrl {
 private:
 	int mLogcount;
+//	std::string mOutputStr;
+	char mOutputChar[128] = {};
+
 public:
 	DebugCtrl();
 	virtual ~DebugCtrl();
 	void RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus);
+	void AddOutputString(const MotorInfo &pMotorInfo);
 
 };
 
