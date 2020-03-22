@@ -8,6 +8,24 @@
 #include "DebugCtrl.hpp"
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+
+//#include <boost/spirit/include/karma.hpp>
+
+//template <typename T>
+//inline bool generate(std::string& str, T const& value)
+//{
+//    std::back_insert_iterator<std::string> sink(str);
+//    return boost::spirit::karma::generate(sink, value);
+//}
+//
+//template <typename T>
+//inline bool generate(char* ptr, T const& value)
+//{
+//    bool ret = boost::spirit::karma::generate(ptr, value);
+//    *ptr = '\0';
+//    return ret;
+//}
 
 DebugCtrl::DebugCtrl() {
 	// TODO Auto-generated constructor stub
@@ -19,6 +37,8 @@ DebugCtrl::~DebugCtrl() {
 }
 
 void DebugCtrl::AddOutputString(const MotorInfo &pMotorInfo) {
+	//namespace karma = boost::spirit::karma;
+
 	int milIu = (int)( pMotorInfo.mIuvw.at(0) * 1000 );
 	int milIv = (int)( pMotorInfo.mIuvw.at(1) * 1000 );
 	int milIw = (int)( pMotorInfo.mIuvw.at(2) * 1000 );
@@ -65,7 +85,6 @@ void DebugCtrl::AddOutputString(const MotorInfo &pMotorInfo) {
 	int milHFOmega = pMotorInfo.mEstOmega_HF * 1000;
 	int milObsOmega = pMotorInfo.mEstOmega_Observer * 1000;
 
-	char outputStr[64]={0};//100文字までとりあえず静的確保
 	//general
 	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" ,mlogcount, milIgTarget, milVg, milVd, milIg, milId, DegArg, DegAxiErr, milEstOmega, EstTheta);//みやゆうさんご希望のデバッグ
 
@@ -87,13 +106,61 @@ void DebugCtrl::AddOutputString(const MotorInfo &pMotorInfo) {
 //						+std::to_string(milVd)+","
 //						+std::to_string(milIg)+","
 //						+std::to_string(milId)+"\n";
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
+
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *(","),
+//			mLogcount
+//			);
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *(","),
+//			milVg
+//			);
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *(","),
+//			milVd
+//			);
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *(","),
+//			milIg
+//			);
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *("\n"),
+//			milId
+//			);
+
+//	generate(OutStr, mLogcount);
+//	generate(OutStr, milVg);
+//	generate(OutStr, milVd);
+//	generate(OutStr, milIg);
+//	generate(OutStr, milId);
+//	generate(OutStr, DegArg);
+//	karma::generate(outputStr, mLogcount);
+//	karma::generate(outputStr, milVg);
+//	karma::generate(outputStr, milVd);
+//	karma::generate(outputStr, milIg);
+//	karma::generate(outputStr, milId);
+//	karma::generate(outputStr, DegArg);
+//	*outputStr = '\0';
+
+	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
+
 	//strcat(mOutputChar, outputStr);
 
+	mLogcount++;
+	if(	mLogcount > 65535){
+		mLogcount=0;
+	}
 }
 
 
 void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus) {
+
+	//namespace karma = boost::spirit::karma;
 
 	int milIu = (int)( pMotorInfo.mIuvw.at(0) * 1000 );
 	int milIv = (int)( pMotorInfo.mIuvw.at(1) * 1000 );
@@ -141,7 +208,7 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 	int milHFOmega = pMotorInfo.mEstOmega_HF * 1000;
 	int milObsOmega = pMotorInfo.mEstOmega_Observer * 1000;
 
-	char outputStr[64]={0};//100文字までとりあえず静的確保
+	//char outputStr[64]={0};//100文字までとりあえず静的確保
 
 
 
@@ -161,7 +228,40 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 //						+std::to_string(milIg)+","
 //						+std::to_string(milId)+"\n";
 
-	sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *(","),
+//			mLogcount
+//			);
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *(","),
+//			milVg
+//			);
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *(","),
+//			milVd
+//			);
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *(","),
+//			milIg
+//			);
+//	boost::spirit::karma::generate(
+//			std::back_inserter(mOutputStr),
+//			boost::spirit::karma::int_ << *("\n"),
+//			milId
+//			);
+//	karma::generate(outputStr, mLogcount);
+//	karma::generate(outputStr, milVg);
+//	karma::generate(outputStr, milVd);
+//	karma::generate(outputStr, milIg);
+//	karma::generate(outputStr, milId);
+//	karma::generate(outputStr, DegArg);
+//	*outputStr = '\0';
+
+	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milVg, milVd, milIg, milId, DegArg);
 
 	//measure hetelo
 	//sprintf(outputStr,"%d,%d,%d,%d,%d,%d\n" ,mLogcount, milCosDemod, milSinDemod, milIdch, milIqch, DegArg);
@@ -187,16 +287,53 @@ void DebugCtrl::RTTOutput(const MotorInfo &pMotorInfo, const UIStatus &pUIStatus
 //	SEGGER_RTT_ASM_WriteSkipNoLock(BufferIndex, pBuffer, NumBytes);
 
 
-	strcat(mOutputChar, outputStr);
+	//strcat(mOutputChar, outputStr);
 
 	//SEGGER_RTT_WriteString(0,outputStr);
-	SEGGER_RTT_WriteString(0,mOutputChar);
+	//SEGGER_RTT_WriteString(0,outputString.c_str());
 	//SEGGER_RTT_WriteString(0,mOutputStr.c_str());
+
+
+	//SEGGER_RTT_WriteString(0,"test");
+	//SEGGER_RTT_Write(0, "\n",2);
+
+	//////////////////////////////
+	std::array<char, 4> data;
+	mConverter.ConvertData(mLogcount, data);
+	//const char datat[4] = data;
+	SEGGER_RTT_Write(0, &data,4);
+
+	SEGGER_RTT_Write(0, ",",1);
+
+	std::array<char, 4> data2;
+	mConverter.ConvertData(24567, data2);
+	//const char datat[4] = data;
+	SEGGER_RTT_Write(0, &data2,4);
+
+
+//	mConverter.ConvertData(89.006f, data);
+//	SEGGER_RTT_Write(0, &data,4);
+
+	SEGGER_RTT_Write(0, "\n",2);
+	//////////////////////////////
+
+
+	//SEGGER_RTT_WriteString(0,outputStr);
+
+
+	//SEGGER_RTT_Write(unsigned BufferIndex, const void* pBuffer, unsigned NumBytes)
+
+//	char *a = ",";
+//	SEGGER_RTT_Write(0, a,1);
+
+
+	//char *a = "\n";
+
 
 	//printf("%s" ,outputStr);
 
-	memset( mOutputChar, 0, sizeof( mOutputChar ) );
-//	mOutputStr = "";
+	//memset( mOutputChar, 0, sizeof( mOutputChar ) );
+	mOutputStr = "";
 
 	mLogcount++;
 	if(	mLogcount > 65535){

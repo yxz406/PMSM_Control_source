@@ -177,6 +177,7 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 		SPITask();//エラッタなどの理由でとても重いから、２回のうち１回にする
 		//mDebugCtrl.RTTOutput(mMotorInfo, mUIStatus);
 		//mDebugCtrl.AddOutputString(mMotorInfo);
+
 	}
 	if(mDEBUGorSPI == Debug) {
 		if(DEBUG_MODE){//デバッグモードで入る処理
