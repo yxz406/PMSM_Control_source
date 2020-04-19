@@ -28,4 +28,12 @@ public:
 	std::array<float, 4> OutputWavesSupOffsetPhase_dq(const fp_rad &pOffset_dc, const fp_rad &pOffset_qc);
 };
 
+class SqWaveGenerator {
+private:
+	bool mIsPositive = true;
+public:
+	float OutputSqWave();
+};
+
+
 #endif /* INC_WAVEGENERATOR_HPP_ */

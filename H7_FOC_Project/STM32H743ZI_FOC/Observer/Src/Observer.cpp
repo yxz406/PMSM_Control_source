@@ -22,11 +22,11 @@ void Observer::InitEMFObs(float pCycleTime, float pR, float pLd, float pLq, floa
 	mEMFObserver.InitObsGain(pGainAlpha);
 }
 
-void Observer::InitPII2(float pCycleTime, float pK1, float pK2, float pK3) {
-	mEstThetaPII2.InitCycleTime(pCycleTime);
-	mEstThetaPII2.InitGainK1(pK1);
-	mEstThetaPII2.InitGainK2(pK2);
-	mEstThetaPII2.InitGainK3(pK3);
+void Observer::InitPhaseEstimator(float pCycleTime, float pK1, float pK2, float pK3) {
+	mPhaseEstimator.InitCycleTime(pCycleTime);
+	mPhaseEstimator.InitGainK1(pK1);
+	mPhaseEstimator.InitGainK2(pK2);
+	mPhaseEstimator.InitGainK3(pK3);
 }
 
 //Setter
@@ -45,11 +45,11 @@ void Observer::Calculate() {
 
 	mEstEMFgd = mEMFObserver.GetEstEMFgd();
 	mEstAxiErr = EstimatedAxisError::GetError(mEstEMFgd);
-	mEstThetaPII2.SetValue(mEstAxiErr);
-	mEstThetaPII2.Calculate();
-	mEstOmegaE = mEstThetaPII2.GetOmega();//計算した角速度の出力
+	mPhaseEstimator.SetValue(mEstAxiErr);
+	mPhaseEstimator.Calculate();
+	mEstOmegaE = mPhaseEstimator.GetOmega();//計算した角速度の出力
 	mEMFObserver.SetEstOmegaE(mEstOmegaE);
-	mEstTheta = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) ); //theta % 2pi
+	mEstTheta = fmod( ( mPhaseEstimator.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) ); //theta % 2pi
 }
 
 void Observer::CalculateOpenLoop(const float &pOmegaE, const float &pThetaE) {
@@ -65,15 +65,15 @@ void Observer::CalculateOpenLoop(const float &pOmegaE, const float &pThetaE) {
 
 	//強制転流時には毎回角度のリセットをする
 	//ganma axis でなく est d axis を入れる
-	mEstThetaPII2.ThetaResetForOpenLoop(pThetaE + mEstAxiErr);
+	mPhaseEstimator.ThetaResetForOpenLoop(pThetaE + mEstAxiErr);
 
 	//本当はここ以降動かしてなかった
-	mEstThetaPII2.SetValue(mEstAxiErr);
-	mEstThetaPII2.Calculate();
+	mPhaseEstimator.SetValue(mEstAxiErr);
+	mPhaseEstimator.Calculate();
 	//ここまで
 
-	mEstOmegaE = mEstThetaPII2.GetOmega();//計算した角速度の出力
-	mEstTheta = fmod( ( mEstThetaPII2.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) );//計算した角度の出力
+	mEstOmegaE = mPhaseEstimator.GetOmega();//計算した角速度の出力
+	mEstTheta = fmod( ( mPhaseEstimator.GetTheta() + 2 * M_PI ) , ( 2 * M_PI ) );//計算した角度の出力
 
 	//PII2から取得せずに入力したOMEGAを見る。 comment out
 	//mEstOmegaE = mEMFObserver.GetInputEstOmegaE();

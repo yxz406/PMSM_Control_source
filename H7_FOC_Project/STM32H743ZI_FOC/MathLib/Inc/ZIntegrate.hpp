@@ -25,7 +25,7 @@ public:
 	Zintegrate1n(float pK);
 	virtual ~Zintegrate1n();
 	void SetDefault(float pInputOld, float pOutputOld);
-	float integrate(float pTime, float pInput);
+	float integrate(const float &pTime, const float &pInput);
 };
 
 class Zintegrate1nMod { //TODO 継承してきれいにするべき
@@ -42,7 +42,7 @@ public:
 	Zintegrate1nMod(float pK);
 	virtual ~Zintegrate1nMod();
 	void SetDefault(float pInputOld, float pOutputOld);
-	float integrate(float pTime, float pInput);
+	float integrate(const float &pTime, const float &pInput);
 };
 
 class Zintegrate2n {
@@ -52,9 +52,12 @@ private:
 public:
 	Zintegrate2n(float pK);
 	virtual ~Zintegrate2n();
-	std::array<float, 2> integrate(float pTime, std::array<float, 2> pInput);
+	std::array<float, 2> integrate(const float &pTime, const std::array<float, 2> &pInput);
 };
 
+inline std::array<float, 2> Zintegrate2n::integrate(const float &pTime, const std::array<float, 2> &pInput) {
+	return {mIntegrate1.integrate(pTime, pInput.at(0)), mIntegrate2.integrate(pTime, pInput.at(1))};
+}
 
 
 #endif /* INC_ZINTEGRATE_HPP_ */

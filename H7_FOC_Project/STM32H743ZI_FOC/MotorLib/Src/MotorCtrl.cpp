@@ -84,8 +84,12 @@ void MotorCtrl::InitMotorControl(void) {
 
 	mControlMode = OpenLoop;//起動時、動作をまずは強制転流にする。
 
-	if(FOC_CONVOLUTION) { //高周波重畳アプリケーション
+	if(SINEWAVE_CONVOLUTION) { //高周波重畳アプリケーション
 		mControlMode = FOC_Convolution;
+	}
+
+	if(SQWAVE_CONVOLUTION) {
+		mControlMode = FOC_SqWaveConvolution;
 	}
 
 	mArgCtrl.Init();
@@ -100,16 +104,20 @@ void MotorCtrl::InitMotorControl(void) {
 }
 
 void MotorCtrl::InitObserver(void) {
+	//オブザーバ
 	mObserver.InitEMFObs(OBSERVER_CYCLE_TIME, M_PARAM_R, M_PARAM_LD, M_PARAM_LQ, OBSERVER_GAIN_ALPHA);
-	mObserver.InitPII2(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
+	mObserver.InitPhaseEstimator(OBSERVER_CYCLE_TIME, OBSERVER_GAIN_K1, OBSERVER_GAIN_K2, OBSERVER_GAIN_K3);
 
-	mHFConvolution.InitCycleTime(OBSERVER_CYCLE_TIME);
-	mHFConvolution.InitPII2(OBSERVER_CYCLE_TIME, HF_PII_GAIN_K1, HF_PII_GAIN_K2, HF_PII_GAIN_K3);
+	//正弦波重畳
+	mSineWaveConvCalculator.InitPhaseEstimator(OBSERVER_CYCLE_TIME, HF_PII_GAIN_K1, HF_PII_GAIN_K2, HF_PII_GAIN_K3);
+	mSineWaveConvCalculator.BPF_LPFInit(HF_LPF_BPF_B0, HF_LPF_BPF_B1, HF_LPF_BPF_A1);
+	mSineWaveConvCalculator.BPF_HPFInit(HF_HPF_BPF_B0, HF_HPF_BPF_B1, HF_HPF_BPF_A1);
+	mSineWaveConvCalculator.LPFInit(HF_LPF_B0, HF_LPF_B1, HF_LPF_A1);
 
-	mHFConvolution.BPF_LPFInit(HF_LPF_BPF_B0, HF_LPF_BPF_B1, HF_LPF_BPF_A1);
-	mHFConvolution.BPF_HPFInit(HF_HPF_BPF_B0, HF_HPF_BPF_B1, HF_HPF_BPF_A1);
+	//矩形波重畳
+	mSqWaveConvCalculator.InitPhaseEstimator(OBSERVER_CYCLE_TIME, HF_PII_GAIN_K1, HF_PII_GAIN_K2, HF_PII_GAIN_K3);
+	mSqWaveConvCalculator.HPFInit(SQWAVE_DEMOD_HPF_B0, SQWAVE_DEMOD_HPF_B1, SQWAVE_DEMOD_HPF_A1);
 
-	mHFConvolution.LPFInit(HF_LPF_B0, HF_LPF_B1, HF_LPF_A1);
 }
 
 
@@ -126,7 +134,11 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 	if(mControlMode == FOC_Convolution) {
 		SetVhTask();
 		WaveGenTask();
+	} else if(mControlMode == FOC_SqWaveConvolution) {
+		SetVhTaskForSqWave();
+		SqWaveGenTask();
 	}
+
 
 	GPIODebugTask();//GPIOからオシロに波形を出力する
 
@@ -163,6 +175,9 @@ void MotorCtrl::MotorDrive(void) { //モータを動かすモード.他に測定
 
 	if(mDEBUGorSPI == SPI) {
 		SPITask();//エラッタなどの理由でとても重いから、２回のうち１回にする
+		//mDebugCtrl.RTTOutput(mMotorInfo, mUIStatus);
+		//mDebugCtrl.AddOutputString(mMotorInfo);
+
 	}
 	if(mDEBUGorSPI == Debug) {
 		if(DEBUG_MODE){//デバッグモードで入る処理
@@ -193,7 +208,28 @@ void MotorCtrl::SetVhTask() {
 	} else {
 		mMotorInfo.mVh = 0.3; //通常時は0.3固定にする
 	}
-	mHFConvolution.SetKh( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /((mMotorInfo.mVh) * (M_PARAM_LD - M_PARAM_LQ)) / 2.0f );
+
+	//高周波重畳・取得Δθの倍率調整
+	if( mControlMode == FOC_Convolution ){
+		constexpr float VhGain = ( HF_CONV_FREQ * M_PARAM_LD * M_PARAM_LQ /(M_PARAM_LD - M_PARAM_LQ) / 2.0f );
+		mSineWaveConvCalculator.SetKh(VhGain/mMotorInfo.mVh);
+	} else if( mControlMode == FOC_SqWaveConvolution ) {
+		constexpr float VhGain = ( 2 * CONV_SQWAVE_FREQ * M_PARAM_LD * M_PARAM_LQ /(M_PARAM_LQ - M_PARAM_LD) / M_PI );
+		mSqWaveConvCalculator.SetKh(VhGain/mMotorInfo.mVh);
+	}
+
+}
+
+
+void MotorCtrl::SetVhTaskForSqWave() {
+	std::array<int,(SPI_DATA_SIZE/4)> rxint = SPICtrl::GetInstance().GetRxInt();
+	float Vh = (float)rxint.at(1)/(float)4095;
+
+	if(HF_ARG_ZERO_FIX) {
+		mMotorInfo.mVh = Vh;
+	} else {
+		mMotorInfo.mVh = 0.3; //通常時は0.3固定にする
+	}
 }
 
 void MotorCtrl::WaveGenTask() {
@@ -202,6 +238,10 @@ void MotorCtrl::WaveGenTask() {
 	mMotorInfo.mCosForConv = waves.at(1);
 	mMotorInfo.mSinForDemodulation = waves.at(2);
 	mMotorInfo.mCosForDemodulation = waves.at(3);
+}
+
+void MotorCtrl::SqWaveGenTask() {
+	mMotorInfo.mSqWaveForConv = mSqWaveGen.OutputSqWave();
 }
 
 void MotorCtrl::ReadCurrentTask(void) {
@@ -239,7 +279,9 @@ void MotorCtrl::ReadAngleTask(void) {
 	}else if(mControlMode == FOC) {
 		mMotorInfo.mgdArg = GetAngleForFOC();
 	}else if(mControlMode == FOC_Convolution) {
-		mMotorInfo.mgdArg = GetAngleForFOC_HFConv();
+		mMotorInfo.mgdArg = GetAngleForSineWaveConv();
+	}else if(mControlMode == FOC_SqWaveConvolution) {
+		mMotorInfo.mgdArg = GetAngleForSqWaveConv();
 	}
 }
 
@@ -260,13 +302,23 @@ fp_rad MotorCtrl::GetAngleForFOC(void) {
 }
 
 
-fp_rad MotorCtrl::GetAngleForFOC_HFConv(void) {
+fp_rad MotorCtrl::GetAngleForSineWaveConv(void) {
 	//ここで調整　発散なら0
 	if(HF_ARG_ZERO_FIX) {
 		return 0;
 	}
-	return mHFConvolution.GetTheta_c();
+	return mSineWaveConvCalculator.GetTheta_c();
 }
+
+
+fp_rad MotorCtrl::GetAngleForSqWaveConv(void) {
+	//ここで調整　発散なら0
+	if(HF_ARG_ZERO_FIX) {
+		return 0;
+	}
+	return mSqWaveConvCalculator.GetTheta_c();
+}
+
 
 
 void MotorCtrl::clarkTransform(void) {
@@ -336,12 +388,12 @@ void MotorCtrl::ObserverTask() {
 
 	}else if(mControlMode == FOC_Convolution) {
 		//高周波重畳位置推定
-		mHFConvolution.SetIgdPair(mMotorInfo.mIgd);
-		mHFConvolution.SetSinCosForDemodulation( {mMotorInfo.mSinForDemodulation,mMotorInfo.mCosForDemodulation} );
-		mHFConvolution.Calculate();
+		mSineWaveConvCalculator.SetIgdPair(mMotorInfo.mIgd);
+		mSineWaveConvCalculator.SetSinCosForDemodulation( {mMotorInfo.mSinForDemodulation,mMotorInfo.mCosForDemodulation} );
+		mSineWaveConvCalculator.AngleCalculate();
 
 		//オブザーバ切り替え推定電気角速度
-		mMotorInfo.mEstOmega_HF = mHFConvolution.GetEstOmegaE();
+		mMotorInfo.mEstOmega_HF = mSineWaveConvCalculator.GetEstOmegaE();
 
 		//オブザーバ位置推定
 		mObserver.SetIGanmaDelta(mMotorInfo.mIgd);
@@ -352,11 +404,18 @@ void MotorCtrl::ObserverTask() {
 		mMotorInfo.mEstOmega_Observer = mObserver.GetEstOmegaE();
 
 		//高周波重畳,Rフィルタ,位相遅れ制御,設計用Debug
-		mMotorInfo.mConvIdqc = mHFConvolution.GetConvIdqc();
-		mMotorInfo.mIdqch = mHFConvolution.GetIdqch();
+		mMotorInfo.mConvIdqc = mSineWaveConvCalculator.GetConvIdqc();
+		mMotorInfo.mIdqch = mSineWaveConvCalculator.GetIdqch();
 
 		//出力のThetaE
-		mMotorInfo.mEstTheta = mHFConvolution.GetTheta_c();
+		mMotorInfo.mEstTheta = mSineWaveConvCalculator.GetTheta_c();
+	}else if(mControlMode == FOC_SqWaveConvolution) {
+		mSqWaveConvCalculator.SetIgdPair(mMotorInfo.mIgd);
+		mSqWaveConvCalculator.SetSqWave(mMotorInfo.mSqWaveForConv);
+
+		mSqWaveConvCalculator.AngleCalculate();//Demodulation
+
+		mMotorInfo.mEstOmega_HF = mSqWaveConvCalculator.GetEstOmegaE();
 	}
 
 }
@@ -381,7 +440,7 @@ void MotorCtrl::CurrentControlTask() {
 	} else if (mControlMode == FOC) {
 		CurrentPITask();//PI Control
 
-	} else if (mControlMode == FOC_Convolution) {
+	} else if (mControlMode == FOC_Convolution || mControlMode == FOC_SqWaveConvolution) {
 		CurrentPITaskForConvolution();//PI Control
 
 	}
@@ -487,8 +546,14 @@ void MotorCtrl::CurrentPITaskForConvolution() {
 	std::array<float,2> CulcVgd = PIDgd_control(mMotorInfo.mIgdErr);
 
 	//ここで重畳させる
-	float VgConv = mMotorInfo.mVh * mMotorInfo.mCosForConv;
-	float VdConv = mMotorInfo.mVh * mMotorInfo.mSinForConv;
+	float VgConv,VdConv;
+	if(mControlMode == FOC_Convolution) {
+		VgConv = mMotorInfo.mVh * mMotorInfo.mCosForConv;
+		VdConv = mMotorInfo.mVh * mMotorInfo.mSinForConv;
+	} else if (mControlMode == FOC_SqWaveConvolution) {
+		VgConv = mMotorInfo.mVh * mMotorInfo.mSqWaveForConv;
+		VdConv = 0;
+	}
 
 	CulcVgd.at(0) = CulcVgd.at(0) + VgConv;
 	CulcVgd.at(1) = CulcVgd.at(1) + VdConv;
@@ -591,7 +656,7 @@ void MotorCtrl::ControlModeHandler() { //状態遷移を管理する関数
 	float OpenLoopOmega = mArgCtrl.getArgOmega();
 	float ObserverOmega = mObserver.GetEstOmegaE();
 
-	float HFOmega = mHFConvolution.GetEstOmegaE();
+	float HFOmega = mSineWaveConvCalculator.GetEstOmegaE();
 
 	switch(mControlMode) {
 	case OpenLoop:

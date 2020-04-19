@@ -50,7 +50,6 @@ void EMFObs::EMFObserver() {
 	mBufVec1 = Matrix::MatrixMultiple2x2(   	    -1.0f * mR / mLd, mLq/mLd * mEstOmegaE,
 										 -1.0f* mLq/mLd * mEstOmegaE, -1.0f * mR / mLd,
 										 mIGanmaDelta);
-	//このA11が正しいか検証すること.
 
 	mBufVec2 = Matrix::VectorMultiple2x1(mGainAlpha, mIGanmaDelta);
 
@@ -70,10 +69,7 @@ void EMFObs::EMFObserver() {
 				
 }
 
-//Getter
-std::array<float, 2> EMFObs::GetEstEMFgd(void) {
-	return mEstEMFgd;
-}
+
 
 //debug Getter
 float EMFObs::GetInputEstOmegaE(void) {

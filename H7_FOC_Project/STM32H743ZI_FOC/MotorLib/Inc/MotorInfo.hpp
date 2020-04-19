@@ -39,6 +39,9 @@ public:
 	float mSinForDemodulation = 0;
 	float mCosForDemodulation = 0;
 
+	//矩形波高周波重畳
+	float mSqWaveForConv = 0;
+
 	//高周波重畳デバッグ変数
 	std::array<float, 2> mConvIdqc = {0,0};
 	std::array<float, 2> mIdqch = {0,0};

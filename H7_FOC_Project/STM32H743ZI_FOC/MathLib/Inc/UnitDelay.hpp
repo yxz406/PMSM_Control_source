@@ -15,7 +15,11 @@ private:
 public:
 	UnitDelay();
 	virtual ~UnitDelay();
-	float PushAndGetVal(float pNewVal);
+	float PushAndGetVal(float pNewVal);//ところてん方式FIRに使える
+
+	void SetVal(float pNewVal);
+	float GetOldVal(void);
+
 };
 
 #endif /* INC_UNITDELAY_HPP_ */

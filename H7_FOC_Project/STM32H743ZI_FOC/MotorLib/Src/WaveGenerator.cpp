@@ -85,3 +85,16 @@ std::array<float, 4> WaveGenerator::OutputWavesSupOffsetPhase_dq(const fp_rad &p
 
 }
 
+
+//Square Wave Gen Class
+float SqWaveGenerator::OutputSqWave() {
+	if(mIsPositive == true) {
+		mIsPositive = !mIsPositive;
+		return 1.0f;
+	} else if (mIsPositive == false) {
+		mIsPositive = !mIsPositive;
+		return -1.0f;
+	}
+
+	return 0;
+}
